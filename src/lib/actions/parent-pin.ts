@@ -35,7 +35,6 @@ export async function verifyParentPinAction(
   }
 
   if (!family.parentPinHash) {
-    await setParentUnlockCookie(userId, family.id);
     redirect(safeParentReturnTo(parsed.data.returnTo));
   }
 

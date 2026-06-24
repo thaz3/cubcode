@@ -3,8 +3,8 @@ import { ParentPinUnlockForm } from "@/components/parent-pin-unlock-form";
 import { Card } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import {
+  isParentAreaUnlocked,
   safeParentReturnTo,
-  setParentUnlockCookie,
 } from "@/lib/parent-pin";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -29,8 +29,12 @@ export default async function ParentUnlockPage({
   const { returnTo } = await searchParams;
   const safeReturn = safeParentReturnTo(returnTo);
 
+  // No PIN configured — parent area is not gated.
   if (!family.parentPinHash) {
-    await setParentUnlockCookie(session.user.id, family.id);
+    redirect(safeReturn);
+  }
+
+  if (await isParentAreaUnlocked(session.user.id, family.id)) {
     redirect(safeReturn);
   }
 
