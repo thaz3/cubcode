@@ -143,11 +143,16 @@ export function TaskTemplateForm({
   );
 }
 
-export function CreateTaskTemplateForm() {
+export function CreateTaskTemplateForm({
+  initialValues,
+}: {
+  initialValues?: TaskTemplateFormProps["initialValues"];
+}) {
   return (
     <TaskTemplateForm
       action={createTaskTemplateAction}
       submitLabel="Create template"
+      initialValues={initialValues}
     />
   );
 }

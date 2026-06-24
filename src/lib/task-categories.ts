@@ -20,6 +20,7 @@ export const TASK_CATEGORY_LABELS: Record<TaskCategory, string> = {
   SCHOOL: "School-based",
   CHORE: "Chore",
   ATTITUDE: "Attitude",
+  LEGACY_WEEKLY: "Weekly Legacy",
 };
 
 export const GROWTH_CATEGORY_LABELS: Record<GrowthCategory, string> = {
@@ -55,6 +56,18 @@ export const ATTITUDE_SUBCATEGORY_LABELS = {
 } as const;
 
 export type AttitudeSubcategory = keyof typeof ATTITUDE_SUBCATEGORY_LABELS;
+
+export const LEGACY_WEEKLY_SUBCATEGORY_LABELS = {
+  HISTORICAL_FIGURE: "Black historical figure",
+  ELDER_INTERVIEW: "Elder interview",
+  INVENTOR_ARTIST_ORGANIZER: "Inventor, artist, or organizer",
+  COMMUNITY_LOCATION: "Community location",
+  FAMILY_HISTORY: "Family history",
+  PRESENT_DAY_RESPONSIBILITY: "Present-day responsibility",
+} as const;
+
+export type LegacyWeeklySubcategory =
+  keyof typeof LEGACY_WEEKLY_SUBCATEGORY_LABELS;
 
 const DEFAULT_CHORE_CHECKLIST = [
   "I completed the chore fully",
@@ -248,6 +261,87 @@ const ATTITUDE_SUGGESTIONS: Record<AttitudeSubcategory, CategorySuggestion> = {
   },
 };
 
+const LEGACY_WEEKLY_SUGGESTIONS: Record<
+  LegacyWeeklySubcategory,
+  CategorySuggestion
+> = {
+  HISTORICAL_FIGURE: {
+    proofType: "SHORT_REFLECTION",
+    proofPrompt:
+      "Who did you learn about? Share two facts and one lesson you take from their life.",
+    proofChecklistItems: [],
+    focusMinutesEarned: 30,
+    phoneMinutesEarned: 12,
+    xpEarned: 15,
+    focusTokensEarned: 1,
+    logInstructions:
+      "Write a short reflection a parent can discuss with you after learning together.",
+  },
+  ELDER_INTERVIEW: {
+    proofType: "SHORT_REFLECTION",
+    proofPrompt:
+      "Who did you interview? What story or advice will you remember and why?",
+    proofChecklistItems: [],
+    focusMinutesEarned: 25,
+    phoneMinutesEarned: 12,
+    xpEarned: 15,
+    focusTokensEarned: 1,
+    logInstructions:
+      "Summarize the interview so a parent can confirm you listened and engaged.",
+  },
+  INVENTOR_ARTIST_ORGANIZER: {
+    proofType: "SHORT_REFLECTION",
+    proofPrompt:
+      "Who did you research? What did they create or change, and how does that inspire you?",
+    proofChecklistItems: [],
+    focusMinutesEarned: 30,
+    phoneMinutesEarned: 12,
+    xpEarned: 15,
+    focusTokensEarned: 1,
+    logInstructions:
+      "Describe your research and what you learned about their contribution.",
+  },
+  COMMUNITY_LOCATION: {
+    proofType: "CHECKLIST",
+    proofPrompt: "Complete each step with a parent before submitting.",
+    proofChecklistItems: [
+      "I visited the location with parent supervision",
+      "I noticed something meaningful about the place or people there",
+      "I can name one way this place matters to our community",
+    ],
+    focusMinutesEarned: 20,
+    phoneMinutesEarned: 10,
+    xpEarned: 12,
+    focusTokensEarned: 1,
+    logInstructions:
+      "Check off each step after your visit and add a short note if helpful.",
+  },
+  FAMILY_HISTORY: {
+    proofType: "SHORT_REFLECTION",
+    proofPrompt:
+      "What family story, tradition, or value did you explore? Why does it matter to you?",
+    proofChecklistItems: [],
+    focusMinutesEarned: 25,
+    phoneMinutesEarned: 12,
+    xpEarned: 15,
+    focusTokensEarned: 1,
+    logInstructions:
+      "Reflect on family history so a parent can talk through it with you.",
+  },
+  PRESENT_DAY_RESPONSIBILITY: {
+    proofType: "SHORT_REFLECTION",
+    proofPrompt:
+      "What responsibility are you carrying forward? Give one example of how you showed it this week.",
+    proofChecklistItems: [],
+    focusMinutesEarned: 20,
+    phoneMinutesEarned: 10,
+    xpEarned: 12,
+    focusTokensEarned: 1,
+    logInstructions:
+      "Connect history or family legacy to a choice you made this week.",
+  },
+};
+
 export function getCategorySuggestions(
   category: TaskCategory,
   options?: {
@@ -281,6 +375,11 @@ export function getCategorySuggestions(
         return ATTITUDE_SUGGESTIONS[subcategory as AttitudeSubcategory];
       }
       return ATTITUDE_SUGGESTIONS.RESPECTFUL;
+    case "LEGACY_WEEKLY":
+      if (subcategory && subcategory in LEGACY_WEEKLY_SUGGESTIONS) {
+        return LEGACY_WEEKLY_SUGGESTIONS[subcategory as LegacyWeeklySubcategory];
+      }
+      return LEGACY_WEEKLY_SUGGESTIONS.HISTORICAL_FIGURE;
     default:
       return CHORE_SUGGESTIONS.GENERAL;
   }
@@ -322,6 +421,12 @@ export function formatSubcategory(
         ATTITUDE_SUBCATEGORY_LABELS[subcategory as AttitudeSubcategory] ??
         subcategory
       );
+    case "LEGACY_WEEKLY":
+      return (
+        LEGACY_WEEKLY_SUBCATEGORY_LABELS[
+          subcategory as LegacyWeeklySubcategory
+        ] ?? subcategory
+      );
     default:
       return null;
   }
@@ -344,6 +449,10 @@ export function subcategoryOptions(category: TaskCategory): Array<{
       }));
     case "ATTITUDE":
       return Object.entries(ATTITUDE_SUBCATEGORY_LABELS).map(
+        ([value, label]) => ({ value, label }),
+      );
+    case "LEGACY_WEEKLY":
+      return Object.entries(LEGACY_WEEKLY_SUBCATEGORY_LABELS).map(
         ([value, label]) => ({ value, label }),
       );
     default:

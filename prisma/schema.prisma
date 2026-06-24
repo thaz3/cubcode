@@ -51,6 +51,7 @@ enum TaskCategory {
   SCHOOL
   CHORE
   ATTITUDE
+  LEGACY_WEEKLY
 }
 
 enum GrowthCategory {

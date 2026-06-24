@@ -1,6 +1,8 @@
 import type { LedgerReason } from "@/generated/prisma/client";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
 
+export const TASK_HISTORY_LABEL = "Task history";
+
 export const LEDGER_REASON_LABELS: Record<LedgerReason, string> = {
   TASK_APPROVAL: "Task approved",
   REWARD_REDEMPTION: "Reward redeemed",

@@ -1,155 +1,118 @@
 import {
-  LEDGER_REASON_LABELS,
-  formatLedgerAmount,
-} from "@/lib/ledger-labels";
-import type { CubLedgerEntry } from "@/lib/cub-ledger";
-
-const PHONE_REASON_LABELS: Partial<Record<keyof typeof LEDGER_REASON_LABELS, string>> = {
-  TASK_APPROVAL: "Earned from approved task",
-  REWARD_REDEMPTION: "Redeemed from Reward Store",
-  DAILY_CAP_OVERFLOW: "Moved to Weekend Bank (daily cap)",
-};
-
-const LEDGER_UNITS: Record<CubLedgerEntry["ledgerType"], string> = {
-  xp: "XP",
-  focusToken: "tokens",
-  phone: "min",
-  weekendBank: "min",
-};
+  serializeLedgerEntries,
+  type CubLedgerDropdownEntry,
+  type CubLedgerEntry,
+} from "@/lib/cub-ledger";
+import { CubLedgerDropdown } from "@/components/cub-ledger-dropdown";
+import { TASK_HISTORY_LABEL } from "@/lib/ledger-labels";
 
 type LedgerRow = {
   id: string;
   amount: number;
-  reason: keyof typeof LEDGER_REASON_LABELS;
+  reason: CubLedgerEntry["reason"];
   note: string | null;
   createdAt: Date;
+  sourceTaskId?: string | null;
+  councilDayCubEntryId?: string | null;
 };
 
 type CubLedgerHistoryProps = {
+  cubId: string;
   xpEntries: LedgerRow[];
   focusTokenEntries: LedgerRow[];
   phoneEntries: LedgerRow[];
   weekendBankEntries: LedgerRow[];
+  defaultOpen?: boolean;
 };
 
+function toCubLedgerEntry(
+  entry: LedgerRow,
+  ledgerType: CubLedgerEntry["ledgerType"],
+): CubLedgerEntry {
+  return {
+    id: `${ledgerType}-${entry.id}`,
+    ledgerType,
+    amount: entry.amount,
+    reason: entry.reason,
+    note: entry.note,
+    createdAt: entry.createdAt,
+    sourceTaskId: entry.sourceTaskId ?? null,
+    councilDayCubEntryId: entry.councilDayCubEntryId ?? null,
+  };
+}
+
+function mergeGroupedEntries(props: CubLedgerHistoryProps): CubLedgerDropdownEntry[] {
+  const merged: CubLedgerEntry[] = [
+    ...props.xpEntries.map((entry) => toCubLedgerEntry(entry, "xp")),
+    ...props.focusTokenEntries.map((entry) =>
+      toCubLedgerEntry(entry, "focusToken"),
+    ),
+    ...props.phoneEntries.map((entry) => toCubLedgerEntry(entry, "phone")),
+    ...props.weekendBankEntries.map((entry) =>
+      toCubLedgerEntry(entry, "weekendBank"),
+    ),
+  ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  return serializeLedgerEntries(merged);
+}
+
 export function CubLedgerHistory({
+  cubId,
   xpEntries,
   focusTokenEntries,
   phoneEntries,
   weekendBankEntries,
+  defaultOpen = true,
 }: CubLedgerHistoryProps) {
-  const sections = [
-    { title: "XP", unit: "XP", entries: xpEntries },
-    { title: "Focus Tokens", unit: "tokens", entries: focusTokenEntries },
-    { title: "Phone time", unit: "min", entries: phoneEntries },
-    { title: "Weekend Bank", unit: "min", entries: weekendBankEntries },
-  ].filter((section) => section.entries.length > 0);
-
-  if (sections.length === 0) {
-    return (
-      <p className="text-sm text-zinc-500">
-        No ledger entries yet. Approve a completed task to credit rewards.
-      </p>
-    );
-  }
+  const entries = mergeGroupedEntries({
+    cubId,
+    xpEntries,
+    focusTokenEntries,
+    phoneEntries,
+    weekendBankEntries,
+  });
 
   return (
-    <div className="space-y-6">
-      {sections.map((section) => (
-        <div key={section.title}>
-          <h3 className="text-sm font-semibold">{section.title}</h3>
-          <CubLedgerEntryList
-            entries={section.entries.map((entry) => ({
-              id: entry.id,
-              ledgerType:
-                section.unit === "XP"
-                  ? "xp"
-                  : section.unit === "tokens"
-                    ? "focusToken"
-                    : section.title === "Weekend Bank"
-                      ? "weekendBank"
-                      : "phone",
-              amount: entry.amount,
-              reason: entry.reason,
-              note: entry.note,
-              createdAt: entry.createdAt,
-            }))}
-          />
-        </div>
-      ))}
-    </div>
+    <CubLedgerDropdown
+      cubId={cubId}
+      entries={entries}
+      label={TASK_HISTORY_LABEL}
+      defaultOpen={defaultOpen}
+      maxListHeightClass="max-h-72"
+      emptyMessage="No task history yet. Approve a completed task to credit rewards."
+    />
   );
 }
 
 type CubLedgerTimelineProps = {
+  cubId: string;
   entries: CubLedgerEntry[];
   limit?: number;
+  label?: string;
   emptyMessage?: string;
   className?: string;
+  defaultOpen?: boolean;
 };
 
 export function CubLedgerTimeline({
+  cubId,
   entries,
-  limit = 5,
-  emptyMessage = "No ledger activity yet.",
+  limit,
+  label = TASK_HISTORY_LABEL,
+  emptyMessage = "No task history yet.",
   className,
+  defaultOpen = false,
 }: CubLedgerTimelineProps) {
-  if (entries.length === 0) {
-    return <p className={`text-sm text-zinc-500 ${className ?? ""}`}>{emptyMessage}</p>;
-  }
+  const sliced = limit ? entries.slice(0, limit) : entries;
 
   return (
-    <div className={className}>
-      <CubLedgerEntryList entries={entries.slice(0, limit)} compact />
-    </div>
-  );
-}
-
-function CubLedgerEntryList({
-  entries,
-  compact = false,
-}: {
-  entries: CubLedgerEntry[];
-  compact?: boolean;
-}) {
-  return (
-    <ul className={compact ? "mt-1 space-y-1.5" : "mt-2 space-y-2"}>
-      {entries.map((entry) => {
-        const unit = LEDGER_UNITS[entry.ledgerType];
-        const reasonLabel =
-          entry.ledgerType === "phone" && entry.reason in PHONE_REASON_LABELS
-            ? PHONE_REASON_LABELS[entry.reason as keyof typeof PHONE_REASON_LABELS]
-            : LEDGER_REASON_LABELS[entry.reason];
-
-        return (
-          <li
-            key={entry.id}
-            className={
-              compact
-                ? "text-xs text-zinc-600 dark:text-zinc-400"
-                : "rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-800"
-            }
-          >
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className={compact ? "font-medium text-zinc-800 dark:text-zinc-200" : "font-medium"}>
-                {formatLedgerAmount(entry.amount, unit)}
-              </span>
-              <span className="text-xs text-zinc-500">
-                {entry.createdAt.toLocaleDateString(undefined, {
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
-            </div>
-            <p className={compact ? "text-zinc-500" : "mt-1 text-zinc-600 dark:text-zinc-400"}>
-              {reasonLabel}
-            </p>
-            {entry.note ? (
-              <p className="mt-0.5 text-zinc-500">{entry.note}</p>
-            ) : null}
-          </li>
-        );
-      })}
-    </ul>
+    <CubLedgerDropdown
+      cubId={cubId}
+      entries={serializeLedgerEntries(sliced)}
+      label={label}
+      emptyMessage={emptyMessage}
+      className={className}
+      defaultOpen={defaultOpen}
+    />
   );
 }

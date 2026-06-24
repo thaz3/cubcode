@@ -1,11 +1,13 @@
 import Link from "next/link";
+import { TaskTemplateCard } from "@/components/task-template-card";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { createTaskFromTemplateAction } from "@/lib/actions/task-templates";
-import { formatProofType } from "@/lib/task-labels";
-import { formatTaskCategory } from "@/lib/task-categories";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import {
+  ensureDefaultLegacyTemplates,
+  LEGACY_WEEKLY_LABEL,
+} from "@/lib/legacy-task-templates";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
@@ -16,14 +18,23 @@ export default async function TaskTemplatesPage() {
   const family = await getFamilyForUser(session.user.id);
   if (!family) redirect("/signup");
 
+  await ensureDefaultLegacyTemplates(family.id);
+
   const templates = await db.taskTemplate.findMany({
     where: { familyId: family.id },
     orderBy: [{ isActive: "desc" }, { title: "asc" }],
   });
 
+  const legacyTemplates = templates.filter(
+    (template) => template.category === "LEGACY_WEEKLY",
+  );
+  const otherTemplates = templates.filter(
+    (template) => template.category !== "LEGACY_WEEKLY",
+  );
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="space-y-8">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <Link href="/dashboard/tasks" className="text-sm font-medium text-amber-700">
             ← Assignment board
@@ -34,60 +45,68 @@ export default async function TaskTemplatesPage() {
             template to the assignment board, then assign it to a Cub.
           </p>
         </div>
-        <Link href="/dashboard/tasks/templates/new">
-          <Button>New template</Button>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/dashboard/tasks/templates/new?type=legacy">
+            <Button variant="secondary">New {LEGACY_WEEKLY_LABEL} template</Button>
+          </Link>
+          <Link href="/dashboard/tasks/templates/new">
+            <Button>New template</Button>
+          </Link>
+        </div>
       </div>
 
-      {templates.length === 0 ? (
-        <Card>
-          <p className="text-sm text-zinc-500">No templates yet.</p>
-        </Card>
-      ) : (
-        <div className="grid gap-4">
-          {templates.map((template) => (
-            <Card key={template.id}>
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-semibold">{template.title}</h2>
-                    {!template.isActive ? (
-                      <span className="text-xs text-zinc-500">(inactive)</span>
-                    ) : null}
-                  </div>
-                  {template.description ? (
-                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                      {template.description}
-                    </p>
-                  ) : null}
-                  <p className="mt-1 text-sm text-zinc-500">
-                    {formatTaskCategory(template.category, {
-                      subcategory: template.subcategory,
-                      growthCategory: template.growthCategory,
-                    })}{" "}
-                    · {formatProofType(template.proofType)}
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <Link href={`/dashboard/tasks/templates/${template.id}/edit`}>
-                    <Button variant="secondary">Edit</Button>
-                  </Link>
-                  {template.isActive ? (
-                    <form
-                      action={async () => {
-                        "use server";
-                        await createTaskFromTemplateAction(template.id);
-                      }}
-                    >
-                      <Button type="submit">Add to assignment board</Button>
-                    </form>
-                  ) : null}
-                </div>
-              </div>
-            </Card>
-          ))}
+      <Card
+        id="weekly-legacy"
+        className="scroll-mt-8 border-violet-200 bg-violet-50/50 dark:border-violet-900 dark:bg-violet-950/20"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-violet-800 dark:text-violet-300">
+              Milestone 4 · {LEGACY_WEEKLY_LABEL}
+            </p>
+            <h2 className="mt-1 text-xl font-semibold">{LEGACY_WEEKLY_LABEL} tasks</h2>
+            <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
+              Optional once-a-week tasks for Black history awareness, family
+              identity, elder connection, neighborhood knowledge, and community
+              pride. You pick the template — the app does not generate lessons.
+            </p>
+          </div>
+          <Link href="/dashboard/week">
+            <Button variant="secondary">Weekly progress</Button>
+          </Link>
         </div>
-      )}
+
+        {legacyTemplates.length === 0 ? (
+          <p className="mt-4 text-sm text-zinc-500">No legacy templates available.</p>
+        ) : (
+          <div className="mt-4 grid gap-4">
+            {legacyTemplates.map((template) => (
+              <TaskTemplateCard key={template.id} template={template} highlight />
+            ))}
+          </div>
+        )}
+      </Card>
+
+      <section className="space-y-4">
+        <div>
+          <h2 className="text-xl font-semibold">Your templates</h2>
+          <p className="mt-1 text-sm text-zinc-500">
+            Chores, school, focus blocks, attitude tasks, and custom templates.
+          </p>
+        </div>
+
+        {otherTemplates.length === 0 ? (
+          <Card>
+            <p className="text-sm text-zinc-500">No other templates yet.</p>
+          </Card>
+        ) : (
+          <div className="grid gap-4">
+            {otherTemplates.map((template) => (
+              <TaskTemplateCard key={template.id} template={template} />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

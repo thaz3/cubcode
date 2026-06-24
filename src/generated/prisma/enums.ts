@@ -67,7 +67,8 @@ export const TaskCategory = {
   FOCUS_BLOCK: 'FOCUS_BLOCK',
   SCHOOL: 'SCHOOL',
   CHORE: 'CHORE',
-  ATTITUDE: 'ATTITUDE'
+  ATTITUDE: 'ATTITUDE',
+  LEGACY_WEEKLY: 'LEGACY_WEEKLY'
 } as const
 
 export type TaskCategory = (typeof TaskCategory)[keyof typeof TaskCategory]

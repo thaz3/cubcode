@@ -1,0 +1,1 @@
+ALTER TYPE "TaskCategory" ADD VALUE 'LEGACY_WEEKLY';

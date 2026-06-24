@@ -50,7 +50,7 @@ export default async function CubProgressPage({ params }: CubProgressPageProps) 
         isActive: true,
       },
     }),
-    getCubLedgerEntriesGrouped(cub.id, { limit: 8 }),
+    getCubLedgerEntriesGrouped(cub.id, { limit: 20 }),
     db.rewardRedemption.findMany({
       where: { cubId: cub.id },
       include: { rewardStoreItem: true },
@@ -92,13 +92,14 @@ export default async function CubProgressPage({ params }: CubProgressPageProps) 
       </Card>
 
       <Card>
-        <h2 className="text-lg font-semibold">{cub.displayName}&apos;s ledger</h2>
+        <h2 className="text-lg font-semibold">{cub.displayName}&apos;s task history</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Every balance change for this Cub — XP, tokens, phone time, and Weekend
-          Bank.
+          Rewards earned from tasks, Family Day, and the store — with links back
+          to each item.
         </p>
         <div className="mt-4">
           <CubLedgerHistory
+            cubId={cub.id}
             xpEntries={xpEntries}
             focusTokenEntries={focusTokenEntries}
             phoneEntries={phoneEntries}

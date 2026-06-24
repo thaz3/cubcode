@@ -9,7 +9,22 @@ export type CubLedgerEntry = {
   reason: LedgerReason;
   note: string | null;
   createdAt: Date;
+  sourceTaskId: string | null;
+  councilDayCubEntryId: string | null;
 };
+
+export type CubLedgerDropdownEntry = Omit<CubLedgerEntry, "createdAt"> & {
+  createdAt: string;
+};
+
+export function serializeLedgerEntries(
+  entries: CubLedgerEntry[],
+): CubLedgerDropdownEntry[] {
+  return entries.map((entry) => ({
+    ...entry,
+    createdAt: entry.createdAt.toISOString(),
+  }));
+}
 
 type LedgerRow = {
   id: string;
@@ -17,7 +32,19 @@ type LedgerRow = {
   reason: LedgerReason;
   note: string | null;
   createdAt: Date;
+  sourceTaskId: string | null;
+  councilDayCubEntryId: string | null;
 };
+
+const ledgerEntrySelect = {
+  id: true,
+  amount: true,
+  reason: true,
+  note: true,
+  createdAt: true,
+  sourceTaskId: true,
+  councilDayCubEntryId: true,
+} as const;
 
 function mergeLedgerSections(
   sections: Array<{
@@ -35,6 +62,8 @@ function mergeLedgerSections(
         reason: entry.reason,
         note: entry.note,
         createdAt: entry.createdAt,
+        sourceTaskId: entry.sourceTaskId,
+        councilDayCubEntryId: entry.councilDayCubEntryId,
       })),
     )
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -83,28 +112,53 @@ export async function getCubLedgerEntriesGrouped(
         where: { cubId, ...(createdAtFilter ? { createdAt: createdAtFilter } : {}) },
         orderBy: { createdAt: "desc" },
         take: limit,
+        select: ledgerEntrySelect,
       }),
       db.focusTokenLedgerEntry.findMany({
         where: { cubId, ...(createdAtFilter ? { createdAt: createdAtFilter } : {}) },
         orderBy: { createdAt: "desc" },
         take: limit,
+        select: ledgerEntrySelect,
       }),
       db.phoneTimeLedgerEntry.findMany({
         where: { cubId, ...(createdAtFilter ? { createdAt: createdAtFilter } : {}) },
         orderBy: { createdAt: "desc" },
         take: limit,
+        select: {
+          id: true,
+          amount: true,
+          reason: true,
+          note: true,
+          createdAt: true,
+          sourceTaskId: true,
+        },
       }),
       db.weekendBankLedgerEntry.findMany({
         where: { cubId, ...(createdAtFilter ? { createdAt: createdAtFilter } : {}) },
         orderBy: { createdAt: "desc" },
         take: limit,
+        select: {
+          id: true,
+          amount: true,
+          reason: true,
+          note: true,
+          createdAt: true,
+          sourceTaskId: true,
+        },
       }),
     ]);
+
+  const normalizePhoneEntry = (
+    entry: Omit<LedgerRow, "councilDayCubEntryId">,
+  ): LedgerRow => ({
+    ...entry,
+    councilDayCubEntryId: null,
+  });
 
   return {
     xpEntries,
     focusTokenEntries,
-    phoneEntries,
-    weekendBankEntries,
+    phoneEntries: phoneEntries.map(normalizePhoneEntry),
+    weekendBankEntries: weekendBankEntries.map(normalizePhoneEntry),
   };
 }

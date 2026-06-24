@@ -4,6 +4,7 @@ import { CubLedgerTimeline } from "@/components/cub-ledger-history";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
+import { LEGACY_WEEKLY_LABEL } from "@/lib/legacy-task-templates";
 import { formatMinutes } from "@/lib/ledger-labels";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import type { HouseholdWeeklyProgress } from "@/lib/weekly-progress";
@@ -49,6 +50,9 @@ export function WeeklyProgressDashboard({
             <Link href={`/dashboard/family-day?week=${weekQuery}`}>
               <Button>{FAMILY_DAY_LABEL}</Button>
             </Link>
+            <Link href="/dashboard/tasks/templates#weekly-legacy">
+              <Button variant="secondary">{LEGACY_WEEKLY_LABEL}</Button>
+            </Link>
           </div>
         </div>
       </Card>
@@ -91,7 +95,7 @@ export function WeeklyProgressDashboard({
         <HouseholdStat
           label="Phone time earned"
           value={formatMinutes(householdTotals.phoneMinutesEarned)}
-          detail="Credited to ledgers this week"
+          detail="Credited this week"
         />
       </dl>
 
@@ -209,14 +213,11 @@ export function WeeklyProgressDashboard({
                   </dl>
 
                   <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
-                    <h3 className="text-sm font-semibold">
-                      {cub.displayName}&apos;s ledger this week
-                    </h3>
                     <CubLedgerTimeline
+                      cubId={cub.cubId}
                       entries={cub.ledgerEntries}
-                      limit={6}
-                      emptyMessage="No ledger credits this week yet."
-                      className="mt-2"
+                      label={`${cub.displayName}'s task history this week`}
+                      emptyMessage="No task history this week yet."
                     />
                   </div>
                 </Card>

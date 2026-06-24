@@ -35,7 +35,7 @@ export default async function CubsPage() {
   const cubLedgers = await Promise.all(
     family.cubs.map(async (cub) => ({
       cubId: cub.id,
-      entries: await getCubLedgerEntries(cub.id, { limit: 4 }),
+      entries: await getCubLedgerEntries(cub.id, { limit: 12 }),
     })),
   );
   const ledgerEntriesByCubId = new Map(
@@ -88,11 +88,10 @@ export default async function CubsPage() {
                     : `${assignedCount} task${assignedCount === 1 ? "" : "s"} assigned`}
                 </p>
                 <div className="mt-3">
-                  <p className="text-xs font-medium text-zinc-500">Ledger</p>
                   <CubLedgerTimeline
+                    cubId={cub.id}
                     entries={ledgerEntriesByCubId.get(cub.id) ?? []}
-                    limit={4}
-                    emptyMessage="No ledger activity yet."
+                    emptyMessage="No task history yet."
                   />
                 </div>
               </div>

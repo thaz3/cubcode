@@ -57,8 +57,10 @@ export function TaskCategoryFields({
       setSubcategory("HOMEWORK");
     } else if (next === "CHORE") {
       setSubcategory("GENERAL");
-    } else {
+    } else if (next === "ATTITUDE") {
       setSubcategory("RESPECTFUL");
+    } else if (next === "LEGACY_WEEKLY") {
+      setSubcategory("HISTORICAL_FIGURE");
     }
   }
 

@@ -85,7 +85,7 @@ export default async function DashboardPage() {
     family.cubs.map(async (cub) => ({
       cubId: cub.id,
       summary: await getCubRewardSummary(cub),
-      ledgerEntries: await getCubLedgerEntries(cub.id, { limit: 4 }),
+      ledgerEntries: await getCubLedgerEntries(cub.id, { limit: 12 }),
     })),
   );
   const rewardSummaryByCubId = new Map(
@@ -300,11 +300,10 @@ export default async function DashboardPage() {
                       ) : null}
                     </Link>
                     <div className="mt-2">
-                      <p className="text-xs font-medium text-zinc-500">Ledger</p>
                       <CubLedgerTimeline
+                        cubId={cub.id}
                         entries={ledgerEntriesByCubId.get(cub.id) ?? []}
-                        limit={4}
-                        emptyMessage="No ledger activity yet."
+                        emptyMessage="No task history yet."
                       />
                     </div>
                   </div>

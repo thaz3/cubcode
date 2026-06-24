@@ -109,7 +109,7 @@ export async function getHouseholdWeeklyProgress(
         }),
         getCubLedgerEntries(cub.id, {
           weekStartsOn: weekStartsOn,
-          limit: 6,
+          limit: 20,
         }),
       ]);
 
