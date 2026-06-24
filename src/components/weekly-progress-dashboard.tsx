@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
 import { LEGACY_WEEKLY_LABEL } from "@/lib/legacy-task-templates";
+import { SUMMER_LITE_LABEL } from "@/lib/summer-task-templates";
 import { formatMinutes } from "@/lib/ledger-labels";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import type { HouseholdWeeklyProgress } from "@/lib/weekly-progress";
@@ -52,6 +53,9 @@ export function WeeklyProgressDashboard({
             </Link>
             <Link href="/dashboard/tasks/templates#weekly-legacy">
               <Button variant="secondary">{LEGACY_WEEKLY_LABEL}</Button>
+            </Link>
+            <Link href="/dashboard/tasks/summer">
+              <Button variant="secondary">{SUMMER_LITE_LABEL}</Button>
             </Link>
           </div>
         </div>

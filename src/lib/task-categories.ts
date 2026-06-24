@@ -21,6 +21,7 @@ export const TASK_CATEGORY_LABELS: Record<TaskCategory, string> = {
   CHORE: "Chore",
   ATTITUDE: "Attitude",
   LEGACY_WEEKLY: "Weekly Legacy",
+  SUMMER_LITE: "Summer Lite",
 };
 
 export const GROWTH_CATEGORY_LABELS: Record<GrowthCategory, string> = {
@@ -68,6 +69,17 @@ export const LEGACY_WEEKLY_SUBCATEGORY_LABELS = {
 
 export type LegacyWeeklySubcategory =
   keyof typeof LEGACY_WEEKLY_SUBCATEGORY_LABELS;
+
+export const SUMMER_LITE_SUBCATEGORY_LABELS = {
+  PARK: "Park",
+  LIBRARY: "Library",
+  WALKING_OBSERVATION: "Walking observation",
+  FAMILY_HISTORY_OUTDOOR: "Family history outdoors",
+  CREATIVE_OUTDOOR: "Creative outdoor",
+  COMMUNITY_SERVICE: "Community service",
+} as const;
+
+export type SummerLiteSubcategory = keyof typeof SUMMER_LITE_SUBCATEGORY_LABELS;
 
 const DEFAULT_CHORE_CHECKLIST = [
   "I completed the chore fully",
@@ -342,6 +354,88 @@ const LEGACY_WEEKLY_SUGGESTIONS: Record<
   },
 };
 
+const SUMMER_LITE_SUGGESTIONS: Record<SummerLiteSubcategory, CategorySuggestion> =
+  {
+    PARK: {
+      proofType: "CHECKLIST",
+      proofPrompt: "Complete each step with a parent before submitting.",
+      proofChecklistItems: [
+        "A parent approved the park and supervision level",
+        "I named the park or location we visited",
+        "I noticed and can describe one thing about the park",
+      ],
+      focusMinutesEarned: 20,
+      phoneMinutesEarned: 12,
+      xpEarned: 12,
+      focusTokensEarned: 1,
+      logInstructions:
+        "Outdoor park tasks need parent approval for location and supervision before you go.",
+    },
+    LIBRARY: {
+      proofType: "SHORT_REFLECTION",
+      proofPrompt:
+        "Which library did you visit? What did you read, borrow, or learn there?",
+      proofChecklistItems: [],
+      focusMinutesEarned: 25,
+      phoneMinutesEarned: 12,
+      xpEarned: 12,
+      focusTokensEarned: 1,
+      logInstructions:
+        "Name the library branch and what you did there so a parent can confirm.",
+    },
+    WALKING_OBSERVATION: {
+      proofType: "SHORT_REFLECTION",
+      proofPrompt:
+        "Where did you walk? What did you observe that you had not noticed before?",
+      proofChecklistItems: [],
+      focusMinutesEarned: 15,
+      phoneMinutesEarned: 10,
+      xpEarned: 10,
+      focusTokensEarned: 1,
+      logInstructions:
+        "Describe your walking route and one observation from the neighborhood.",
+    },
+    FAMILY_HISTORY_OUTDOOR: {
+      proofType: "SHORT_REFLECTION",
+      proofPrompt:
+        "Where were you? What family story or tradition did you explore and why does it matter?",
+      proofChecklistItems: [],
+      focusMinutesEarned: 25,
+      phoneMinutesEarned: 12,
+      xpEarned: 15,
+      focusTokensEarned: 1,
+      logInstructions:
+        "Share where you were and the family story you explored with a parent.",
+    },
+    CREATIVE_OUTDOOR: {
+      proofType: "PARENT_APPROVAL",
+      proofPrompt:
+        "A parent confirms you completed the outdoor creative project you planned together.",
+      proofChecklistItems: [],
+      focusMinutesEarned: 30,
+      phoneMinutesEarned: 15,
+      xpEarned: 15,
+      focusTokensEarned: 1,
+      logInstructions:
+        "Plan the outdoor project with a parent first, then submit for approval when done.",
+    },
+    COMMUNITY_SERVICE: {
+      proofType: "CHECKLIST",
+      proofPrompt: "Complete each step with a parent before submitting.",
+      proofChecklistItems: [
+        "A parent approved the service task and location",
+        "I completed the agreed service work",
+        "I can describe how it helped someone or the community",
+      ],
+      focusMinutesEarned: 25,
+      phoneMinutesEarned: 12,
+      xpEarned: 15,
+      focusTokensEarned: 1,
+      logInstructions:
+        "Service tasks need a parent-approved plan and location before you start.",
+    },
+  };
+
 export function getCategorySuggestions(
   category: TaskCategory,
   options?: {
@@ -380,6 +474,11 @@ export function getCategorySuggestions(
         return LEGACY_WEEKLY_SUGGESTIONS[subcategory as LegacyWeeklySubcategory];
       }
       return LEGACY_WEEKLY_SUGGESTIONS.HISTORICAL_FIGURE;
+    case "SUMMER_LITE":
+      if (subcategory && subcategory in SUMMER_LITE_SUGGESTIONS) {
+        return SUMMER_LITE_SUGGESTIONS[subcategory as SummerLiteSubcategory];
+      }
+      return SUMMER_LITE_SUGGESTIONS.PARK;
     default:
       return CHORE_SUGGESTIONS.GENERAL;
   }
@@ -427,6 +526,11 @@ export function formatSubcategory(
           subcategory as LegacyWeeklySubcategory
         ] ?? subcategory
       );
+    case "SUMMER_LITE":
+      return (
+        SUMMER_LITE_SUBCATEGORY_LABELS[subcategory as SummerLiteSubcategory] ??
+        subcategory
+      );
     default:
       return null;
   }
@@ -453,6 +557,10 @@ export function subcategoryOptions(category: TaskCategory): Array<{
       );
     case "LEGACY_WEEKLY":
       return Object.entries(LEGACY_WEEKLY_SUBCATEGORY_LABELS).map(
+        ([value, label]) => ({ value, label }),
+      );
+    case "SUMMER_LITE":
+      return Object.entries(SUMMER_LITE_SUBCATEGORY_LABELS).map(
         ([value, label]) => ({ value, label }),
       );
     default:

@@ -68,7 +68,8 @@ export const TaskCategory = {
   SCHOOL: 'SCHOOL',
   CHORE: 'CHORE',
   ATTITUDE: 'ATTITUDE',
-  LEGACY_WEEKLY: 'LEGACY_WEEKLY'
+  LEGACY_WEEKLY: 'LEGACY_WEEKLY',
+  SUMMER_LITE: 'SUMMER_LITE'
 } as const
 
 export type TaskCategory = (typeof TaskCategory)[keyof typeof TaskCategory]

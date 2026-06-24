@@ -1,0 +1,1 @@
+ALTER TYPE "TaskCategory" ADD VALUE 'SUMMER_LITE';

@@ -52,6 +52,7 @@ enum TaskCategory {
   CHORE
   ATTITUDE
   LEGACY_WEEKLY
+  SUMMER_LITE
 }
 
 enum GrowthCategory {

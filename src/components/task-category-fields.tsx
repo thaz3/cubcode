@@ -61,6 +61,8 @@ export function TaskCategoryFields({
       setSubcategory("RESPECTFUL");
     } else if (next === "LEGACY_WEEKLY") {
       setSubcategory("HISTORICAL_FIGURE");
+    } else if (next === "SUMMER_LITE") {
+      setSubcategory("PARK");
     }
   }
 

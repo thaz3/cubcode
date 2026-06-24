@@ -8,8 +8,15 @@ import {
   ensureDefaultLegacyTemplates,
   LEGACY_WEEKLY_LABEL,
 } from "@/lib/legacy-task-templates";
+import {
+  ensureDefaultSummerTemplates,
+  SUMMER_LITE_FULL_LABEL,
+  SUMMER_LITE_LABEL,
+} from "@/lib/summer-task-templates";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
+
+const MILESTONE_TEMPLATE_CATEGORIES = ["LEGACY_WEEKLY", "SUMMER_LITE"] as const;
 
 export default async function TaskTemplatesPage() {
   const session = await auth();
@@ -18,7 +25,10 @@ export default async function TaskTemplatesPage() {
   const family = await getFamilyForUser(session.user.id);
   if (!family) redirect("/signup");
 
-  await ensureDefaultLegacyTemplates(family.id);
+  await Promise.all([
+    ensureDefaultLegacyTemplates(family.id),
+    ensureDefaultSummerTemplates(family.id),
+  ]);
 
   const templates = await db.taskTemplate.findMany({
     where: { familyId: family.id },
@@ -28,8 +38,14 @@ export default async function TaskTemplatesPage() {
   const legacyTemplates = templates.filter(
     (template) => template.category === "LEGACY_WEEKLY",
   );
+  const summerTemplates = templates.filter(
+    (template) => template.category === "SUMMER_LITE",
+  );
   const otherTemplates = templates.filter(
-    (template) => template.category !== "LEGACY_WEEKLY",
+    (template) =>
+      !MILESTONE_TEMPLATE_CATEGORIES.includes(
+        template.category as (typeof MILESTONE_TEMPLATE_CATEGORIES)[number],
+      ),
   );
 
   return (
@@ -46,6 +62,9 @@ export default async function TaskTemplatesPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <Link href="/dashboard/tasks/templates/new?type=summer">
+            <Button variant="secondary">New {SUMMER_LITE_LABEL} template</Button>
+          </Link>
           <Link href="/dashboard/tasks/templates/new?type=legacy">
             <Button variant="secondary">New {LEGACY_WEEKLY_LABEL} template</Button>
           </Link>
@@ -54,6 +73,38 @@ export default async function TaskTemplatesPage() {
           </Link>
         </div>
       </div>
+
+      <Card
+        id="summer-lite"
+        className="scroll-mt-8 border-sky-200 bg-sky-50/50 dark:border-sky-900 dark:bg-sky-950/20"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-sky-800 dark:text-sky-300">
+              Milestone 4 · {SUMMER_LITE_FULL_LABEL}
+            </p>
+            <h2 className="mt-1 text-xl font-semibold">{SUMMER_LITE_LABEL} tasks</h2>
+            <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
+              Outdoor and community templates — park, library, walking observation,
+              family history outside, creative projects, and service. Parent picks
+              tasks and approves proof.
+            </p>
+          </div>
+          <Link href="/dashboard/tasks/summer">
+            <Button variant="secondary">Summer task board</Button>
+          </Link>
+        </div>
+
+        {summerTemplates.length === 0 ? (
+          <p className="mt-4 text-sm text-zinc-500">No summer templates available.</p>
+        ) : (
+          <div className="mt-4 grid gap-4">
+            {summerTemplates.map((template) => (
+              <TaskTemplateCard key={template.id} template={template} highlight="summer" />
+            ))}
+          </div>
+        )}
+      </Card>
 
       <Card
         id="weekly-legacy"
@@ -81,7 +132,7 @@ export default async function TaskTemplatesPage() {
         ) : (
           <div className="mt-4 grid gap-4">
             {legacyTemplates.map((template) => (
-              <TaskTemplateCard key={template.id} template={template} highlight />
+              <TaskTemplateCard key={template.id} template={template} highlight="legacy" />
             ))}
           </div>
         )}

@@ -53,7 +53,7 @@ export const taskProofConfigSchema = z.object({
 });
 
 export const taskCategoryConfigSchema = z.object({
-  category: z.enum(["FOCUS_BLOCK", "SCHOOL", "CHORE", "ATTITUDE", "LEGACY_WEEKLY"]),
+  category: z.enum(["FOCUS_BLOCK", "SCHOOL", "CHORE", "ATTITUDE", "LEGACY_WEEKLY", "SUMMER_LITE"]),
   subcategory: z.string().trim().max(50).optional(),
   growthCategory: z
     .enum(["CONTROL", "USE", "BUILD", "CHARACTER", "WELLNESS"])

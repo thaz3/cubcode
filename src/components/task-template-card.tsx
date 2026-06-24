@@ -9,15 +9,20 @@ import { cn } from "@/lib/utils";
 
 type TaskTemplateCardProps = {
   template: TaskTemplate;
-  highlight?: boolean;
+  highlight?: "legacy" | "summer";
 };
 
-export function TaskTemplateCard({ template, highlight = false }: TaskTemplateCardProps) {
+export function TaskTemplateCard({
+  template,
+  highlight,
+}: TaskTemplateCardProps) {
   return (
     <Card
       className={cn(
-        highlight &&
+        highlight === "legacy" &&
           "border-violet-200 bg-violet-50/40 dark:border-violet-900 dark:bg-violet-950/20",
+        highlight === "summer" &&
+          "border-sky-200 bg-sky-50/40 dark:border-sky-900 dark:bg-sky-950/20",
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-4">

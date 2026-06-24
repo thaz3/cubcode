@@ -9,6 +9,7 @@ const navItems = [
   { href: "/dashboard", label: "Overview" },
   { href: "/dashboard/week", label: "This week" },
   { href: "/dashboard/tasks", label: "Tasks" },
+  { href: "/dashboard/tasks/summer", label: "Summer" },
   { href: "/dashboard/tasks/review", label: "Review" },
   { href: "/dashboard/family-day", label: "Family Day" },
   { href: "/dashboard/cubs", label: "Cubs" },
@@ -87,7 +88,10 @@ function navLinkClass(pathname: string, href: string) {
     if (href === "/dashboard/tasks") {
       active =
         pathname.startsWith("/dashboard/tasks/") &&
-        !pathname.startsWith("/dashboard/tasks/review");
+        !pathname.startsWith("/dashboard/tasks/review") &&
+        !pathname.startsWith("/dashboard/tasks/summer");
+    } else if (href === "/dashboard/tasks/summer") {
+      active = pathname.startsWith("/dashboard/tasks/summer");
     } else if (href === "/dashboard/family-day") {
       active =
         pathname.startsWith("/dashboard/family-day") ||
