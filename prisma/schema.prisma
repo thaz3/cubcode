@@ -1,0 +1,388 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AgeBand {
+  LITTLE_CUBS
+  CORE_CUBS
+  TRAIL_CUBS
+  LEGACY_BUILDERS
+}
+
+enum SupervisionLevel {
+  DIRECT
+  NEARBY
+  INDEPENDENT
+}
+
+enum ProofStyle {
+  PARENT_APPROVAL
+  SHORT_REFLECTION
+  CHECKLIST
+}
+
+enum TaskStatus {
+  AVAILABLE
+  CLAIMED
+  IN_PROGRESS
+  SUBMITTED
+  SENT_BACK
+  REJECTED
+  APPROVED
+  COMPLETED
+}
+
+enum TaskProofType {
+  PARENT_APPROVAL
+  SHORT_REFLECTION
+  CHECKLIST
+  TIME_LOG
+  PERFORMANCE_VIDEO
+  SLIDESHOW
+}
+
+enum TaskCategory {
+  FOCUS_BLOCK
+  SCHOOL
+  CHORE
+  ATTITUDE
+}
+
+enum GrowthCategory {
+  CONTROL
+  USE
+  BUILD
+  CHARACTER
+  WELLNESS
+}
+
+enum LedgerReason {
+  TASK_APPROVAL
+  REWARD_REDEMPTION
+  PARENT_ADJUSTMENT
+  DAILY_CAP_OVERFLOW
+  WEEKEND_BANK_USE
+  COUNCIL_DAY
+}
+
+enum RewardGrantType {
+  NONE
+  PHONE_TIME
+  WEEKEND_BANK
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  family        Family?
+  reviewedTasks Task[]  @relation("ReviewedTasks")
+  councilDaySessions CouncilDaySession[] @relation("ConductedCouncilDays")
+}
+
+model Family {
+  id                    String   @id @default(cuid())
+  name                  String?
+  dailyPhoneCapMinutes  Int      @default(60)
+  weekendBankCapMinutes Int      @default(120)
+  exchangeFocusMinutes  Int      @default(30)
+  exchangePhoneMinutes  Int      @default(15)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  ownerId       String         @unique
+  owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  cubs          Cub[]
+  taskTemplates TaskTemplate[]
+  tasks         Task[]
+  rewardStoreItems RewardStoreItem[]
+  councilDaySessions CouncilDaySession[]
+}
+
+model Cub {
+  id                    String            @id @default(cuid())
+  displayName           String
+  ageBand               AgeBand
+  focusMinutesEarned    Int               @default(30)
+  phoneMinutesEarned    Int               @default(15)
+  xpEarned              Int               @default(10)
+  focusTokensEarned     Int               @default(1)
+  dailyPhoneCapMinutes  Int               @default(45)
+  weekendBankCapMinutes Int               @default(90)
+  supervisionLevel      SupervisionLevel  @default(NEARBY)
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  familyId    String
+  family      Family          @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  tasks       Task[]
+  focusBlocks FocusBlockLog[]
+  xpLedgerEntries          XpLedgerEntry[]
+  focusTokenLedgerEntries  FocusTokenLedgerEntry[]
+  phoneTimeLedgerEntries   PhoneTimeLedgerEntry[]
+  weekendBankLedgerEntries WeekendBankLedgerEntry[]
+  rewardRedemptions        RewardRedemption[]
+  councilDayEntries        CouncilDayCubEntry[]
+
+  @@index([familyId])
+}
+
+model CouncilDaySession {
+  id                String    @id @default(cuid())
+  weekStartsOn      DateTime
+  familyNotes       String?
+  conductedAt       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  familyId          String
+  conductedByUserId String?
+
+  family      Family               @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  conductedBy User?                @relation("ConductedCouncilDays", fields: [conductedByUserId], references: [id], onDelete: SetNull)
+  cubEntries  CouncilDayCubEntry[]
+
+  @@unique([familyId, weekStartsOn])
+  @@index([familyId])
+}
+
+model CouncilDayCubEntry {
+  id                 String    @id @default(cuid())
+  winNote            String?
+  growNote           String?
+  familyGoalNote     String?
+  reflection         String?
+  valueRatings        Json?
+  bonusXpGranted     Int       @default(0)
+  bonusTokensGranted Int       @default(0)
+  bonusGrantedAt     DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  sessionId String
+  cubId     String
+
+  session               CouncilDaySession         @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  cub                   Cub                       @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  xpLedgerEntries       XpLedgerEntry[]
+  focusTokenLedgerEntries FocusTokenLedgerEntry[]
+
+  @@unique([sessionId, cubId])
+  @@index([cubId])
+}
+
+model TaskTemplate {
+  id                  String        @id @default(cuid())
+  title               String
+  description         String?
+  category            TaskCategory  @default(CHORE)
+  subcategory         String?
+  growthCategory      GrowthCategory?
+  proofType           TaskProofType @default(SHORT_REFLECTION)
+  proofPrompt         String?
+  proofChecklistItems Json?
+  isActive            Boolean       @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  familyId String
+  family   Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  tasks    Task[]
+
+  @@index([familyId])
+}
+
+model Task {
+  id                String        @id @default(cuid())
+  title             String
+  description       String?
+  category          TaskCategory  @default(CHORE)
+  subcategory       String?
+  growthCategory    GrowthCategory?
+  proofType         TaskProofType
+  proofPrompt       String?
+  proofChecklistItems Json?
+  focusMinutesEarned Int          @default(30)
+  phoneMinutesEarned Int          @default(15)
+  xpEarned          Int          @default(10)
+  focusTokensEarned Int          @default(1)
+  status            TaskStatus    @default(AVAILABLE)
+  reflection        String?
+  proofLink         String?
+  checklistData     Json?
+  timeLoggedMinutes Int?
+  reviewNote        String?
+  submittedAt       DateTime?
+  reviewedAt        DateTime?
+  claimedAt         DateTime?
+  dueAt             DateTime?
+  dueAtHasTime      Boolean       @default(false)
+  focusSessionStartedAt DateTime?
+  startedAt         DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  familyId         String
+  cubId            String?
+  templateId       String?
+  reviewedByUserId String?
+
+  family     Family          @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  cub        Cub?            @relation(fields: [cubId], references: [id], onDelete: SetNull)
+  template   TaskTemplate?   @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  reviewedBy User?           @relation("ReviewedTasks", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  focusBlocks FocusBlockLog[]
+  xpLedgerEntries          XpLedgerEntry[]
+  focusTokenLedgerEntries  FocusTokenLedgerEntry[]
+  phoneTimeLedgerEntries   PhoneTimeLedgerEntry[]
+  weekendBankLedgerEntries WeekendBankLedgerEntry[]
+
+  @@index([familyId])
+  @@index([cubId])
+  @@index([status])
+}
+
+model FocusBlockLog {
+  id              String          @id @default(cuid())
+  durationMinutes Int
+  startedAt       DateTime
+  note            String?
+  growthCategory  GrowthCategory?
+  createdAt       DateTime        @default(now())
+
+  cubId  String
+  taskId String?
+
+  cub  Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  task Task? @relation(fields: [taskId], references: [id], onDelete: SetNull)
+
+  @@index([cubId])
+  @@index([taskId])
+}
+
+model XpLedgerEntry {
+  id        String       @id @default(cuid())
+  amount    Int
+  reason    LedgerReason
+  note      String?
+  createdAt DateTime     @default(now())
+
+  cubId           String
+  sourceTaskId    String?
+  councilDayCubEntryId String?
+  createdByUserId String?
+
+  cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
+  councilDayCubEntry CouncilDayCubEntry? @relation(fields: [councilDayCubEntryId], references: [id], onDelete: SetNull)
+
+  @@index([cubId])
+  @@index([sourceTaskId])
+  @@index([councilDayCubEntryId])
+  @@index([createdAt])
+}
+
+model FocusTokenLedgerEntry {
+  id        String       @id @default(cuid())
+  amount    Int
+  reason    LedgerReason
+  note      String?
+  createdAt DateTime     @default(now())
+
+  cubId           String
+  sourceTaskId    String?
+  councilDayCubEntryId String?
+  createdByUserId String?
+
+  cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
+  councilDayCubEntry CouncilDayCubEntry? @relation(fields: [councilDayCubEntryId], references: [id], onDelete: SetNull)
+
+  @@index([cubId])
+  @@index([sourceTaskId])
+  @@index([councilDayCubEntryId])
+  @@index([createdAt])
+}
+
+model PhoneTimeLedgerEntry {
+  id        String       @id @default(cuid())
+  amount    Int
+  reason    LedgerReason
+  note      String?
+  createdAt DateTime     @default(now())
+
+  cubId           String
+  sourceTaskId    String?
+  createdByUserId String?
+
+  cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
+
+  @@index([cubId])
+  @@index([sourceTaskId])
+  @@index([createdAt])
+}
+
+model WeekendBankLedgerEntry {
+  id        String       @id @default(cuid())
+  amount    Int
+  reason    LedgerReason
+  note      String?
+  createdAt DateTime     @default(now())
+
+  cubId           String
+  sourceTaskId    String?
+  createdByUserId String?
+
+  cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
+
+  @@index([cubId])
+  @@index([sourceTaskId])
+  @@index([createdAt])
+}
+
+model RewardStoreItem {
+  id              String          @id @default(cuid())
+  title           String
+  description     String?
+  costFocusTokens Int             @default(1)
+  grantType       RewardGrantType @default(NONE)
+  minutesGranted  Int?
+  isActive        Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  familyId String
+  family   Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  redemptions RewardRedemption[]
+
+  @@index([familyId])
+}
+
+model RewardRedemption {
+  id                    String   @id @default(cuid())
+  focusTokensSpent      Int
+  phoneMinutesGranted   Int      @default(0)
+  weekendBankMinutesGranted Int  @default(0)
+  createdAt             DateTime @default(now())
+
+  cubId             String
+  rewardStoreItemId String
+  createdByUserId   String
+
+  cub             Cub             @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  rewardStoreItem RewardStoreItem @relation(fields: [rewardStoreItemId], references: [id], onDelete: Cascade)
+
+  @@index([cubId])
+  @@index([rewardStoreItemId])
+}

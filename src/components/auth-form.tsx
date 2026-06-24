@@ -1,0 +1,82 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { loginAction, signupAction } from "@/lib/actions/auth";
+import type { ActionState } from "@/lib/actions/auth";
+import Link from "next/link";
+import { useActionState } from "react";
+
+type AuthFormProps = {
+  mode: "login" | "signup";
+};
+
+export function AuthForm({ mode }: AuthFormProps) {
+  const action = mode === "login" ? loginAction : signupAction;
+  const [state, formAction, isPending] = useActionState(action, {} as ActionState);
+
+  return (
+    <form action={formAction} className="space-y-4">
+      {mode === "signup" ? (
+        <div>
+          <Label htmlFor="name">Your name</Label>
+          <Input id="name" name="name" autoComplete="name" required />
+        </div>
+      ) : null}
+
+      <div>
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="password">Password</Label>
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          autoComplete={mode === "login" ? "current-password" : "new-password"}
+          minLength={mode === "signup" ? 8 : undefined}
+          required
+        />
+      </div>
+
+      {state.error ? (
+        <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>
+      ) : null}
+
+      <Button type="submit" className="w-full" disabled={isPending}>
+        {isPending
+          ? "Please wait..."
+          : mode === "login"
+            ? "Log in"
+            : "Create parent account"}
+      </Button>
+
+      <p className="text-center text-sm text-zinc-600 dark:text-zinc-400">
+        {mode === "login" ? (
+          <>
+            New here?{" "}
+            <Link href="/signup" className="font-medium text-amber-700">
+              Create an account
+            </Link>
+          </>
+        ) : (
+          <>
+            Already have an account?{" "}
+            <Link href="/login" className="font-medium text-amber-700">
+              Log in
+            </Link>
+          </>
+        )}
+      </p>
+    </form>
+  );
+}
