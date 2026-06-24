@@ -89,27 +89,26 @@ export function FamilySettingsForm({ initialValues }: FamilySettingsFormProps) {
           </div>
         </div>
 
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-zinc-400">
           Every{" "}
-          <strong>{initialValues.exchangeFocusMinutes || "—"}</strong> minutes of
+          <strong className="text-zinc-200">{initialValues.exchangeFocusMinutes || "—"}</strong> minutes of
           focused effort earns{" "}
-          <strong>{initialValues.exchangePhoneMinutes || "—"}</strong> minutes
-          of recreational phone time. C.U.B. Code calculates earned digital
-          freedom. Parents control access.
+          <strong className="text-zinc-200">{initialValues.exchangePhoneMinutes || "—"}</strong> minutes
+          of recreational phone time.
         </p>
 
         {state.error ? (
-          <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>
+          <p className="text-sm text-red-400">{state.error}</p>
         ) : null}
         {state.success ? (
-          <p className="text-sm text-green-700 dark:text-green-400">
-            {state.success}
-          </p>
+          <p className="text-sm text-emerald-400">{state.success}</p>
         ) : null}
 
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "Saving..." : "Save household rules"}
-        </Button>
+        <div className="sticky bottom-20 z-10 -mx-1 rounded-xl bg-zinc-900/95 p-3 backdrop-blur lg:static lg:bg-transparent lg:p-0">
+          <Button type="submit" fullWidth size="lg" disabled={isPending}>
+            {isPending ? "Saving..." : "Save"}
+          </Button>
+        </div>
       </form>
     </Card>
   );

@@ -24,8 +24,10 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isAuthPage = pathname === "/login" || pathname === "/signup";
       const isDashboard = pathname.startsWith("/dashboard");
+      const isCub = pathname.startsWith("/cub");
+      const isParentGate = pathname.startsWith("/parent");
 
-      if (isDashboard) {
+      if (isDashboard || isCub || isParentGate) {
         return isLoggedIn;
       }
 

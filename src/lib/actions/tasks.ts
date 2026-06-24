@@ -152,6 +152,10 @@ function revalidateTaskPaths(cubId?: string | null) {
   revalidatePath("/dashboard/tasks/review");
   if (cubId) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);
+    revalidatePath(`/dashboard/cubs/${cubId}/progress`);
+    revalidatePath(`/cub/${cubId}`);
+    revalidatePath(`/cub/${cubId}/tasks`);
+    revalidatePath(`/cub/${cubId}/progress`);
   }
 }
 

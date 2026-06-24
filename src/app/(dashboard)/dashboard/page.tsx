@@ -1,32 +1,30 @@
 import Link from "next/link";
-import { CubLedgerTimeline } from "@/components/cub-ledger-history";
-import { WeeklyProgressDashboard } from "@/components/weekly-progress-dashboard";
+import { ActionTile } from "@/components/ui/action-tile";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CubColorLegend } from "@/components/cub-color-legend";
-import { CubColorBadge, CubColorDot } from "@/components/cub-color-dot";
-import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
-import { TaskStatusBadge } from "@/components/task-status-badge";
-import { formatAgeBand } from "@/lib/age-band-defaults";
+import { CubCard } from "@/components/cub-card";
+import { PageHeader } from "@/components/ui/page-header";
+import { StatCard } from "@/components/ui/stat-card";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { CubColorDot } from "@/components/cub-color-dot";
+import { TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
 import { formatMinutes } from "@/lib/ledger-labels";
 import { getCubRewardSummary } from "@/lib/rewards";
-import { getCubLedgerEntries } from "@/lib/cub-ledger";
-import { cubAccentClassNames } from "@/lib/cub-colors";
-import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
 import {
   formatWeekLabel,
   formatWeekParam,
   getWeekStart,
 } from "@/lib/council-day";
-import {
-  sortTasksByUrgency,
-} from "@/lib/task-schedule";
+import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
+import { sortTasksByUrgency } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
-import { redirect } from "next/navigation";
+import { getTodayNextAction } from "@/lib/today-next-action";
 import { getHouseholdWeeklyProgress } from "@/lib/weekly-progress";
+import { cubAccentClassNames } from "@/lib/cub-colors";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -43,15 +41,18 @@ export default async function DashboardPage() {
   const weekLabel = formatWeekLabel(weekStartsOn);
   const weekQuery = formatWeekParam(weekStartsOn);
 
-  const [pendingReview, taskCountsByCub, activeTasks, councilDaySession] =
-    await Promise.all([
+  const [
+    pendingReview,
+    sentBackCount,
+    activeTasks,
+    councilDaySession,
+    focusInProgress,
+  ] = await Promise.all([
     db.task.count({
       where: { familyId: family.id, status: "SUBMITTED" },
     }),
-    db.task.groupBy({
-      by: ["cubId"],
-      where: { familyId: family.id, cubId: { not: null } },
-      _count: { _all: true },
+    db.task.count({
+      where: { familyId: family.id, status: "SENT_BACK" },
     }),
     db.task.findMany({
       where: {
@@ -70,29 +71,42 @@ export default async function DashboardPage() {
               weekStartsOn,
             },
           },
-          select: { conductedAt: true },
+          select: { conductedAt: true, id: true },
         })
       : Promise.resolve(null),
+    db.task.findFirst({
+      where: {
+        familyId: family.id,
+        status: "IN_PROGRESS",
+        focusSessionStartedAt: { not: null },
+      },
+      select: { id: true, title: true, cubId: true },
+      orderBy: { focusSessionStartedAt: "desc" },
+    }),
   ]);
 
-  const sortedActiveTasks = sortTasksByUrgency(activeTasks);
-
-  const assignedCountByCubId = new Map(
-    taskCountsByCub.map((row) => [row.cubId!, row._count._all]),
-  );
+  const sortedActiveTasks = sortTasksByUrgency(activeTasks).slice(0, 5);
+  const inProgressCount = activeTasks.filter(
+    (t) => t.status === "IN_PROGRESS" || t.status === "CLAIMED",
+  ).length;
 
   const cubRewardSummaries = await Promise.all(
-    family.cubs.map(async (cub) => ({
-      cubId: cub.id,
-      summary: await getCubRewardSummary(cub),
-      ledgerEntries: await getCubLedgerEntries(cub.id, { limit: 12 }),
-    })),
-  );
-  const rewardSummaryByCubId = new Map(
-    cubRewardSummaries.map((row) => [row.cubId, row.summary]),
-  );
-  const ledgerEntriesByCubId = new Map(
-    cubRewardSummaries.map((row) => [row.cubId, row.ledgerEntries]),
+    family.cubs.map(async (cub) => {
+      const [summary, activeCount, assignedCount] = await Promise.all([
+        getCubRewardSummary(cub),
+        db.task.count({
+          where: {
+            familyId: family.id,
+            cubId: cub.id,
+            status: { in: ["CLAIMED", "IN_PROGRESS", "SENT_BACK"] },
+          },
+        }),
+        db.task.count({
+          where: { familyId: family.id, cubId: cub.id },
+        }),
+      ]);
+      return { cub, summary, activeCount, assignedCount };
+    }),
   );
 
   const weeklyProgress =
@@ -104,253 +118,205 @@ export default async function DashboardPage() {
         )
       : null;
 
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">Household overview</h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-          Welcome{session.user.name ? `, ${session.user.name}` : ""}. Run the
-          task loop: assign → focus → submit → review.
-        </p>
-        {family.cubs.length > 0 ? (
-          <div className="mt-3">
-            <CubColorLegend cubs={family.cubs} />
-          </div>
-        ) : null}
-      </div>
+  const totalPhoneToday = cubRewardSummaries.reduce(
+    (sum, row) => sum + row.summary.phoneMinutesAvailableToday,
+    0,
+  );
+  const totalFocusThisWeek = weeklyProgress?.householdTotals.focusMinutes ?? 0;
 
-      <Card className="flex flex-wrap items-center justify-between gap-4 bg-amber-50/60 dark:bg-amber-950/20">
+  const nextAction = getTodayNextAction({
+    pendingReview,
+    cubsCount: family.cubs.length,
+    activeTasksCount: activeTasks.length,
+    sentBackCount,
+    inProgressWithFocus: focusInProgress
+      ? {
+          title: focusInProgress.title,
+          href: focusInProgress.cubId
+            ? `/dashboard/cubs/${focusInProgress.cubId}/tasks`
+            : `/dashboard/tasks/${focusInProgress.id}`,
+        }
+      : null,
+    familyDayPending:
+      family.cubs.length > 0 && !councilDaySession?.conductedAt && !councilDaySession?.id,
+    familyDayInProgress:
+      Boolean(councilDaySession?.id) && !councilDaySession?.conductedAt,
+    weekQuery,
+  });
+
+  const greeting = session.user.name
+    ? `Welcome back, ${session.user.name.split(" ")[0]}`
+    : "Welcome back";
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        title="Today"
+        subtitle={`Today's Code · ${weekLabel}`}
+      />
+      <p className="-mt-4 text-sm text-zinc-500">{greeting}</p>
+
+      <Card
+        variant={nextAction.priority === "urgent" ? "accent" : "default"}
+        className="space-y-4"
+      >
         <div>
-          <h2 className="text-lg font-semibold">Task loop</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            {pendingReview > 0
-              ? `${pendingReview} task${pendingReview === 1 ? "" : "s"} waiting for your review.`
-              : "No tasks waiting for review."}
+          <p className="text-xs font-semibold uppercase tracking-wide text-amber-500">
+            Next up
+          </p>
+          <h2 className="mt-1 text-xl font-bold text-zinc-50">
+            {nextAction.title}
+          </h2>
+          <p className="mt-2 text-sm text-zinc-400">
+            {nextAction.description}
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/dashboard/tasks">
-            <Button variant="secondary">Task Board</Button>
-          </Link>
-          <Link href="/dashboard/tasks/review">
-            <Button>Review queue</Button>
-          </Link>
-        </div>
+        <Link href={nextAction.href}>
+          <Button fullWidth size="lg">
+            {nextAction.buttonLabel}
+          </Button>
+        </Link>
       </Card>
 
-      {weeklyProgress ? (
-        <WeeklyProgressDashboard
-          progress={weeklyProgress}
-          weekQuery={weekQuery}
-          compact
-        />
+      {family.cubs.length > 0 ? (
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <StatCard
+            label="Needs review"
+            value={String(pendingReview)}
+            detail={pendingReview > 0 ? "Waiting for you" : "All caught up"}
+            highlight={pendingReview > 0 ? "amber" : undefined}
+          />
+          <StatCard
+            label="Active tasks"
+            value={String(inProgressCount)}
+            detail="Claimed or in progress"
+          />
+          <StatCard
+            label="Phone time today"
+            value={formatMinutes(totalPhoneToday)}
+            detail="Available across Cubs"
+          />
+          <StatCard
+            label="Focus this week"
+            value={`${totalFocusThisWeek} min`}
+            detail="Logged focus blocks"
+          />
+        </div>
       ) : null}
 
-      {family.cubs.length > 0 ? (
-        <Card
-          className={
-            councilDaySession?.conductedAt
-              ? "border-emerald-200 bg-emerald-50/50 dark:border-emerald-900 dark:bg-emerald-950/20"
-              : "border-violet-200 bg-violet-50/50 dark:border-violet-900 dark:bg-violet-950/20"
-          }
-        >
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-semibold">{FAMILY_DAY_LABEL}</h2>
-              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                {councilDaySession?.conductedAt
-                  ? `Completed for ${weekLabel}.`
-                  : councilDaySession
-                    ? `Started for ${weekLabel} — finish reflections and credit bonuses.`
-                    : `Weekly check-in for ${weekLabel} is ready when you are.`}
-              </p>
-            </div>
+      {sortedActiveTasks.length > 0 ? (
+        <section className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-lg font-semibold text-zinc-100">Active now</h2>
             <Link
-              href={`/dashboard/family-day?week=${formatWeekParam(weekStartsOn)}`}
+              href="/dashboard/tasks#active"
+              className="text-sm font-medium text-amber-500"
             >
-              <Button variant={councilDaySession?.conductedAt ? "secondary" : "primary"}>
-                {councilDaySession?.conductedAt
-                  ? `View ${FAMILY_DAY_LABEL}`
-                  : councilDaySession
-                    ? `Continue ${FAMILY_DAY_LABEL}`
-                    : `Run ${FAMILY_DAY_LABEL}`}
-              </Button>
+              All tasks →
             </Link>
           </div>
-        </Card>
-      ) : null}
-
-      <Card>
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-semibold">Active tasks</h2>
-            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-              Assigned work across the household, with due dates and days left or
-              overdue.
-            </p>
-          </div>
-          <Link href="/dashboard/tasks">
-            <Button variant="secondary">Task Board</Button>
-          </Link>
-        </div>
-
-        {sortedActiveTasks.length === 0 ? (
-          <p className="mt-4 text-sm text-zinc-500">
-            No active tasks right now. Assign work from the task board or a
-            Cub&apos;s task page.
-          </p>
-        ) : (
-          <ul className="mt-4 space-y-3">
+          <ul className="space-y-3">
             {sortedActiveTasks.map((task) => (
-              <li
-                key={task.id}
-                className={`rounded-lg border border-zinc-200 px-3 py-3 transition dark:border-zinc-800 ${cubAccentClassNames(task.cub?.id, { border: true, rowHover: true })}`}
-              >
-                <Link href={`/dashboard/tasks/${task.id}`} className="block">
+              <li key={task.id}>
+                <Link
+                  href={`/dashboard/tasks/${task.id}`}
+                  className={`block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-zinc-700 ${cubAccentClassNames(task.cub?.id, { border: true })}`}
+                >
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-medium">{task.title}</span>
-                    <TaskStatusBadge status={task.status} />
-                    <TaskScheduleBadge task={task} />
+                    <span className="font-medium text-zinc-100">
+                      {task.title}
+                    </span>
+                    <StatusBadge status={task.status} />
                   </div>
                   <TaskScheduleDisplay task={task} compact className="mt-1" />
+                  {task.cub ? (
+                    <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-zinc-400">
+                      <CubColorDot cubId={task.cub.id} />
+                      {task.cub.displayName}
+                    </p>
+                  ) : null}
                 </Link>
-                {task.cub ? (
-                  <p className="mt-2 text-sm">
-                    <CubColorBadge
-                      cubId={task.cub.id}
-                      displayName={task.cub.displayName}
-                    />
-                  </p>
-                ) : null}
               </li>
             ))}
           </ul>
-        )}
-      </Card>
+        </section>
+      ) : null}
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <h2 className="text-lg font-semibold">Family</h2>
-          <dl className="mt-4 space-y-2 text-sm">
-            <Row label="Name" value={family.name ?? "Not set"} />
-            <Row
-              label="Daily phone cap"
-              value={`${family.dailyPhoneCapMinutes} min`}
-            />
-            <Row
-              label="Weekend bank cap"
-              value={`${family.weekendBankCapMinutes} min`}
-            />
-            <Row
-              label="Exchange rate"
-              value={`${family.exchangeFocusMinutes} min focus → ${family.exchangePhoneMinutes} min phone`}
-            />
-          </dl>
-          <Link href="/dashboard/family/settings" className="mt-4 inline-block">
-            <Button variant="secondary">Edit household rules</Button>
-          </Link>
-        </Card>
-
-        <Card>
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold">Cubs</h2>
-            <Link href="/dashboard/cubs/new">
-              <Button>Add Cub</Button>
+      {family.cubs.length > 0 ? (
+        <section className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-lg font-semibold text-zinc-100">Your Cubs</h2>
+            <Link
+              href="/dashboard/cubs"
+              className="text-sm font-medium text-amber-500"
+            >
+              All Cubs →
             </Link>
           </div>
-
-          {family.cubs.length === 0 ? (
-            <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">
-              Add a Cub before assigning tasks from the board.
-            </p>
-          ) : (
-            <ul className="mt-4 space-y-3">
-              {family.cubs.map((cub) => {
-                const assignedCount = assignedCountByCubId.get(cub.id) ?? 0;
-                const rewards = rewardSummaryByCubId.get(cub.id);
-
-                return (
-                <li
+          <div className="grid gap-4 md:grid-cols-2">
+            {cubRewardSummaries.map(
+              ({ cub, summary, activeCount, assignedCount }) => (
+                <CubCard
                   key={cub.id}
-                  className={`flex items-start justify-between gap-3 rounded-lg border border-zinc-200 px-3 py-2 transition dark:border-zinc-800 ${cubAccentClassNames(cub.id, { border: true, rowHover: true })}`}
-                >
-                  <div className="min-w-0 flex-1">
-                    <Link
-                      href={`/dashboard/cubs/${cub.id}/tasks`}
-                      className="block"
-                    >
-                      <p className="inline-flex items-center gap-1.5 font-medium text-zinc-900 dark:text-zinc-100">
-                        <CubColorDot cubId={cub.id} />
-                        {cub.displayName}
-                      </p>
-                      <p className="text-sm text-zinc-500">
-                        {formatAgeBand(cub.ageBand)}
-                      </p>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                        {assignedCount === 0
-                          ? "No tasks assigned"
-                          : `${assignedCount} task${assignedCount === 1 ? "" : "s"} assigned`}
-                      </p>
-                      {rewards ? (
-                        <p className="mt-1 text-xs text-zinc-500">
-                          {rewards.totalXp} XP · {rewards.totalFocusTokens} tokens ·{" "}
-                          {formatMinutes(rewards.phoneMinutesAvailableToday)} phone today ·{" "}
-                          {rewards.rank.current.name}
-                        </p>
-                      ) : null}
-                    </Link>
-                    <div className="mt-2">
-                      <CubLedgerTimeline
-                        cubId={cub.id}
-                        entries={ledgerEntriesByCubId.get(cub.id) ?? []}
-                        emptyMessage="No task history yet."
-                      />
-                    </div>
-                  </div>
-                  <div className="flex shrink-0 flex-wrap items-center gap-2">
-                    <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
-                      <Button
-                        variant="secondary"
-                        className="rounded-md px-2.5 py-1 text-xs"
-                      >
-                        Assign task
-                      </Button>
-                    </Link>
-                    <Link
-                      href={`/dashboard/cubs/${cub.id}/progress`}
-                      className="text-sm font-medium text-amber-700"
-                    >
-                      Progress
-                    </Link>
-                    <Link
-                      href={`/dashboard/cubs/${cub.id}/tasks`}
-                      className="text-sm font-medium text-amber-700"
-                    >
-                      Tasks
-                    </Link>
-                    <Link
-                      href={`/dashboard/cubs/${cub.id}/edit`}
-                      className="text-sm font-medium text-zinc-500"
-                    >
-                      Edit
-                    </Link>
-                  </div>
-                </li>
-                );
-              })}
-            </ul>
-          )}
-        </Card>
-      </div>
-    </div>
-  );
-}
+                  cub={cub}
+                  assignedCount={assignedCount}
+                  activeCount={activeCount}
+                  rewards={summary}
+                />
+              ),
+            )}
+          </div>
+        </section>
+      ) : null}
 
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex justify-between gap-4">
-      <dt className="text-zinc-500">{label}</dt>
-      <dd className="font-medium text-zinc-900 dark:text-zinc-100">{value}</dd>
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold text-zinc-100">Quick links</h2>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {family.cubs.length === 1 ? (
+            <ActionTile
+              href={`/cub/${family.cubs[0]!.id}`}
+              label={`${family.cubs[0]!.displayName}'s view`}
+              description="Hand device to Cub"
+            />
+          ) : family.cubs.length > 1 ? (
+            <ActionTile
+              href="/cub"
+              label="Cub view"
+              description="Pick who is using the device"
+            />
+          ) : null}
+          <ActionTile
+            href={`/dashboard/week?week=${weekQuery}`}
+            label="This week"
+            description={
+              weeklyProgress
+                ? `${weeklyProgress.householdTotals.completedTasks} tasks approved`
+                : weekLabel
+            }
+          />
+          {family.cubs.length > 0 ? (
+            <ActionTile
+              href={`/dashboard/family-day?week=${weekQuery}`}
+              label={FAMILY_DAY_LABEL}
+              description={
+                councilDaySession?.conductedAt
+                  ? "Completed this week"
+                  : "Weekly reflection"
+              }
+            />
+          ) : null}
+          <ActionTile
+            href="/dashboard/rewards"
+            label="Reward Store"
+            description="Redeem Focus Tokens"
+          />
+          <ActionTile
+            href="/dashboard/tasks/templates"
+            label="Task templates"
+            description="Reusable household tasks"
+          />
+        </div>
+      </section>
     </div>
   );
 }

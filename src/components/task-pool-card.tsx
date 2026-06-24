@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AssignTaskForm } from "@/components/assign-task-form";
-import { TaskStatusBadge } from "@/components/task-status-badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { deleteAvailableTaskAction } from "@/lib/actions/tasks";
@@ -16,53 +16,56 @@ type TaskPoolCardProps = {
 export function TaskPoolCard({ task, cubs }: TaskPoolCardProps) {
   return (
     <Card>
-      <div className="flex flex-wrap items-start justify-between gap-3">
+      <div className="space-y-4">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Link
               href={`/dashboard/tasks/${task.id}`}
-              className="font-medium hover:text-amber-700"
+              className="text-lg font-semibold text-zinc-50 hover:text-amber-400"
             >
               {task.title}
             </Link>
-            <TaskStatusBadge status={task.status} />
+            <StatusBadge status={task.status} />
           </div>
           {task.description ? (
-            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-              {task.description}
-            </p>
+            <p className="mt-2 text-sm text-zinc-400">{task.description}</p>
           ) : null}
           <p className="mt-1 text-sm text-zinc-500">
             {formatTaskCategory(task.category, {
               subcategory: task.subcategory,
               growthCategory: task.growthCategory,
             })}{" "}
-            · {formatProofType(task.proofType)} · Cub rewards apply when assigned
+            · {formatProofType(task.proofType)}
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link href={`/dashboard/tasks/${task.id}`}>
-            <Button variant="secondary">View</Button>
-          </Link>
-          <Link href={`/dashboard/tasks/${task.id}/edit`}>
-            <Button variant="secondary">Edit</Button>
-          </Link>
-        </div>
-      </div>
-      <div className="mt-4 space-y-3">
-        <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
-          <p className="text-sm font-medium">Assign to Cub</p>
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
+          <p className="text-sm font-medium text-zinc-200">Assign to Cub</p>
           <div className="mt-3">
             <AssignTaskForm taskId={task.id} cubs={cubs} />
           </div>
         </div>
+
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Link href={`/dashboard/tasks/${task.id}`} className="flex-1">
+            <Button variant="secondary" fullWidth size="lg">
+              View details
+            </Button>
+          </Link>
+          <Link href={`/dashboard/tasks/${task.id}/edit`} className="flex-1">
+            <Button variant="secondary" fullWidth size="lg">
+              Edit
+            </Button>
+          </Link>
+        </div>
+
         <form
           action={async () => {
             "use server";
             await deleteAvailableTaskAction(task.id);
           }}
         >
-          <Button type="submit" variant="danger">
+          <Button type="submit" variant="danger" fullWidth size="lg">
             Delete from board
           </Button>
         </form>

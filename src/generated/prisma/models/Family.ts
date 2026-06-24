@@ -47,6 +47,7 @@ export type FamilyMinAggregateOutputType = {
   weekendBankCapMinutes: number | null
   exchangeFocusMinutes: number | null
   exchangePhoneMinutes: number | null
+  parentPinHash: string | null
   createdAt: Date | null
   updatedAt: Date | null
   ownerId: string | null
@@ -59,6 +60,7 @@ export type FamilyMaxAggregateOutputType = {
   weekendBankCapMinutes: number | null
   exchangeFocusMinutes: number | null
   exchangePhoneMinutes: number | null
+  parentPinHash: string | null
   createdAt: Date | null
   updatedAt: Date | null
   ownerId: string | null
@@ -71,6 +73,7 @@ export type FamilyCountAggregateOutputType = {
   weekendBankCapMinutes: number
   exchangeFocusMinutes: number
   exchangePhoneMinutes: number
+  parentPinHash: number
   createdAt: number
   updatedAt: number
   ownerId: number
@@ -99,6 +102,7 @@ export type FamilyMinAggregateInputType = {
   weekendBankCapMinutes?: true
   exchangeFocusMinutes?: true
   exchangePhoneMinutes?: true
+  parentPinHash?: true
   createdAt?: true
   updatedAt?: true
   ownerId?: true
@@ -111,6 +115,7 @@ export type FamilyMaxAggregateInputType = {
   weekendBankCapMinutes?: true
   exchangeFocusMinutes?: true
   exchangePhoneMinutes?: true
+  parentPinHash?: true
   createdAt?: true
   updatedAt?: true
   ownerId?: true
@@ -123,6 +128,7 @@ export type FamilyCountAggregateInputType = {
   weekendBankCapMinutes?: true
   exchangeFocusMinutes?: true
   exchangePhoneMinutes?: true
+  parentPinHash?: true
   createdAt?: true
   updatedAt?: true
   ownerId?: true
@@ -222,6 +228,7 @@ export type FamilyGroupByOutputType = {
   weekendBankCapMinutes: number
   exchangeFocusMinutes: number
   exchangePhoneMinutes: number
+  parentPinHash: string | null
   createdAt: Date
   updatedAt: Date
   ownerId: string
@@ -257,6 +264,7 @@ export type FamilyWhereInput = {
   weekendBankCapMinutes?: Prisma.IntFilter<"Family"> | number
   exchangeFocusMinutes?: Prisma.IntFilter<"Family"> | number
   exchangePhoneMinutes?: Prisma.IntFilter<"Family"> | number
+  parentPinHash?: Prisma.StringNullableFilter<"Family"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Family"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Family"> | Date | string
   ownerId?: Prisma.StringFilter<"Family"> | string
@@ -275,6 +283,7 @@ export type FamilyOrderByWithRelationInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   exchangeFocusMinutes?: Prisma.SortOrder
   exchangePhoneMinutes?: Prisma.SortOrder
+  parentPinHash?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -297,6 +306,7 @@ export type FamilyWhereUniqueInput = Prisma.AtLeast<{
   weekendBankCapMinutes?: Prisma.IntFilter<"Family"> | number
   exchangeFocusMinutes?: Prisma.IntFilter<"Family"> | number
   exchangePhoneMinutes?: Prisma.IntFilter<"Family"> | number
+  parentPinHash?: Prisma.StringNullableFilter<"Family"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Family"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Family"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -314,6 +324,7 @@ export type FamilyOrderByWithAggregationInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   exchangeFocusMinutes?: Prisma.SortOrder
   exchangePhoneMinutes?: Prisma.SortOrder
+  parentPinHash?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -334,6 +345,7 @@ export type FamilyScalarWhereWithAggregatesInput = {
   weekendBankCapMinutes?: Prisma.IntWithAggregatesFilter<"Family"> | number
   exchangeFocusMinutes?: Prisma.IntWithAggregatesFilter<"Family"> | number
   exchangePhoneMinutes?: Prisma.IntWithAggregatesFilter<"Family"> | number
+  parentPinHash?: Prisma.StringNullableWithAggregatesFilter<"Family"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Family"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Family"> | Date | string
   ownerId?: Prisma.StringWithAggregatesFilter<"Family"> | string
@@ -346,6 +358,7 @@ export type FamilyCreateInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutFamilyInput
@@ -363,6 +376,7 @@ export type FamilyUncheckedCreateInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -380,6 +394,7 @@ export type FamilyUpdateInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
@@ -397,6 +412,7 @@ export type FamilyUncheckedUpdateInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -414,6 +430,7 @@ export type FamilyCreateManyInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -426,6 +443,7 @@ export type FamilyUpdateManyMutationInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -437,6 +455,7 @@ export type FamilyUncheckedUpdateManyInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -454,6 +473,7 @@ export type FamilyCountOrderByAggregateInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   exchangeFocusMinutes?: Prisma.SortOrder
   exchangePhoneMinutes?: Prisma.SortOrder
+  parentPinHash?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -473,6 +493,7 @@ export type FamilyMaxOrderByAggregateInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   exchangeFocusMinutes?: Prisma.SortOrder
   exchangePhoneMinutes?: Prisma.SortOrder
+  parentPinHash?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -485,6 +506,7 @@ export type FamilyMinOrderByAggregateInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   exchangeFocusMinutes?: Prisma.SortOrder
   exchangePhoneMinutes?: Prisma.SortOrder
+  parentPinHash?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -619,6 +641,7 @@ export type FamilyCreateWithoutOwnerInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
@@ -635,6 +658,7 @@ export type FamilyUncheckedCreateWithoutOwnerInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
@@ -667,6 +691,7 @@ export type FamilyUpdateWithoutOwnerInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
@@ -683,6 +708,7 @@ export type FamilyUncheckedUpdateWithoutOwnerInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
@@ -699,6 +725,7 @@ export type FamilyCreateWithoutCubsInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutFamilyInput
@@ -715,6 +742,7 @@ export type FamilyUncheckedCreateWithoutCubsInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -747,6 +775,7 @@ export type FamilyUpdateWithoutCubsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
@@ -763,6 +792,7 @@ export type FamilyUncheckedUpdateWithoutCubsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -779,6 +809,7 @@ export type FamilyCreateWithoutCouncilDaySessionsInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutFamilyInput
@@ -795,6 +826,7 @@ export type FamilyUncheckedCreateWithoutCouncilDaySessionsInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -827,6 +859,7 @@ export type FamilyUpdateWithoutCouncilDaySessionsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
@@ -843,6 +876,7 @@ export type FamilyUncheckedUpdateWithoutCouncilDaySessionsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -859,6 +893,7 @@ export type FamilyCreateWithoutTaskTemplatesInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutFamilyInput
@@ -875,6 +910,7 @@ export type FamilyUncheckedCreateWithoutTaskTemplatesInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -907,6 +943,7 @@ export type FamilyUpdateWithoutTaskTemplatesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
@@ -923,6 +960,7 @@ export type FamilyUncheckedUpdateWithoutTaskTemplatesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -939,6 +977,7 @@ export type FamilyCreateWithoutTasksInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutFamilyInput
@@ -955,6 +994,7 @@ export type FamilyUncheckedCreateWithoutTasksInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -987,6 +1027,7 @@ export type FamilyUpdateWithoutTasksInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
@@ -1003,6 +1044,7 @@ export type FamilyUncheckedUpdateWithoutTasksInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1019,6 +1061,7 @@ export type FamilyCreateWithoutRewardStoreItemsInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutFamilyInput
@@ -1035,6 +1078,7 @@ export type FamilyUncheckedCreateWithoutRewardStoreItemsInput = {
   weekendBankCapMinutes?: number
   exchangeFocusMinutes?: number
   exchangePhoneMinutes?: number
+  parentPinHash?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -1067,6 +1111,7 @@ export type FamilyUpdateWithoutRewardStoreItemsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
@@ -1083,6 +1128,7 @@ export type FamilyUncheckedUpdateWithoutRewardStoreItemsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1166,6 +1212,7 @@ export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   weekendBankCapMinutes?: boolean
   exchangeFocusMinutes?: boolean
   exchangePhoneMinutes?: boolean
+  parentPinHash?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
@@ -1185,6 +1232,7 @@ export type FamilySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   weekendBankCapMinutes?: boolean
   exchangeFocusMinutes?: boolean
   exchangePhoneMinutes?: boolean
+  parentPinHash?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
@@ -1198,6 +1246,7 @@ export type FamilySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   weekendBankCapMinutes?: boolean
   exchangeFocusMinutes?: boolean
   exchangePhoneMinutes?: boolean
+  parentPinHash?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
@@ -1211,12 +1260,13 @@ export type FamilySelectScalar = {
   weekendBankCapMinutes?: boolean
   exchangeFocusMinutes?: boolean
   exchangePhoneMinutes?: boolean
+  parentPinHash?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
 }
 
-export type FamilyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "dailyPhoneCapMinutes" | "weekendBankCapMinutes" | "exchangeFocusMinutes" | "exchangePhoneMinutes" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["family"]>
+export type FamilyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "dailyPhoneCapMinutes" | "weekendBankCapMinutes" | "exchangeFocusMinutes" | "exchangePhoneMinutes" | "parentPinHash" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["family"]>
 export type FamilyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   cubs?: boolean | Prisma.Family$cubsArgs<ExtArgs>
@@ -1250,6 +1300,7 @@ export type $FamilyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     weekendBankCapMinutes: number
     exchangeFocusMinutes: number
     exchangePhoneMinutes: number
+    parentPinHash: string | null
     createdAt: Date
     updatedAt: Date
     ownerId: string
@@ -1688,6 +1739,7 @@ export interface FamilyFieldRefs {
   readonly weekendBankCapMinutes: Prisma.FieldRef<"Family", 'Int'>
   readonly exchangeFocusMinutes: Prisma.FieldRef<"Family", 'Int'>
   readonly exchangePhoneMinutes: Prisma.FieldRef<"Family", 'Int'>
+  readonly parentPinHash: Prisma.FieldRef<"Family", 'String'>
   readonly createdAt: Prisma.FieldRef<"Family", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Family", 'DateTime'>
   readonly ownerId: Prisma.FieldRef<"Family", 'String'>

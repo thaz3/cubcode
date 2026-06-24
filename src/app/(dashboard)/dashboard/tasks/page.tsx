@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TaskBoardNav } from "@/components/task-board-nav";
 import { TaskBoardWorkflow } from "@/components/task-board-workflow";
 import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getTaskBoardSectionCounts } from "@/lib/task-board-sections";
@@ -26,27 +27,27 @@ export default async function TaskBoardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="sticky top-0 z-10 -mx-4 border-b border-zinc-200 bg-white/95 px-4 pb-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
-        <div className="flex flex-wrap items-start justify-between gap-4 pt-1">
-          <div>
-            <h1 className="text-3xl font-bold">Assignment board</h1>
-            <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">
-              Track tasks from creation through completion. Use the{" "}
-              <Link href="/dashboard/tasks/templates" className="text-amber-700">
-                template board
-              </Link>{" "}
-              to build reusable tasks, then assign them here.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/dashboard/tasks/templates">
-              <Button variant="secondary">Template board</Button>
-            </Link>
+      <PageHeader
+        title="Tasks"
+        subtitle="Available, active, and completed work for your household."
+        action={
+          pendingReviewCount > 0 ? (
             <Link href="/dashboard/tasks/review">
-              <Button>Review queue</Button>
+              <Button size="lg">
+                Review ({pendingReviewCount})
+              </Button>
             </Link>
-          </div>
-        </div>
+          ) : (
+            <Link href="/dashboard/tasks/templates">
+              <Button variant="secondary" size="lg">
+                Templates
+              </Button>
+            </Link>
+          )
+        }
+      />
+
+      <div className="sticky top-14 z-10 -mx-4 border-b border-zinc-800 bg-zinc-950/95 px-4 pb-3 backdrop-blur lg:top-16">
         <TaskBoardNav counts={sectionCounts} />
       </div>
 

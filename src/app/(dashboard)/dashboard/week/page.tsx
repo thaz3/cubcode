@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { WeeklyProgressDashboard } from "@/components/weekly-progress-dashboard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import {
   formatWeekLabel,
@@ -43,18 +44,13 @@ export default async function WeekProgressPage({
   );
 
   return (
-    <div className="space-y-8">
-      <div>
-        <p className="text-sm font-medium text-sky-700 dark:text-sky-400">
-          Milestone 4 · Weekly progress
-        </p>
-        <h1 className="mt-1 text-3xl font-bold">Weekly progress</h1>
-        <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">
-          Household snapshot for the week — tasks, focus, rewards earned, and
-          Family Day status. Use this to see whether the loop is working before
-          you reflect together.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        title="This week"
+        subtitle="Household snapshot — tasks, focus, rewards, and Family Day."
+        backHref="/dashboard"
+        backLabel="Today"
+      />
 
       <Card className="flex flex-wrap items-center justify-between gap-4">
         <div>

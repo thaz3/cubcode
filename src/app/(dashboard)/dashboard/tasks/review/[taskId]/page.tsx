@@ -3,8 +3,9 @@ import { ChecklistDisplay } from "@/components/checklist-display";
 import { CubLink } from "@/components/cub-link";
 import { OverduePenaltyNotice } from "@/components/overdue-penalty-notice";
 import { TaskReviewForm } from "@/components/task-review-form";
-import { TaskStatusBadge } from "@/components/task-status-badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { getTaskChecklistItems } from "@/lib/tasks";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
@@ -45,47 +46,47 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <Link href="/dashboard/tasks/review" className="text-sm font-medium text-amber-700">
-          ← Review queue
-        </Link>
-        <h1 className="mt-2 text-3xl font-bold">{task.title}</h1>
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          <TaskStatusBadge status={task.status} />
-          {task.cub ? (
-            <CubLink
-              cubId={task.cub.id}
-              displayName={task.cub.displayName}
-              className="text-sm text-zinc-500 hover:text-amber-700 dark:hover:text-amber-400"
-            />
-          ) : (
-            <span className="text-sm text-zinc-500">Unknown Cub</span>
-          )}
-        </div>
+      <PageHeader
+        title={task.title}
+        subtitle="Review proof and decide"
+        backHref="/dashboard/tasks/review"
+        backLabel="Review"
+      />
+      <div className="flex flex-wrap items-center gap-2">
+        <StatusBadge status={task.status} />
+        {task.cub ? (
+          <CubLink
+            cubId={task.cub.id}
+            displayName={task.cub.displayName}
+            className="text-sm text-zinc-400 hover:text-amber-400"
+          />
+        ) : (
+          <span className="text-sm text-zinc-500">Unknown Cub</span>
+        )}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
         <Card className="space-y-4">
-          <h2 className="text-lg font-semibold">Submission</h2>
+          <h2 className="text-lg font-semibold text-zinc-100">Submission</h2>
           {task.description ? (
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">{task.description}</p>
+            <p className="text-sm text-zinc-400">{task.description}</p>
           ) : null}
           <p className="text-sm text-zinc-500">
             {formatTaskCategory(task.category, {
               subcategory: task.subcategory,
               growthCategory: task.growthCategory,
             })}{" "}
-            · Proof type: {formatProofType(task.proofType)}
+            · Proof: {formatProofType(task.proofType)}
           </p>
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-amber-500/90">
             On approval: {formatTaskRewards(task)}
           </p>
           {submittedLate ? <OverduePenaltyNotice variant="info" /> : null}
 
           {task.proofPrompt ? (
             <div>
-              <h3 className="text-sm font-medium">Instructions given</h3>
-              <p className="mt-1 text-sm whitespace-pre-wrap text-zinc-600 dark:text-zinc-400">
+              <h3 className="text-sm font-medium text-zinc-300">Instructions</h3>
+              <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-400">
                 {task.proofPrompt}
               </p>
             </div>
@@ -93,19 +94,21 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
 
           {task.reflection ? (
             <div>
-              <h3 className="text-sm font-medium">Reflection / notes</h3>
-              <p className="mt-1 text-sm whitespace-pre-wrap">{task.reflection}</p>
+              <h3 className="text-sm font-medium text-zinc-300">Reflection</h3>
+              <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-200">
+                {task.reflection}
+              </p>
             </div>
           ) : null}
 
           {task.proofLink ? (
             <div>
-              <h3 className="text-sm font-medium">Share link</h3>
+              <h3 className="text-sm font-medium text-zinc-300">Share link</h3>
               <a
                 href={task.proofLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1 block text-sm text-amber-700 break-all"
+                className="mt-1 block break-all text-sm text-amber-500"
               >
                 {task.proofLink}
               </a>
@@ -113,8 +116,9 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
           ) : null}
 
           {task.timeLoggedMinutes != null ? (
-            <p className="text-sm">
-              Time logged: <strong>{task.timeLoggedMinutes} min</strong>
+            <p className="text-sm text-zinc-400">
+              Time logged:{" "}
+              <strong className="text-zinc-200">{task.timeLoggedMinutes} min</strong>
             </p>
           ) : null}
 
@@ -124,8 +128,8 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
 
           {task.focusBlocks.length > 0 ? (
             <div>
-              <h3 className="text-sm font-medium">Focus Blocks</h3>
-              <ul className="mt-2 space-y-1 text-sm text-zinc-600">
+              <h3 className="text-sm font-medium text-zinc-300">Focus Blocks</h3>
+              <ul className="mt-2 space-y-1 text-sm text-zinc-400">
                 {task.focusBlocks.map((block) => (
                   <li key={block.id}>
                     {block.durationMinutes} min ·{" "}
@@ -138,18 +142,31 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
           ) : null}
         </Card>
 
-        <Card>
+        <div>
           {task.status === "SUBMITTED" ? (
-            <TaskReviewForm taskId={task.id} />
+            <Card>
+              <h2 className="mb-4 text-lg font-semibold text-zinc-100">
+                Your decision
+              </h2>
+              <TaskReviewForm taskId={task.id} />
+            </Card>
           ) : (
-            <div className="space-y-2 text-sm">
-              <p>This task is no longer awaiting review.</p>
-              {task.reviewNote ? (
-                <p className="text-zinc-600">Parent note: {task.reviewNote}</p>
-              ) : null}
-            </div>
+            <Card>
+              <div className="space-y-2 text-sm text-zinc-400">
+                <p>This task is no longer awaiting review.</p>
+                {task.reviewNote ? (
+                  <p>Parent note: {task.reviewNote}</p>
+                ) : null}
+                <Link
+                  href="/dashboard/tasks/review"
+                  className="inline-block font-medium text-amber-500"
+                >
+                  Back to review inbox
+                </Link>
+              </div>
+            </Card>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

@@ -1511,6 +1511,7 @@ export const FamilyScalarFieldEnum = {
   weekendBankCapMinutes: 'weekendBankCapMinutes',
   exchangeFocusMinutes: 'exchangeFocusMinutes',
   exchangePhoneMinutes: 'exchangePhoneMinutes',
+  parentPinHash: 'parentPinHash',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   ownerId: 'ownerId'

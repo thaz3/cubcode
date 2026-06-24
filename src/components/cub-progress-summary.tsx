@@ -1,5 +1,6 @@
 import type { CubRewardSummary } from "@/lib/rewards";
 import { formatMinutes } from "@/lib/ledger-labels";
+import { StatCard } from "@/components/ui/stat-card";
 import { cn } from "@/lib/utils";
 
 type CubProgressSummaryProps = {
@@ -60,12 +61,12 @@ export function CubProgressSummary({
         <StatCard
           label="Earned from tasks"
           value={formatMinutes(summary.phoneMinutesFromTasksToday)}
-          detail="Phone time credited when you approve tasks"
+          detail="Credited when you approve tasks"
         />
         <StatCard
           label="Redeemed from store"
           value={formatMinutes(summary.phoneMinutesFromRedemptionsToday)}
-          detail="Phone time applied when Focus Tokens are redeemed"
+          detail="From Focus Token redemptions"
           highlight={
             summary.phoneMinutesFromRedemptionsToday > 0 ? "green" : undefined
           }
@@ -78,40 +79,9 @@ export function CubProgressSummary({
         <StatCard
           label="Parent note"
           value="Manual access"
-          detail={`C.U.B. Code calculates earned freedom for ${cubName}. You control the device.`}
+          detail={`Earned freedom for ${cubName}. You control the device.`}
         />
       </dl>
-    </div>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-  detail,
-  highlight,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  highlight?: "amber" | "green";
-}) {
-  return (
-    <div
-      className={cn(
-        "rounded-lg border p-3",
-        highlight === "amber" &&
-          "border-amber-200 bg-amber-50/50 dark:border-amber-900 dark:bg-amber-950/20",
-        highlight === "green" &&
-          "border-emerald-200 bg-emerald-50/50 dark:border-emerald-900 dark:bg-emerald-950/20",
-        !highlight && "border-zinc-200 dark:border-zinc-800",
-      )}
-    >
-      <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-        {label}
-      </dt>
-      <dd className="mt-1 text-xl font-semibold">{value}</dd>
-      <p className="mt-1 text-xs text-zinc-500">{detail}</p>
     </div>
   );
 }

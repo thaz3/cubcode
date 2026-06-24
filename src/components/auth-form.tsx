@@ -49,10 +49,10 @@ export function AuthForm({ mode }: AuthFormProps) {
       </div>
 
       {state.error ? (
-        <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>
+        <p className="text-sm text-red-400">{state.error}</p>
       ) : null}
 
-      <Button type="submit" className="w-full" disabled={isPending}>
+      <Button type="submit" fullWidth size="lg" disabled={isPending}>
         {isPending
           ? "Please wait..."
           : mode === "login"
@@ -60,18 +60,18 @@ export function AuthForm({ mode }: AuthFormProps) {
             : "Create parent account"}
       </Button>
 
-      <p className="text-center text-sm text-zinc-600 dark:text-zinc-400">
+      <p className="text-center text-sm text-zinc-400">
         {mode === "login" ? (
           <>
             New here?{" "}
-            <Link href="/signup" className="font-medium text-amber-700">
+            <Link href="/signup" className="font-medium text-amber-500">
               Create an account
             </Link>
           </>
         ) : (
           <>
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-amber-700">
+            <Link href="/login" className="font-medium text-amber-500">
               Log in
             </Link>
           </>

@@ -3,10 +3,11 @@ import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner
 import { AssignTaskToCubPanel } from "@/components/assign-task-to-cub-panel";
 import { CubColorBadge } from "@/components/cub-color-dot";
 import { FocusSessionTimer } from "@/components/focus-session-timer";
-import { TaskStatusBadge } from "@/components/task-status-badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { FocusBlockForm, TaskSubmitForm } from "@/components/task-workflow-forms";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { startTaskAction } from "@/lib/actions/tasks";
 import { auth } from "@/lib/auth";
@@ -82,23 +83,25 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <Link href="/dashboard/cubs" className="text-sm font-medium text-amber-700">
-            ← Cubs
-          </Link>
-          <h1 className="mt-2 text-3xl font-bold">{cub.displayName}&apos;s tasks</h1>
-          <div className="mt-2">
-            <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
+      <PageHeader
+        title={`${cub.displayName} — parent`}
+        subtitle="Assign tasks, log focus, and submit on their behalf."
+        backHref="/dashboard/cubs"
+        backLabel="Cubs"
+        action={
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Link href={`/cub/${cub.id}`}>
+              <Button variant="secondary" size="lg">
+                Cub view
+              </Button>
+            </Link>
+            <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
+              <Button size="lg">Assign task</Button>
+            </Link>
           </div>
-          <p className="mt-2 text-amber-800 dark:text-amber-300">
-            Parent-supervised · tasks are assigned by you, not chosen by the Cub
-          </p>
-        </div>
-        <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
-          <Button>Assign task</Button>
-        </Link>
-      </div>
+        }
+      />
+      <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
 
       <ActiveFocusTimersBanner
         cubName={cub.displayName}
@@ -220,7 +223,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                       >
                         {task.title}
                       </Link>
-                      <TaskStatusBadge status={task.status} />
+                      <StatusBadge status={task.status} />
                     <TaskScheduleBadge task={task} />
                     </div>
                     <TaskScheduleDisplay task={task} className="mt-1" />
@@ -276,7 +279,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                     }}
                     className="mt-4"
                   >
-                    <Button type="submit" variant="secondary">
+                    <Button type="submit" fullWidth size="lg" variant="secondary">
                       {task.status === "SENT_BACK"
                         ? "Start redo — focus timer runs until submit"
                         : "Start task — focus timer runs until submit"}

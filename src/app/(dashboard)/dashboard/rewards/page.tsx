@@ -1,6 +1,7 @@
 import { CreateRewardStoreItemForm } from "@/components/create-reward-store-item-form";
 import { RewardStoreRedeemPanel } from "@/components/reward-store-redeem-panel";
 import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/ui/page-header";
 import { seedRewardStoreForFamily } from "@/lib/actions/rewards";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -37,14 +38,13 @@ export default async function RewardsPage() {
   ]);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">Reward Store</h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-          Select a reward, choose which Cub redeems it, and confirm. You deliver
-          each reward in real life.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        title="Reward Store"
+        subtitle="Redeem Focus Tokens. You deliver each reward in real life."
+        backHref="/dashboard"
+        backLabel="Today"
+      />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>

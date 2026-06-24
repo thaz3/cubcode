@@ -1,10 +1,27 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
+import { NextResponse } from "next/server";
 
-export const { auth: middleware } = NextAuth(authConfig);
+const { auth } = NextAuth(authConfig);
 
-export default middleware;
+export default auth((req) => {
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set(
+    "x-pathname",
+    req.nextUrl.pathname + req.nextUrl.search,
+  );
+
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
+});
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/signup"],
+  matcher: [
+    "/dashboard/:path*",
+    "/cub/:path*",
+    "/parent/:path*",
+    "/login",
+    "/signup",
+  ],
 };

@@ -37,27 +37,33 @@ export function TaskReviewForm({ taskId }: TaskReviewFormProps) {
     sendBackState.error;
 
   return (
-    <div className="space-y-6">
-      <form action={approveAction} className="space-y-3 rounded-lg border border-green-200 p-4 dark:border-green-900">
+    <div className="space-y-4">
+      <form
+        action={approveAction}
+        className="space-y-3 rounded-2xl border border-emerald-900/60 bg-emerald-950/20 p-4"
+      >
         <input type="hidden" name="taskId" value={taskId} />
-        <h3 className="font-medium text-green-800 dark:text-green-300">Approve</h3>
+        <h3 className="font-medium text-emerald-300">Approve</h3>
         <div>
           <Label htmlFor="approve-note">Note (optional)</Label>
           <textarea
             id="approve-note"
             name="reviewNote"
             rows={2}
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
           />
         </div>
-        <Button type="submit" disabled={approvePending}>
-          {approvePending ? "Approving..." : "Approve task"}
+        <Button type="submit" fullWidth size="lg" disabled={approvePending}>
+          {approvePending ? "Approving…" : "Approve"}
         </Button>
       </form>
 
-      <form action={sendBackAction} className="space-y-3 rounded-lg border border-orange-200 p-4 dark:border-orange-900">
+      <form
+        action={sendBackAction}
+        className="space-y-3 rounded-2xl border border-orange-900/60 bg-orange-950/20 p-4"
+      >
         <input type="hidden" name="taskId" value={taskId} />
-        <h3 className="font-medium text-orange-800 dark:text-orange-300">Send back</h3>
+        <h3 className="font-medium text-orange-300">Send back</h3>
         <div>
           <Label htmlFor="sendback-note">Note (required)</Label>
           <textarea
@@ -65,17 +71,26 @@ export function TaskReviewForm({ taskId }: TaskReviewFormProps) {
             name="reviewNote"
             rows={2}
             required
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
           />
         </div>
-        <Button type="submit" variant="secondary" disabled={sendBackPending}>
-          {sendBackPending ? "Sending..." : "Send back for revision"}
+        <Button
+          type="submit"
+          variant="secondary"
+          fullWidth
+          size="lg"
+          disabled={sendBackPending}
+        >
+          {sendBackPending ? "Sending…" : "Send back"}
         </Button>
       </form>
 
-      <form action={rejectAction} className="space-y-3 rounded-lg border border-red-200 p-4 dark:border-red-900">
+      <form
+        action={rejectAction}
+        className="space-y-3 rounded-2xl border border-red-900/60 bg-red-950/20 p-4"
+      >
         <input type="hidden" name="taskId" value={taskId} />
-        <h3 className="font-medium text-red-800 dark:text-red-300">Reject</h3>
+        <h3 className="font-medium text-red-300">Reject</h3>
         <div>
           <Label htmlFor="reject-note">Note (required)</Label>
           <textarea
@@ -83,11 +98,17 @@ export function TaskReviewForm({ taskId }: TaskReviewFormProps) {
             name="reviewNote"
             rows={2}
             required
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
           />
         </div>
-        <Button type="submit" variant="danger" disabled={rejectPending}>
-          {rejectPending ? "Rejecting..." : "Reject task"}
+        <Button
+          type="submit"
+          variant="danger"
+          fullWidth
+          size="lg"
+          disabled={rejectPending}
+        >
+          {rejectPending ? "Rejecting…" : "Reject"}
         </Button>
       </form>
 
@@ -97,8 +118,8 @@ export function TaskReviewForm({ taskId }: TaskReviewFormProps) {
             message.includes("approved") ||
             message.includes("sent back") ||
             message.includes("rejected")
-              ? "text-sm text-green-700"
-              : "text-sm text-red-600"
+              ? "text-sm text-emerald-400"
+              : "text-sm text-red-400"
           }
         >
           {message}

@@ -37,9 +37,10 @@ type TaskSubmitFormProps = {
     | "phoneMinutesEarned"
     | "focusMinutesEarned"
   >;
+  audience?: "parent" | "cub";
 };
 
-export function TaskSubmitForm({ task }: TaskSubmitFormProps) {
+export function TaskSubmitForm({ task, audience = "parent" }: TaskSubmitFormProps) {
   const [state, formAction, isPending] = useActionState(submitTaskAction, {});
   const logHint = getCategorySuggestions(task.category, {
     subcategory: task.subcategory,
@@ -66,18 +67,19 @@ export function TaskSubmitForm({ task }: TaskSubmitFormProps) {
         On approval: {formatTaskRewards(task)}
       </p>
       <p className="text-sm text-zinc-500">
-        Parent approval is required to earn XP, Focus Tokens, focus minutes, and
-        phone time.
+        {audience === "cub"
+          ? "Your parent approves work before you earn rewards."
+          : "Parent approval is required to earn XP, Focus Tokens, focus minutes, and phone time."}
       </p>
 
-      <ProofFields task={task} />
+      <ProofFields task={task} audience={audience} />
 
       {state.error ? <p className="text-sm text-red-600">{state.error}</p> : null}
       {state.success ? (
         <p className="text-sm text-green-700">{state.success}</p>
       ) : null}
 
-      <Button type="submit" disabled={isPending}>
+      <Button type="submit" fullWidth size="lg" disabled={isPending}>
         {isPending ? "Submitting..." : "Submit for review"}
       </Button>
     </form>
@@ -86,8 +88,10 @@ export function TaskSubmitForm({ task }: TaskSubmitFormProps) {
 
 function ProofFields({
   task,
+  audience = "parent",
 }: {
   task: TaskSubmitFormProps["task"];
+  audience?: "parent" | "cub";
 }) {
   const checklistItems = getTaskChecklistItems(task);
 
@@ -102,22 +106,24 @@ function ProofFields({
             {task.proofPrompt}
           </p>
         </div>
-        <ProofInput proofType={task.proofType} checklistItems={checklistItems} />
+        <ProofInput proofType={task.proofType} checklistItems={checklistItems} audience={audience} />
       </div>
     );
   }
 
   return (
-    <ProofInput proofType={task.proofType} checklistItems={checklistItems} />
+    <ProofInput proofType={task.proofType} checklistItems={checklistItems} audience={audience} />
   );
 }
 
 function ProofInput({
   proofType,
   checklistItems,
+  audience = "parent",
 }: {
   proofType: Task["proofType"];
   checklistItems: string[];
+  audience?: "parent" | "cub";
 }) {
   if (proofType === "PARENT_APPROVAL") {
     return (
@@ -128,7 +134,11 @@ function ProofInput({
           name="reflection"
           rows={3}
           className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-          placeholder="Optional note about completed work (parent-supervised)…"
+          placeholder={
+            audience === "cub"
+              ? "Anything you want your parent to know (optional)…"
+              : "Optional note about completed work (parent-supervised)…"
+          }
         />
       </div>
     );
@@ -137,15 +147,21 @@ function ProofInput({
   if (proofType === "SHORT_REFLECTION") {
     return (
       <div>
-        <Label htmlFor="reflection">Cub&apos;s reflection</Label>
+        <Label htmlFor="reflection">
+          {audience === "cub" ? "Your reflection" : "Cub's reflection"}
+        </Label>
         <textarea
           id="reflection"
           name="reflection"
           rows={4}
           required
           minLength={10}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-          placeholder="Type the Cub's answer here (parent-supervised)…"
+          className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
+          placeholder={
+            audience === "cub"
+              ? "What did you do? What did you learn?"
+              : "Type the Cub's answer here (parent-supervised)…"
+          }
         />
       </div>
     );
