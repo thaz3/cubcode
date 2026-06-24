@@ -5,23 +5,13 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { logoutAction } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
+import {
+  DASHBOARD_MORE_NAV_ITEMS,
+  DASHBOARD_PRIMARY_NAV_ITEMS,
+  isDashboardMoreNavActive,
+  isDashboardNavActive,
+} from "@/lib/dashboard-nav-items";
 import { cn } from "@/lib/utils";
-
-const PRIMARY_ITEMS = [
-  { href: "/dashboard", label: "Today" },
-  { href: "/dashboard/tasks", label: "Tasks" },
-  { href: "/dashboard/tasks/review", label: "Review" },
-  { href: "/dashboard/cubs", label: "Cubs" },
-  { href: "/dashboard/family/settings", label: "Settings" },
-];
-
-const MORE_ITEMS = [
-  { href: "/dashboard/week", label: "This week" },
-  { href: "/dashboard/family-day", label: "Family Day" },
-  { href: "/dashboard/rewards", label: "Reward Store" },
-  { href: "/dashboard/tasks/summer", label: "Summer tasks" },
-  { href: "/dashboard/tasks/templates", label: "Task templates" },
-];
 
 type DashboardNavProps = {
   pendingReviewCount?: number;
@@ -48,7 +38,7 @@ export function DashboardNav({
     setMoreOpen(false);
   }, [pathname]);
 
-  const moreActive = MORE_ITEMS.some((item) => isActive(pathname, item.href));
+  const moreActive = isDashboardMoreNavActive(pathname);
 
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur">
@@ -61,7 +51,7 @@ export function DashboardNav({
           className="hidden items-center gap-1 lg:flex"
           aria-label="Main navigation"
         >
-          {PRIMARY_ITEMS.map((item) => (
+          {DASHBOARD_PRIMARY_NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -94,13 +84,13 @@ export function DashboardNav({
             </button>
             {moreOpen ? (
               <div className="absolute right-0 top-full z-50 mt-1 min-w-44 rounded-xl border border-zinc-800 bg-zinc-900 py-1 shadow-lg">
-                {MORE_ITEMS.map((item) => (
+                {DASHBOARD_MORE_NAV_ITEMS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     className={cn(
                       "block px-4 py-2.5 text-sm transition hover:bg-zinc-800",
-                      isActive(pathname, item.href)
+                      isDashboardNavActive(pathname, item.href)
                         ? "text-amber-500"
                         : "text-zinc-300",
                     )}
@@ -138,28 +128,8 @@ export function DashboardNav({
   );
 }
 
-function isActive(pathname: string, href: string): boolean {
-  if (pathname === href) return true;
-  if (href === "/dashboard") return false;
-  if (href === "/dashboard/tasks") {
-    return (
-      pathname.startsWith("/dashboard/tasks/") &&
-      !pathname.startsWith("/dashboard/tasks/review") &&
-      !pathname.startsWith("/dashboard/tasks/summer") &&
-      !pathname.startsWith("/dashboard/tasks/templates")
-    );
-  }
-  if (href === "/dashboard/family-day") {
-    return (
-      pathname.startsWith("/dashboard/family-day") ||
-      pathname.startsWith("/dashboard/council-day")
-    );
-  }
-  return pathname.startsWith(`${href}/`) || pathname === href;
-}
-
 function navLinkClass(pathname: string, href: string) {
-  const active = isActive(pathname, href);
+  const active = isDashboardNavActive(pathname, href);
   return cn(
     "inline-flex min-h-10 items-center rounded-lg px-3 py-2 text-sm font-medium transition",
     active ? "text-amber-500" : "text-zinc-400 hover:text-zinc-100",
