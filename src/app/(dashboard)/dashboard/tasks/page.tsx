@@ -17,7 +17,10 @@ export default async function TaskBoardPage() {
   if (!family) redirect("/signup");
 
   const tasks = await db.task.findMany({
-    where: { familyId: family.id },
+    where: {
+      familyId: family.id,
+      status: { not: "AVAILABLE" },
+    },
     include: { cub: true },
     orderBy: [{ updatedAt: "desc" }],
   });
@@ -29,21 +32,20 @@ export default async function TaskBoardPage() {
     <div className="space-y-6">
       <PageHeader
         title="Tasks"
-        subtitle="Available, active, and completed work for your household."
+        subtitle="What you assigned, what's in progress, submitted, and completed."
         action={
-          pendingReviewCount > 0 ? (
-            <Link href="/dashboard/tasks/review">
-              <Button size="lg">
-                Review ({pendingReviewCount})
-              </Button>
-            </Link>
-          ) : (
-            <Link href="/dashboard/tasks/templates">
+          <div className="flex flex-wrap gap-2">
+            {pendingReviewCount > 0 ? (
+              <Link href="/dashboard/tasks/review">
+                <Button size="lg">Review ({pendingReviewCount})</Button>
+              </Link>
+            ) : null}
+            <Link href="/dashboard/tasks/library">
               <Button variant="secondary" size="lg">
-                Templates
+                Task library
               </Button>
             </Link>
-          )
+          </div>
         }
       />
 
@@ -53,7 +55,6 @@ export default async function TaskBoardPage() {
 
       <TaskBoardWorkflow
         tasks={tasks}
-        cubs={family.cubs}
         pendingReviewCount={pendingReviewCount}
       />
     </div>

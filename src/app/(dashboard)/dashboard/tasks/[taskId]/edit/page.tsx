@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AssignTaskForm } from "@/components/assign-task-form";
 import { CubLink } from "@/components/cub-link";
 import { TaskTemplateForm } from "@/components/task-template-form";
+import { TaskRewardFields } from "@/components/task-reward-fields";
 import { TaskStatusBadge } from "@/components/task-status-badge";
 import { Card } from "@/components/ui/card";
 import { updateTaskAction } from "@/lib/actions/tasks";
@@ -67,9 +68,7 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
         <Card className="text-sm text-zinc-600 dark:text-zinc-400">
           Assigned to{" "}
           <CubLink cubId={task.cub.id} displayName={task.cub.displayName} />.
-          Reward amounts
-          on this task were set when it was assigned; edit the Cub profile to
-          change default rewards for future tasks.
+          Adjust rewards below to match your household scale for this task.
         </Card>
       ) : null}
 
@@ -91,6 +90,16 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
           }}
           showDueDate={!isAvailable}
           initialDueDate={formatDueDateInputValue(task.dueAt, task.dueAtHasTime)}
+          rewardFields={
+            <TaskRewardFields
+              initialValues={{
+                focusMinutesEarned: task.focusMinutesEarned,
+                phoneMinutesEarned: task.phoneMinutesEarned,
+                xpEarned: task.xpEarned,
+                focusTokensEarned: task.focusTokensEarned,
+              }}
+            />
+          }
         />
       </Card>
 

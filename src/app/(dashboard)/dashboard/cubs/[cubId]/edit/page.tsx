@@ -2,6 +2,7 @@ import { CubForm } from "@/components/cub-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { deleteCubAction, updateCubAction } from "@/lib/actions/cub";
+import { parseRequiredGrowthCategories } from "@/lib/focus-growth";
 import { auth } from "@/lib/auth";
 import { getFamilyForUser } from "@/lib/session";
 import Link from "next/link";
@@ -60,6 +61,7 @@ export default async function EditCubPage({ params }: EditCubPageProps) {
             dailyPhoneCapMinutes: cub.dailyPhoneCapMinutes,
             weekendBankCapMinutes: cub.weekendBankCapMinutes,
             supervisionLevel: cub.supervisionLevel,
+            requiredGrowthCategories: parseRequiredGrowthCategories(cub),
           }}
           submitLabel="Save changes"
         />

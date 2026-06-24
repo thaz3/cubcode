@@ -11,7 +11,16 @@ import {
   type CubProofType,
 } from "@/lib/task-labels";
 import { Label } from "@/components/ui/label";
+import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import { useState } from "react";
+
+const PROOF_TYPE_SHORT_LABELS: Record<CubProofType, string> = {
+  SHORT_REFLECTION: "Reflection",
+  CHECKLIST: "Checklist",
+  TIME_LOG: "Time log",
+  PERFORMANCE_VIDEO: "Video link",
+  SLIDESHOW: "Slideshow",
+};
 
 const PROOF_TYPES = Object.keys(CUB_PROOF_TYPE_LABELS) as CubProofType[];
 
@@ -48,40 +57,32 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
   const lineCount = checklistText.split("\n").filter((l) => l.trim()).length;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <input type="hidden" name="proofChecklistItems" value={checklistJson} />
 
-      <div>
-        <Label htmlFor="proofType">Proof style</Label>
-        <select
-          id="proofType"
-          name="proofType"
+      <div className="space-y-1.5">
+        <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+          Proof style
+        </p>
+        <input type="hidden" name="proofType" value={proofType} />
+        <RadioChoiceList
+          name="proofTypeChoice"
           value={proofType}
-          onChange={(e) =>
-            handleProofTypeChange(e.target.value as CubProofType)
-          }
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-        >
-          {PROOF_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {CUB_PROOF_TYPE_LABELS[type]}
-            </option>
-          ))}
-        </select>
-        <p className="mt-1 text-xs text-zinc-500">
-          How the Cub shows work done on this task. Parent approval is always
-          required to earn rewards.
+          onChange={handleProofTypeChange}
+          layout="compact"
+          options={PROOF_TYPES.map((type) => ({
+            value: type,
+            label: PROOF_TYPE_SHORT_LABELS[type],
+          }))}
+        />
+        <p className="text-xs text-zinc-500">
+          Parent approval is always required to earn rewards.
         </p>
       </div>
 
-      <div className="space-y-4 rounded-lg border border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-700 dark:bg-zinc-900/50">
-        <h4 className="text-sm font-medium">Proof instructions</h4>
-        <p className="text-sm text-zinc-500">
-          What the Cub should submit when the task is complete (parent-supervised).
-        </p>
-
+      <div className="space-y-3 rounded-lg border border-zinc-200 bg-zinc-50/50 p-3 dark:border-zinc-700 dark:bg-zinc-900/50">
         <div>
-          <Label htmlFor="proofPrompt">
+          <Label htmlFor="proofPrompt" className="text-xs">
             {proofType === "CHECKLIST"
               ? "Instructions (optional)"
               : proofType === "SHORT_REFLECTION"
@@ -93,42 +94,25 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
           <textarea
             id="proofPrompt"
             name="proofPrompt"
-            rows={3}
+            rows={2}
             value={proofPrompt}
             onChange={(e) => setProofPrompt(e.target.value)}
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
             placeholder={defaultProofPrompt(proofType)}
           />
         </div>
 
         {proofType === "CHECKLIST" ? (
           <div>
-            <Label htmlFor="checklistItems">Checklist items (one per line)</Label>
+            <Label htmlFor="checklistItems" className="text-xs">
+              Checklist items (one per line)
+            </Label>
             <p className="mt-1 text-xs text-zinc-500">
-              Add as many steps as needed (up to {MAX_CHECKLIST_ITEMS} items).
-              Each line supports{" "}
-              <strong className="font-medium">Markdown</strong> (e.g.{" "}
-              <code className="rounded bg-zinc-200 px-1 dark:bg-zinc-800">
-                **bold**
-              </code>
-              ,{" "}
-              <code className="rounded bg-zinc-200 px-1 dark:bg-zinc-800">
-                [link](url)
-              </code>
-              ) or simple HTML (
-              <code className="rounded bg-zinc-200 px-1 dark:bg-zinc-800">
-                &lt;strong&gt;
-              </code>
-              ,{" "}
-              <code className="rounded bg-zinc-200 px-1 dark:bg-zinc-800">
-                &lt;br&gt;
-              </code>
-              ).
+              Up to {MAX_CHECKLIST_ITEMS} items. Markdown supported.
               {lineCount > MAX_CHECKLIST_ITEMS ? (
                 <span className="text-amber-700 dark:text-amber-400">
                   {" "}
-                  Only the first {MAX_CHECKLIST_ITEMS} non-empty lines will be
-                  saved.
+                  Only the first {MAX_CHECKLIST_ITEMS} lines will be saved.
                 </span>
               ) : lineCount > 0 ? (
                 <span> {lineCount} item{lineCount === 1 ? "" : "s"}.</span>
@@ -136,12 +120,12 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
             </p>
             <textarea
               id="checklistItems"
-              rows={Math.min(24, Math.max(10, parsedItems.length + 2))}
+              rows={Math.min(12, Math.max(4, parsedItems.length + 2))}
               value={checklistText}
               onChange={(e) => setChecklistText(e.target.value)}
-              className="mt-2 max-h-96 min-h-48 w-full resize-y rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+              className="mt-1 max-h-64 min-h-24 w-full resize-y rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
               placeholder={
-                "**Read** Chapter 3\nAnswer all questions\nCheck my work — see [rubric](https://example.com)"
+                "**Read** Chapter 3\nAnswer all questions\nCheck my work"
               }
             />
           </div>
@@ -149,8 +133,8 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
 
         {proofType === "PERFORMANCE_VIDEO" || proofType === "SLIDESHOW" ? (
           <p className="text-xs text-zinc-500">
-            The Cub will paste a share link (Google Drive, iCloud, etc.) when
-            submitting.
+            Cub uploads to Drive or iCloud, copies the share link, and pastes it on
+            submit. Add the steps above in the prompt if helpful.
           </p>
         ) : null}
       </div>

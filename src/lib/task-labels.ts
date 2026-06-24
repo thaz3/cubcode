@@ -82,9 +82,9 @@ export function defaultProofPrompt(proofType: CubProofType): string {
     case "TIME_LOG":
       return "Log how many minutes you spent on this task.";
     case "PERFORMANCE_VIDEO":
-      return "Record or upload a performance video, then share the link below.";
+      return "Upload your video to Drive or iCloud, tap Share → Copy link, then paste it when you submit.";
     case "SLIDESHOW":
-      return "Create your slideshow, upload it, and paste the share link below.";
+      return "Upload your slideshow to Drive or iCloud, tap Share → Copy link, then paste it when you submit.";
     default:
       return "";
   }

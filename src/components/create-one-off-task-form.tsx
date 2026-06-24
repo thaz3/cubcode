@@ -25,13 +25,13 @@ export function CreateOneOffTaskForm({
         <div>
           <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
             {assignToCub
-              ? `Create a one-off task for ${cubName}`
-              : "Create a one-off task"}
+              ? `Create new task for ${cubName}`
+              : "Create new task"}
           </p>
           <p className="mt-1 text-sm text-zinc-500">
             {assignToCub
-              ? "Skip templates — define the task here and assign it directly."
-              : "Skip templates — add a custom task straight to the family board."}
+              ? "Define the task here and assign it directly."
+              : "Add a new task to your library."}
           </p>
         </div>
       ) : null}
@@ -40,7 +40,7 @@ export function CreateOneOffTaskForm({
           assignToCub ? createAndAssignCustomTaskAction : createCustomTaskAction
         }
         submitLabel={
-          assignToCub ? "Create and assign task" : "Add to task board"
+          assignToCub ? "Create and assign task" : "Create new task"
         }
         showDueDate={assignToCub}
         showQuickDue={assignToCub}

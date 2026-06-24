@@ -2,7 +2,7 @@ import type { TaskStatus } from "@/generated/prisma/client";
 import type { TaskWithCub } from "@/lib/task-groups";
 
 export type TaskBoardSectionId =
-  | "assignment"
+  | "assigned"
   | "active"
   | "in-review"
   | "completed";
@@ -14,17 +14,16 @@ export const TASK_BOARD_SECTIONS: Array<{
   statuses: TaskStatus[];
 }> = [
   {
-    id: "assignment",
-    title: "Created",
-    description:
-      "Unassigned tasks on the assignment board. Pick a Cub and assign when ready.",
-    statuses: ["AVAILABLE"],
+    id: "assigned",
+    title: "Assigned",
+    description: "Tasks you assigned — waiting for your Cub to start.",
+    statuses: ["CLAIMED"],
   },
   {
     id: "active",
     title: "Active",
-    description: "Assigned work in progress — not yet submitted for review.",
-    statuses: ["CLAIMED", "IN_PROGRESS", "SENT_BACK"],
+    description: "Work in progress — not yet submitted for review.",
+    statuses: ["IN_PROGRESS", "SENT_BACK"],
   },
   {
     id: "in-review",
@@ -41,11 +40,9 @@ export const TASK_BOARD_SECTIONS: Array<{
 ];
 
 export function partitionTasksByBoardSection(tasks: TaskWithCub[]) {
-  const created = tasks.filter((task) => task.status === "AVAILABLE");
+  const assigned = tasks.filter((task) => task.status === "CLAIMED");
   const active = tasks.filter((task) =>
-    (["CLAIMED", "IN_PROGRESS", "SENT_BACK"] as TaskStatus[]).includes(
-      task.status,
-    ),
+    (["IN_PROGRESS", "SENT_BACK"] as TaskStatus[]).includes(task.status),
   );
   const inReview = tasks.filter((task) => task.status === "SUBMITTED");
   const completed = tasks.filter((task) =>
@@ -60,15 +57,19 @@ export function partitionTasksByBoardSection(tasks: TaskWithCub[]) {
     return bTime - aTime;
   });
 
-  return { created, active, inReview, completed };
+  return { assigned, active, inReview, completed };
+}
+
+export function partitionLibraryTasks(tasks: TaskWithCub[]) {
+  return tasks.filter((task) => task.status === "AVAILABLE");
 }
 
 export function getTaskBoardSectionCounts(tasks: TaskWithCub[]) {
-  const { created, active, inReview, completed } =
+  const { assigned, active, inReview, completed } =
     partitionTasksByBoardSection(tasks);
 
   return {
-    assignment: created.length,
+    assigned: assigned.length,
     active: active.length,
     "in-review": inReview.length,
     completed: completed.length,

@@ -1,6 +1,10 @@
 import type { Cub, LedgerReason, Prisma, RewardGrantType, Task } from "@/generated/prisma/client";
 import { db } from "@/lib/db";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
+import {
+  focusBlockRewardMultiplier,
+  parseRequiredGrowthCategories,
+} from "@/lib/focus-growth";
 import { getRankProgress, type RankProgress } from "@/lib/ranks";
 import { getEffectiveTaskRewards } from "@/lib/task-rewards";
 
@@ -293,10 +297,31 @@ export async function creditApprovedTaskRewards(
   }
 
   const cub = task.cub;
-  const rewards = getEffectiveTaskRewards(task);
-  const noteSuffix = rewards.penalizedForLateSubmission
-    ? " (50% — submitted after due date)"
-    : "";
+  const baseRewards = getEffectiveTaskRewards(task);
+  const focusMultiplier =
+    task.category === "FOCUS_BLOCK"
+      ? focusBlockRewardMultiplier(
+          parseRequiredGrowthCategories(cub).length,
+        )
+      : 1;
+  const rewards = {
+    ...baseRewards,
+    xpEarned: Math.floor(baseRewards.xpEarned * focusMultiplier),
+    focusTokensEarned: Math.floor(
+      baseRewards.focusTokensEarned * focusMultiplier,
+    ),
+    phoneMinutesEarned: Math.floor(
+      baseRewards.phoneMinutesEarned * focusMultiplier,
+    ),
+    focusMinutesEarned: Math.floor(
+      baseRewards.focusMinutesEarned * focusMultiplier,
+    ),
+  };
+  const focusShareNote =
+    task.category === "FOCUS_BLOCK"
+      ? ` · 1/${parseRequiredGrowthCategories(cub).length} weekly growth share`
+      : "";
+  const noteSuffix = `${rewards.penalizedForLateSubmission ? " (50% — submitted after due date)" : ""}${focusShareNote}`;
 
   const baseEntry = {
     cubId: cub.id,

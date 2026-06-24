@@ -1,7 +1,5 @@
 import { ActiveTaskList } from "@/components/active-task-list";
-import { CreateOneOffTaskForm } from "@/components/create-one-off-task-form";
 import { TaskPoolCard } from "@/components/task-pool-card";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -13,16 +11,14 @@ import type { TaskWithCub } from "@/lib/task-groups";
 
 type TaskBoardWorkflowProps = {
   tasks: TaskWithCub[];
-  cubs: Array<{ id: string; displayName: string }>;
   pendingReviewCount: number;
 };
 
 export function TaskBoardWorkflow({
   tasks,
-  cubs,
   pendingReviewCount,
 }: TaskBoardWorkflowProps) {
-  const { created, active, inReview, completed } =
+  const { assigned, active, inReview, completed } =
     partitionTasksByBoardSection(tasks);
 
   return (
@@ -34,42 +30,27 @@ export function TaskBoardWorkflow({
         />
       ) : null}
 
-      <section id="assignment" className="scroll-mt-36 space-y-4">
+      <section id="assigned" className="scroll-mt-36 space-y-4">
         <SectionHeader
-          title="Created"
-          description="Unassigned tasks ready to assign to a Cub."
+          title="Assigned"
+          description="Tasks you assigned — waiting for your Cub to start."
         />
-        <Card>
-          <h3 className="text-sm font-semibold text-zinc-100">
-            Create one-off task
-          </h3>
-          <p className="mt-1 text-sm text-zinc-400">
-            Add a custom task directly to the board.
-          </p>
-          <div className="mt-4">
-            <CreateOneOffTaskForm compact />
-          </div>
-        </Card>
-        {created.length === 0 ? (
+        {assigned.length === 0 ? (
           <EmptyState
-            title="No tasks on the board"
-            description="Create one above or add from your template library."
-            actionLabel="Browse templates"
-            actionHref="/dashboard/tasks/templates"
+            title="Nothing assigned yet"
+            description="Assign from your task library or create a task for a Cub."
+            actionLabel="Open task library"
+            actionHref="/dashboard/tasks/library"
           />
         ) : (
-          <div className="grid gap-4">
-            {created.map((task) => (
-              <TaskPoolCard key={task.id} task={task} cubs={cubs} />
-            ))}
-          </div>
+          <ActiveTaskList items={groupActiveTasks(assigned)} />
         )}
       </section>
 
       <section id="active" className="scroll-mt-36 space-y-4">
         <SectionHeader
           title="Active"
-          description="Assigned work in progress — not submitted yet."
+          description="Work in progress — not submitted yet."
         />
         {active.length === 0 ? (
           <p className="text-sm text-zinc-500">No active tasks right now.</p>
@@ -108,6 +89,37 @@ export function TaskBoardWorkflow({
           <ActiveTaskList items={groupActiveTasks(completed)} />
         )}
       </section>
+    </div>
+  );
+}
+
+export function TaskLibraryWorkflow({
+  tasks,
+  cubs,
+}: {
+  tasks: TaskWithCub[];
+  cubs: Array<{ id: string; displayName: string }>;
+}) {
+  return (
+    <div className="space-y-6">
+      <SectionHeader
+        title="Ready to assign"
+        description="Unassigned tasks in your household library. Assign one when you're ready."
+      />
+      {tasks.length === 0 ? (
+        <EmptyState
+          title="No tasks in the library"
+          description="Create a new task below or start from a template."
+          actionLabel="Browse templates"
+          actionHref="/dashboard/tasks/templates"
+        />
+      ) : (
+        <div className="grid gap-4">
+          {tasks.map((task) => (
+            <TaskPoolCard key={task.id} task={task} cubs={cubs} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

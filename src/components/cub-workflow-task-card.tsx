@@ -1,15 +1,14 @@
 import { FocusSessionTimer } from "@/components/focus-session-timer";
+import { StartTaskForm } from "@/components/start-task-form";
 import { TaskSubmitForm } from "@/components/task-workflow-forms";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
-import { startTaskAction } from "@/lib/actions/tasks";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
-import { formatTaskCategory } from "@/lib/task-categories";
+import { formatTaskCategory, GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { cubStatusMessage } from "@/lib/cub-next-action";
-import type { Task, TaskStatus } from "@/generated/prisma/client";
+import type { GrowthCategory, Task, TaskStatus } from "@/generated/prisma/client";
 
 type CubWorkflowTask = Pick<
   Task,
@@ -37,12 +36,22 @@ type CubWorkflowTask = Pick<
   focusBlocks: Array<{ durationMinutes: number }>;
 };
 
+export type FocusGrowthContext = {
+  availableGrowthAreas: Array<{ value: GrowthCategory; label: string }>;
+  weekProgressLabel: string;
+};
+
 type CubWorkflowTaskCardProps = {
   task: CubWorkflowTask;
   cubId: string;
+  focusGrowth?: FocusGrowthContext | null;
 };
 
-export function CubWorkflowTaskCard({ task, cubId }: CubWorkflowTaskCardProps) {
+export function CubWorkflowTaskCard({
+  task,
+  cubId,
+  focusGrowth = null,
+}: CubWorkflowTaskCardProps) {
   const focusMinutes = task.focusBlocks.reduce(
     (sum, block) => sum + block.durationMinutes,
     0,
@@ -51,6 +60,7 @@ export function CubWorkflowTaskCard({ task, cubId }: CubWorkflowTaskCardProps) {
     task.status === "IN_PROGRESS" && task.focusSessionStartedAt,
   );
   const statusMsg = cubStatusMessage(task.status as TaskStatus);
+  const isFocusBlock = task.category === "FOCUS_BLOCK";
 
   return (
     <Card
@@ -74,6 +84,11 @@ export function CubWorkflowTaskCard({ task, cubId }: CubWorkflowTaskCardProps) {
 
         {isTimerRunning && task.focusSessionStartedAt ? (
           <div className="rounded-xl border border-indigo-800/60 bg-indigo-950/30 px-4 py-3">
+            {task.growthCategory ? (
+              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-indigo-300">
+                {GROWTH_CATEGORY_LABELS[task.growthCategory].split(" —")[0]}
+              </p>
+            ) : null}
             <FocusSessionTimer
               startedAt={task.focusSessionStartedAt.toISOString()}
               label="Focus timer"
@@ -90,11 +105,18 @@ export function CubWorkflowTaskCard({ task, cubId }: CubWorkflowTaskCardProps) {
             subcategory: task.subcategory,
             growthCategory: task.growthCategory,
           })}{" "}
-          · {formatProofType(task.proofType)}
+          · {isFocusBlock ? "Reflection + proof link" : formatProofType(task.proofType)}
         </p>
         <p className="text-sm text-amber-500/90">
           Earn on approval: {formatTaskRewards(task)}
+          {isFocusBlock && focusGrowth
+            ? " (shared across weekly growth areas)"
+            : ""}
         </p>
+
+        {focusGrowth && isFocusBlock ? (
+          <p className="text-xs text-zinc-500">{focusGrowth.weekProgressLabel}</p>
+        ) : null}
 
         {focusMinutes > 0 ? (
           <p className="text-xs text-zinc-500">{focusMinutes} min focus logged</p>
@@ -107,16 +129,17 @@ export function CubWorkflowTaskCard({ task, cubId }: CubWorkflowTaskCardProps) {
         ) : null}
 
         {(task.status === "CLAIMED" || task.status === "SENT_BACK") && (
-          <form
-            action={async () => {
-              "use server";
-              await startTaskAction(task.id);
-            }}
-          >
-            <Button type="submit" fullWidth size="lg">
-              {task.status === "SENT_BACK" ? "Start again" : "Start focus"}
-            </Button>
-          </form>
+          <StartTaskForm
+            taskId={task.id}
+            isFocusBlock={isFocusBlock}
+            isResubmit={task.status === "SENT_BACK"}
+            availableGrowthAreas={
+              isFocusBlock ? focusGrowth?.availableGrowthAreas ?? [] : []
+            }
+            weekProgressLabel={
+              isFocusBlock ? focusGrowth?.weekProgressLabel : undefined
+            }
+          />
         )}
 
         {task.status === "IN_PROGRESS" && (

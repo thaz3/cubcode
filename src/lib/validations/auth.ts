@@ -66,6 +66,9 @@ export const cubSchema = z.object({
     .min(0, "Weekend bank cap must be 0 or more")
     .max(1440),
   supervisionLevel: z.enum(["DIRECT", "NEARBY", "INDEPENDENT"]),
+  requiredGrowthCategories: z
+    .array(z.enum(["CONTROL", "USE", "BUILD", "CHARACTER", "WELLNESS"]))
+    .min(1, "Pick at least one growth area"),
 });
 
 export const suggestedCapsSchema = z.object({

@@ -1531,6 +1531,7 @@ export const CubScalarFieldEnum = {
   dailyPhoneCapMinutes: 'dailyPhoneCapMinutes',
   weekendBankCapMinutes: 'weekendBankCapMinutes',
   supervisionLevel: 'supervisionLevel',
+  requiredGrowthCategories: 'requiredGrowthCategories',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   familyId: 'familyId'
@@ -1737,6 +1738,13 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const NullableJsonNullValueInput = {

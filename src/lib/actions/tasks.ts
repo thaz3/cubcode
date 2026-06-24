@@ -13,13 +13,16 @@ import {
 import {
   assignTaskSchema,
   focusBlockSchema,
+  startTaskSchema,
   submitTaskSchema,
   taskIdSchema,
+  taskRewardFieldsSchema,
   availableTaskSchema,
   validateTaskDefinition,
 } from "@/lib/validations/task";
 import { categoryRewardFields } from "@/lib/template-task-fields";
 import { logTaskFocusSession } from "@/lib/focus-session";
+import { getAvailableGrowthCategoriesForCub } from "@/lib/focus-growth";
 import { creditApprovedTaskRewards } from "@/lib/rewards";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
 import type { ActionState } from "@/lib/actions/auth";
@@ -101,7 +104,7 @@ export async function createCustomTaskAction(
   });
 
   revalidateTaskPaths();
-  return { success: "Task added to the board." };
+  return { success: "Task added to the library." };
 }
 
 export async function createAndAssignCustomTaskAction(
@@ -149,6 +152,7 @@ export async function createAndAssignCustomTaskAction(
 function revalidateTaskPaths(cubId?: string | null) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/tasks");
+  revalidatePath("/dashboard/tasks/library");
   revalidatePath("/dashboard/tasks/review");
   if (cubId) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);
@@ -230,17 +234,52 @@ export async function assignTaskToCubAction(
   return assignTaskAction({}, formData);
 }
 
-export async function startTaskAction(taskId: string): Promise<ActionState> {
+export async function startTaskAction(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
 
-  const task = await getFamilyTask(taskId, family.id);
+  const parsed = startTaskSchema.safeParse({
+    taskId: formData.get("taskId"),
+    growthCategory: formData.get("growthCategory") || undefined,
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
+  }
+
+  const task = await getFamilyTask(parsed.data.taskId, family.id);
   if (!task) {
     return { error: "Task not found." };
   }
 
   if (task.status !== "CLAIMED" && task.status !== "SENT_BACK") {
     return { error: "Task must be assigned or sent back before starting." };
+  }
+
+  if (task.category === "FOCUS_BLOCK") {
+    if (!task.cubId) {
+      return { error: "Assign this focus block to a Cub first." };
+    }
+
+    const cub = family.cubs.find((item) => item.id === task.cubId);
+    if (!cub) {
+      return { error: "Cub not found." };
+    }
+
+    if (!parsed.data.growthCategory) {
+      return { error: "Pick a growth area for this focus session." };
+    }
+
+    const available = await getAvailableGrowthCategoriesForCub(cub);
+    if (!available.includes(parsed.data.growthCategory)) {
+      return {
+        error:
+          "You already completed this growth area this week. Pick a different one.",
+      };
+    }
   }
 
   assertTransition(task.status, "IN_PROGRESS");
@@ -251,6 +290,10 @@ export async function startTaskAction(taskId: string): Promise<ActionState> {
       status: "IN_PROGRESS",
       startedAt: task.startedAt ?? new Date(),
       focusSessionStartedAt: new Date(),
+      growthCategory:
+        task.category === "FOCUS_BLOCK"
+          ? parsed.data.growthCategory ?? null
+          : task.growthCategory,
     },
   });
 
@@ -361,6 +404,7 @@ export async function submitTaskAction(
       checklistData,
     },
     checklistItems,
+    { category: task.category },
   );
 
   if (proofError) {
@@ -621,6 +665,18 @@ export async function updateTaskAction(
   }
 
   const dueFields = getDueFieldsFromFormData(formData);
+  const rewardParsed = taskRewardFieldsSchema.safeParse({
+    focusMinutesEarned: formData.get("focusMinutesEarned"),
+    phoneMinutesEarned: formData.get("phoneMinutesEarned"),
+    xpEarned: formData.get("xpEarned"),
+    focusTokensEarned: formData.get("focusTokensEarned"),
+  });
+
+  if (!rewardParsed.success) {
+    return {
+      error: rewardParsed.error.issues[0]?.message ?? "Invalid reward amounts",
+    };
+  }
 
   await db.task.update({
     where: { id: task.id },
@@ -633,19 +689,14 @@ export async function updateTaskAction(
           ? null
           : parsed.data.subcategory ?? null,
       growthCategory:
-        parsed.data.category === "FOCUS_BLOCK"
-          ? parsed.data.growthCategory ?? null
-          : null,
+        parsed.data.category === "FOCUS_BLOCK" ? task.growthCategory : null,
       proofType: parsed.data.proofType,
       proofPrompt: parsed.data.proofPrompt || null,
       proofChecklistItems: parsed.data.proofChecklistItems ?? undefined,
+      ...rewardParsed.data,
       ...(dueFields !== null
         ? { dueAt: dueFields.dueAt, dueAtHasTime: dueFields.dueAtHasTime }
         : {}),
-      ...categoryRewardFields(parsed.data.category, {
-        subcategory: parsed.data.subcategory,
-        growthCategory: parsed.data.growthCategory ?? null,
-      }),
     },
   });
 

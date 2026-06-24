@@ -94,9 +94,6 @@ export function validateProofConfig(
 export function validateCategoryConfig(
   data: z.infer<typeof taskCategoryConfigSchema>,
 ): string | null {
-  if (data.category === "FOCUS_BLOCK" && !data.growthCategory) {
-    return "Pick a growth category for Focus Block tasks.";
-  }
   if (data.category !== "FOCUS_BLOCK" && !data.subcategory) {
     return "Pick a type for this task category.";
   }
@@ -141,6 +138,20 @@ export const reviewTaskSchema = z.object({
 
 /** @deprecated Use assignTaskSchema */
 export const claimTaskSchema = assignTaskSchema;
+
+export const startTaskSchema = z.object({
+  taskId: z.string().min(1),
+  growthCategory: z
+    .enum(["CONTROL", "USE", "BUILD", "CHARACTER", "WELLNESS"])
+    .optional(),
+});
+
+export const taskRewardFieldsSchema = z.object({
+  focusMinutesEarned: z.coerce.number().int().min(0).max(240),
+  phoneMinutesEarned: z.coerce.number().int().min(0).max(480),
+  xpEarned: z.coerce.number().int().min(0).max(10000),
+  focusTokensEarned: z.coerce.number().int().min(0).max(100),
+});
 
 export const taskIdSchema = z.object({
   taskId: z.string().min(1),

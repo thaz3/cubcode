@@ -4,10 +4,11 @@ import Link from "next/link";
 import { CreateOneOffTaskForm } from "@/components/create-one-off-task-form";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import type { ActionState } from "@/lib/actions/auth";
 import { assignTemplateToCubAction } from "@/lib/actions/task-templates";
 import { assignTaskAction } from "@/lib/actions/tasks";
+import { useState } from "react";
 
 type TaskOption = { id: string; title: string };
 type TemplateOption = { id: string; title: string };
@@ -39,6 +40,9 @@ export function AssignTaskToCubPanel({
     onDueDateChange: onTemplateDueDateChange,
   } = useDueDateFormAction(assignTemplateToCubAction, {} as ActionState);
 
+  const [poolTaskId, setPoolTaskId] = useState(availableTasks[0]?.id ?? "");
+  const [templateId, setTemplateId] = useState(templates[0]?.id ?? "");
+
   const hasPoolTasks = availableTasks.length > 0;
   const hasTemplates = templates.length > 0;
 
@@ -61,27 +65,21 @@ export function AssignTaskToCubPanel({
       {hasPoolTasks ? (
         <form action={poolAction} className="space-y-3">
           <input type="hidden" name="cubId" value={cubId} />
+          <input type="hidden" name="taskId" value={poolTaskId} />
           <div>
-            <Label htmlFor={`pool-task-${cubId}`}>From task board</Label>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mb-2 text-sm font-medium">From task board</p>
+            <p className="mb-2 text-sm text-zinc-500">
               Pick an available task and assign it to {cubName}.
             </p>
-            <select
-              id={`pool-task-${cubId}`}
-              name="taskId"
-              required
-              defaultValue=""
-              className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-            >
-              <option value="" disabled>
-                Select a task…
-              </option>
-              {availableTasks.map((task) => (
-                <option key={task.id} value={task.id}>
-                  {task.title}
-                </option>
-              ))}
-            </select>
+            <RadioChoiceList
+              name={`pool-task-${cubId}`}
+              value={poolTaskId}
+              onChange={setPoolTaskId}
+              options={availableTasks.map((task) => ({
+                value: task.id,
+                label: task.title,
+              }))}
+            />
           </div>
           <TaskDueDateField
             id={`pool-due-${cubId}`}
@@ -96,7 +94,7 @@ export function AssignTaskToCubPanel({
               {poolState.success}
             </p>
           ) : null}
-          <Button type="submit" disabled={poolPending}>
+          <Button type="submit" disabled={poolPending || !poolTaskId}>
             {poolPending ? "Assigning..." : "Assign task"}
           </Button>
         </form>
@@ -109,28 +107,22 @@ export function AssignTaskToCubPanel({
       {hasTemplates ? (
         <form action={templateAction} className="space-y-3">
           <input type="hidden" name="cubId" value={cubId} />
+          <input type="hidden" name="templateId" value={templateId} />
           <div>
-            <Label htmlFor={`template-${cubId}`}>From template</Label>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mb-2 text-sm font-medium">From template</p>
+            <p className="mb-2 text-sm text-zinc-500">
               Create a new task from a template and assign it directly to{" "}
               {cubName}.
             </p>
-            <select
-              id={`template-${cubId}`}
-              name="templateId"
-              required
-              defaultValue=""
-              className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-            >
-              <option value="" disabled>
-                Select a template…
-              </option>
-              {templates.map((template) => (
-                <option key={template.id} value={template.id}>
-                  {template.title}
-                </option>
-              ))}
-            </select>
+            <RadioChoiceList
+              name={`template-${cubId}`}
+              value={templateId}
+              onChange={setTemplateId}
+              options={templates.map((template) => ({
+                value: template.id,
+                label: template.title,
+              }))}
+            />
           </div>
           <TaskDueDateField
             id={`template-due-${cubId}`}
@@ -147,7 +139,11 @@ export function AssignTaskToCubPanel({
               {templateState.success}
             </p>
           ) : null}
-          <Button type="submit" variant="secondary" disabled={templatePending}>
+          <Button
+            type="submit"
+            variant="secondary"
+            disabled={templatePending || !templateId}
+          >
             {templatePending ? "Assigning..." : "Assign from template"}
           </Button>
         </form>

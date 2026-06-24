@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Cub" ADD COLUMN "requiredGrowthCategories" JSONB NOT NULL DEFAULT '["CONTROL","USE","BUILD","CHARACTER","WELLNESS"]';

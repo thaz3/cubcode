@@ -5,11 +5,11 @@ import { CubColorBadge } from "@/components/cub-color-dot";
 import { FocusSessionTimer } from "@/components/focus-session-timer";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { FocusBlockForm, TaskSubmitForm } from "@/components/task-workflow-forms";
+import { StartTaskForm } from "@/components/start-task-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
-import { startTaskAction } from "@/lib/actions/tasks";
 import { auth } from "@/lib/auth";
 import type { SupervisionLevel } from "@/generated/prisma/client";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
@@ -18,6 +18,13 @@ import {
   GROWTH_CATEGORY_LABELS,
 } from "@/lib/task-categories";
 import { db } from "@/lib/db";
+import {
+  formatGrowthWeekProgress,
+  getAvailableGrowthCategoriesForCub,
+  getCompletedGrowthCategoriesThisWeek,
+  growthCategoryOptionsForCub,
+  parseRequiredGrowthCategories,
+} from "@/lib/focus-growth";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { getFamilyForUser } from "@/lib/session";
 import {
@@ -44,7 +51,8 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
   const cub = family.cubs.find((c) => c.id === cubId);
   if (!cub) notFound();
 
-  const [tasks, focusBlocks, availableTasks, templates] = await Promise.all([
+  const [tasks, focusBlocks, availableTasks, templates, completedGrowth, availableGrowth] =
+    await Promise.all([
     db.task.findMany({
       where: { familyId: family.id, cubId: cub.id },
       include: {
@@ -66,7 +74,17 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
       orderBy: { title: "asc" },
       select: { id: true, title: true },
     }),
+    getCompletedGrowthCategoriesThisWeek(cub.id),
+    getAvailableGrowthCategoriesForCub(cub),
   ]);
+
+  const requiredGrowth = parseRequiredGrowthCategories(cub);
+  const focusGrowth = {
+    availableGrowthAreas: growthCategoryOptionsForCub(cub).filter((option) =>
+      availableGrowth.includes(option.value),
+    ),
+    weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
+  };
 
   const sortedTasks = sortTasksByUrgency(tasks);
   const urgentTasks = sortedTasks.filter((task) => isTaskUrgent(task));
@@ -272,19 +290,23 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                 </div>
 
                 {(task.status === "CLAIMED" || task.status === "SENT_BACK") && (
-                  <form
-                    action={async () => {
-                      "use server";
-                      await startTaskAction(task.id);
-                    }}
-                    className="mt-4"
-                  >
-                    <Button type="submit" fullWidth size="lg" variant="secondary">
-                      {task.status === "SENT_BACK"
-                        ? "Start redo — focus timer runs until submit"
-                        : "Start task — focus timer runs until submit"}
-                    </Button>
-                  </form>
+                  <div className="mt-4">
+                    <StartTaskForm
+                      taskId={task.id}
+                      isFocusBlock={task.category === "FOCUS_BLOCK"}
+                      isResubmit={task.status === "SENT_BACK"}
+                      availableGrowthAreas={
+                        task.category === "FOCUS_BLOCK"
+                          ? focusGrowth.availableGrowthAreas
+                          : []
+                      }
+                      weekProgressLabel={
+                        task.category === "FOCUS_BLOCK"
+                          ? focusGrowth.weekProgressLabel
+                          : undefined
+                      }
+                    />
+                  </div>
                 )}
 
                 {task.status === "IN_PROGRESS" && (
@@ -328,7 +350,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
       <Card id="assign-task" className="scroll-mt-8">
         <h2 className="text-lg font-semibold">Assign a task</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Create a one-off task, pick from the board, or use a template for{" "}
+          Create a new task, pick from the library, or use a template for{" "}
           {cub.displayName}.
         </p>
         <div className="mt-4">

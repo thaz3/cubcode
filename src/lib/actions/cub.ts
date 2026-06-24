@@ -13,6 +13,10 @@ type ParsedCub = z.infer<typeof cubSchema>;
 function parseCubFormData(
   formData: FormData,
 ): { ok: true; data: ParsedCub } | { ok: false; error: string } {
+  const growthValues = formData
+    .getAll("requiredGrowthCategories")
+    .map((value) => String(value));
+
   const parsed = cubSchema.safeParse({
     displayName: formData.get("displayName"),
     ageBand: formData.get("ageBand"),
@@ -23,6 +27,7 @@ function parseCubFormData(
     dailyPhoneCapMinutes: formData.get("dailyPhoneCapMinutes"),
     weekendBankCapMinutes: formData.get("weekendBankCapMinutes"),
     supervisionLevel: formData.get("supervisionLevel"),
+    requiredGrowthCategories: growthValues,
   });
 
   if (!parsed.success) {
@@ -46,6 +51,7 @@ function cubSettingsData(parsed: ParsedCub) {
     dailyPhoneCapMinutes: parsed.dailyPhoneCapMinutes,
     weekendBankCapMinutes: parsed.weekendBankCapMinutes,
     supervisionLevel: parsed.supervisionLevel,
+    requiredGrowthCategories: parsed.requiredGrowthCategories,
   };
 }
 

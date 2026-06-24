@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import { createRewardStoreItemAction } from "@/lib/actions/rewards";
 import type { ActionState } from "@/lib/actions/auth";
 import { useActionState, useState } from "react";
@@ -45,20 +46,21 @@ export function CreateRewardStoreItemForm() {
         />
       </div>
       <div>
-        <Label htmlFor="reward-grant-type">What gets applied on redeem</Label>
-        <select
-          id="reward-grant-type"
-          name="grantType"
+        <p className="mb-2 text-sm font-medium">What gets applied on redeem</p>
+        <input type="hidden" name="grantType" value={grantType} />
+        <RadioChoiceList
+          name="grantTypeChoice"
           value={grantType}
-          onChange={(event) =>
-            setGrantType(event.target.value as "NONE" | "PHONE_TIME" | "WEEKEND_BANK")
-          }
-          className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-        >
-          <option value="NONE">Parent delivers (no minutes credited)</option>
-          <option value="PHONE_TIME">Phone time today</option>
-          <option value="WEEKEND_BANK">Weekend Bank minutes</option>
-        </select>
+          onChange={setGrantType}
+          options={[
+            {
+              value: "NONE",
+              label: "Parent delivers (no minutes credited)",
+            },
+            { value: "PHONE_TIME", label: "Phone time today" },
+            { value: "WEEKEND_BANK", label: "Weekend Bank minutes" },
+          ]}
+        />
       </div>
       {grantType !== "NONE" ? (
         <div>

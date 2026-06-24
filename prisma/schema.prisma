@@ -122,6 +122,7 @@ model Cub {
   dailyPhoneCapMinutes  Int               @default(45)
   weekendBankCapMinutes Int               @default(90)
   supervisionLevel      SupervisionLevel  @default(NEARBY)
+  requiredGrowthCategories Json          @default("[\"CONTROL\",\"USE\",\"BUILD\",\"CHARACTER\",\"WELLNESS\"]")
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
 

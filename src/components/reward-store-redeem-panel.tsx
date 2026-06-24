@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import { redeemRewardAction } from "@/lib/actions/rewards";
 import type { ActionState } from "@/lib/actions/auth";
 import type { RewardGrantType } from "@/generated/prisma/client";
@@ -132,21 +132,18 @@ export function RewardStoreRedeemPanel({
 
       <form action={formAction} className="space-y-4 rounded-lg border border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
         <div>
-          <Label htmlFor="redeem-cub">Redeem for</Label>
-          <select
-            id="redeem-cub"
-            name="cubId"
+          <p className="mb-2 text-sm font-medium">Redeem for</p>
+          <input type="hidden" name="cubId" value={selectedCubId} />
+          <RadioChoiceList
+            name="redeemCubChoice"
             value={selectedCubId}
-            onChange={(event) => setSelectedCubId(event.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-          >
-            {cubs.map((cub) => (
-              <option key={cub.id} value={cub.id}>
-                {cub.displayName} ({cub.focusTokens} token
-                {cub.focusTokens === 1 ? "" : "s"})
-              </option>
-            ))}
-          </select>
+            onChange={setSelectedCubId}
+            options={cubs.map((cub) => ({
+              value: cub.id,
+              label: cub.displayName,
+              description: `${cub.focusTokens} token${cub.focusTokens === 1 ? "" : "s"}`,
+            }))}
+          />
         </div>
 
         <input type="hidden" name="rewardStoreItemId" value={selectedItemId ?? ""} />

@@ -2,9 +2,10 @@
 
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import type { ActionState } from "@/lib/actions/auth";
 import { assignTaskAction } from "@/lib/actions/tasks";
+import { useState } from "react";
 
 type AssignTaskFormProps = {
   taskId: string;
@@ -30,33 +31,29 @@ export function AssignTaskForm({
     );
   }
 
+  const [cubId, setCubId] = useState(cubs[0]?.id ?? "");
+
   return (
     <form action={formAction} className="space-y-4">
       <input type="hidden" name="taskId" value={taskId} />
+      <input type="hidden" name="cubId" value={cubId} />
 
       <div>
-        <Label htmlFor={`assign-cub-${taskId}`}>Assign to child</Label>
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mb-2 text-sm font-medium">Assign to child</p>
+        <p className="mb-2 text-sm text-zinc-500">
           Choose which Cub this task is for. Their reward settings apply once
           you assign it. Cubs do not pick tasks from the board — parents assign
           them.
         </p>
-        <select
-          id={`assign-cub-${taskId}`}
-          name="cubId"
-          required
-          defaultValue=""
-          className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-        >
-          <option value="" disabled>
-            Select a Cub…
-          </option>
-          {cubs.map((cub) => (
-            <option key={cub.id} value={cub.id}>
-              {cub.displayName}
-            </option>
-          ))}
-        </select>
+        <RadioChoiceList
+          name={`assign-cub-${taskId}`}
+          value={cubId}
+          onChange={setCubId}
+          options={cubs.map((cub) => ({
+            value: cub.id,
+            label: cub.displayName,
+          }))}
+        />
       </div>
 
       <TaskDueDateField
@@ -74,7 +71,7 @@ export function AssignTaskForm({
         </p>
       ) : null}
 
-      <Button type="submit" disabled={isPending}>
+      <Button type="submit" disabled={isPending || !cubId}>
         {isPending ? "Assigning..." : submitLabel}
       </Button>
     </form>

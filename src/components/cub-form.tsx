@@ -1,13 +1,17 @@
 "use client";
 
-import type { AgeBand, SupervisionLevel } from "@/generated/prisma/client";
-import { AGE_BAND_OPTIONS } from "@/lib/age-band-defaults";
+import type { AgeBand, GrowthCategory, SupervisionLevel } from "@/generated/prisma/client";
+import {
+  AGE_BAND_OPTIONS,
+  formatAgeBand,
+} from "@/lib/age-band-defaults";
+import { ALL_GROWTH_CATEGORIES, GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
 import { getCubProfileSuggestionsFromAgeBand } from "@/lib/template-suggestions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { formatAgeBand } from "@/lib/age-band-defaults";
+import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import { useActionState, useMemo, useState } from "react";
 import type { ActionState } from "@/lib/actions/auth";
 
@@ -35,6 +39,7 @@ type CubFormProps = {
     dailyPhoneCapMinutes: number;
     weekendBankCapMinutes: number;
     supervisionLevel: SupervisionLevel;
+    requiredGrowthCategories?: GrowthCategory[];
   };
   submitLabel: string;
 };
@@ -84,7 +89,20 @@ export function CubForm({
   const [supervisionLevel, setSupervisionLevel] = useState<SupervisionLevel>(
     initialValues?.supervisionLevel ?? bandDefaults.supervisionLevel,
   );
+  const [requiredGrowth, setRequiredGrowth] = useState<GrowthCategory[]>(
+    initialValues?.requiredGrowthCategories ?? [...ALL_GROWTH_CATEGORIES],
+  );
   const [settingsMessage, setSettingsMessage] = useState<string | null>(null);
+
+  function toggleGrowthArea(category: GrowthCategory) {
+    setRequiredGrowth((current) => {
+      if (current.includes(category)) {
+        const next = current.filter((item) => item !== category);
+        return next.length > 0 ? next : current;
+      }
+      return [...current, category];
+    });
+  }
 
   function applySuggestedSettings() {
     const s = getCubProfileSuggestionsFromAgeBand(ageBand);
@@ -115,6 +133,14 @@ export function CubForm({
 
       <input type="hidden" name="ageBand" value={ageBand} />
       <input type="hidden" name="supervisionLevel" value={supervisionLevel} />
+      {requiredGrowth.map((category) => (
+        <input
+          key={category}
+          type="hidden"
+          name="requiredGrowthCategories"
+          value={category}
+        />
+      ))}
 
       <Card className="space-y-5 bg-amber-50/40 dark:bg-amber-950/20">
         <div>
@@ -127,22 +153,12 @@ export function CubForm({
 
         <div>
           <p className="mb-2 text-sm font-medium">Age band</p>
-          <div className="grid gap-2">
-            {AGE_BAND_OPTIONS.map((option) => (
-              <label
-                key={option.value}
-                className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-200 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
-              >
-                <input
-                  type="radio"
-                  checked={ageBand === option.value}
-                  onChange={() => setAgeBand(option.value)}
-                  className="accent-amber-600"
-                />
-                <span className="text-sm">{option.label}</span>
-              </label>
-            ))}
-          </div>
+          <RadioChoiceList
+            name="ageBandChoice"
+            value={ageBand}
+            onChange={setAgeBand}
+            options={AGE_BAND_OPTIONS}
+          />
         </div>
 
         <div className="border-t border-amber-200/80 pt-4 dark:border-amber-900">
@@ -249,21 +265,42 @@ export function CubForm({
         </div>
 
         <div>
-          <Label htmlFor="supervisionLevel">Supervision level</Label>
-          <select
-            id="supervisionLevel"
+          <p className="mb-2 text-sm font-medium">Supervision level</p>
+          <RadioChoiceList
+            name="supervisionLevelChoice"
             value={supervisionLevel}
-            onChange={(e) =>
-              setSupervisionLevel(e.target.value as SupervisionLevel)
-            }
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-          >
-            {SUPERVISION_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            onChange={setSupervisionLevel}
+            options={SUPERVISION_OPTIONS}
+          />
+        </div>
+
+        <div>
+          <p className="mb-2 text-sm font-medium">Required growth areas</p>
+          <p className="mb-3 text-sm text-zinc-500">
+            Your Cub must complete a focus session in each selected area every
+            week to earn full rewards. Prevents focusing on only one area.
+          </p>
+          <div className="grid gap-2">
+            {ALL_GROWTH_CATEGORIES.map((category) => {
+              const selected = requiredGrowth.includes(category);
+              return (
+                <label
+                  key={category}
+                  className="flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border border-zinc-200 bg-white px-3 py-2.5 dark:border-zinc-700 dark:bg-zinc-900"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selected}
+                    onChange={() => toggleGrowthArea(category)}
+                    className="mt-0.5 size-4 shrink-0 accent-amber-600"
+                  />
+                  <span className="text-sm leading-snug">
+                    {GROWTH_CATEGORY_LABELS[category]}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
         </div>
       </Card>
 

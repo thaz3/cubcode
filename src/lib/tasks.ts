@@ -22,7 +22,18 @@ export function validateSubmissionProof(
   proofType: TaskProofType,
   input: SubmitInput,
   checklistItems: string[],
+  options?: { category?: Task["category"] },
 ): string | null {
+  if (options?.category === "FOCUS_BLOCK") {
+    if (!input.reflection || input.reflection.trim().length < 10) {
+      return "Write a short reflection about what you focused on (at least 10 characters).";
+    }
+    if (!input.proofLink || input.proofLink.trim().length < 5) {
+      return "Paste a share link to your photo, document, or video proof.";
+    }
+    return null;
+  }
+
   switch (proofType) {
     case "PARENT_APPROVAL":
       return null;

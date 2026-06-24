@@ -24,6 +24,14 @@ export const TASK_CATEGORY_LABELS: Record<TaskCategory, string> = {
   SUMMER_LITE: "Summer Lite",
 };
 
+export const ALL_GROWTH_CATEGORIES = [
+  "CONTROL",
+  "USE",
+  "BUILD",
+  "CHARACTER",
+  "WELLNESS",
+] as const satisfies readonly GrowthCategory[];
+
 export const GROWTH_CATEGORY_LABELS: Record<GrowthCategory, string> = {
   CONTROL: "Control — focus & self-regulation",
   USE: "Use — learning & intentional tools",
@@ -88,15 +96,16 @@ const DEFAULT_CHORE_CHECKLIST = [
 ];
 
 const FOCUS_BLOCK_BASE: CategorySuggestion = {
-  proofType: "TIME_LOG",
-  proofPrompt: "Log how many minutes you focused and what you worked on.",
+  proofType: "SHORT_REFLECTION",
+  proofPrompt:
+    "What did you focus on? Upload to Drive or iCloud, tap Share → Copy link, then paste it when you submit.",
   proofChecklistItems: [],
   focusMinutesEarned: 30,
   phoneMinutesEarned: 15,
   xpEarned: 10,
   focusTokensEarned: 1,
   logInstructions:
-    "Log a Focus Block with duration and note. Pick one of the five growth areas.",
+    "Start a focus timer, then submit a short reflection and a share link to your proof. Pick a different growth area each week — you earn rewards across all areas your parent requires.",
 };
 
 const GROWTH_TWEAKS: Partial<

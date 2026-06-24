@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChecklistItemContent } from "@/components/checklist-item-content";
+import { ProofLinkHelp } from "@/components/proof-link-help";
 import { Label } from "@/components/ui/label";
 import { OverduePenaltyNotice } from "@/components/overdue-penalty-notice";
 import type { ActionState } from "@/lib/actions/auth";
@@ -106,7 +107,12 @@ function ProofFields({
             {task.proofPrompt}
           </p>
         </div>
-        <ProofInput proofType={task.proofType} checklistItems={checklistItems} audience={audience} />
+        <ProofInput
+          proofType={task.proofType}
+          category={task.category}
+          checklistItems={checklistItems}
+          audience={audience}
+        />
       </div>
     );
   }
@@ -118,13 +124,55 @@ function ProofFields({
 
 function ProofInput({
   proofType,
+  category,
   checklistItems,
   audience = "parent",
 }: {
   proofType: Task["proofType"];
+  category?: Task["category"];
   checklistItems: string[];
   audience?: "parent" | "cub";
 }) {
+  if (category === "FOCUS_BLOCK") {
+    return (
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="reflection">
+            {audience === "cub" ? "What did you focus on?" : "Cub's reflection"}
+          </Label>
+          <textarea
+            id="reflection"
+            name="reflection"
+            rows={4}
+            required
+            minLength={10}
+            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
+            placeholder={
+              audience === "cub"
+                ? "Describe what you worked on and what you learned…"
+                : "Type the Cub's reflection here (parent-supervised)…"
+            }
+          />
+        </div>
+        <div>
+          <Label htmlFor="proofLink">
+            {audience === "cub" ? "Paste your proof link" : "Proof link"}
+          </Label>
+          <Input
+            id="proofLink"
+            name="proofLink"
+            type="text"
+            inputMode="url"
+            autoComplete="url"
+            required
+            placeholder="https://…"
+          />
+          <ProofLinkHelp audience={audience} variant="focus" />
+        </div>
+      </div>
+    );
+  }
+
   if (proofType === "PARENT_APPROVAL") {
     return (
       <div>
@@ -205,17 +253,25 @@ function ProofInput({
   }
 
   if (proofType === "PERFORMANCE_VIDEO" || proofType === "SLIDESHOW") {
+    const variant =
+      proofType === "PERFORMANCE_VIDEO" ? "video" : "slideshow";
+
     return (
       <div className="space-y-3">
         <div>
-          <Label htmlFor="proofLink">Share link</Label>
+          <Label htmlFor="proofLink">
+            {audience === "cub" ? "Paste your share link" : "Share link"}
+          </Label>
           <Input
             id="proofLink"
             name="proofLink"
-            type="url"
+            type="text"
+            inputMode="url"
+            autoComplete="url"
             required
             placeholder="https://…"
           />
+          <ProofLinkHelp audience={audience} variant={variant} />
         </div>
         <div>
           <Label htmlFor="reflection">Notes (optional)</Label>
@@ -224,7 +280,11 @@ function ProofInput({
             name="reflection"
             rows={2}
             className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-            placeholder="Optional note about the upload"
+            placeholder={
+              audience === "cub"
+                ? "Anything else your parent should know (optional)…"
+                : "Optional note about the upload"
+            }
           />
         </div>
       </div>

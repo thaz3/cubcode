@@ -31,6 +31,7 @@ type TaskTemplateFormProps = {
   showQuickDue?: boolean;
   initialDueDate?: string;
   hiddenFields?: Record<string, string>;
+  rewardFields?: React.ReactNode;
 };
 
 export function TaskTemplateForm({
@@ -41,6 +42,7 @@ export function TaskTemplateForm({
   showQuickDue = false,
   initialDueDate = "",
   hiddenFields,
+  rewardFields,
 }: TaskTemplateFormProps) {
   const { state, formAction, isPending, onDueDateChange } = useDueDateFormAction(
     action,
@@ -113,6 +115,8 @@ export function TaskTemplateForm({
             initialValues?.proofChecklistItems,
         }}
       />
+
+      {rewardFields}
 
       <p className="text-sm text-zinc-500">
         Category sets suggested rewards when the task is added to the board.

@@ -1,11 +1,21 @@
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
-import { CubWorkflowTaskCard } from "@/components/cub-workflow-task-card";
+import {
+  CubWorkflowTaskCard,
+  type FocusGrowthContext,
+} from "@/components/cub-workflow-task-card";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { db } from "@/lib/db";
+import {
+  formatGrowthWeekProgress,
+  getAvailableGrowthCategoriesForCub,
+  getCompletedGrowthCategoriesThisWeek,
+  growthCategoryOptionsForCub,
+  parseRequiredGrowthCategories,
+} from "@/lib/focus-growth";
 import {
   isTaskOverdue,
   isTaskUrgent,
@@ -24,12 +34,24 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
 
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
 
-  const tasks = await db.task.findMany({
-    where: { familyId, cubId: cub.id },
-    include: {
-      focusBlocks: { select: { durationMinutes: true } },
-    },
-  });
+  const [tasks, completedGrowth, availableGrowth] = await Promise.all([
+    db.task.findMany({
+      where: { familyId, cubId: cub.id },
+      include: {
+        focusBlocks: { select: { durationMinutes: true } },
+      },
+    }),
+    getCompletedGrowthCategoriesThisWeek(cub.id),
+    getAvailableGrowthCategoriesForCub(cub),
+  ]);
+
+  const requiredGrowth = parseRequiredGrowthCategories(cub);
+  const focusGrowth: FocusGrowthContext = {
+    availableGrowthAreas: growthCategoryOptionsForCub(cub).filter((option) =>
+      availableGrowth.includes(option.value),
+    ),
+    weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
+  };
 
   const sortedTasks = sortTasksByUrgency(tasks);
   const urgentTasks = sortedTasks.filter((task) => isTaskUrgent(task));
@@ -80,7 +102,12 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
       ) : (
         <div className="grid gap-4">
           {sortedTasks.map((task) => (
-            <CubWorkflowTaskCard key={task.id} task={task} cubId={cub.id} />
+            <CubWorkflowTaskCard
+              key={task.id}
+              task={task}
+              cubId={cub.id}
+              focusGrowth={task.category === "FOCUS_BLOCK" ? focusGrowth : null}
+            />
           ))}
         </div>
       )}
