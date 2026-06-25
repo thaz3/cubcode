@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { logoutAction } from "@/lib/actions/auth";
 import {
-  DASHBOARD_MORE_NAV_ITEMS,
-  DASHBOARD_PRIMARY_NAV_ITEMS,
+  DASHBOARD_MOBILE_MORE_NAV_ITEMS,
+  DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS,
   isDashboardMoreNavActive,
   isDashboardNavActive,
 } from "@/lib/dashboard-nav-items";
@@ -49,7 +49,7 @@ export function MobileNav({
           role="menu"
           aria-label="More navigation"
         >
-          {DASHBOARD_MORE_NAV_ITEMS.map((item) => (
+          {DASHBOARD_MOBILE_MORE_NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -83,7 +83,7 @@ export function MobileNav({
         aria-label="Main navigation"
       >
         <div className="mx-auto flex max-w-lg items-stretch justify-around px-1 pt-1">
-          {DASHBOARD_PRIMARY_NAV_ITEMS.map((item) => {
+          {DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS.map((item) => {
             const active = isDashboardNavActive(pathname, item.href);
             const badge =
               item.href === "/dashboard/tasks/review" && pendingReviewCount > 0

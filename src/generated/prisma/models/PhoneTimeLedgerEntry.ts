@@ -42,6 +42,7 @@ export type PhoneTimeLedgerEntryMinAggregateOutputType = {
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   createdByUserId: string | null
 }
 
@@ -53,6 +54,7 @@ export type PhoneTimeLedgerEntryMaxAggregateOutputType = {
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   createdByUserId: string | null
 }
 
@@ -64,6 +66,7 @@ export type PhoneTimeLedgerEntryCountAggregateOutputType = {
   createdAt: number
   cubId: number
   sourceTaskId: number
+  sourceChallengeProgressLogId: number
   createdByUserId: number
   _all: number
 }
@@ -85,6 +88,7 @@ export type PhoneTimeLedgerEntryMinAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   createdByUserId?: true
 }
 
@@ -96,6 +100,7 @@ export type PhoneTimeLedgerEntryMaxAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   createdByUserId?: true
 }
 
@@ -107,6 +112,7 @@ export type PhoneTimeLedgerEntryCountAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   createdByUserId?: true
   _all?: true
 }
@@ -205,6 +211,7 @@ export type PhoneTimeLedgerEntryGroupByOutputType = {
   createdAt: Date
   cubId: string
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   createdByUserId: string | null
   _count: PhoneTimeLedgerEntryCountAggregateOutputType | null
   _avg: PhoneTimeLedgerEntryAvgAggregateOutputType | null
@@ -239,9 +246,11 @@ export type PhoneTimeLedgerEntryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"PhoneTimeLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"PhoneTimeLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   sourceTask?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  sourceChallengeProgressLog?: Prisma.XOR<Prisma.ChallengeProgressLogNullableScalarRelationFilter, Prisma.ChallengeProgressLogWhereInput> | null
 }
 
 export type PhoneTimeLedgerEntryOrderByWithRelationInput = {
@@ -252,9 +261,11 @@ export type PhoneTimeLedgerEntryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   cub?: Prisma.CubOrderByWithRelationInput
   sourceTask?: Prisma.TaskOrderByWithRelationInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogOrderByWithRelationInput
 }
 
 export type PhoneTimeLedgerEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -268,9 +279,11 @@ export type PhoneTimeLedgerEntryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"PhoneTimeLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"PhoneTimeLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   sourceTask?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  sourceChallengeProgressLog?: Prisma.XOR<Prisma.ChallengeProgressLogNullableScalarRelationFilter, Prisma.ChallengeProgressLogWhereInput> | null
 }, "id">
 
 export type PhoneTimeLedgerEntryOrderByWithAggregationInput = {
@@ -281,6 +294,7 @@ export type PhoneTimeLedgerEntryOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PhoneTimeLedgerEntryCountOrderByAggregateInput
   _avg?: Prisma.PhoneTimeLedgerEntryAvgOrderByAggregateInput
@@ -300,6 +314,7 @@ export type PhoneTimeLedgerEntryScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PhoneTimeLedgerEntry"> | Date | string
   cubId?: Prisma.StringWithAggregatesFilter<"PhoneTimeLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableWithAggregatesFilter<"PhoneTimeLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableWithAggregatesFilter<"PhoneTimeLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableWithAggregatesFilter<"PhoneTimeLedgerEntry"> | string | null
 }
 
@@ -312,6 +327,7 @@ export type PhoneTimeLedgerEntryCreateInput = {
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
   sourceTask?: Prisma.TaskCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
 }
 
 export type PhoneTimeLedgerEntryUncheckedCreateInput = {
@@ -322,6 +338,7 @@ export type PhoneTimeLedgerEntryUncheckedCreateInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -334,6 +351,7 @@ export type PhoneTimeLedgerEntryUpdateInput = {
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutPhoneTimeLedgerEntriesNestedInput
   sourceTask?: Prisma.TaskUpdateOneWithoutPhoneTimeLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutPhoneTimeLedgerEntriesNestedInput
 }
 
 export type PhoneTimeLedgerEntryUncheckedUpdateInput = {
@@ -344,6 +362,7 @@ export type PhoneTimeLedgerEntryUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -355,6 +374,7 @@ export type PhoneTimeLedgerEntryCreateManyInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -375,6 +395,7 @@ export type PhoneTimeLedgerEntryUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -396,6 +417,7 @@ export type PhoneTimeLedgerEntryCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
 
@@ -411,6 +433,7 @@ export type PhoneTimeLedgerEntryMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
 
@@ -422,6 +445,7 @@ export type PhoneTimeLedgerEntryMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
 
@@ -513,6 +537,48 @@ export type PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput 
   deleteMany?: Prisma.PhoneTimeLedgerEntryScalarWhereInput | Prisma.PhoneTimeLedgerEntryScalarWhereInput[]
 }
 
+export type PhoneTimeLedgerEntryCreateNestedManyWithoutSourceChallengeProgressLogInput = {
+  create?: Prisma.XOR<Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  connect?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+}
+
+export type PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceChallengeProgressLogInput = {
+  create?: Prisma.XOR<Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  connect?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+}
+
+export type PhoneTimeLedgerEntryUpdateManyWithoutSourceChallengeProgressLogNestedInput = {
+  create?: Prisma.XOR<Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  upsert?: Prisma.PhoneTimeLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  set?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  disconnect?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  delete?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  connect?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  update?: Prisma.PhoneTimeLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  updateMany?: Prisma.PhoneTimeLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput[]
+  deleteMany?: Prisma.PhoneTimeLedgerEntryScalarWhereInput | Prisma.PhoneTimeLedgerEntryScalarWhereInput[]
+}
+
+export type PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogNestedInput = {
+  create?: Prisma.XOR<Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  upsert?: Prisma.PhoneTimeLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  set?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  disconnect?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  delete?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  connect?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput | Prisma.PhoneTimeLedgerEntryWhereUniqueInput[]
+  update?: Prisma.PhoneTimeLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  updateMany?: Prisma.PhoneTimeLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput[]
+  deleteMany?: Prisma.PhoneTimeLedgerEntryScalarWhereInput | Prisma.PhoneTimeLedgerEntryScalarWhereInput[]
+}
+
 export type PhoneTimeLedgerEntryCreateWithoutCubInput = {
   id?: string
   amount: number
@@ -521,6 +587,7 @@ export type PhoneTimeLedgerEntryCreateWithoutCubInput = {
   createdAt?: Date | string
   createdByUserId?: string | null
   sourceTask?: Prisma.TaskCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
 }
 
 export type PhoneTimeLedgerEntryUncheckedCreateWithoutCubInput = {
@@ -530,6 +597,7 @@ export type PhoneTimeLedgerEntryUncheckedCreateWithoutCubInput = {
   note?: string | null
   createdAt?: Date | string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -570,6 +638,7 @@ export type PhoneTimeLedgerEntryScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"PhoneTimeLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"PhoneTimeLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"PhoneTimeLedgerEntry"> | string | null
 }
 
@@ -581,6 +650,7 @@ export type PhoneTimeLedgerEntryCreateWithoutSourceTaskInput = {
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
 }
 
 export type PhoneTimeLedgerEntryUncheckedCreateWithoutSourceTaskInput = {
@@ -590,6 +660,7 @@ export type PhoneTimeLedgerEntryUncheckedCreateWithoutSourceTaskInput = {
   note?: string | null
   createdAt?: Date | string
   cubId: string
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -619,6 +690,54 @@ export type PhoneTimeLedgerEntryUpdateManyWithWhereWithoutSourceTaskInput = {
   data: Prisma.XOR<Prisma.PhoneTimeLedgerEntryUpdateManyMutationInput, Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskInput>
 }
 
+export type PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  createdByUserId?: string | null
+  cub: Prisma.CubCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
+  sourceTask?: Prisma.TaskCreateNestedOneWithoutPhoneTimeLedgerEntriesInput
+}
+
+export type PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  cubId: string
+  sourceTaskId?: string | null
+  createdByUserId?: string | null
+}
+
+export type PhoneTimeLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.PhoneTimeLedgerEntryWhereUniqueInput
+  create: Prisma.XOR<Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput>
+}
+
+export type PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope = {
+  data: Prisma.PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInput | Prisma.PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInput[]
+  skipDuplicates?: boolean
+}
+
+export type PhoneTimeLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.PhoneTimeLedgerEntryWhereUniqueInput
+  update: Prisma.XOR<Prisma.PhoneTimeLedgerEntryUpdateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput>
+  create: Prisma.XOR<Prisma.PhoneTimeLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput>
+}
+
+export type PhoneTimeLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.PhoneTimeLedgerEntryWhereUniqueInput
+  data: Prisma.XOR<Prisma.PhoneTimeLedgerEntryUpdateWithoutSourceChallengeProgressLogInput, Prisma.PhoneTimeLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput>
+}
+
+export type PhoneTimeLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.PhoneTimeLedgerEntryScalarWhereInput
+  data: Prisma.XOR<Prisma.PhoneTimeLedgerEntryUpdateManyMutationInput, Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogInput>
+}
+
 export type PhoneTimeLedgerEntryCreateManyCubInput = {
   id?: string
   amount: number
@@ -626,6 +745,7 @@ export type PhoneTimeLedgerEntryCreateManyCubInput = {
   note?: string | null
   createdAt?: Date | string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -637,6 +757,7 @@ export type PhoneTimeLedgerEntryUpdateWithoutCubInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceTask?: Prisma.TaskUpdateOneWithoutPhoneTimeLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutPhoneTimeLedgerEntriesNestedInput
 }
 
 export type PhoneTimeLedgerEntryUncheckedUpdateWithoutCubInput = {
@@ -646,6 +767,7 @@ export type PhoneTimeLedgerEntryUncheckedUpdateWithoutCubInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -656,6 +778,7 @@ export type PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCubInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -666,6 +789,7 @@ export type PhoneTimeLedgerEntryCreateManySourceTaskInput = {
   note?: string | null
   createdAt?: Date | string
   cubId: string
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -677,6 +801,7 @@ export type PhoneTimeLedgerEntryUpdateWithoutSourceTaskInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutPhoneTimeLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutPhoneTimeLedgerEntriesNestedInput
 }
 
 export type PhoneTimeLedgerEntryUncheckedUpdateWithoutSourceTaskInput = {
@@ -686,6 +811,7 @@ export type PhoneTimeLedgerEntryUncheckedUpdateWithoutSourceTaskInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -696,6 +822,51 @@ export type PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type PhoneTimeLedgerEntryCreateManySourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  cubId: string
+  sourceTaskId?: string | null
+  createdByUserId?: string | null
+}
+
+export type PhoneTimeLedgerEntryUpdateWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cub?: Prisma.CubUpdateOneRequiredWithoutPhoneTimeLedgerEntriesNestedInput
+  sourceTask?: Prisma.TaskUpdateOneWithoutPhoneTimeLedgerEntriesNestedInput
+}
+
+export type PhoneTimeLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -709,9 +880,11 @@ export type PhoneTimeLedgerEntrySelect<ExtArgs extends runtime.Types.Extensions.
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
 }, ExtArgs["result"]["phoneTimeLedgerEntry"]>
 
 export type PhoneTimeLedgerEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -722,9 +895,11 @@ export type PhoneTimeLedgerEntrySelectCreateManyAndReturn<ExtArgs extends runtim
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
 }, ExtArgs["result"]["phoneTimeLedgerEntry"]>
 
 export type PhoneTimeLedgerEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -735,9 +910,11 @@ export type PhoneTimeLedgerEntrySelectUpdateManyAndReturn<ExtArgs extends runtim
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
 }, ExtArgs["result"]["phoneTimeLedgerEntry"]>
 
 export type PhoneTimeLedgerEntrySelectScalar = {
@@ -748,21 +925,25 @@ export type PhoneTimeLedgerEntrySelectScalar = {
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   createdByUserId?: boolean
 }
 
-export type PhoneTimeLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "createdAt" | "cubId" | "sourceTaskId" | "createdByUserId", ExtArgs["result"]["phoneTimeLedgerEntry"]>
+export type PhoneTimeLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "createdAt" | "cubId" | "sourceTaskId" | "sourceChallengeProgressLogId" | "createdByUserId", ExtArgs["result"]["phoneTimeLedgerEntry"]>
 export type PhoneTimeLedgerEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
 }
 export type PhoneTimeLedgerEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
 }
 export type PhoneTimeLedgerEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
 }
 
 export type $PhoneTimeLedgerEntryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -770,6 +951,7 @@ export type $PhoneTimeLedgerEntryPayload<ExtArgs extends runtime.Types.Extension
   objects: {
     cub: Prisma.$CubPayload<ExtArgs>
     sourceTask: Prisma.$TaskPayload<ExtArgs> | null
+    sourceChallengeProgressLog: Prisma.$ChallengeProgressLogPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -779,6 +961,7 @@ export type $PhoneTimeLedgerEntryPayload<ExtArgs extends runtime.Types.Extension
     createdAt: Date
     cubId: string
     sourceTaskId: string | null
+    sourceChallengeProgressLogId: string | null
     createdByUserId: string | null
   }, ExtArgs["result"]["phoneTimeLedgerEntry"]>
   composites: {}
@@ -1176,6 +1359,7 @@ export interface Prisma__PhoneTimeLedgerEntryClient<T, Null = never, ExtArgs ext
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cub<T extends Prisma.CubDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CubDefaultArgs<ExtArgs>>): Prisma.Prisma__CubClient<runtime.Types.Result.GetResult<Prisma.$CubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sourceTask<T extends Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs>>): Prisma.Prisma__TaskClient<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sourceChallengeProgressLog<T extends Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>>): Prisma.Prisma__ChallengeProgressLogClient<runtime.Types.Result.GetResult<Prisma.$ChallengeProgressLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1212,6 +1396,7 @@ export interface PhoneTimeLedgerEntryFieldRefs {
   readonly createdAt: Prisma.FieldRef<"PhoneTimeLedgerEntry", 'DateTime'>
   readonly cubId: Prisma.FieldRef<"PhoneTimeLedgerEntry", 'String'>
   readonly sourceTaskId: Prisma.FieldRef<"PhoneTimeLedgerEntry", 'String'>
+  readonly sourceChallengeProgressLogId: Prisma.FieldRef<"PhoneTimeLedgerEntry", 'String'>
   readonly createdByUserId: Prisma.FieldRef<"PhoneTimeLedgerEntry", 'String'>
 }
     
@@ -1630,6 +1815,25 @@ export type PhoneTimeLedgerEntry$sourceTaskArgs<ExtArgs extends runtime.Types.Ex
    */
   include?: Prisma.TaskInclude<ExtArgs> | null
   where?: Prisma.TaskWhereInput
+}
+
+/**
+ * PhoneTimeLedgerEntry.sourceChallengeProgressLog
+ */
+export type PhoneTimeLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChallengeProgressLog
+   */
+  select?: Prisma.ChallengeProgressLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChallengeProgressLog
+   */
+  omit?: Prisma.ChallengeProgressLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChallengeProgressLogInclude<ExtArgs> | null
+  where?: Prisma.ChallengeProgressLogWhereInput
 }
 
 /**

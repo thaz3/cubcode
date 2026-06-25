@@ -42,6 +42,7 @@ export type XpLedgerEntryMinAggregateOutputType = {
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   councilDayCubEntryId: string | null
   createdByUserId: string | null
 }
@@ -54,6 +55,7 @@ export type XpLedgerEntryMaxAggregateOutputType = {
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   councilDayCubEntryId: string | null
   createdByUserId: string | null
 }
@@ -66,6 +68,7 @@ export type XpLedgerEntryCountAggregateOutputType = {
   createdAt: number
   cubId: number
   sourceTaskId: number
+  sourceChallengeProgressLogId: number
   councilDayCubEntryId: number
   createdByUserId: number
   _all: number
@@ -88,6 +91,7 @@ export type XpLedgerEntryMinAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   councilDayCubEntryId?: true
   createdByUserId?: true
 }
@@ -100,6 +104,7 @@ export type XpLedgerEntryMaxAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   councilDayCubEntryId?: true
   createdByUserId?: true
 }
@@ -112,6 +117,7 @@ export type XpLedgerEntryCountAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   councilDayCubEntryId?: true
   createdByUserId?: true
   _all?: true
@@ -211,6 +217,7 @@ export type XpLedgerEntryGroupByOutputType = {
   createdAt: Date
   cubId: string
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   councilDayCubEntryId: string | null
   createdByUserId: string | null
   _count: XpLedgerEntryCountAggregateOutputType | null
@@ -246,10 +253,12 @@ export type XpLedgerEntryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   sourceTask?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  sourceChallengeProgressLog?: Prisma.XOR<Prisma.ChallengeProgressLogNullableScalarRelationFilter, Prisma.ChallengeProgressLogWhereInput> | null
   councilDayCubEntry?: Prisma.XOR<Prisma.CouncilDayCubEntryNullableScalarRelationFilter, Prisma.CouncilDayCubEntryWhereInput> | null
 }
 
@@ -261,10 +270,12 @@ export type XpLedgerEntryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   cub?: Prisma.CubOrderByWithRelationInput
   sourceTask?: Prisma.TaskOrderByWithRelationInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogOrderByWithRelationInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryOrderByWithRelationInput
 }
 
@@ -279,10 +290,12 @@ export type XpLedgerEntryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   sourceTask?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  sourceChallengeProgressLog?: Prisma.XOR<Prisma.ChallengeProgressLogNullableScalarRelationFilter, Prisma.ChallengeProgressLogWhereInput> | null
   councilDayCubEntry?: Prisma.XOR<Prisma.CouncilDayCubEntryNullableScalarRelationFilter, Prisma.CouncilDayCubEntryWhereInput> | null
 }, "id">
 
@@ -294,6 +307,7 @@ export type XpLedgerEntryOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.XpLedgerEntryCountOrderByAggregateInput
@@ -314,6 +328,7 @@ export type XpLedgerEntryScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringWithAggregatesFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableWithAggregatesFilter<"XpLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableWithAggregatesFilter<"XpLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableWithAggregatesFilter<"XpLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableWithAggregatesFilter<"XpLedgerEntry"> | string | null
 }
@@ -327,6 +342,7 @@ export type XpLedgerEntryCreateInput = {
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
   sourceTask?: Prisma.TaskCreateNestedOneWithoutXpLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutXpLedgerEntriesInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutXpLedgerEntriesInput
 }
 
@@ -338,6 +354,7 @@ export type XpLedgerEntryUncheckedCreateInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -351,6 +368,7 @@ export type XpLedgerEntryUpdateInput = {
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
   sourceTask?: Prisma.TaskUpdateOneWithoutXpLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutXpLedgerEntriesNestedInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutXpLedgerEntriesNestedInput
 }
 
@@ -362,6 +380,7 @@ export type XpLedgerEntryUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -374,6 +393,7 @@ export type XpLedgerEntryCreateManyInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -395,6 +415,7 @@ export type XpLedgerEntryUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -417,6 +438,7 @@ export type XpLedgerEntryCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
@@ -433,6 +455,7 @@ export type XpLedgerEntryMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
@@ -445,6 +468,7 @@ export type XpLedgerEntryMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
@@ -583,6 +607,48 @@ export type EnumLedgerReasonFieldUpdateOperationsInput = {
   set?: $Enums.LedgerReason
 }
 
+export type XpLedgerEntryCreateNestedManyWithoutSourceChallengeProgressLogInput = {
+  create?: Prisma.XOR<Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.XpLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  connect?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+}
+
+export type XpLedgerEntryUncheckedCreateNestedManyWithoutSourceChallengeProgressLogInput = {
+  create?: Prisma.XOR<Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.XpLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  connect?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+}
+
+export type XpLedgerEntryUpdateManyWithoutSourceChallengeProgressLogNestedInput = {
+  create?: Prisma.XOR<Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  upsert?: Prisma.XpLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.XpLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  set?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  disconnect?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  delete?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  connect?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  update?: Prisma.XpLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  updateMany?: Prisma.XpLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput[]
+  deleteMany?: Prisma.XpLedgerEntryScalarWhereInput | Prisma.XpLedgerEntryScalarWhereInput[]
+}
+
+export type XpLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogNestedInput = {
+  create?: Prisma.XOR<Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  upsert?: Prisma.XpLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.XpLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  set?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  disconnect?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  delete?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  connect?: Prisma.XpLedgerEntryWhereUniqueInput | Prisma.XpLedgerEntryWhereUniqueInput[]
+  update?: Prisma.XpLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  updateMany?: Prisma.XpLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput | Prisma.XpLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput[]
+  deleteMany?: Prisma.XpLedgerEntryScalarWhereInput | Prisma.XpLedgerEntryScalarWhereInput[]
+}
+
 export type XpLedgerEntryCreateWithoutCubInput = {
   id?: string
   amount: number
@@ -591,6 +657,7 @@ export type XpLedgerEntryCreateWithoutCubInput = {
   createdAt?: Date | string
   createdByUserId?: string | null
   sourceTask?: Prisma.TaskCreateNestedOneWithoutXpLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutXpLedgerEntriesInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutXpLedgerEntriesInput
 }
 
@@ -601,6 +668,7 @@ export type XpLedgerEntryUncheckedCreateWithoutCubInput = {
   note?: string | null
   createdAt?: Date | string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -642,6 +710,7 @@ export type XpLedgerEntryScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
 }
@@ -655,6 +724,7 @@ export type XpLedgerEntryCreateWithoutCouncilDayCubEntryInput = {
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
   sourceTask?: Prisma.TaskCreateNestedOneWithoutXpLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutXpLedgerEntriesInput
 }
 
 export type XpLedgerEntryUncheckedCreateWithoutCouncilDayCubEntryInput = {
@@ -665,6 +735,7 @@ export type XpLedgerEntryUncheckedCreateWithoutCouncilDayCubEntryInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -702,6 +773,7 @@ export type XpLedgerEntryCreateWithoutSourceTaskInput = {
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutXpLedgerEntriesInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutXpLedgerEntriesInput
 }
 
@@ -712,6 +784,7 @@ export type XpLedgerEntryUncheckedCreateWithoutSourceTaskInput = {
   note?: string | null
   createdAt?: Date | string
   cubId: string
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -742,6 +815,56 @@ export type XpLedgerEntryUpdateManyWithWhereWithoutSourceTaskInput = {
   data: Prisma.XOR<Prisma.XpLedgerEntryUpdateManyMutationInput, Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskInput>
 }
 
+export type XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  createdByUserId?: string | null
+  cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
+  sourceTask?: Prisma.TaskCreateNestedOneWithoutXpLedgerEntriesInput
+  councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutXpLedgerEntriesInput
+}
+
+export type XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  cubId: string
+  sourceTaskId?: string | null
+  councilDayCubEntryId?: string | null
+  createdByUserId?: string | null
+}
+
+export type XpLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.XpLedgerEntryWhereUniqueInput
+  create: Prisma.XOR<Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput>
+}
+
+export type XpLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope = {
+  data: Prisma.XpLedgerEntryCreateManySourceChallengeProgressLogInput | Prisma.XpLedgerEntryCreateManySourceChallengeProgressLogInput[]
+  skipDuplicates?: boolean
+}
+
+export type XpLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.XpLedgerEntryWhereUniqueInput
+  update: Prisma.XOR<Prisma.XpLedgerEntryUpdateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput>
+  create: Prisma.XOR<Prisma.XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput>
+}
+
+export type XpLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.XpLedgerEntryWhereUniqueInput
+  data: Prisma.XOR<Prisma.XpLedgerEntryUpdateWithoutSourceChallengeProgressLogInput, Prisma.XpLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput>
+}
+
+export type XpLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.XpLedgerEntryScalarWhereInput
+  data: Prisma.XOR<Prisma.XpLedgerEntryUpdateManyMutationInput, Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogInput>
+}
+
 export type XpLedgerEntryCreateManyCubInput = {
   id?: string
   amount: number
@@ -749,6 +872,7 @@ export type XpLedgerEntryCreateManyCubInput = {
   note?: string | null
   createdAt?: Date | string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -761,6 +885,7 @@ export type XpLedgerEntryUpdateWithoutCubInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceTask?: Prisma.TaskUpdateOneWithoutXpLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutXpLedgerEntriesNestedInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutXpLedgerEntriesNestedInput
 }
 
@@ -771,6 +896,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutCubInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -782,6 +908,7 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutCubInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -794,6 +921,7 @@ export type XpLedgerEntryCreateManyCouncilDayCubEntryInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -806,6 +934,7 @@ export type XpLedgerEntryUpdateWithoutCouncilDayCubEntryInput = {
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
   sourceTask?: Prisma.TaskUpdateOneWithoutXpLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutXpLedgerEntriesNestedInput
 }
 
 export type XpLedgerEntryUncheckedUpdateWithoutCouncilDayCubEntryInput = {
@@ -816,6 +945,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutCouncilDayCubEntryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -827,6 +957,7 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -837,6 +968,7 @@ export type XpLedgerEntryCreateManySourceTaskInput = {
   note?: string | null
   createdAt?: Date | string
   cubId: string
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -849,6 +981,7 @@ export type XpLedgerEntryUpdateWithoutSourceTaskInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutXpLedgerEntriesNestedInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutXpLedgerEntriesNestedInput
 }
 
@@ -859,6 +992,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutSourceTaskInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -870,6 +1004,55 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type XpLedgerEntryCreateManySourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  cubId: string
+  sourceTaskId?: string | null
+  councilDayCubEntryId?: string | null
+  createdByUserId?: string | null
+}
+
+export type XpLedgerEntryUpdateWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
+  sourceTask?: Prisma.TaskUpdateOneWithoutXpLedgerEntriesNestedInput
+  councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutXpLedgerEntriesNestedInput
+}
+
+export type XpLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type XpLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -884,10 +1067,12 @@ export type XpLedgerEntrySelect<ExtArgs extends runtime.Types.Extensions.Interna
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }, ExtArgs["result"]["xpLedgerEntry"]>
 
@@ -899,10 +1084,12 @@ export type XpLedgerEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }, ExtArgs["result"]["xpLedgerEntry"]>
 
@@ -914,10 +1101,12 @@ export type XpLedgerEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }, ExtArgs["result"]["xpLedgerEntry"]>
 
@@ -929,24 +1118,28 @@ export type XpLedgerEntrySelectScalar = {
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
 }
 
-export type XpLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "createdAt" | "cubId" | "sourceTaskId" | "councilDayCubEntryId" | "createdByUserId", ExtArgs["result"]["xpLedgerEntry"]>
+export type XpLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "createdAt" | "cubId" | "sourceTaskId" | "sourceChallengeProgressLogId" | "councilDayCubEntryId" | "createdByUserId", ExtArgs["result"]["xpLedgerEntry"]>
 export type XpLedgerEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }
 export type XpLedgerEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }
 export type XpLedgerEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }
 
@@ -955,6 +1148,7 @@ export type $XpLedgerEntryPayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     cub: Prisma.$CubPayload<ExtArgs>
     sourceTask: Prisma.$TaskPayload<ExtArgs> | null
+    sourceChallengeProgressLog: Prisma.$ChallengeProgressLogPayload<ExtArgs> | null
     councilDayCubEntry: Prisma.$CouncilDayCubEntryPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -965,6 +1159,7 @@ export type $XpLedgerEntryPayload<ExtArgs extends runtime.Types.Extensions.Inter
     createdAt: Date
     cubId: string
     sourceTaskId: string | null
+    sourceChallengeProgressLogId: string | null
     councilDayCubEntryId: string | null
     createdByUserId: string | null
   }, ExtArgs["result"]["xpLedgerEntry"]>
@@ -1363,6 +1558,7 @@ export interface Prisma__XpLedgerEntryClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cub<T extends Prisma.CubDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CubDefaultArgs<ExtArgs>>): Prisma.Prisma__CubClient<runtime.Types.Result.GetResult<Prisma.$CubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sourceTask<T extends Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>>): Prisma.Prisma__TaskClient<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sourceChallengeProgressLog<T extends Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>>): Prisma.Prisma__ChallengeProgressLogClient<runtime.Types.Result.GetResult<Prisma.$ChallengeProgressLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   councilDayCubEntry<T extends Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.XpLedgerEntry$councilDayCubEntryArgs<ExtArgs>>): Prisma.Prisma__CouncilDayCubEntryClient<runtime.Types.Result.GetResult<Prisma.$CouncilDayCubEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1400,6 +1596,7 @@ export interface XpLedgerEntryFieldRefs {
   readonly createdAt: Prisma.FieldRef<"XpLedgerEntry", 'DateTime'>
   readonly cubId: Prisma.FieldRef<"XpLedgerEntry", 'String'>
   readonly sourceTaskId: Prisma.FieldRef<"XpLedgerEntry", 'String'>
+  readonly sourceChallengeProgressLogId: Prisma.FieldRef<"XpLedgerEntry", 'String'>
   readonly councilDayCubEntryId: Prisma.FieldRef<"XpLedgerEntry", 'String'>
   readonly createdByUserId: Prisma.FieldRef<"XpLedgerEntry", 'String'>
 }
@@ -1819,6 +2016,25 @@ export type XpLedgerEntry$sourceTaskArgs<ExtArgs extends runtime.Types.Extension
    */
   include?: Prisma.TaskInclude<ExtArgs> | null
   where?: Prisma.TaskWhereInput
+}
+
+/**
+ * XpLedgerEntry.sourceChallengeProgressLog
+ */
+export type XpLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChallengeProgressLog
+   */
+  select?: Prisma.ChallengeProgressLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChallengeProgressLog
+   */
+  omit?: Prisma.ChallengeProgressLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChallengeProgressLogInclude<ExtArgs> | null
+  where?: Prisma.ChallengeProgressLogWhereInput
 }
 
 /**

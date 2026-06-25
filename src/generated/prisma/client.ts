@@ -126,3 +126,13 @@ export type GuardianNudgeRule = Prisma.GuardianNudgeRuleModel
  * 
  */
 export type GuardianNudge = Prisma.GuardianNudgeModel
+/**
+ * Model Challenge
+ * 
+ */
+export type Challenge = Prisma.ChallengeModel
+/**
+ * Model ChallengeProgressLog
+ * 
+ */
+export type ChallengeProgressLog = Prisma.ChallengeProgressLogModel

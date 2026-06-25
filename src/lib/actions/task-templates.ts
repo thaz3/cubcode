@@ -32,6 +32,7 @@ function revalidateTaskPaths() {
 
 function parseTemplateFormData(
   formData: FormData,
+  options?: { existingProofType?: ParsedTemplate["proofType"] },
 ): { ok: true; data: ParsedTemplate } | { ok: false; error: string } {
   const parsed = taskTemplateSchema.safeParse({
     title: formData.get("title"),
@@ -51,7 +52,7 @@ function parseTemplateFormData(
     };
   }
 
-  const validationError = validateTaskDefinition(parsed.data);
+  const validationError = validateTaskDefinition(parsed.data, options);
   if (validationError) {
     return { ok: false, error: validationError };
   }
@@ -114,7 +115,9 @@ export async function updateTaskTemplateAction(
     return { error: "Template not found." };
   }
 
-  const parsed = parseTemplateFormData(formData);
+  const parsed = parseTemplateFormData(formData, {
+    existingProofType: template.proofType,
+  });
   if (!parsed.ok) {
     return { error: parsed.error };
   }

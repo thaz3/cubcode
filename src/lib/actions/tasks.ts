@@ -746,7 +746,9 @@ export async function updateTaskAction(
     };
   }
 
-  const validationError = validateTaskDefinition(parsed.data);
+  const validationError = validateTaskDefinition(parsed.data, {
+    existingProofType: task.proofType,
+  });
   if (validationError) {
     return { error: validationError };
   }

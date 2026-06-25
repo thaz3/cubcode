@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CreateOneOffTaskForm } from "@/components/create-one-off-task-form";
+import { ParentCreateWorkPanel } from "@/components/parent-create-work-panel";
 import { CubTemplateAssignCard } from "@/components/cub-template-assign-card";
 import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
@@ -10,7 +10,7 @@ import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { Button } from "@/components/ui/button";
 import type { ActionState } from "@/lib/actions/auth";
 import { assignTaskAction } from "@/lib/actions/tasks";
-import type { TaskTemplate } from "@/generated/prisma/client";
+import type { Cub, TaskTemplate } from "@/generated/prisma/client";
 import { useState } from "react";
 
 type TaskOption = { id: string; title: string };
@@ -20,6 +20,7 @@ type AssignTaskToCubPanelProps = {
   cubName: string;
   availableTasks: TaskOption[];
   templates: TaskTemplate[];
+  cubs: Cub[];
 };
 
 export function AssignTaskToCubPanel({
@@ -27,6 +28,7 @@ export function AssignTaskToCubPanel({
   cubName,
   availableTasks,
   templates,
+  cubs,
 }: AssignTaskToCubPanelProps) {
   const {
     state: poolState,
@@ -43,11 +45,15 @@ export function AssignTaskToCubPanel({
   return (
     <div className="space-y-3">
       <CollapsibleSection
-        title="Create new task"
-        summary={`Define and assign directly to ${cubName}`}
+        title="Create task or routine"
+        summary={`One-time work or repeating habit for ${cubName}`}
         defaultOpen
       >
-        <CreateOneOffTaskForm cubId={cubId} cubName={cubName} compact />
+        <ParentCreateWorkPanel
+          cubs={cubs}
+          defaultCubId={cubId}
+          compact
+        />
       </CollapsibleSection>
 
       {hasPoolTasks ? (

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isLegacyProofType } from "@/lib/task-labels";
 import { MAX_CHECKLIST_ITEMS } from "@/lib/task-labels";
 import { parseDueDateFormValue } from "@/lib/task-schedule";
 
@@ -40,15 +41,24 @@ const proofChecklistItemsField = z
     }
   });
 
+export const taskProofTypeSchema = z.enum([
+  "PARENT_APPROVAL",
+  "SHORT_REFLECTION",
+  "CHECKLIST",
+  "TIME_LOG",
+  "PERFORMANCE_VIDEO",
+  "SLIDESHOW",
+]);
+
+export const mvpProofTypeSchema = z.enum([
+  "PARENT_APPROVAL",
+  "SHORT_REFLECTION",
+  "CHECKLIST",
+  "TIME_LOG",
+]);
+
 export const taskProofConfigSchema = z.object({
-  proofType: z.enum([
-    "PARENT_APPROVAL",
-    "SHORT_REFLECTION",
-    "CHECKLIST",
-    "TIME_LOG",
-    "PERFORMANCE_VIDEO",
-    "SLIDESHOW",
-  ]),
+  proofType: taskProofTypeSchema,
   proofPrompt: z.string().trim().max(2000).optional(),
   proofChecklistItems: proofChecklistItemsField,
 });
@@ -82,7 +92,17 @@ export const assignTaskSchema = z.object({
 
 export function validateProofConfig(
   data: z.infer<typeof taskProofConfigSchema>,
+  options?: { existingProofType?: z.infer<typeof taskProofTypeSchema> },
 ): string | null {
+  if (isLegacyProofType(data.proofType)) {
+    const unchanged =
+      options?.existingProofType &&
+      options.existingProofType === data.proofType;
+    if (!unchanged) {
+      return "Video and slideshow proof types are not available for new tasks.";
+    }
+  }
+
   if (
     data.proofType === "CHECKLIST" &&
     (!data.proofChecklistItems || data.proofChecklistItems.length === 0)
@@ -103,8 +123,12 @@ export function validateCategoryConfig(
 
 export function validateTaskDefinition(
   data: z.infer<typeof taskTemplateSchema>,
+  options?: { existingProofType?: z.infer<typeof taskProofTypeSchema> },
 ): string | null {
-  return validateCategoryConfig(data) ?? validateProofConfig(data);
+  return (
+    validateCategoryConfig(data) ??
+    validateProofConfig(data, options)
+  );
 }
 
 export const createTaskFromTemplateSchema = z.object({

@@ -2,13 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CUB_NAV_ITEMS, isCubNavActive } from "@/lib/cub-nav-items";
 import { cn } from "@/lib/utils";
-
-const NAV_ITEMS = [
-  { suffix: "", label: "Today" },
-  { suffix: "/tasks", label: "Tasks" },
-  { suffix: "/progress", label: "Progress" },
-] as const;
 
 type CubNavProps = {
   cubId: string;
@@ -25,12 +20,9 @@ export function CubNav({ cubId }: CubNavProps) {
       aria-label="Cub navigation"
     >
       <div className="mx-auto flex max-w-lg items-stretch justify-around px-1 pt-1">
-        {NAV_ITEMS.map((item) => {
+        {CUB_NAV_ITEMS.map((item) => {
           const href = `${base}${item.suffix}`;
-          const active =
-            item.suffix === ""
-              ? pathname === base
-              : pathname.startsWith(href);
+          const active = isCubNavActive(pathname, base, item.suffix);
 
           return (
             <Link

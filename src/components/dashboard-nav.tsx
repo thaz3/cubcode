@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { logoutAction } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
-  DASHBOARD_MORE_NAV_ITEMS,
+  DASHBOARD_MORE_ONLY_NAV_ITEMS,
   DASHBOARD_PRIMARY_NAV_ITEMS,
   isDashboardMoreNavActive,
   isDashboardNavActive,
@@ -91,7 +91,7 @@ export function DashboardNav({
             </button>
             {moreOpen ? (
               <div className="absolute right-0 top-full z-50 mt-1 min-w-44 rounded-xl border border-zinc-800 bg-zinc-900 py-1 shadow-lg">
-                {DASHBOARD_MORE_NAV_ITEMS.map((item) => (
+                {DASHBOARD_MORE_ONLY_NAV_ITEMS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}

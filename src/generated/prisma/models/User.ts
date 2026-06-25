@@ -192,6 +192,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   family?: Prisma.XOR<Prisma.FamilyNullableScalarRelationFilter, Prisma.FamilyWhereInput> | null
   reviewedTasks?: Prisma.TaskListRelationFilter
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogListRelationFilter
   councilDaySessions?: Prisma.CouncilDaySessionListRelationFilter
 }
 
@@ -204,6 +205,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   family?: Prisma.FamilyOrderByWithRelationInput
   reviewedTasks?: Prisma.TaskOrderByRelationAggregateInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogOrderByRelationAggregateInput
   councilDaySessions?: Prisma.CouncilDaySessionOrderByRelationAggregateInput
 }
 
@@ -219,6 +221,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   family?: Prisma.XOR<Prisma.FamilyNullableScalarRelationFilter, Prisma.FamilyWhereInput> | null
   reviewedTasks?: Prisma.TaskListRelationFilter
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogListRelationFilter
   councilDaySessions?: Prisma.CouncilDaySessionListRelationFilter
 }, "id" | "email">
 
@@ -255,6 +258,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   family?: Prisma.FamilyCreateNestedOneWithoutOwnerInput
   reviewedTasks?: Prisma.TaskCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutReviewedByInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
 }
 
@@ -267,6 +271,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   family?: Prisma.FamilyUncheckedCreateNestedOneWithoutOwnerInput
   reviewedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutReviewedByInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
 }
 
@@ -279,6 +284,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneWithoutOwnerNestedInput
   reviewedTasks?: Prisma.TaskUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutReviewedByNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
 }
 
@@ -291,6 +297,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUncheckedUpdateOneWithoutOwnerNestedInput
   reviewedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutReviewedByNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
 }
 
@@ -416,6 +423,22 @@ export type UserUpdateOneWithoutReviewedTasksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedTasksInput, Prisma.UserUpdateWithoutReviewedTasksInput>, Prisma.UserUncheckedUpdateWithoutReviewedTasksInput>
 }
 
+export type UserCreateNestedOneWithoutReviewedChallengeProgressLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedChallengeProgressLogsInput, Prisma.UserUncheckedCreateWithoutReviewedChallengeProgressLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedChallengeProgressLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutReviewedChallengeProgressLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedChallengeProgressLogsInput, Prisma.UserUncheckedCreateWithoutReviewedChallengeProgressLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedChallengeProgressLogsInput
+  upsert?: Prisma.UserUpsertWithoutReviewedChallengeProgressLogsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedChallengeProgressLogsInput, Prisma.UserUpdateWithoutReviewedChallengeProgressLogsInput>, Prisma.UserUncheckedUpdateWithoutReviewedChallengeProgressLogsInput>
+}
+
 export type UserCreateWithoutFamilyInput = {
   id?: string
   email: string
@@ -424,6 +447,7 @@ export type UserCreateWithoutFamilyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   reviewedTasks?: Prisma.TaskCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutReviewedByInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
 }
 
@@ -435,6 +459,7 @@ export type UserUncheckedCreateWithoutFamilyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   reviewedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutReviewedByInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
 }
 
@@ -462,6 +487,7 @@ export type UserUpdateWithoutFamilyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewedTasks?: Prisma.TaskUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutReviewedByNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
 }
 
@@ -473,6 +499,7 @@ export type UserUncheckedUpdateWithoutFamilyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutReviewedByNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
 }
 
@@ -485,6 +512,7 @@ export type UserCreateWithoutCouncilDaySessionsInput = {
   updatedAt?: Date | string
   family?: Prisma.FamilyCreateNestedOneWithoutOwnerInput
   reviewedTasks?: Prisma.TaskCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutReviewedByInput
 }
 
 export type UserUncheckedCreateWithoutCouncilDaySessionsInput = {
@@ -496,6 +524,7 @@ export type UserUncheckedCreateWithoutCouncilDaySessionsInput = {
   updatedAt?: Date | string
   family?: Prisma.FamilyUncheckedCreateNestedOneWithoutOwnerInput
   reviewedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutReviewedByInput
 }
 
 export type UserCreateOrConnectWithoutCouncilDaySessionsInput = {
@@ -523,6 +552,7 @@ export type UserUpdateWithoutCouncilDaySessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneWithoutOwnerNestedInput
   reviewedTasks?: Prisma.TaskUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutReviewedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCouncilDaySessionsInput = {
@@ -534,6 +564,7 @@ export type UserUncheckedUpdateWithoutCouncilDaySessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUncheckedUpdateOneWithoutOwnerNestedInput
   reviewedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutReviewedByNestedInput
 }
 
 export type UserCreateWithoutReviewedTasksInput = {
@@ -544,6 +575,7 @@ export type UserCreateWithoutReviewedTasksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   family?: Prisma.FamilyCreateNestedOneWithoutOwnerInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutReviewedByInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
 }
 
@@ -555,6 +587,7 @@ export type UserUncheckedCreateWithoutReviewedTasksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   family?: Prisma.FamilyUncheckedCreateNestedOneWithoutOwnerInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutReviewedByInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
 }
 
@@ -582,6 +615,7 @@ export type UserUpdateWithoutReviewedTasksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneWithoutOwnerNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutReviewedByNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
 }
 
@@ -593,6 +627,71 @@ export type UserUncheckedUpdateWithoutReviewedTasksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUncheckedUpdateOneWithoutOwnerNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutReviewedByNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
+}
+
+export type UserCreateWithoutReviewedChallengeProgressLogsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family?: Prisma.FamilyCreateNestedOneWithoutOwnerInput
+  reviewedTasks?: Prisma.TaskCreateNestedManyWithoutReviewedByInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
+}
+
+export type UserUncheckedCreateWithoutReviewedChallengeProgressLogsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family?: Prisma.FamilyUncheckedCreateNestedOneWithoutOwnerInput
+  reviewedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReviewedByInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
+}
+
+export type UserCreateOrConnectWithoutReviewedChallengeProgressLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedChallengeProgressLogsInput, Prisma.UserUncheckedCreateWithoutReviewedChallengeProgressLogsInput>
+}
+
+export type UserUpsertWithoutReviewedChallengeProgressLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewedChallengeProgressLogsInput, Prisma.UserUncheckedUpdateWithoutReviewedChallengeProgressLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedChallengeProgressLogsInput, Prisma.UserUncheckedCreateWithoutReviewedChallengeProgressLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewedChallengeProgressLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewedChallengeProgressLogsInput, Prisma.UserUncheckedUpdateWithoutReviewedChallengeProgressLogsInput>
+}
+
+export type UserUpdateWithoutReviewedChallengeProgressLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneWithoutOwnerNestedInput
+  reviewedTasks?: Prisma.TaskUpdateManyWithoutReviewedByNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewedChallengeProgressLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUncheckedUpdateOneWithoutOwnerNestedInput
+  reviewedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReviewedByNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
 }
 
@@ -603,11 +702,13 @@ export type UserUncheckedUpdateWithoutReviewedTasksInput = {
 
 export type UserCountOutputType = {
   reviewedTasks: number
+  reviewedChallengeProgressLogs: number
   councilDaySessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reviewedTasks?: boolean | UserCountOutputTypeCountReviewedTasksArgs
+  reviewedChallengeProgressLogs?: boolean | UserCountOutputTypeCountReviewedChallengeProgressLogsArgs
   councilDaySessions?: boolean | UserCountOutputTypeCountCouncilDaySessionsArgs
 }
 
@@ -631,6 +732,13 @@ export type UserCountOutputTypeCountReviewedTasksArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountReviewedChallengeProgressLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChallengeProgressLogWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountCouncilDaySessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CouncilDaySessionWhereInput
 }
@@ -645,6 +753,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   family?: boolean | Prisma.User$familyArgs<ExtArgs>
   reviewedTasks?: boolean | Prisma.User$reviewedTasksArgs<ExtArgs>
+  reviewedChallengeProgressLogs?: boolean | Prisma.User$reviewedChallengeProgressLogsArgs<ExtArgs>
   councilDaySessions?: boolean | Prisma.User$councilDaySessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -680,6 +789,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   family?: boolean | Prisma.User$familyArgs<ExtArgs>
   reviewedTasks?: boolean | Prisma.User$reviewedTasksArgs<ExtArgs>
+  reviewedChallengeProgressLogs?: boolean | Prisma.User$reviewedChallengeProgressLogsArgs<ExtArgs>
   councilDaySessions?: boolean | Prisma.User$councilDaySessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -691,6 +801,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     family: Prisma.$FamilyPayload<ExtArgs> | null
     reviewedTasks: Prisma.$TaskPayload<ExtArgs>[]
+    reviewedChallengeProgressLogs: Prisma.$ChallengeProgressLogPayload<ExtArgs>[]
     councilDaySessions: Prisma.$CouncilDaySessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1096,6 +1207,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   family<T extends Prisma.User$familyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$familyArgs<ExtArgs>>): Prisma.Prisma__FamilyClient<runtime.Types.Result.GetResult<Prisma.$FamilyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reviewedTasks<T extends Prisma.User$reviewedTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewedChallengeProgressLogs<T extends Prisma.User$reviewedChallengeProgressLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedChallengeProgressLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChallengeProgressLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   councilDaySessions<T extends Prisma.User$councilDaySessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$councilDaySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouncilDaySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1565,6 +1677,30 @@ export type User$reviewedTasksArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
+}
+
+/**
+ * User.reviewedChallengeProgressLogs
+ */
+export type User$reviewedChallengeProgressLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChallengeProgressLog
+   */
+  select?: Prisma.ChallengeProgressLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChallengeProgressLog
+   */
+  omit?: Prisma.ChallengeProgressLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChallengeProgressLogInclude<ExtArgs> | null
+  where?: Prisma.ChallengeProgressLogWhereInput
+  orderBy?: Prisma.ChallengeProgressLogOrderByWithRelationInput | Prisma.ChallengeProgressLogOrderByWithRelationInput[]
+  cursor?: Prisma.ChallengeProgressLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChallengeProgressLogScalarFieldEnum | Prisma.ChallengeProgressLogScalarFieldEnum[]
 }
 
 /**

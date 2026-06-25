@@ -40,6 +40,9 @@ export default async function TaskBoardPage() {
                 <Button size="lg">Review ({pendingReviewCount})</Button>
               </Link>
             ) : null}
+            <Link href="/dashboard/create">
+              <Button size="lg">Create</Button>
+            </Link>
             <Link href="/dashboard/tasks/library">
               <Button variant="secondary" size="lg">
                 Task library

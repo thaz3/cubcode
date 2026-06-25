@@ -39,9 +39,9 @@ export function TaskBoardWorkflow({
         {assigned.length === 0 ? (
           <EmptyState
             title="Nothing assigned yet"
-            description="Assign from your task library or create a task for a Cub."
-            actionLabel="Open task library"
-            actionHref="/dashboard/tasks/library"
+            description="Assign from your task library or create a task or routine for a Cub."
+            actionLabel="Create task or routine"
+            actionHref="/dashboard/create"
           />
         ) : (
           <ActiveTaskList items={groupActiveTasks(assigned)} />

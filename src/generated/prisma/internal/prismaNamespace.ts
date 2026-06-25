@@ -400,7 +400,9 @@ export const ModelName = {
   RewardRedemption: 'RewardRedemption',
   GuardianNudgePreferences: 'GuardianNudgePreferences',
   GuardianNudgeRule: 'GuardianNudgeRule',
-  GuardianNudge: 'GuardianNudge'
+  GuardianNudge: 'GuardianNudge',
+  Challenge: 'Challenge',
+  ChallengeProgressLog: 'ChallengeProgressLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge"
+    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1678,6 +1680,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Challenge: {
+      payload: Prisma.$ChallengePayload<ExtArgs>
+      fields: Prisma.ChallengeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChallengeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChallengeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>
+        }
+        findFirst: {
+          args: Prisma.ChallengeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChallengeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>
+        }
+        findMany: {
+          args: Prisma.ChallengeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>[]
+        }
+        create: {
+          args: Prisma.ChallengeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>
+        }
+        createMany: {
+          args: Prisma.ChallengeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChallengeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>[]
+        }
+        delete: {
+          args: Prisma.ChallengeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>
+        }
+        update: {
+          args: Prisma.ChallengeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>
+        }
+        deleteMany: {
+          args: Prisma.ChallengeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChallengeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChallengeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>[]
+        }
+        upsert: {
+          args: Prisma.ChallengeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengePayload>
+        }
+        aggregate: {
+          args: Prisma.ChallengeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChallenge>
+        }
+        groupBy: {
+          args: Prisma.ChallengeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChallengeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChallengeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChallengeCountAggregateOutputType> | number
+        }
+      }
+    }
+    ChallengeProgressLog: {
+      payload: Prisma.$ChallengeProgressLogPayload<ExtArgs>
+      fields: Prisma.ChallengeProgressLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ChallengeProgressLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ChallengeProgressLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>
+        }
+        findFirst: {
+          args: Prisma.ChallengeProgressLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ChallengeProgressLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>
+        }
+        findMany: {
+          args: Prisma.ChallengeProgressLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>[]
+        }
+        create: {
+          args: Prisma.ChallengeProgressLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>
+        }
+        createMany: {
+          args: Prisma.ChallengeProgressLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ChallengeProgressLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>[]
+        }
+        delete: {
+          args: Prisma.ChallengeProgressLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>
+        }
+        update: {
+          args: Prisma.ChallengeProgressLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.ChallengeProgressLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ChallengeProgressLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ChallengeProgressLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.ChallengeProgressLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ChallengeProgressLogPayload>
+        }
+        aggregate: {
+          args: Prisma.ChallengeProgressLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateChallengeProgressLog>
+        }
+        groupBy: {
+          args: Prisma.ChallengeProgressLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChallengeProgressLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ChallengeProgressLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ChallengeProgressLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1880,6 +2030,7 @@ export const XpLedgerEntryScalarFieldEnum = {
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
+  sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -1895,6 +2046,7 @@ export const FocusTokenLedgerEntryScalarFieldEnum = {
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
+  sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -1910,6 +2062,7 @@ export const PhoneTimeLedgerEntryScalarFieldEnum = {
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
+  sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
   createdByUserId: 'createdByUserId'
 } as const
 
@@ -2007,6 +2160,52 @@ export const GuardianNudgeScalarFieldEnum = {
 } as const
 
 export type GuardianNudgeScalarFieldEnum = (typeof GuardianNudgeScalarFieldEnum)[keyof typeof GuardianNudgeScalarFieldEnum]
+
+
+export const ChallengeScalarFieldEnum = {
+  id: 'id',
+  challengeType: 'challengeType',
+  title: 'title',
+  description: 'description',
+  intervalType: 'intervalType',
+  intervalConfig: 'intervalConfig',
+  proofType: 'proofType',
+  proofPrompt: 'proofPrompt',
+  proofChecklistItems: 'proofChecklistItems',
+  xpEarned: 'xpEarned',
+  focusTokensEarned: 'focusTokensEarned',
+  phoneMinutesEarned: 'phoneMinutesEarned',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  createdByUserId: 'createdByUserId'
+} as const
+
+export type ChallengeScalarFieldEnum = (typeof ChallengeScalarFieldEnum)[keyof typeof ChallengeScalarFieldEnum]
+
+
+export const ChallengeProgressLogScalarFieldEnum = {
+  id: 'id',
+  intervalStart: 'intervalStart',
+  intervalEnd: 'intervalEnd',
+  completed: 'completed',
+  reflection: 'reflection',
+  checklistData: 'checklistData',
+  reviewNote: 'reviewNote',
+  status: 'status',
+  submittedAt: 'submittedAt',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  challengeId: 'challengeId',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  reviewedByUserId: 'reviewedByUserId'
+} as const
+
+export type ChallengeProgressLogScalarFieldEnum = (typeof ChallengeProgressLogScalarFieldEnum)[keyof typeof ChallengeProgressLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2281,6 +2480,62 @@ export type ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel> = FieldRefInp
 
 
 /**
+ * Reference to a field of type 'ChallengeType'
+ */
+export type EnumChallengeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeType'>
+    
+
+
+/**
+ * Reference to a field of type 'ChallengeType[]'
+ */
+export type ListEnumChallengeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChallengeIntervalType'
+ */
+export type EnumChallengeIntervalTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeIntervalType'>
+    
+
+
+/**
+ * Reference to a field of type 'ChallengeIntervalType[]'
+ */
+export type ListEnumChallengeIntervalTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeIntervalType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChallengeStatus'
+ */
+export type EnumChallengeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ChallengeStatus[]'
+ */
+export type ListEnumChallengeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ChallengeProgressStatus'
+ */
+export type EnumChallengeProgressStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeProgressStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ChallengeProgressStatus[]'
+ */
+export type ListEnumChallengeProgressStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ChallengeProgressStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2420,6 +2675,8 @@ export type GlobalOmitConfig = {
   guardianNudgePreferences?: Prisma.GuardianNudgePreferencesOmit
   guardianNudgeRule?: Prisma.GuardianNudgeRuleOmit
   guardianNudge?: Prisma.GuardianNudgeOmit
+  challenge?: Prisma.ChallengeOmit
+  challengeProgressLog?: Prisma.ChallengeProgressLogOmit
 }
 
 /* Types for Logging */

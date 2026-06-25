@@ -65,11 +65,37 @@ enum GrowthCategory {
 
 enum LedgerReason {
   TASK_APPROVAL
+  CHALLENGE_APPROVAL
   REWARD_REDEMPTION
   PARENT_ADJUSTMENT
   DAILY_CAP_OVERFLOW
   WEEKEND_BANK_USE
   COUNCIL_DAY
+}
+
+enum ChallengeType {
+  BINARY_ROUTINE
+}
+
+enum ChallengeIntervalType {
+  DAILY
+  WEEKDAYS
+  WEEKLY
+  CUSTOM
+}
+
+enum ChallengeStatus {
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum ChallengeProgressStatus {
+  PENDING
+  SUBMITTED
+  SENT_BACK
+  REJECTED
+  REWARDED
 }
 
 enum RewardGrantType {
@@ -109,6 +135,7 @@ model User {
 
   family        Family?
   reviewedTasks Task[]  @relation("ReviewedTasks")
+  reviewedChallengeProgressLogs ChallengeProgressLog[] @relation("ReviewedChallengeProgress")
   councilDaySessions CouncilDaySession[] @relation("ConductedCouncilDays")
 }
 
@@ -133,6 +160,8 @@ model Family {
   guardianNudgePreferences GuardianNudgePreferences?
   guardianNudgeRules GuardianNudgeRule[]
   guardianNudges GuardianNudge[]
+  challenges Challenge[]
+  challengeProgressLogs ChallengeProgressLog[]
 }
 
 model Cub {
@@ -161,6 +190,8 @@ model Cub {
   rewardRedemptions        RewardRedemption[]
   councilDayEntries        CouncilDayCubEntry[]
   guardianNudges           GuardianNudge[]
+  challenges               Challenge[]
+  challengeProgressLogs    ChallengeProgressLog[]
 
   @@index([familyId])
 }
@@ -311,15 +342,18 @@ model XpLedgerEntry {
 
   cubId           String
   sourceTaskId    String?
+  sourceChallengeProgressLogId String?
   councilDayCubEntryId String?
   createdByUserId String?
 
   cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
   sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
+  sourceChallengeProgressLog ChallengeProgressLog? @relation(fields: [sourceChallengeProgressLogId], references: [id], onDelete: SetNull)
   councilDayCubEntry CouncilDayCubEntry? @relation(fields: [councilDayCubEntryId], references: [id], onDelete: SetNull)
 
   @@index([cubId])
   @@index([sourceTaskId])
+  @@index([sourceChallengeProgressLogId])
   @@index([councilDayCubEntryId])
   @@index([createdAt])
 }
@@ -333,15 +367,18 @@ model FocusTokenLedgerEntry {
 
   cubId           String
   sourceTaskId    String?
+  sourceChallengeProgressLogId String?
   councilDayCubEntryId String?
   createdByUserId String?
 
   cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
   sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
+  sourceChallengeProgressLog ChallengeProgressLog? @relation(fields: [sourceChallengeProgressLogId], references: [id], onDelete: SetNull)
   councilDayCubEntry CouncilDayCubEntry? @relation(fields: [councilDayCubEntryId], references: [id], onDelete: SetNull)
 
   @@index([cubId])
   @@index([sourceTaskId])
+  @@index([sourceChallengeProgressLogId])
   @@index([councilDayCubEntryId])
   @@index([createdAt])
 }
@@ -355,13 +392,16 @@ model PhoneTimeLedgerEntry {
 
   cubId           String
   sourceTaskId    String?
+  sourceChallengeProgressLogId String?
   createdByUserId String?
 
   cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
   sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
+  sourceChallengeProgressLog ChallengeProgressLog? @relation(fields: [sourceChallengeProgressLogId], references: [id], onDelete: SetNull)
 
   @@index([cubId])
   @@index([sourceTaskId])
+  @@index([sourceChallengeProgressLogId])
   @@index([createdAt])
 }
 
@@ -475,4 +515,68 @@ model GuardianNudge {
   @@unique([familyId, dedupeKey])
   @@index([familyId, status])
   @@index([taskId])
+}
+
+model Challenge {
+  id                  String               @id @default(cuid())
+  challengeType       ChallengeType        @default(BINARY_ROUTINE)
+  title               String
+  description         String?
+  intervalType        ChallengeIntervalType
+  intervalConfig      Json?
+  proofType           TaskProofType
+  proofPrompt         String?
+  proofChecklistItems Json?
+  xpEarned            Int                  @default(10)
+  focusTokensEarned   Int                  @default(1)
+  phoneMinutesEarned  Int                  @default(15)
+  status              ChallengeStatus      @default(ACTIVE)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  familyId        String
+  cubId           String
+  createdByUserId String?
+
+  family       Family                @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  cub          Cub                   @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  progressLogs ChallengeProgressLog[]
+
+  @@index([familyId])
+  @@index([cubId])
+  @@index([status])
+}
+
+model ChallengeProgressLog {
+  id            String                  @id @default(cuid())
+  intervalStart DateTime
+  intervalEnd   DateTime
+  completed     Boolean?
+  reflection    String?
+  checklistData Json?
+  reviewNote    String?
+  status        ChallengeProgressStatus @default(PENDING)
+  submittedAt   DateTime?
+  reviewedAt    DateTime?
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+
+  challengeId      String
+  familyId         String
+  cubId            String
+  reviewedByUserId String?
+
+  challenge    Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  family       Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  cub          Cub       @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  reviewedBy   User?     @relation("ReviewedChallengeProgress", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  xpLedgerEntries         XpLedgerEntry[]
+  focusTokenLedgerEntries FocusTokenLedgerEntry[]
+  phoneTimeLedgerEntries  PhoneTimeLedgerEntry[]
+
+  @@unique([challengeId, intervalStart])
+  @@index([familyId])
+  @@index([cubId])
+  @@index([status])
+  @@index([challengeId])
 }

@@ -37,6 +37,7 @@ import {
   getActiveGuardianNudgesForFamily,
 } from "@/lib/guardian-nudges/sync";
 import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
+import { countSubmittedChallengeLogs } from "@/lib/cub-routines";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
@@ -55,7 +56,8 @@ export default async function DashboardPage() {
   const weekQuery = formatWeekParam(weekStartsOn);
 
   const [
-    pendingReview,
+    pendingTaskReview,
+    pendingChallengeReview,
     sentBackCount,
     activeTasks,
     councilDaySession,
@@ -66,6 +68,7 @@ export default async function DashboardPage() {
     db.task.count({
       where: { familyId: family.id, status: "SUBMITTED" },
     }),
+    countSubmittedChallengeLogs(family.id),
     db.task.count({
       where: { familyId: family.id, status: "SENT_BACK" },
     }),
@@ -101,6 +104,8 @@ export default async function DashboardPage() {
     ensureGuardianNudgePreferences(family.id),
     getActiveGuardianNudgesForFamily(family.id),
   ]);
+
+  const pendingReview = pendingTaskReview + pendingChallengeReview;
 
   const sortedActiveTasks = sortTasksByUrgency(activeTasks).slice(0, 5);
   const inProgressCount = activeTasks.filter(

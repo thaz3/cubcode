@@ -11,6 +11,22 @@ export const DEFAULT_CHECKLIST_ITEMS = [
   "I checked my work before submitting",
 ] as const;
 
+/** Proof types allowed for new tasks (MVP privacy contract). */
+export const MVP_CUB_PROOF_TYPES = [
+  "PARENT_APPROVAL",
+  "SHORT_REFLECTION",
+  "CHECKLIST",
+  "TIME_LOG",
+] as const satisfies readonly TaskProofType[];
+
+/** Legacy proof types — existing tasks only; hidden from new task flows. */
+export const LEGACY_CUB_PROOF_TYPES = [
+  "PERFORMANCE_VIDEO",
+  "SLIDESHOW",
+] as const satisfies readonly TaskProofType[];
+
+export type MvpCubProofType = (typeof MVP_CUB_PROOF_TYPES)[number];
+
 /** Proof types the parent can choose when assigning a task. */
 export const CUB_PROOF_TYPE_LABELS: Record<TaskProofType, string> = {
   PARENT_APPROVAL: "Parent approval only",
@@ -37,7 +53,25 @@ export function parseChecklistLines(text: string): string[] {
 }
 
 export function formatProofType(proofType: TaskProofType): string {
-  return CUB_PROOF_TYPE_LABELS[proofType];
+  const label = CUB_PROOF_TYPE_LABELS[proofType];
+  if (isLegacyProofType(proofType)) {
+    return `${label} (legacy)`;
+  }
+  return label;
+}
+
+export function isMvpProofType(
+  proofType: TaskProofType,
+): proofType is MvpCubProofType {
+  return (MVP_CUB_PROOF_TYPES as readonly string[]).includes(proofType);
+}
+
+export function isLegacyProofType(proofType: TaskProofType): boolean {
+  return (LEGACY_CUB_PROOF_TYPES as readonly string[]).includes(proofType);
+}
+
+export function selectableCubProofTypes(): readonly MvpCubProofType[] {
+  return MVP_CUB_PROOF_TYPES;
 }
 
 export function checklistItemsToText(items: string[] | null | undefined): string {

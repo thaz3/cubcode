@@ -3,27 +3,29 @@
 import type { TaskProofType } from "@/generated/prisma/client";
 import {
   checklistItemsToText,
-  CUB_PROOF_TYPE_LABELS,
   defaultProofPrompt,
+  formatProofType,
+  isLegacyProofType,
+  isMvpProofType,
   MAX_CHECKLIST_ITEMS,
   normalizeCubProofType,
   parseChecklistLines,
+  selectableCubProofTypes,
   type CubProofType,
+  type MvpCubProofType,
 } from "@/lib/task-labels";
 import { Label } from "@/components/ui/label";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import { useState } from "react";
 
-const PROOF_TYPE_SHORT_LABELS: Record<CubProofType, string> = {
+const PROOF_TYPE_SHORT_LABELS: Record<MvpCubProofType, string> = {
   PARENT_APPROVAL: "Parent approval",
   SHORT_REFLECTION: "Reflection",
   CHECKLIST: "Checklist",
   TIME_LOG: "Time log",
-  PERFORMANCE_VIDEO: "Video link",
-  SLIDESHOW: "Slideshow",
 };
 
-const PROOF_TYPES = Object.keys(CUB_PROOF_TYPE_LABELS) as CubProofType[];
+const SELECTABLE_PROOF_TYPES = selectableCubProofTypes();
 
 export type ProofConfigValues = {
   proofType: TaskProofType;
@@ -41,6 +43,9 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
   );
 
   const [proofType, setProofType] = useState<CubProofType>(initialProofType);
+  const legacyProofType = isLegacyProofType(initialProofType)
+    ? initialProofType
+    : null;
   const [proofPrompt, setProofPrompt] = useState(
     initialValues?.proofPrompt ?? defaultProofPrompt(initialProofType),
   );
@@ -48,7 +53,7 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
     checklistItemsToText(initialValues?.proofChecklistItems),
   );
 
-  function handleProofTypeChange(next: CubProofType) {
+  function handleProofTypeChange(next: MvpCubProofType) {
     setProofType(next);
     setProofPrompt(defaultProofPrompt(next));
   }
@@ -66,12 +71,22 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
           Proof style
         </p>
         <input type="hidden" name="proofType" value={proofType} />
+        {legacyProofType && proofType === legacyProofType ? (
+          <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-200">
+            This task uses a legacy proof style ({formatProofType(legacyProofType)}).
+            Pick a supported style below to switch, or keep the current style.
+          </p>
+        ) : null}
         <RadioChoiceList
           name="proofTypeChoice"
-          value={proofType}
+          value={
+            isMvpProofType(proofType)
+              ? proofType
+              : ("" as MvpCubProofType)
+          }
           onChange={handleProofTypeChange}
           layout="compact"
-          options={PROOF_TYPES.map((type) => ({
+          options={SELECTABLE_PROOF_TYPES.map((type) => ({
             value: type,
             label: PROOF_TYPE_SHORT_LABELS[type],
           }))}

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { CreateOneOffTaskForm } from "@/components/create-one-off-task-form";
+import { TaskChallengeExplainer } from "@/components/task-challenge-explainer";
 import { TaskLibraryWorkflow } from "@/components/task-board-workflow";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
@@ -39,14 +40,20 @@ export default async function TaskLibraryPage() {
         }
       />
 
-      <Card>
-        <h2 className="text-sm font-semibold text-zinc-100">Create new task</h2>
-        <p className="mt-1 text-sm text-zinc-400">
-          Add a task to the library, then assign it to a Cub.
-        </p>
-        <div className="mt-4">
-          <CreateOneOffTaskForm compact />
+      <TaskChallengeExplainer />
+
+      <Card className="space-y-4 p-4 sm:p-5">
+        <div>
+          <h2 className="text-sm font-semibold text-zinc-100">Create something new</h2>
+          <p className="mt-1 text-sm text-zinc-400">
+            Use one screen to add a one-time task or a repeating routine.
+          </p>
         </div>
+        <Link href="/dashboard/create">
+          <Button fullWidth size="lg">
+            Create task or routine
+          </Button>
+        </Link>
       </Card>
 
       <TaskLibraryWorkflow tasks={libraryTasks} cubs={family.cubs} />

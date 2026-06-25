@@ -359,10 +359,10 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
       </Card>
 
       <Card id="assign-task" className="scroll-mt-8">
-        <h2 className="text-lg font-semibold">Assign a task</h2>
+        <h2 className="text-lg font-semibold">Assign work</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Create a new task, pick from the library, or use a template for{" "}
-          {cub.displayName}.
+          Create a one-time task or repeating routine, pick from the library, or
+          use a template for {cub.displayName}.
         </p>
         <div className="mt-4">
           <AssignTaskToCubPanel
@@ -370,6 +370,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
             cubName={cub.displayName}
             availableTasks={availableTasks}
             templates={templates}
+            cubs={family.cubs}
           />
         </div>
       </Card>

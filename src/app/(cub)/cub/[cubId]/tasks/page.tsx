@@ -1,4 +1,6 @@
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
+import { CubRoutinesSection } from "@/components/cub-routines-section";
+import { CubUpcomingRoutinesSection } from "@/components/cub-upcoming-routines-section";
 import {
   CubWorkflowTaskCard,
   type FocusGrowthContext,
@@ -24,6 +26,7 @@ import {
   isTaskUrgent,
   sortTasksByUrgency,
 } from "@/lib/task-schedule";
+import { getCubRoutinesView } from "@/lib/cub-routines";
 import { redirect } from "next/navigation";
 
 type CubTasksPageProps = {
@@ -38,7 +41,8 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
 
-  const [tasks, completedGrowth, availableGrowth] = await Promise.all([
+  const [tasks, completedGrowth, availableGrowth, routinesView] =
+    await Promise.all([
     db.task.findMany({
       where: { familyId, cubId: cub.id },
       include: {
@@ -47,6 +51,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     }),
     getCompletedGrowthCategoriesThisWeek(cub.id),
     getAvailableGrowthCategoriesForCub(cub),
+    getCubRoutinesView(familyId, cub.id),
   ]);
 
   const requiredGrowth = parseRequiredGrowthCategories(cub);
@@ -75,8 +80,12 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     <div className="space-y-6">
       <PageHeader
         title="My tasks"
-        subtitle={`This week · ${formatWeekLabel(weekStartsOn)}. Overdue tasks from earlier weeks stay visible until finished.`}
+        subtitle={`This week · ${formatWeekLabel(weekStartsOn)}. One-time tasks below; repeating routines show when due.`}
       />
+
+      {routinesView.dueToday.length > 0 ? (
+        <CubRoutinesSection cubId={cubId} routines={routinesView.dueToday} />
+      ) : null}
 
       <ActiveFocusTimersBanner
         cubName={cub.displayName}
@@ -99,6 +108,10 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
         </Card>
       ) : null}
 
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold text-zinc-100">One-time tasks</h2>
+      </section>
+
       {sortedTasks.length === 0 ? (
         <EmptyState
           title="No tasks this week"
@@ -116,6 +129,11 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
           ))}
         </SwipeCardDeck>
       )}
+
+      <CubUpcomingRoutinesSection
+        cubId={cubId}
+        routines={routinesView.upcoming}
+      />
     </div>
   );
 }

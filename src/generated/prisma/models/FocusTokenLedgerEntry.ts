@@ -42,6 +42,7 @@ export type FocusTokenLedgerEntryMinAggregateOutputType = {
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   councilDayCubEntryId: string | null
   createdByUserId: string | null
 }
@@ -54,6 +55,7 @@ export type FocusTokenLedgerEntryMaxAggregateOutputType = {
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   councilDayCubEntryId: string | null
   createdByUserId: string | null
 }
@@ -66,6 +68,7 @@ export type FocusTokenLedgerEntryCountAggregateOutputType = {
   createdAt: number
   cubId: number
   sourceTaskId: number
+  sourceChallengeProgressLogId: number
   councilDayCubEntryId: number
   createdByUserId: number
   _all: number
@@ -88,6 +91,7 @@ export type FocusTokenLedgerEntryMinAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   councilDayCubEntryId?: true
   createdByUserId?: true
 }
@@ -100,6 +104,7 @@ export type FocusTokenLedgerEntryMaxAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   councilDayCubEntryId?: true
   createdByUserId?: true
 }
@@ -112,6 +117,7 @@ export type FocusTokenLedgerEntryCountAggregateInputType = {
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
+  sourceChallengeProgressLogId?: true
   councilDayCubEntryId?: true
   createdByUserId?: true
   _all?: true
@@ -211,6 +217,7 @@ export type FocusTokenLedgerEntryGroupByOutputType = {
   createdAt: Date
   cubId: string
   sourceTaskId: string | null
+  sourceChallengeProgressLogId: string | null
   councilDayCubEntryId: string | null
   createdByUserId: string | null
   _count: FocusTokenLedgerEntryCountAggregateOutputType | null
@@ -246,10 +253,12 @@ export type FocusTokenLedgerEntryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"FocusTokenLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"FocusTokenLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   sourceTask?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  sourceChallengeProgressLog?: Prisma.XOR<Prisma.ChallengeProgressLogNullableScalarRelationFilter, Prisma.ChallengeProgressLogWhereInput> | null
   councilDayCubEntry?: Prisma.XOR<Prisma.CouncilDayCubEntryNullableScalarRelationFilter, Prisma.CouncilDayCubEntryWhereInput> | null
 }
 
@@ -261,10 +270,12 @@ export type FocusTokenLedgerEntryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   cub?: Prisma.CubOrderByWithRelationInput
   sourceTask?: Prisma.TaskOrderByWithRelationInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogOrderByWithRelationInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryOrderByWithRelationInput
 }
 
@@ -279,10 +290,12 @@ export type FocusTokenLedgerEntryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"FocusTokenLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"FocusTokenLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   sourceTask?: Prisma.XOR<Prisma.TaskNullableScalarRelationFilter, Prisma.TaskWhereInput> | null
+  sourceChallengeProgressLog?: Prisma.XOR<Prisma.ChallengeProgressLogNullableScalarRelationFilter, Prisma.ChallengeProgressLogWhereInput> | null
   councilDayCubEntry?: Prisma.XOR<Prisma.CouncilDayCubEntryNullableScalarRelationFilter, Prisma.CouncilDayCubEntryWhereInput> | null
 }, "id">
 
@@ -294,6 +307,7 @@ export type FocusTokenLedgerEntryOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrderInput | Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FocusTokenLedgerEntryCountOrderByAggregateInput
@@ -314,6 +328,7 @@ export type FocusTokenLedgerEntryScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FocusTokenLedgerEntry"> | Date | string
   cubId?: Prisma.StringWithAggregatesFilter<"FocusTokenLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableWithAggregatesFilter<"FocusTokenLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableWithAggregatesFilter<"FocusTokenLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableWithAggregatesFilter<"FocusTokenLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableWithAggregatesFilter<"FocusTokenLedgerEntry"> | string | null
 }
@@ -327,6 +342,7 @@ export type FocusTokenLedgerEntryCreateInput = {
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutFocusTokenLedgerEntriesInput
   sourceTask?: Prisma.TaskCreateNestedOneWithoutFocusTokenLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutFocusTokenLedgerEntriesInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutFocusTokenLedgerEntriesInput
 }
 
@@ -338,6 +354,7 @@ export type FocusTokenLedgerEntryUncheckedCreateInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -351,6 +368,7 @@ export type FocusTokenLedgerEntryUpdateInput = {
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutFocusTokenLedgerEntriesNestedInput
   sourceTask?: Prisma.TaskUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
 }
 
@@ -362,6 +380,7 @@ export type FocusTokenLedgerEntryUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -374,6 +393,7 @@ export type FocusTokenLedgerEntryCreateManyInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -395,6 +415,7 @@ export type FocusTokenLedgerEntryUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -417,6 +438,7 @@ export type FocusTokenLedgerEntryCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
@@ -433,6 +455,7 @@ export type FocusTokenLedgerEntryMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
@@ -445,6 +468,7 @@ export type FocusTokenLedgerEntryMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
+  sourceChallengeProgressLogId?: Prisma.SortOrder
   councilDayCubEntryId?: Prisma.SortOrder
   createdByUserId?: Prisma.SortOrder
 }
@@ -579,6 +603,48 @@ export type FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   deleteMany?: Prisma.FocusTokenLedgerEntryScalarWhereInput | Prisma.FocusTokenLedgerEntryScalarWhereInput[]
 }
 
+export type FocusTokenLedgerEntryCreateNestedManyWithoutSourceChallengeProgressLogInput = {
+  create?: Prisma.XOR<Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  connect?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+}
+
+export type FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceChallengeProgressLogInput = {
+  create?: Prisma.XOR<Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  connect?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+}
+
+export type FocusTokenLedgerEntryUpdateManyWithoutSourceChallengeProgressLogNestedInput = {
+  create?: Prisma.XOR<Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  upsert?: Prisma.FocusTokenLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  set?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  disconnect?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  delete?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  connect?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  update?: Prisma.FocusTokenLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  updateMany?: Prisma.FocusTokenLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput[]
+  deleteMany?: Prisma.FocusTokenLedgerEntryScalarWhereInput | Prisma.FocusTokenLedgerEntryScalarWhereInput[]
+}
+
+export type FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogNestedInput = {
+  create?: Prisma.XOR<Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput> | Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput[] | Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput[]
+  connectOrCreate?: Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput[]
+  upsert?: Prisma.FocusTokenLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  createMany?: Prisma.FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope
+  set?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  disconnect?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  delete?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  connect?: Prisma.FocusTokenLedgerEntryWhereUniqueInput | Prisma.FocusTokenLedgerEntryWhereUniqueInput[]
+  update?: Prisma.FocusTokenLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput[]
+  updateMany?: Prisma.FocusTokenLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput[]
+  deleteMany?: Prisma.FocusTokenLedgerEntryScalarWhereInput | Prisma.FocusTokenLedgerEntryScalarWhereInput[]
+}
+
 export type FocusTokenLedgerEntryCreateWithoutCubInput = {
   id?: string
   amount: number
@@ -587,6 +653,7 @@ export type FocusTokenLedgerEntryCreateWithoutCubInput = {
   createdAt?: Date | string
   createdByUserId?: string | null
   sourceTask?: Prisma.TaskCreateNestedOneWithoutFocusTokenLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutFocusTokenLedgerEntriesInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutFocusTokenLedgerEntriesInput
 }
 
@@ -597,6 +664,7 @@ export type FocusTokenLedgerEntryUncheckedCreateWithoutCubInput = {
   note?: string | null
   createdAt?: Date | string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -638,6 +706,7 @@ export type FocusTokenLedgerEntryScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"FocusTokenLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"FocusTokenLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
+  sourceChallengeProgressLogId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   councilDayCubEntryId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
   createdByUserId?: Prisma.StringNullableFilter<"FocusTokenLedgerEntry"> | string | null
 }
@@ -651,6 +720,7 @@ export type FocusTokenLedgerEntryCreateWithoutCouncilDayCubEntryInput = {
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutFocusTokenLedgerEntriesInput
   sourceTask?: Prisma.TaskCreateNestedOneWithoutFocusTokenLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutFocusTokenLedgerEntriesInput
 }
 
 export type FocusTokenLedgerEntryUncheckedCreateWithoutCouncilDayCubEntryInput = {
@@ -661,6 +731,7 @@ export type FocusTokenLedgerEntryUncheckedCreateWithoutCouncilDayCubEntryInput =
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -698,6 +769,7 @@ export type FocusTokenLedgerEntryCreateWithoutSourceTaskInput = {
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutFocusTokenLedgerEntriesInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogCreateNestedOneWithoutFocusTokenLedgerEntriesInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutFocusTokenLedgerEntriesInput
 }
 
@@ -708,6 +780,7 @@ export type FocusTokenLedgerEntryUncheckedCreateWithoutSourceTaskInput = {
   note?: string | null
   createdAt?: Date | string
   cubId: string
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -738,6 +811,56 @@ export type FocusTokenLedgerEntryUpdateManyWithWhereWithoutSourceTaskInput = {
   data: Prisma.XOR<Prisma.FocusTokenLedgerEntryUpdateManyMutationInput, Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskInput>
 }
 
+export type FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  createdByUserId?: string | null
+  cub: Prisma.CubCreateNestedOneWithoutFocusTokenLedgerEntriesInput
+  sourceTask?: Prisma.TaskCreateNestedOneWithoutFocusTokenLedgerEntriesInput
+  councilDayCubEntry?: Prisma.CouncilDayCubEntryCreateNestedOneWithoutFocusTokenLedgerEntriesInput
+}
+
+export type FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  cubId: string
+  sourceTaskId?: string | null
+  councilDayCubEntryId?: string | null
+  createdByUserId?: string | null
+}
+
+export type FocusTokenLedgerEntryCreateOrConnectWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.FocusTokenLedgerEntryWhereUniqueInput
+  create: Prisma.XOR<Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput>
+}
+
+export type FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInputEnvelope = {
+  data: Prisma.FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInput | Prisma.FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInput[]
+  skipDuplicates?: boolean
+}
+
+export type FocusTokenLedgerEntryUpsertWithWhereUniqueWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.FocusTokenLedgerEntryWhereUniqueInput
+  update: Prisma.XOR<Prisma.FocusTokenLedgerEntryUpdateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput>
+  create: Prisma.XOR<Prisma.FocusTokenLedgerEntryCreateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput>
+}
+
+export type FocusTokenLedgerEntryUpdateWithWhereUniqueWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.FocusTokenLedgerEntryWhereUniqueInput
+  data: Prisma.XOR<Prisma.FocusTokenLedgerEntryUpdateWithoutSourceChallengeProgressLogInput, Prisma.FocusTokenLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput>
+}
+
+export type FocusTokenLedgerEntryUpdateManyWithWhereWithoutSourceChallengeProgressLogInput = {
+  where: Prisma.FocusTokenLedgerEntryScalarWhereInput
+  data: Prisma.XOR<Prisma.FocusTokenLedgerEntryUpdateManyMutationInput, Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogInput>
+}
+
 export type FocusTokenLedgerEntryCreateManyCubInput = {
   id?: string
   amount: number
@@ -745,6 +868,7 @@ export type FocusTokenLedgerEntryCreateManyCubInput = {
   note?: string | null
   createdAt?: Date | string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -757,6 +881,7 @@ export type FocusTokenLedgerEntryUpdateWithoutCubInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceTask?: Prisma.TaskUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
 }
 
@@ -767,6 +892,7 @@ export type FocusTokenLedgerEntryUncheckedUpdateWithoutCubInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -778,6 +904,7 @@ export type FocusTokenLedgerEntryUncheckedUpdateManyWithoutCubInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -790,6 +917,7 @@ export type FocusTokenLedgerEntryCreateManyCouncilDayCubEntryInput = {
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
+  sourceChallengeProgressLogId?: string | null
   createdByUserId?: string | null
 }
 
@@ -802,6 +930,7 @@ export type FocusTokenLedgerEntryUpdateWithoutCouncilDayCubEntryInput = {
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutFocusTokenLedgerEntriesNestedInput
   sourceTask?: Prisma.TaskUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
 }
 
 export type FocusTokenLedgerEntryUncheckedUpdateWithoutCouncilDayCubEntryInput = {
@@ -812,6 +941,7 @@ export type FocusTokenLedgerEntryUncheckedUpdateWithoutCouncilDayCubEntryInput =
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -823,6 +953,7 @@ export type FocusTokenLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryInp
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -833,6 +964,7 @@ export type FocusTokenLedgerEntryCreateManySourceTaskInput = {
   note?: string | null
   createdAt?: Date | string
   cubId: string
+  sourceChallengeProgressLogId?: string | null
   councilDayCubEntryId?: string | null
   createdByUserId?: string | null
 }
@@ -845,6 +977,7 @@ export type FocusTokenLedgerEntryUpdateWithoutSourceTaskInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutFocusTokenLedgerEntriesNestedInput
+  sourceChallengeProgressLog?: Prisma.ChallengeProgressLogUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
   councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
 }
 
@@ -855,6 +988,7 @@ export type FocusTokenLedgerEntryUncheckedUpdateWithoutSourceTaskInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -866,6 +1000,55 @@ export type FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type FocusTokenLedgerEntryCreateManySourceChallengeProgressLogInput = {
+  id?: string
+  amount: number
+  reason: $Enums.LedgerReason
+  note?: string | null
+  createdAt?: Date | string
+  cubId: string
+  sourceTaskId?: string | null
+  councilDayCubEntryId?: string | null
+  createdByUserId?: string | null
+}
+
+export type FocusTokenLedgerEntryUpdateWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cub?: Prisma.CubUpdateOneRequiredWithoutFocusTokenLedgerEntriesNestedInput
+  sourceTask?: Prisma.TaskUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
+  councilDayCubEntry?: Prisma.CouncilDayCubEntryUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
+}
+
+export type FocusTokenLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   councilDayCubEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -880,10 +1063,12 @@ export type FocusTokenLedgerEntrySelect<ExtArgs extends runtime.Types.Extensions
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }, ExtArgs["result"]["focusTokenLedgerEntry"]>
 
@@ -895,10 +1080,12 @@ export type FocusTokenLedgerEntrySelectCreateManyAndReturn<ExtArgs extends runti
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }, ExtArgs["result"]["focusTokenLedgerEntry"]>
 
@@ -910,10 +1097,12 @@ export type FocusTokenLedgerEntrySelectUpdateManyAndReturn<ExtArgs extends runti
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }, ExtArgs["result"]["focusTokenLedgerEntry"]>
 
@@ -925,24 +1114,28 @@ export type FocusTokenLedgerEntrySelectScalar = {
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
+  sourceChallengeProgressLogId?: boolean
   councilDayCubEntryId?: boolean
   createdByUserId?: boolean
 }
 
-export type FocusTokenLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "createdAt" | "cubId" | "sourceTaskId" | "councilDayCubEntryId" | "createdByUserId", ExtArgs["result"]["focusTokenLedgerEntry"]>
+export type FocusTokenLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "createdAt" | "cubId" | "sourceTaskId" | "sourceChallengeProgressLogId" | "councilDayCubEntryId" | "createdByUserId", ExtArgs["result"]["focusTokenLedgerEntry"]>
 export type FocusTokenLedgerEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }
 export type FocusTokenLedgerEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }
 export type FocusTokenLedgerEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs>
+  sourceChallengeProgressLog?: boolean | Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>
   councilDayCubEntry?: boolean | Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs>
 }
 
@@ -951,6 +1144,7 @@ export type $FocusTokenLedgerEntryPayload<ExtArgs extends runtime.Types.Extensio
   objects: {
     cub: Prisma.$CubPayload<ExtArgs>
     sourceTask: Prisma.$TaskPayload<ExtArgs> | null
+    sourceChallengeProgressLog: Prisma.$ChallengeProgressLogPayload<ExtArgs> | null
     councilDayCubEntry: Prisma.$CouncilDayCubEntryPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -961,6 +1155,7 @@ export type $FocusTokenLedgerEntryPayload<ExtArgs extends runtime.Types.Extensio
     createdAt: Date
     cubId: string
     sourceTaskId: string | null
+    sourceChallengeProgressLogId: string | null
     councilDayCubEntryId: string | null
     createdByUserId: string | null
   }, ExtArgs["result"]["focusTokenLedgerEntry"]>
@@ -1359,6 +1554,7 @@ export interface Prisma__FocusTokenLedgerEntryClient<T, Null = never, ExtArgs ex
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cub<T extends Prisma.CubDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CubDefaultArgs<ExtArgs>>): Prisma.Prisma__CubClient<runtime.Types.Result.GetResult<Prisma.$CubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sourceTask<T extends Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs>>): Prisma.Prisma__TaskClient<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sourceChallengeProgressLog<T extends Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs>>): Prisma.Prisma__ChallengeProgressLogClient<runtime.Types.Result.GetResult<Prisma.$ChallengeProgressLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   councilDayCubEntry<T extends Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FocusTokenLedgerEntry$councilDayCubEntryArgs<ExtArgs>>): Prisma.Prisma__CouncilDayCubEntryClient<runtime.Types.Result.GetResult<Prisma.$CouncilDayCubEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1396,6 +1592,7 @@ export interface FocusTokenLedgerEntryFieldRefs {
   readonly createdAt: Prisma.FieldRef<"FocusTokenLedgerEntry", 'DateTime'>
   readonly cubId: Prisma.FieldRef<"FocusTokenLedgerEntry", 'String'>
   readonly sourceTaskId: Prisma.FieldRef<"FocusTokenLedgerEntry", 'String'>
+  readonly sourceChallengeProgressLogId: Prisma.FieldRef<"FocusTokenLedgerEntry", 'String'>
   readonly councilDayCubEntryId: Prisma.FieldRef<"FocusTokenLedgerEntry", 'String'>
   readonly createdByUserId: Prisma.FieldRef<"FocusTokenLedgerEntry", 'String'>
 }
@@ -1815,6 +2012,25 @@ export type FocusTokenLedgerEntry$sourceTaskArgs<ExtArgs extends runtime.Types.E
    */
   include?: Prisma.TaskInclude<ExtArgs> | null
   where?: Prisma.TaskWhereInput
+}
+
+/**
+ * FocusTokenLedgerEntry.sourceChallengeProgressLog
+ */
+export type FocusTokenLedgerEntry$sourceChallengeProgressLogArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChallengeProgressLog
+   */
+  select?: Prisma.ChallengeProgressLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChallengeProgressLog
+   */
+  omit?: Prisma.ChallengeProgressLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChallengeProgressLogInclude<ExtArgs> | null
+  where?: Prisma.ChallengeProgressLogWhereInput
 }
 
 /**

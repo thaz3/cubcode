@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
 import { CubAssignedTasksSection } from "@/components/cub-assigned-tasks-section";
+import { CubRoutinesSection } from "@/components/cub-routines-section";
 import { CubTodayEarnedSection } from "@/components/cub-today-earned-section";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import { getCubRewardSummary } from "@/lib/rewards";
 import { sortTasksByUrgency, filterTasksForCubWeekView } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
+import { getCubRoutinesDueToday } from "@/lib/cub-routines";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
@@ -30,7 +32,8 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
 
-  const [assignedTasks, summary, weekEarned, weekStats] = await Promise.all([
+  const [assignedTasks, summary, weekEarned, weekStats, routinesDueToday] =
+    await Promise.all([
     db.task.findMany({
       where: {
         familyId,
@@ -51,6 +54,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     getCubRewardSummary(cub),
     getCubWeekEarnedTotals(cub.id, weekStartsOn),
     getCubWeekStats(cub.id, weekStartsOn),
+    getCubRoutinesDueToday(familyId, cub.id),
   ]);
 
   const weekAssigned = filterTasksForCubWeekView(assignedTasks, weekStartsOn);
@@ -120,6 +124,8 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         weekEarned={weekEarned}
         weekStats={weekStats}
       />
+
+      <CubRoutinesSection cubId={cubId} routines={routinesDueToday} />
 
       <CubAssignedTasksSection cubId={cubId} tasks={sortedAssigned} />
     </div>

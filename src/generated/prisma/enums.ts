@@ -88,6 +88,7 @@ export type GrowthCategory = (typeof GrowthCategory)[keyof typeof GrowthCategory
 
 export const LedgerReason = {
   TASK_APPROVAL: 'TASK_APPROVAL',
+  CHALLENGE_APPROVAL: 'CHALLENGE_APPROVAL',
   REWARD_REDEMPTION: 'REWARD_REDEMPTION',
   PARENT_ADJUSTMENT: 'PARENT_ADJUSTMENT',
   DAILY_CAP_OVERFLOW: 'DAILY_CAP_OVERFLOW',
@@ -96,6 +97,43 @@ export const LedgerReason = {
 } as const
 
 export type LedgerReason = (typeof LedgerReason)[keyof typeof LedgerReason]
+
+
+export const ChallengeType = {
+  BINARY_ROUTINE: 'BINARY_ROUTINE'
+} as const
+
+export type ChallengeType = (typeof ChallengeType)[keyof typeof ChallengeType]
+
+
+export const ChallengeIntervalType = {
+  DAILY: 'DAILY',
+  WEEKDAYS: 'WEEKDAYS',
+  WEEKLY: 'WEEKLY',
+  CUSTOM: 'CUSTOM'
+} as const
+
+export type ChallengeIntervalType = (typeof ChallengeIntervalType)[keyof typeof ChallengeIntervalType]
+
+
+export const ChallengeStatus = {
+  ACTIVE: 'ACTIVE',
+  PAUSED: 'PAUSED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type ChallengeStatus = (typeof ChallengeStatus)[keyof typeof ChallengeStatus]
+
+
+export const ChallengeProgressStatus = {
+  PENDING: 'PENDING',
+  SUBMITTED: 'SUBMITTED',
+  SENT_BACK: 'SENT_BACK',
+  REJECTED: 'REJECTED',
+  REWARDED: 'REWARDED'
+} as const
+
+export type ChallengeProgressStatus = (typeof ChallengeProgressStatus)[keyof typeof ChallengeProgressStatus]
 
 
 export const RewardGrantType = {

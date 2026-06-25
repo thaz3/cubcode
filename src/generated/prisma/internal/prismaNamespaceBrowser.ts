@@ -67,7 +67,9 @@ export const ModelName = {
   RewardRedemption: 'RewardRedemption',
   GuardianNudgePreferences: 'GuardianNudgePreferences',
   GuardianNudgeRule: 'GuardianNudgeRule',
-  GuardianNudge: 'GuardianNudge'
+  GuardianNudge: 'GuardianNudge',
+  Challenge: 'Challenge',
+  ChallengeProgressLog: 'ChallengeProgressLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -249,6 +251,7 @@ export const XpLedgerEntryScalarFieldEnum = {
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
+  sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -264,6 +267,7 @@ export const FocusTokenLedgerEntryScalarFieldEnum = {
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
+  sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -279,6 +283,7 @@ export const PhoneTimeLedgerEntryScalarFieldEnum = {
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
+  sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
   createdByUserId: 'createdByUserId'
 } as const
 
@@ -376,6 +381,52 @@ export const GuardianNudgeScalarFieldEnum = {
 } as const
 
 export type GuardianNudgeScalarFieldEnum = (typeof GuardianNudgeScalarFieldEnum)[keyof typeof GuardianNudgeScalarFieldEnum]
+
+
+export const ChallengeScalarFieldEnum = {
+  id: 'id',
+  challengeType: 'challengeType',
+  title: 'title',
+  description: 'description',
+  intervalType: 'intervalType',
+  intervalConfig: 'intervalConfig',
+  proofType: 'proofType',
+  proofPrompt: 'proofPrompt',
+  proofChecklistItems: 'proofChecklistItems',
+  xpEarned: 'xpEarned',
+  focusTokensEarned: 'focusTokensEarned',
+  phoneMinutesEarned: 'phoneMinutesEarned',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  createdByUserId: 'createdByUserId'
+} as const
+
+export type ChallengeScalarFieldEnum = (typeof ChallengeScalarFieldEnum)[keyof typeof ChallengeScalarFieldEnum]
+
+
+export const ChallengeProgressLogScalarFieldEnum = {
+  id: 'id',
+  intervalStart: 'intervalStart',
+  intervalEnd: 'intervalEnd',
+  completed: 'completed',
+  reflection: 'reflection',
+  checklistData: 'checklistData',
+  reviewNote: 'reviewNote',
+  status: 'status',
+  submittedAt: 'submittedAt',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  challengeId: 'challengeId',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  reviewedByUserId: 'reviewedByUserId'
+} as const
+
+export type ChallengeProgressLogScalarFieldEnum = (typeof ChallengeProgressLogScalarFieldEnum)[keyof typeof ChallengeProgressLogScalarFieldEnum]
 
 
 export const SortOrder = {
