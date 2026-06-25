@@ -3,14 +3,12 @@ import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner
 import { CubAssignedTasksSection } from "@/components/cub-assigned-tasks-section";
 import { CubRoutinesSection } from "@/components/cub-routines-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
-import { GrowthBoardPanels } from "@/components/growth-board-panels";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { getCubNextAction } from "@/lib/cub-next-action";
 import { getWeekStart } from "@/lib/council-day";
-import { getGrowthBoardView } from "@/lib/growth-board";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { sortTasksByUrgency, filterTasksForCubWeekView } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
@@ -36,29 +34,27 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
 
-  const [assignedTasks, growthSummary, growthBoard, routinesDueToday] =
-    await Promise.all([
-      db.task.findMany({
-        where: {
-          familyId,
-          cubId: cub.id,
-          status: { in: ACTIVE_CUB_STATUSES },
-        },
-        select: {
-          id: true,
-          title: true,
-          status: true,
-          focusSessionStartedAt: true,
-          claimedAt: true,
-          dueAt: true,
-          dueAtHasTime: true,
-          createdAt: true,
-        },
-      }),
-      getCubGrowthAreaSummary(cub, weekStartsOn),
-      getGrowthBoardView(cub, familyId),
-      getCubRoutinesDueToday(familyId, cub.id),
-    ]);
+  const [assignedTasks, growthSummary, routinesDueToday] = await Promise.all([
+    db.task.findMany({
+      where: {
+        familyId,
+        cubId: cub.id,
+        status: { in: ACTIVE_CUB_STATUSES },
+      },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        focusSessionStartedAt: true,
+        claimedAt: true,
+        dueAt: true,
+        dueAtHasTime: true,
+        createdAt: true,
+      },
+    }),
+    getCubGrowthAreaSummary(cub, weekStartsOn),
+    getCubRoutinesDueToday(familyId, cub.id),
+  ]);
 
   const weekAssigned = filterTasksForCubWeekView(assignedTasks, weekStartsOn);
   const sortedAssigned = sortTasksByUrgency(weekAssigned);
@@ -88,6 +84,26 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         <p className="mt-2 text-cub-gold-light/90">Here&apos;s what to do today.</p>
       </div>
 
+      <div className="grid gap-3 sm:grid-cols-2">
+        <CubRoutinesSection
+          cubId={cubId}
+          routines={routinesDueToday}
+          variant="compact"
+        />
+        <CubAssignedTasksSection
+          cubId={cubId}
+          tasks={sortedAssigned}
+          variant="compact"
+        />
+      </div>
+
+      <GrowthAreasCard
+        summary={growthSummary}
+        audience="cub"
+        cubId={cubId}
+        variant="mini"
+      />
+
       <Card className={cn("space-y-4", cardClass)}>
         <div>
           <p className={cubSectionLabel}>Your next step</p>
@@ -108,19 +124,6 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
       </Card>
 
       <ActiveFocusTimersBanner cubName={cub.displayName} tasks={activeFocus} />
-
-      <CubRoutinesSection cubId={cubId} routines={routinesDueToday} />
-
-      <CubAssignedTasksSection cubId={cubId} tasks={sortedAssigned} />
-
-      <GrowthAreasCard
-        summary={growthSummary}
-        audience="cub"
-        cubId={cubId}
-        variant="mini"
-      />
-
-      <GrowthBoardPanels cubId={cubId} board={growthBoard} mode="focus" />
     </div>
   );
 }

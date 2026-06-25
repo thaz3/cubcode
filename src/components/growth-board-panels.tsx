@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState } from "react";
+import { CancelFocusSessionForm } from "@/components/cancel-focus-session-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -245,12 +246,18 @@ function FocusBlockLane({
           </p>
           <p className="mt-1 text-xs text-cub-muted">Active focus session</p>
         </div>
-        <Link
-          href={`/cub/${cubId}/tasks`}
-          className="text-sm font-medium text-cub-gold-light hover:text-cub-gold-warm"
-        >
-          Continue →
-        </Link>
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <CancelFocusSessionForm
+            cubId={cubId}
+            taskId={eligibility.activeTask.id}
+          />
+          <Link
+            href={`/cub/${cubId}/tasks`}
+            className="text-sm font-medium text-cub-gold-light hover:text-cub-gold-warm"
+          >
+            Continue →
+          </Link>
+        </div>
       </div>
     );
   }

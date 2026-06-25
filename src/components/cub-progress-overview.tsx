@@ -1,7 +1,10 @@
 import { Card } from "@/components/ui/card";
-import { CubCompletedTasksSection } from "@/components/cub-completed-tasks-section";
-import { CubEarnedHistory } from "@/components/cub-earned-history";
+import {
+  CubRecentCompletionsCarousel,
+  RecentWinsSectionHeader,
+} from "@/components/cub-recent-completions-carousel";
 import { CubTodayEarnedSection } from "@/components/cub-today-earned-section";
+import { buildCompletionFeedItems, serializeCompletionFeedItems } from "@/lib/cub-completion-feed";
 import type { CubLedgerEntry } from "@/lib/cub-ledger";
 import type { CubWeekStats } from "@/lib/council-day";
 import type { CubRewardSummary } from "@/lib/rewards";
@@ -42,6 +45,10 @@ export function CubProgressOverview({
   ledgerEntries,
   completedTasks,
 }: CubProgressOverviewProps) {
+  const feedItems = serializeCompletionFeedItems(
+    buildCompletionFeedItems(ledgerEntries, completedTasks),
+  );
+
   return (
     <div className="space-y-6">
       <CubTodayEarnedSection
@@ -53,17 +60,24 @@ export function CubProgressOverview({
         showProgressLink={false}
       />
 
-      <Card className="space-y-4">
-        <div>
-          <h2 className="text-lg font-semibold text-zinc-100">What you&apos;ve earned</h2>
-          <p className="mt-1 text-sm text-zinc-500">
-            XP, tokens, phone time, and Weekend Bank from approved tasks and bonuses.
-          </p>
-        </div>
-        <CubEarnedHistory entries={ledgerEntries} />
-      </Card>
+      <Card
+        variant="accent"
+        className="relative overflow-hidden border-cub-gold/45 shadow-xl shadow-cub-gold/15"
+      >
+        <div
+          className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-cub-gold/15 blur-2xl"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -bottom-10 -left-6 h-28 w-28 rounded-full bg-cub-green-bright/10 blur-2xl"
+          aria-hidden
+        />
 
-      <CubCompletedTasksSection tasks={completedTasks} />
+        <div className="relative space-y-5">
+          <RecentWinsSectionHeader count={feedItems.length} />
+          <CubRecentCompletionsCarousel items={feedItems} />
+        </div>
+      </Card>
     </div>
   );
 }

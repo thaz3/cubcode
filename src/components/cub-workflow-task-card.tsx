@@ -1,4 +1,5 @@
 import { RequestSessionTimer } from "@/components/request-session-timer";
+import { CancelFocusSessionForm } from "@/components/cancel-focus-session-form";
 import { StartTaskForm } from "@/components/start-task-form";
 import { TaskInstructionsPanel } from "@/components/task-instructions-panel";
 import { TaskSubmitForm } from "@/components/task-workflow-forms";
@@ -146,7 +147,12 @@ export function CubWorkflowTaskCard({
         )}
 
         {task.status === "IN_PROGRESS" && (
-          <TaskSubmitForm task={task} audience="cub" />
+          <>
+            {isFocusBlock ? (
+              <CancelFocusSessionForm cubId={cubId} taskId={task.id} />
+            ) : null}
+            <TaskSubmitForm task={task} audience="cub" />
+          </>
         )}
 
         {["SUBMITTED", "APPROVED", "COMPLETED", "REJECTED"].includes(
