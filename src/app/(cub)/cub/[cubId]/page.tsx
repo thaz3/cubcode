@@ -12,7 +12,7 @@ import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
 import { getCubWeekStats } from "@/lib/council-day-stats";
 import { formatMinutes } from "@/lib/ledger-labels";
 import { getCubRewardSummary } from "@/lib/rewards";
-import { sortTasksByUrgency } from "@/lib/task-schedule";
+import { sortTasksByUrgency, filterTasksForWeek } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
 import { db } from "@/lib/db";
@@ -53,10 +53,11 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     getCubWeekStats(cub.id, weekStartsOn),
   ]);
 
-  const sortedAssigned = sortTasksByUrgency(assignedTasks);
-  const nextAction = getCubNextAction(assignedTasks, cubId);
+  const weekAssigned = filterTasksForWeek(assignedTasks, weekStartsOn);
+  const sortedAssigned = sortTasksByUrgency(weekAssigned);
+  const nextAction = getCubNextAction(weekAssigned, cubId);
 
-  const activeFocus = assignedTasks
+  const activeFocus = weekAssigned
     .filter((t) => t.status === "IN_PROGRESS" && t.focusSessionStartedAt)
     .map((t) => ({
       id: t.id,

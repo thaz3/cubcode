@@ -1,4 +1,5 @@
 import type { TaskStatus } from "@/generated/prisma/client";
+import { getWeekStart } from "@/lib/council-day";
 
 const ACTIVE_SCHEDULE_STATUSES: TaskStatus[] = [
   "CLAIMED",
@@ -317,4 +318,24 @@ export function getTaskScheduleSummary(
     daysBehind,
     behindLabel,
   };
+}
+
+/** Week bucket for a task: due week if set, otherwise assignment week. */
+export function getTaskWeekStart(task: TaskScheduleInput): Date {
+  const anchor = task.dueAt ?? task.claimedAt ?? task.createdAt;
+  return getWeekStart(anchor);
+}
+
+export function taskBelongsToWeek(
+  task: TaskScheduleInput,
+  weekStart: Date,
+): boolean {
+  return getTaskWeekStart(task).getTime() === weekStart.getTime();
+}
+
+export function filterTasksForWeek<T extends TaskScheduleInput>(
+  tasks: T[],
+  weekStart: Date,
+): T[] {
+  return tasks.filter((task) => taskBelongsToWeek(task, weekStart));
 }

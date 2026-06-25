@@ -17,7 +17,9 @@ import {
   growthCategoryOptionsForCub,
   parseRequiredGrowthCategories,
 } from "@/lib/focus-growth";
+import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
 import {
+  filterTasksForWeek,
   isTaskOverdue,
   isTaskUrgent,
   sortTasksByUrgency,
@@ -34,6 +36,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
   if (!session?.user?.id) redirect("/login");
 
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
+  const weekStartsOn = getWeekStart();
 
   const [tasks, completedGrowth, availableGrowth] = await Promise.all([
     db.task.findMany({
@@ -54,7 +57,8 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
   };
 
-  const sortedTasks = sortTasksByUrgency(tasks);
+  const weekTasks = filterTasksForWeek(tasks, weekStartsOn);
+  const sortedTasks = sortTasksByUrgency(weekTasks);
   const urgentTasks = sortedTasks.filter((task) => isTaskUrgent(task));
   const activeFocusTasks = sortedTasks
     .filter(
@@ -71,7 +75,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     <div className="space-y-6">
       <PageHeader
         title="My tasks"
-        subtitle="Open instructions, do the work, and submit for parent review."
+        subtitle={`This week · ${formatWeekLabel(weekStartsOn)}. Open instructions, do the work, and submit for parent review.`}
       />
 
       <ActiveFocusTimersBanner
@@ -97,8 +101,8 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
 
       {sortedTasks.length === 0 ? (
         <EmptyState
-          title="No tasks assigned"
-          description="Ask your parent to assign something for you to work on."
+          title="No tasks this week"
+          description="Ask your parent to assign something for this week."
         />
       ) : (
         <SwipeCardDeck>
