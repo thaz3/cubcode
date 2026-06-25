@@ -23,6 +23,8 @@ function formatElapsed(elapsedMs: number): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
+const TIMER_PLACEHOLDER = "0:00";
+
 export function RequestSessionTimer({
   startedAt,
   label = "Request timer",
@@ -30,7 +32,7 @@ export function RequestSessionTimer({
   className,
 }: RequestSessionTimerProps) {
   const startedMs = new Date(startedAt).getTime();
-  const [elapsedMs, setElapsedMs] = useState(() => Date.now() - startedMs);
+  const [elapsedMs, setElapsedMs] = useState<number | null>(null);
 
   useEffect(() => {
     const tick = () => setElapsedMs(Date.now() - startedMs);
@@ -38,6 +40,9 @@ export function RequestSessionTimer({
     const intervalId = window.setInterval(tick, 1000);
     return () => window.clearInterval(intervalId);
   }, [startedMs]);
+
+  const display =
+    elapsedMs === null ? TIMER_PLACEHOLDER : formatElapsed(elapsedMs);
 
   return (
     <div
@@ -48,7 +53,7 @@ export function RequestSessionTimer({
       )}
       role="timer"
       aria-live="polite"
-      aria-label={`${label}: ${formatElapsed(elapsedMs)} elapsed`}
+      aria-label={`${label}: ${display} elapsed`}
     >
       <span
         className={cn(
@@ -64,7 +69,7 @@ export function RequestSessionTimer({
           large ? "text-4xl leading-none" : "text-lg",
         )}
       >
-        {formatElapsed(elapsedMs)}
+        {display}
       </span>
     </div>
   );

@@ -1,9 +1,12 @@
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import crypto from "crypto";
+import {
+  PARENT_UNLOCK_COOKIE,
+  PARENT_UNLOCK_TTL_MS,
+} from "@/lib/parent-pin-constants";
 
-export const PARENT_UNLOCK_COOKIE = "cub_parent_unlock";
-const UNLOCK_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours on a shared device
+export { PARENT_UNLOCK_COOKIE } from "@/lib/parent-pin-constants";
 
 function pinSecret(): string {
   const secret = process.env.AUTH_SECRET;
@@ -29,7 +32,7 @@ export function createParentUnlockToken(
   userId: string,
   familyId: string,
 ): string {
-  const exp = Date.now() + UNLOCK_TTL_MS;
+  const exp = Date.now() + PARENT_UNLOCK_TTL_MS;
   const payload = `${userId}:${familyId}:${exp}`;
   const sig = crypto
     .createHmac("sha256", pinSecret())
@@ -80,7 +83,7 @@ export async function setParentUnlockCookie(
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: UNLOCK_TTL_MS / 1000,
+    maxAge: PARENT_UNLOCK_TTL_MS / 1000,
   });
 }
 

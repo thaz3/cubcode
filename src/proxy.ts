@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
-import { PARENT_UNLOCK_COOKIE } from "@/lib/parent-pin";
+import { PARENT_UNLOCK_COOKIE } from "@/lib/parent-pin-constants";
 import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
