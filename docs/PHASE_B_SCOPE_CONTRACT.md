@@ -68,7 +68,8 @@ Do not add:
 - Marketplace features
 - Native mobile app
 - Crypto / zero-knowledge features
-- **Guardian Nudges / parent reminder rules** (deferred to Phase C — see `/docs/PHASE_C_GUARDIAN_NUDGES.md`)
+- **Guardian Nudges / parent reminder rules** (deferred to Phase C1 — see `/docs/PHASE_C_GUARDIAN_NUDGES.md`)
+- **Core Challenges / repeatable challenge programs** (deferred to Phase C2 — see `/docs/PHASE_C2_CORE_CHALLENGES.md`)
 - **Child-facing reminders or notifications**
 - **Email or SMS delivery**
 - **Automatic consequences, device control, or child punishment flows**
@@ -76,9 +77,10 @@ Do not add:
 ## Explicitly Deferred to Phase C
 The following are documented for roadmap alignment but **must not be implemented during Phase B**:
 
-| Capability | Phase C document |
-|------------|------------------|
-| Guardian Nudges (parent-first reminder rules) | `/docs/PHASE_C_GUARDIAN_NUDGES.md` |
+| Capability | Phase document |
+|------------|----------------|
+| Guardian Nudges (parent-first reminder rules) | `/docs/PHASE_C_GUARDIAN_NUDGES.md` (Phase C1) |
+| Core Challenges (repeatable growth programs) | `/docs/PHASE_C2_CORE_CHALLENGES.md` (Phase C2) |
 
 Phase B may improve how parents see current task state on the dashboard. That work must remain factual, in-app, and tied to existing task data — not a new reminder engine, delivery channel, or child notification path.
 

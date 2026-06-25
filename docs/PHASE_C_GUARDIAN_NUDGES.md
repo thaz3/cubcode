@@ -1,10 +1,14 @@
-# C.U.B. Code Phase C — Guardian Nudges
+# C.U.B. Code Phase C1 — Guardian Nudges
 
 ## Version
 0.1 — Roadmap Concept (Not Approved for Implementation)
 
 ## Status
 **Documentation only.** Do not implement application code until this document is explicitly approved and scheduled after Phase B exit criteria are met.
+
+This document is **Phase C1** (Guardian Nudges). **Phase C2** (Core Challenges) is documented separately in `/docs/PHASE_C2_CORE_CHALLENGES.md`.
+
+**Naming note:** Delivery stages inside this feature (in-app, email, SMS, Cub) are labeled C1–C4 *within Guardian Nudges*. Those labels are not the same as Phase C1 / Phase C2 product phases.
 
 ## Feature Names (aliases)
 - **Guardian Nudges** (preferred)
@@ -152,7 +156,14 @@ Do not skip to SMS before in-app and email paths prove reliable and low-noise.
 ## Relationship to Phase B
 Phase B may improve how parents see **current** attention items (submitted tasks, overdue display, next-action card). That is existing-data surfacing, not Guardian Nudges.
 
-Guardian Nudges add **scheduled, rule-based, parent-configured awareness** — a new capability, scoped to **Phase C**.
+Guardian Nudges add **scheduled, rule-based, parent-configured awareness** — a new capability, scoped to **Phase C1**.
+
+## Relationship to Phase C2 (Core Challenges)
+Core Challenges (`/docs/PHASE_C2_CORE_CHALLENGES.md`) are a separate Phase C capability.
+
+Challenges may optionally attach Guardian Nudge rules (e.g. alert parent if a weekday practice interval has not been started). Nudge linkage is a **later enhancement** after both Phase C1 in-app nudges and Phase C2 challenge loops exist.
+
+Guardian Nudges on challenges follow the same parent-first principle: inform the guardian; the guardian decides the response.
 
 ## Out of Scope (Phase C and beyond unless separately approved)
 - Automatic device locking/unlocking triggered by reminders

@@ -11,7 +11,10 @@ Read that file before making implementation decisions.
 
 **Active refinement phase:** `/docs/PHASE_B_SCOPE_CONTRACT.md`
 
-**Future roadmap (do not implement without approval):** `/docs/PHASE_C_GUARDIAN_NUDGES.md`
+**Future roadmap (do not implement without approval):**
+
+- `/docs/PHASE_C_GUARDIAN_NUDGES.md` (Phase C1)
+- `/docs/PHASE_C2_CORE_CHALLENGES.md` (Phase C2)
 
 ## MVP Goal
 The MVP goal is to prove the first household loop:
@@ -68,9 +71,10 @@ Do not implement:
 - Citywide map mechanics
 - Advanced analytics
 - Complex fraud detection
-- Guardian Nudges / parent reminder rules (Phase C)
+- Guardian Nudges / parent reminder rules (Phase C1)
+- Core Challenges / repeatable challenge programs (Phase C2)
 - Child-facing reminders or notifications
-- Parent email or SMS reminders (Phase C)
+- Parent email or SMS reminders (Phase C1)
 - Automatic punishment or consequence flows triggered by reminders
 - Notification spam or AI parenting advice
 
@@ -352,9 +356,9 @@ During Phase B:
 - Avoid schema changes unless absolutely necessary and explicitly approved.
 - Improve parent dashboard clarity using **existing task data** — not a new reminder engine.
 
-Guardian Nudges are **Phase C**, not Phase B. See `/docs/PHASE_C_GUARDIAN_NUDGES.md`.
+Guardian Nudges are **Phase C1**, not Phase B. Core Challenges are **Phase C2**. See the Phase C docs below.
 
-## Guardian Nudges (Phase C — Documentation Only)
+## Guardian Nudges (Phase C1 — Documentation Only)
 **Do not implement until explicitly approved after Phase B.**
 
 Preferred name: **Guardian Nudges** (aliases: Guardian Awareness Layer, Parent-First Nudges).
@@ -391,3 +395,23 @@ After a nudge, parents may remind the child, pause access manually, help them ge
 4. Cub reminders only later, if parent-controlled and never free-form
 
 Full specification: `/docs/PHASE_C_GUARDIAN_NUDGES.md`
+
+## Core Challenges (Phase C2 — Documentation Only)
+**Do not implement until explicitly approved after Phase B.**
+
+Core Challenges are parent-created repeatable programs: **Activity → Target → Interval → Proof → Parent Approval → Reward**.
+
+They strengthen the household loop; they do not replace tasks or add device control.
+
+### Allowed challenge types (when approved)
+- `NUMERIC_TRACKED` — countable metrics (minutes, miles, pages, etc.)
+- `PARENT_VERIFIED_DATA` — parent-entered or verified metrics (no school portal sync)
+- `BINARY_ROUTINE` — recurring done/not-done chores and routines
+
+### Phase C2 must never add
+- School portal / Google Classroom sync
+- AI-generated challenges, public marketplace, or social/leaderboard features
+- Automatic punishment, device control, or new reward currencies
+- Organization dashboards or child-to-child challenges
+
+Full specification: `/docs/PHASE_C2_CORE_CHALLENGES.md`
