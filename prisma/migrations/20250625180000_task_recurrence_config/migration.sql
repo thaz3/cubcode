@@ -1,0 +1,2 @@
+ALTER TABLE "TaskTemplate" ADD COLUMN IF NOT EXISTS "recurrenceConfig" JSONB;
+ALTER TABLE "Task" ADD COLUMN IF NOT EXISTS "recurrenceConfig" JSONB;

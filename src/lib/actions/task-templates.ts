@@ -14,9 +14,10 @@ import {
 } from "@/lib/validations/task";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
 import { parseIsUrgentFromFormData } from "@/lib/task-assign-fields";
-import { parseRecurrenceFromFormData } from "@/lib/task-recurrence";
-import { syncGuardianNudgesForFamily } from "@/lib/guardian-nudges/sync";
+import { resolveRecurrenceScheduleFromForm } from "@/lib/task-recurrence";
 import type { TaskRecurrence } from "@/generated/prisma/client";
+import type { TaskRecurrenceConfig } from "@/lib/task-recurrence-config";
+import { syncGuardianNudgesForFamily } from "@/lib/guardian-nudges/sync";
 import type { ActionState } from "@/lib/actions/auth";
 import type { z } from "zod";
 
@@ -61,6 +62,7 @@ function parseTemplateFormData(
 }
 
 function templateSettingsData(parsed: ParsedTemplate, formData: FormData) {
+  const schedule = resolveRecurrenceScheduleFromForm(formData);
   return {
     title: parsed.title,
     description: parsed.description,
@@ -68,11 +70,14 @@ function templateSettingsData(parsed: ParsedTemplate, formData: FormData) {
     subcategory:
       parsed.category === "FOCUS_BLOCK" ? null : parsed.subcategory ?? null,
     growthCategory:
-      parsed.category === "FOCUS_BLOCK" ? parsed.growthCategory ?? null : null,
+      parsed.category === "FOCUS_BLOCK"
+        ? null
+        : parsed.growthCategory ?? null,
     proofType: parsed.proofType,
     proofPrompt: parsed.proofPrompt || null,
     proofChecklistItems: parsed.proofChecklistItems ?? undefined,
-    recurrence: parseRecurrenceFromFormData(formData),
+    recurrence: schedule.recurrence,
+    recurrenceConfig: schedule.recurrenceConfig ?? undefined,
   };
 }
 
@@ -165,6 +170,7 @@ export async function createTaskFromTemplateAction(
   dueAtHasTime = false,
   recurrence?: TaskRecurrence,
   isUrgent = false,
+  recurrenceConfig?: TaskRecurrenceConfig | null,
 ): Promise<ActionState> {
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
@@ -200,6 +206,8 @@ export async function createTaskFromTemplateAction(
       dueAt: cubId ? dueAt ?? null : null,
       dueAtHasTime: cubId ? dueAtHasTime : false,
       recurrence: recurrence ?? template.recurrence,
+      recurrenceConfig:
+        recurrenceConfig ?? template.recurrenceConfig ?? undefined,
     },
   });
 
@@ -225,13 +233,14 @@ export async function assignTemplateToCubAction(
   }
 
   const dueFields = getDueFieldsFromFormData(formData);
-  const recurrence = parseRecurrenceFromFormData(formData);
+  const schedule = resolveRecurrenceScheduleFromForm(formData);
   return createTaskFromTemplateAction(
     templateId,
     cubId,
-    dueFields?.dueAt ?? null,
-    dueFields?.dueAtHasTime ?? false,
-    recurrence,
+    dueFields?.dueAt ?? schedule.dueAt ?? null,
+    dueFields?.dueAtHasTime ?? schedule.dueAtHasTime,
+    schedule.recurrence,
     parseIsUrgentFromFormData(formData),
+    schedule.recurrenceConfig,
   );
 }

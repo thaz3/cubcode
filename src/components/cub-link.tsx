@@ -8,6 +8,8 @@ type CubLinkProps = {
   displayName: string;
   className?: string;
   showDot?: boolean;
+  /** When false, renders label only (use inside another link). */
+  linked?: boolean;
 };
 
 export function CubLink({
@@ -15,20 +17,29 @@ export function CubLink({
   displayName,
   className,
   showDot = true,
+  linked = true,
 }: CubLinkProps) {
   const colors = getCubColor(cubId);
-
-  return (
-    <Link
-      href={`/dashboard/cubs/${cubId}/tasks`}
-      className={cn(
-        "inline-flex items-center gap-1.5 font-medium hover:underline",
-        colors.link,
-        className,
-      )}
-    >
+  const labelClassName = cn(
+    "inline-flex items-center gap-1.5 font-medium",
+    linked ? "hover:underline" : null,
+    colors.link,
+    className,
+  );
+  const content = (
+    <>
       {showDot ? <CubColorDot cubId={cubId} /> : null}
       {displayName}
+    </>
+  );
+
+  if (!linked) {
+    return <span className={labelClassName}>{content}</span>;
+  }
+
+  return (
+    <Link href={`/dashboard/cubs/${cubId}/tasks`} className={labelClassName}>
+      {content}
     </Link>
   );
 }

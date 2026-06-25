@@ -8,6 +8,7 @@ import {
   type CategorySuggestion,
 } from "@/lib/task-categories";
 import { Button } from "@/components/ui/button";
+import { GrowthAreaFields } from "@/components/growth-area-fields";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import { useMemo, useState } from "react";
 
@@ -96,18 +97,21 @@ export function TaskCategoryFields({
           link. Weekly rewards split across required areas.
         </p>
       ) : (
-        <div className="space-y-1.5">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-            Type
-          </p>
-          <RadioChoiceList
-            name="subcategoryChoice"
-            value={subcategory}
-            onChange={setSubcategory}
-            layout="compact"
-            options={subcategoryOptions(category)}
-          />
-        </div>
+        <>
+          <div className="space-y-1.5">
+            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+              Type
+            </p>
+            <RadioChoiceList
+              name="subcategoryChoice"
+              value={subcategory}
+              onChange={setSubcategory}
+              layout="compact"
+              options={subcategoryOptions(category)}
+            />
+          </div>
+          <GrowthAreaFields initialValue={initialValues?.growthCategory} />
+        </>
       )}
 
       <div className="rounded-lg border border-amber-200/80 bg-amber-50/60 px-3 py-2 text-xs dark:border-amber-900 dark:bg-amber-950/30">

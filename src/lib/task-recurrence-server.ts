@@ -2,6 +2,10 @@ import type { Task } from "@/generated/prisma/client";
 import type { Prisma } from "@/generated/prisma/client";
 import { db } from "@/lib/db";
 import { advanceDueDate } from "@/lib/task-recurrence";
+import {
+  parseRecurrenceConfigValue,
+  recurrenceConfigHasTime,
+} from "@/lib/task-recurrence-config";
 
 type DbClient = typeof db | Prisma.TransactionClient;
 
@@ -13,8 +17,11 @@ export async function spawnNextRecurringTask(
     return;
   }
 
+  const config = parseRecurrenceConfigValue(completedTask.recurrenceConfig);
   const anchor = completedTask.dueAt ?? completedTask.reviewedAt ?? new Date();
-  const nextDue = advanceDueDate(anchor, completedTask.recurrence);
+  const nextDue = advanceDueDate(anchor, completedTask.recurrence, config);
+  const dueAtHasTime =
+    completedTask.dueAtHasTime || recurrenceConfigHasTime(config);
 
   await client.task.create({
     data: {
@@ -34,10 +41,11 @@ export async function spawnNextRecurringTask(
       xpEarned: completedTask.xpEarned,
       focusTokensEarned: completedTask.focusTokensEarned,
       recurrence: completedTask.recurrence,
+      recurrenceConfig: completedTask.recurrenceConfig ?? undefined,
       status: "CLAIMED",
       claimedAt: new Date(),
       dueAt: nextDue,
-      dueAtHasTime: completedTask.dueAtHasTime,
+      dueAtHasTime,
     },
   });
 }

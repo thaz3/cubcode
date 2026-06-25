@@ -43,9 +43,9 @@ export default async function TaskBoardPage() {
             <Link href="/dashboard/create">
               <Button size="lg">Create</Button>
             </Link>
-            <Link href="/dashboard/tasks/library">
+            <Link href="/dashboard/tasks/templates">
               <Button variant="secondary" size="lg">
-                Task library
+                Training Packs
               </Button>
             </Link>
           </div>

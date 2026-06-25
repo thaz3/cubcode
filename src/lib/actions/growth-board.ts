@@ -1,0 +1,245 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+import type { ActionState } from "@/lib/actions/auth";
+import { cubRewardFields } from "@/lib/cub-task-fields";
+import { requireCubForUser } from "@/lib/cub-access";
+import { db } from "@/lib/db";
+import {
+  getFocusAreaClaimEligibility,
+  growthCategoryShortLabel,
+} from "@/lib/focus-growth";
+import { syncGuardianNudgesForFamily } from "@/lib/guardian-nudges/sync";
+import { categoryRewardFields } from "@/lib/template-task-fields";
+import { getCategorySuggestions } from "@/lib/task-categories";
+import { assertTransition } from "@/lib/task-transitions";
+import { requireUserId } from "@/lib/session";
+
+const growthCategorySchema = z.enum([
+  "CONTROL",
+  "USE",
+  "BUILD",
+  "CHARACTER",
+  "WELLNESS",
+]);
+
+function revalidateCubGrowthPaths(cubId: string) {
+  revalidatePath(`/cub/${cubId}`);
+  revalidatePath(`/cub/${cubId}/tasks`);
+  revalidatePath(`/cub/${cubId}/progress`);
+  revalidatePath(`/cub/${cubId}/progress/growth`);
+  revalidatePath(`/dashboard/cubs/${cubId}/progress`);
+}
+
+async function requireCubActor(cubId: string) {
+  const userId = await requireUserId();
+  const { cub, familyId } = await requireCubForUser(cubId, userId);
+  return { userId, cub, familyId };
+}
+
+async function consumeSwapCreditIfNeeded(
+  cubId: string,
+  needsSwap: boolean,
+  currentCredits: number,
+) {
+  if (!needsSwap) return;
+  if (currentCredits < 1) {
+    throw new Error("You need a Focus area swap from the reward store.");
+  }
+  await db.cub.update({
+    where: { id: cubId },
+    data: { focusAreaSwapCredits: { decrement: 1 } },
+  });
+}
+
+function focusBlockDefaults(area: z.infer<typeof growthCategorySchema>) {
+  const suggested = getCategorySuggestions("FOCUS_BLOCK", { growthCategory: area });
+  return {
+    proofType: suggested.proofType,
+    proofPrompt: suggested.proofPrompt,
+    proofChecklistItems: suggested.proofChecklistItems,
+    ...categoryRewardFields("FOCUS_BLOCK", { growthCategory: area }),
+  };
+}
+
+export async function claimFocusBlockSessionAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const cubId = formData.get("cubId")?.toString();
+  const parsedArea = growthCategorySchema.safeParse(formData.get("growthCategory"));
+  const confirmSwap = formData.get("confirmSwap") === "true";
+
+  if (!cubId || !parsedArea.success) {
+    return { error: "Invalid focus session request." };
+  }
+
+  const { cub, familyId } = await requireCubActor(cubId);
+  const area = parsedArea.data;
+  const eligibility = await getFocusAreaClaimEligibility(cub, area);
+
+  if (!eligibility.canClaim) {
+    if (eligibility.reason === "active" && eligibility.activeTask) {
+      return {
+        error: `You already have a focus session for ${growthCategoryShortLabel(area)}. Finish it first.`,
+      };
+    }
+    if (eligibility.reason === "completed" || eligibility.needsSwap) {
+      return {
+        error: `You already finished ${growthCategoryShortLabel(area)} this week. Ask your parent to redeem a Focus area swap, or pick another area.`,
+      };
+    }
+    return {
+      error: "Spread your focus across other growth areas first, or use a swap from the reward store.",
+    };
+  }
+
+  if (eligibility.needsSwap && !confirmSwap) {
+    return {
+      error: `This uses 1 Focus area swap (${cub.focusAreaSwapCredits ?? 0} available). Confirm to continue.`,
+    };
+  }
+
+  await consumeSwapCreditIfNeeded(
+    cub.id,
+    eligibility.needsSwap,
+    cub.focusAreaSwapCredits ?? 0,
+  );
+
+  const task = await db.task.create({
+    data: {
+      familyId,
+      cubId: cub.id,
+      category: "FOCUS_BLOCK",
+      title: `Focus — ${growthCategoryShortLabel(area)}`,
+      growthCategory: area,
+      status: "IN_PROGRESS",
+      claimedAt: new Date(),
+      startedAt: new Date(),
+      focusSessionStartedAt: new Date(),
+      ...focusBlockDefaults(area),
+      ...cubRewardFields(cub),
+    },
+  });
+
+  await syncGuardianNudgesForFamily(familyId);
+  revalidateCubGrowthPaths(cub.id);
+  redirect(`/cub/${cub.id}/tasks`);
+}
+
+export async function claimBoardTaskByCubAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const cubId = formData.get("cubId")?.toString();
+  const taskId = formData.get("taskId")?.toString();
+
+  if (!cubId || !taskId) {
+    return { error: "Invalid claim request." };
+  }
+
+  const { cub, familyId } = await requireCubActor(cubId);
+
+  const task = await db.task.findFirst({
+    where: { id: taskId, familyId, status: "AVAILABLE" },
+  });
+
+  if (!task) {
+    return { error: "This task is no longer available." };
+  }
+
+  if (!task.growthCategory) {
+    return { error: "This task is not on a growth board." };
+  }
+
+  assertTransition(task.status, "CLAIMED");
+
+  await db.task.update({
+    where: { id: task.id },
+    data: {
+      status: "CLAIMED",
+      cubId: cub.id,
+      claimedAt: new Date(),
+      ...cubRewardFields(cub),
+    },
+  });
+
+  await syncGuardianNudgesForFamily(familyId);
+  revalidateCubGrowthPaths(cub.id);
+  redirect(`/cub/${cub.id}/tasks`);
+}
+
+export async function claimFocusBlockTemplateAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const cubId = formData.get("cubId")?.toString();
+  const taskId = formData.get("taskId")?.toString();
+  const parsedArea = growthCategorySchema.safeParse(formData.get("growthCategory"));
+  const confirmSwap = formData.get("confirmSwap") === "true";
+
+  if (!cubId || !taskId) {
+    return { error: "Invalid focus block request." };
+  }
+
+  const { cub, familyId } = await requireCubActor(cubId);
+
+  const task = await db.task.findFirst({
+    where: {
+      id: taskId,
+      familyId,
+      status: "AVAILABLE",
+      category: "FOCUS_BLOCK",
+    },
+  });
+
+  if (!task) {
+    return { error: "This focus block is no longer available." };
+  }
+
+  const area = task.growthCategory ?? parsedArea.data;
+  if (!area) {
+    return { error: "Pick a growth area for this focus block." };
+  }
+
+  const eligibility = await getFocusAreaClaimEligibility(cub, area);
+  if (!eligibility.canClaim) {
+    if (eligibility.reason === "active") {
+      return { error: "You already have an active focus session in this area." };
+    }
+    return {
+      error: "You cannot start this focus block right now. Try another area or use a swap.",
+    };
+  }
+
+  if (eligibility.needsSwap && !confirmSwap) {
+    return {
+      error: `This uses 1 Focus area swap (${cub.focusAreaSwapCredits ?? 0} available). Confirm to continue.`,
+    };
+  }
+
+  await consumeSwapCreditIfNeeded(
+    cub.id,
+    eligibility.needsSwap,
+    cub.focusAreaSwapCredits ?? 0,
+  );
+
+  await db.task.update({
+    where: { id: task.id },
+    data: {
+      status: "IN_PROGRESS",
+      cubId: cub.id,
+      claimedAt: new Date(),
+      startedAt: new Date(),
+      focusSessionStartedAt: new Date(),
+      growthCategory: area,
+      ...cubRewardFields(cub),
+    },
+  });
+
+  await syncGuardianNudgesForFamily(familyId);
+  revalidateCubGrowthPaths(cub.id);
+  redirect(`/cub/${cub.id}/tasks`);
+}

@@ -26,7 +26,7 @@ import { getAvailableGrowthCategoriesForCub } from "@/lib/focus-growth";
 import { creditApprovedTaskRewards } from "@/lib/rewards";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
 import { parseIsUrgentFromFormData } from "@/lib/task-assign-fields";
-import { parseRecurrenceFromFormData } from "@/lib/task-recurrence";
+import { resolveRecurrenceScheduleFromForm } from "@/lib/task-recurrence";
 import { spawnNextRecurringTask } from "@/lib/task-recurrence-server";
 import {
   resolveGuardianNudgesForTask,
@@ -75,7 +75,9 @@ function customTaskDefinitionData(parsed: ParsedCustomTask) {
     subcategory:
       parsed.category === "FOCUS_BLOCK" ? null : parsed.subcategory ?? null,
     growthCategory:
-      parsed.category === "FOCUS_BLOCK" ? parsed.growthCategory ?? null : null,
+      parsed.category === "FOCUS_BLOCK"
+        ? null
+        : parsed.growthCategory ?? null,
     proofType: parsed.proofType,
     proofPrompt: parsed.proofPrompt || null,
     proofChecklistItems: parsed.proofChecklistItems ?? undefined,
@@ -99,14 +101,17 @@ export async function createCustomTaskAction(
   }
 
   const dueFields = getDueFieldsFromFormData(formData);
+  const schedule = resolveRecurrenceScheduleFromForm(formData);
 
   await db.task.create({
     data: {
       familyId: family.id,
       status: "AVAILABLE",
       ...customTaskDefinitionData(parsed.data),
-      dueAt: dueFields?.dueAt ?? parsed.data.dueDate ?? null,
-      dueAtHasTime: dueFields?.dueAtHasTime ?? false,
+      dueAt: dueFields?.dueAt ?? schedule.dueAt ?? parsed.data.dueDate ?? null,
+      dueAtHasTime: schedule.dueAtHasTime,
+      recurrence: schedule.recurrence,
+      recurrenceConfig: schedule.recurrenceConfig ?? undefined,
     },
   });
 
@@ -137,7 +142,8 @@ export async function createAndAssignCustomTaskAction(
   }
 
   const dueFields = getDueFieldsFromFormData(formData);
-  const dueAt = dueFields?.dueAt ?? parsed.data.dueDate ?? null;
+  const schedule = resolveRecurrenceScheduleFromForm(formData);
+  const dueAt = dueFields?.dueAt ?? schedule.dueAt ?? parsed.data.dueDate ?? null;
 
   await db.task.create({
     data: {
@@ -149,8 +155,9 @@ export async function createAndAssignCustomTaskAction(
       ...customTaskDefinitionData(parsed.data),
       ...cubRewardFields(cub),
       dueAt,
-      dueAtHasTime: dueFields?.dueAtHasTime ?? false,
-      recurrence: parseRecurrenceFromFormData(formData),
+      dueAtHasTime: schedule.dueAtHasTime,
+      recurrence: schedule.recurrence,
+      recurrenceConfig: schedule.recurrenceConfig ?? undefined,
     },
   });
 
@@ -239,6 +246,7 @@ export async function assignTaskAction(
   assertTransition(task.status, "CLAIMED");
 
   const dueFields = getDueFieldsFromFormData(formData);
+  const schedule = resolveRecurrenceScheduleFromForm(formData);
 
   await db.task.update({
     where: { id: task.id },
@@ -247,9 +255,10 @@ export async function assignTaskAction(
       cubId: parsed.data.cubId,
       claimedAt: new Date(),
       isUrgent: parseIsUrgentFromFormData(formData),
-      dueAt: dueFields?.dueAt ?? parsed.data.dueDate,
-      dueAtHasTime: dueFields?.dueAtHasTime ?? false,
-      recurrence: parseRecurrenceFromFormData(formData),
+      dueAt: dueFields?.dueAt ?? schedule.dueAt ?? parsed.data.dueDate,
+      dueAtHasTime: schedule.dueAtHasTime,
+      recurrence: schedule.recurrence,
+      recurrenceConfig: schedule.recurrenceConfig ?? undefined,
       ...cubRewardFields(cub),
     },
   });
@@ -778,7 +787,9 @@ export async function updateTaskAction(
           ? null
           : parsed.data.subcategory ?? null,
       growthCategory:
-        parsed.data.category === "FOCUS_BLOCK" ? task.growthCategory : null,
+        parsed.data.category === "FOCUS_BLOCK"
+          ? task.growthCategory
+          : parsed.data.growthCategory ?? null,
       proofType: parsed.data.proofType,
       proofPrompt: parsed.data.proofPrompt || null,
       proofChecklistItems: parsed.data.proofChecklistItems ?? undefined,

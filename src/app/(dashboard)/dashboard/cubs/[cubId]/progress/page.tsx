@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CubLedgerHistory } from "@/components/cub-ledger-history";
 import { CubProgressSummary } from "@/components/cub-progress-summary";
+import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { CubRedemptionHistory } from "@/components/cub-redemption-history";
 import { RewardStoreList } from "@/components/reward-store-list";
 import { Card } from "@/components/ui/card";
@@ -10,6 +11,8 @@ import { auth } from "@/lib/auth";
 import { getCubLedgerEntriesGrouped } from "@/lib/cub-ledger";
 import { db } from "@/lib/db";
 import { getCubRewardSummary } from "@/lib/rewards";
+import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
+import { getWeekStart } from "@/lib/council-day";
 import { getFamilyForUser } from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
 
@@ -30,13 +33,17 @@ export default async function CubProgressPage({ params }: CubProgressPageProps) 
 
   await seedRewardStoreForFamily(family.id);
 
+  const weekStartsOn = getWeekStart();
+
   const [
     summary,
+    growthSummary,
     rewardItems,
     ledgerGrouped,
     redemptions,
   ] = await Promise.all([
     getCubRewardSummary(cub),
+    getCubGrowthAreaSummary(cub, weekStartsOn),
     db.rewardStoreItem.findMany({
       where: { familyId: family.id, isActive: true },
       orderBy: { costFocusTokens: "asc" },
@@ -86,6 +93,12 @@ export default async function CubProgressPage({ params }: CubProgressPageProps) 
           C.U.B. Code calculates earned digital freedom. You control device access.
         </p>
       </div>
+
+      <GrowthAreasCard
+        summary={growthSummary}
+        cubName={cub.displayName}
+        audience="parent"
+      />
 
       <Card>
         <CubProgressSummary summary={summary} cubName={cub.displayName} />

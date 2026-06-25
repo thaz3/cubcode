@@ -35,21 +35,21 @@ export default async function NewTaskTemplatePage({
           }
           className="text-sm font-medium text-amber-700"
         >
-          ← {isSummer ? `${SUMMER_LITE_LABEL} board` : "Templates"}
+          ← {isSummer ? `${SUMMER_LITE_LABEL} board` : "Training Packs"}
         </Link>
         <h1 className="mt-2 text-3xl font-bold">
           {isLegacy
-            ? `New ${LEGACY_WEEKLY_LABEL} template`
+            ? `New ${LEGACY_WEEKLY_LABEL} training pack`
             : isSummer
-              ? `New ${SUMMER_LITE_LABEL} template`
-              : "New task template"}
+              ? `New ${SUMMER_LITE_LABEL} training pack`
+              : "New training pack"}
         </h1>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
           {isLegacy
             ? "Know Your Roots tasks build cultural memory and family identity. Parent approval is always required."
             : isSummer
               ? `${SUMMER_LITE_LABEL} outdoor tasks include location and supervision in the description. Parent approval is always required.`
-              : "Templates are reusable titles and descriptions. Earned amounts come from each Cub's profile when assigned."}
+              : "Training packs are reusable titles and descriptions. Earned amounts come from each Cub's profile when assigned."}
         </p>
       </div>
       <Card>

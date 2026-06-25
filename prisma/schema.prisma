@@ -102,6 +102,7 @@ enum RewardGrantType {
   NONE
   PHONE_TIME
   WEEKEND_BANK
+  FOCUS_AREA_SWAP
 }
 
 enum TaskRecurrence {
@@ -176,6 +177,7 @@ model Cub {
   weekendBankCapMinutes Int               @default(90)
   supervisionLevel      SupervisionLevel  @default(NEARBY)
   requiredGrowthCategories Json          @default("[\"CONTROL\",\"USE\",\"BUILD\",\"CHARACTER\",\"WELLNESS\"]")
+  focusAreaSwapCredits   Int           @default(0)
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
 
@@ -251,6 +253,7 @@ model TaskTemplate {
   proofPrompt         String?
   proofChecklistItems Json?
   recurrence          TaskRecurrence @default(NONE)
+  recurrenceConfig    Json?
   isActive            Boolean       @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -288,6 +291,7 @@ model Task {
   dueAt             DateTime?
   dueAtHasTime      Boolean       @default(false)
   recurrence        TaskRecurrence @default(NONE)
+  recurrenceConfig  Json?
   isUrgent          Boolean       @default(false)
   focusSessionStartedAt DateTime?
   startedAt         DateTime?
@@ -527,6 +531,7 @@ model Challenge {
   proofType           TaskProofType
   proofPrompt         String?
   proofChecklistItems Json?
+  growthCategory      GrowthCategory?
   xpEarned            Int                  @default(10)
   focusTokensEarned   Int                  @default(1)
   phoneMinutesEarned  Int                  @default(15)

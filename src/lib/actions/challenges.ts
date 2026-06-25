@@ -49,6 +49,7 @@ function parseChallengeFormData(formData: FormData) {
     xpEarned: formData.get("xpEarned"),
     focusTokensEarned: formData.get("focusTokensEarned"),
     phoneMinutesEarned: formData.get("phoneMinutesEarned"),
+    growthCategory: formData.get("growthCategory") || undefined,
   });
 }
 
@@ -73,6 +74,7 @@ function challengeDataFromParsed(
     proofType: data.proofType,
     proofPrompt: data.proofPrompt || null,
     proofChecklistItems: data.proofChecklistItems ?? undefined,
+    growthCategory: data.growthCategory ?? null,
     xpEarned: data.xpEarned,
     focusTokensEarned: data.focusTokensEarned,
     phoneMinutesEarned: data.phoneMinutesEarned,
@@ -158,6 +160,7 @@ export async function updateChallengeAction(
       proofType: data.proofType,
       proofPrompt: data.proofPrompt,
       proofChecklistItems: data.proofChecklistItems,
+      growthCategory: data.growthCategory,
       xpEarned: data.xpEarned,
       focusTokensEarned: data.focusTokensEarned,
       phoneMinutesEarned: data.phoneMinutesEarned,

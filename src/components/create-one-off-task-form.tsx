@@ -31,7 +31,7 @@ export function CreateOneOffTaskForm({
           <p className="mt-1 text-sm text-zinc-500">
             {assignToCub
               ? "Define the task here and assign it directly."
-              : "Add a new task to your library."}
+              : "Add a new task to Training Packs."}
           </p>
         </div>
       ) : null}

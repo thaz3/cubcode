@@ -585,3 +585,7 @@ export function growthCategoryOptions(): Array<{
     Object.entries(GROWTH_CATEGORY_LABELS) as Array<[GrowthCategory, string]>
   ).map(([value, label]) => ({ value, label }));
 }
+
+export function growthCategoryShortLabel(category: GrowthCategory): string {
+  return GROWTH_CATEGORY_LABELS[category].split(" —")[0] ?? category;
+}

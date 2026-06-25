@@ -16,5 +16,9 @@ export function formatRewardGrantLabel(item: {
     return `+${item.minutesGranted} min Weekend Bank`;
   }
 
+  if (item.grantType === "FOCUS_AREA_SWAP") {
+    return "+1 Focus area swap";
+  }
+
   return null;
 }

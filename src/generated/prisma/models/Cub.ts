@@ -33,6 +33,7 @@ export type CubAvgAggregateOutputType = {
   focusTokensEarned: number | null
   dailyPhoneCapMinutes: number | null
   weekendBankCapMinutes: number | null
+  focusAreaSwapCredits: number | null
 }
 
 export type CubSumAggregateOutputType = {
@@ -42,6 +43,7 @@ export type CubSumAggregateOutputType = {
   focusTokensEarned: number | null
   dailyPhoneCapMinutes: number | null
   weekendBankCapMinutes: number | null
+  focusAreaSwapCredits: number | null
 }
 
 export type CubMinAggregateOutputType = {
@@ -55,6 +57,7 @@ export type CubMinAggregateOutputType = {
   dailyPhoneCapMinutes: number | null
   weekendBankCapMinutes: number | null
   supervisionLevel: $Enums.SupervisionLevel | null
+  focusAreaSwapCredits: number | null
   createdAt: Date | null
   updatedAt: Date | null
   familyId: string | null
@@ -71,6 +74,7 @@ export type CubMaxAggregateOutputType = {
   dailyPhoneCapMinutes: number | null
   weekendBankCapMinutes: number | null
   supervisionLevel: $Enums.SupervisionLevel | null
+  focusAreaSwapCredits: number | null
   createdAt: Date | null
   updatedAt: Date | null
   familyId: string | null
@@ -88,6 +92,7 @@ export type CubCountAggregateOutputType = {
   weekendBankCapMinutes: number
   supervisionLevel: number
   requiredGrowthCategories: number
+  focusAreaSwapCredits: number
   createdAt: number
   updatedAt: number
   familyId: number
@@ -102,6 +107,7 @@ export type CubAvgAggregateInputType = {
   focusTokensEarned?: true
   dailyPhoneCapMinutes?: true
   weekendBankCapMinutes?: true
+  focusAreaSwapCredits?: true
 }
 
 export type CubSumAggregateInputType = {
@@ -111,6 +117,7 @@ export type CubSumAggregateInputType = {
   focusTokensEarned?: true
   dailyPhoneCapMinutes?: true
   weekendBankCapMinutes?: true
+  focusAreaSwapCredits?: true
 }
 
 export type CubMinAggregateInputType = {
@@ -124,6 +131,7 @@ export type CubMinAggregateInputType = {
   dailyPhoneCapMinutes?: true
   weekendBankCapMinutes?: true
   supervisionLevel?: true
+  focusAreaSwapCredits?: true
   createdAt?: true
   updatedAt?: true
   familyId?: true
@@ -140,6 +148,7 @@ export type CubMaxAggregateInputType = {
   dailyPhoneCapMinutes?: true
   weekendBankCapMinutes?: true
   supervisionLevel?: true
+  focusAreaSwapCredits?: true
   createdAt?: true
   updatedAt?: true
   familyId?: true
@@ -157,6 +166,7 @@ export type CubCountAggregateInputType = {
   weekendBankCapMinutes?: true
   supervisionLevel?: true
   requiredGrowthCategories?: true
+  focusAreaSwapCredits?: true
   createdAt?: true
   updatedAt?: true
   familyId?: true
@@ -261,6 +271,7 @@ export type CubGroupByOutputType = {
   weekendBankCapMinutes: number
   supervisionLevel: $Enums.SupervisionLevel
   requiredGrowthCategories: runtime.JsonValue
+  focusAreaSwapCredits: number
   createdAt: Date
   updatedAt: Date
   familyId: string
@@ -301,6 +312,7 @@ export type CubWhereInput = {
   weekendBankCapMinutes?: Prisma.IntFilter<"Cub"> | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFilter<"Cub"> | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonFilter<"Cub">
+  focusAreaSwapCredits?: Prisma.IntFilter<"Cub"> | number
   createdAt?: Prisma.DateTimeFilter<"Cub"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cub"> | Date | string
   familyId?: Prisma.StringFilter<"Cub"> | string
@@ -330,6 +342,7 @@ export type CubOrderByWithRelationInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   supervisionLevel?: Prisma.SortOrder
   requiredGrowthCategories?: Prisma.SortOrder
+  focusAreaSwapCredits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   familyId?: Prisma.SortOrder
@@ -362,6 +375,7 @@ export type CubWhereUniqueInput = Prisma.AtLeast<{
   weekendBankCapMinutes?: Prisma.IntFilter<"Cub"> | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFilter<"Cub"> | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonFilter<"Cub">
+  focusAreaSwapCredits?: Prisma.IntFilter<"Cub"> | number
   createdAt?: Prisma.DateTimeFilter<"Cub"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cub"> | Date | string
   familyId?: Prisma.StringFilter<"Cub"> | string
@@ -391,6 +405,7 @@ export type CubOrderByWithAggregationInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   supervisionLevel?: Prisma.SortOrder
   requiredGrowthCategories?: Prisma.SortOrder
+  focusAreaSwapCredits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   familyId?: Prisma.SortOrder
@@ -416,6 +431,7 @@ export type CubScalarWhereWithAggregatesInput = {
   weekendBankCapMinutes?: Prisma.IntWithAggregatesFilter<"Cub"> | number
   supervisionLevel?: Prisma.EnumSupervisionLevelWithAggregatesFilter<"Cub"> | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonWithAggregatesFilter<"Cub">
+  focusAreaSwapCredits?: Prisma.IntWithAggregatesFilter<"Cub"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Cub"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Cub"> | Date | string
   familyId?: Prisma.StringWithAggregatesFilter<"Cub"> | string
@@ -433,6 +449,7 @@ export type CubCreateInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -461,6 +478,7 @@ export type CubUncheckedCreateInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -489,6 +507,7 @@ export type CubUpdateInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -517,6 +536,7 @@ export type CubUncheckedUpdateInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -545,6 +565,7 @@ export type CubCreateManyInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -562,6 +583,7 @@ export type CubUpdateManyMutationInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -578,6 +600,7 @@ export type CubUncheckedUpdateManyInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -605,6 +628,7 @@ export type CubCountOrderByAggregateInput = {
   weekendBankCapMinutes?: Prisma.SortOrder
   supervisionLevel?: Prisma.SortOrder
   requiredGrowthCategories?: Prisma.SortOrder
+  focusAreaSwapCredits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   familyId?: Prisma.SortOrder
@@ -617,6 +641,7 @@ export type CubAvgOrderByAggregateInput = {
   focusTokensEarned?: Prisma.SortOrder
   dailyPhoneCapMinutes?: Prisma.SortOrder
   weekendBankCapMinutes?: Prisma.SortOrder
+  focusAreaSwapCredits?: Prisma.SortOrder
 }
 
 export type CubMaxOrderByAggregateInput = {
@@ -630,6 +655,7 @@ export type CubMaxOrderByAggregateInput = {
   dailyPhoneCapMinutes?: Prisma.SortOrder
   weekendBankCapMinutes?: Prisma.SortOrder
   supervisionLevel?: Prisma.SortOrder
+  focusAreaSwapCredits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   familyId?: Prisma.SortOrder
@@ -646,6 +672,7 @@ export type CubMinOrderByAggregateInput = {
   dailyPhoneCapMinutes?: Prisma.SortOrder
   weekendBankCapMinutes?: Prisma.SortOrder
   supervisionLevel?: Prisma.SortOrder
+  focusAreaSwapCredits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   familyId?: Prisma.SortOrder
@@ -658,6 +685,7 @@ export type CubSumOrderByAggregateInput = {
   focusTokensEarned?: Prisma.SortOrder
   dailyPhoneCapMinutes?: Prisma.SortOrder
   weekendBankCapMinutes?: Prisma.SortOrder
+  focusAreaSwapCredits?: Prisma.SortOrder
 }
 
 export type CubScalarRelationFilter = {
@@ -890,6 +918,7 @@ export type CubCreateWithoutFamilyInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   tasks?: Prisma.TaskCreateNestedManyWithoutCubInput
@@ -917,6 +946,7 @@ export type CubUncheckedCreateWithoutFamilyInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCubInput
@@ -973,6 +1003,7 @@ export type CubScalarWhereInput = {
   weekendBankCapMinutes?: Prisma.IntFilter<"Cub"> | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFilter<"Cub"> | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonFilter<"Cub">
+  focusAreaSwapCredits?: Prisma.IntFilter<"Cub"> | number
   createdAt?: Prisma.DateTimeFilter<"Cub"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cub"> | Date | string
   familyId?: Prisma.StringFilter<"Cub"> | string
@@ -990,6 +1021,7 @@ export type CubCreateWithoutCouncilDayEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1017,6 +1049,7 @@ export type CubUncheckedCreateWithoutCouncilDayEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1060,6 +1093,7 @@ export type CubUpdateWithoutCouncilDayEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1087,6 +1121,7 @@ export type CubUncheckedUpdateWithoutCouncilDayEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1114,6 +1149,7 @@ export type CubCreateWithoutTasksInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1141,6 +1177,7 @@ export type CubUncheckedCreateWithoutTasksInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1184,6 +1221,7 @@ export type CubUpdateWithoutTasksInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1211,6 +1249,7 @@ export type CubUncheckedUpdateWithoutTasksInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1238,6 +1277,7 @@ export type CubCreateWithoutFocusBlocksInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1265,6 +1305,7 @@ export type CubUncheckedCreateWithoutFocusBlocksInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1308,6 +1349,7 @@ export type CubUpdateWithoutFocusBlocksInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1335,6 +1377,7 @@ export type CubUncheckedUpdateWithoutFocusBlocksInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1362,6 +1405,7 @@ export type CubCreateWithoutXpLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1389,6 +1433,7 @@ export type CubUncheckedCreateWithoutXpLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1432,6 +1477,7 @@ export type CubUpdateWithoutXpLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1459,6 +1505,7 @@ export type CubUncheckedUpdateWithoutXpLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1486,6 +1533,7 @@ export type CubCreateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1513,6 +1561,7 @@ export type CubUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1556,6 +1605,7 @@ export type CubUpdateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1583,6 +1633,7 @@ export type CubUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1610,6 +1661,7 @@ export type CubCreateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1637,6 +1689,7 @@ export type CubUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1680,6 +1733,7 @@ export type CubUpdateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1707,6 +1761,7 @@ export type CubUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1734,6 +1789,7 @@ export type CubCreateWithoutWeekendBankLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1761,6 +1817,7 @@ export type CubUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1804,6 +1861,7 @@ export type CubUpdateWithoutWeekendBankLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1831,6 +1889,7 @@ export type CubUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1858,6 +1917,7 @@ export type CubCreateWithoutRewardRedemptionsInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -1885,6 +1945,7 @@ export type CubUncheckedCreateWithoutRewardRedemptionsInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -1928,6 +1989,7 @@ export type CubUpdateWithoutRewardRedemptionsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -1955,6 +2017,7 @@ export type CubUncheckedUpdateWithoutRewardRedemptionsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1982,6 +2045,7 @@ export type CubCreateWithoutGuardianNudgesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -2009,6 +2073,7 @@ export type CubUncheckedCreateWithoutGuardianNudgesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -2052,6 +2117,7 @@ export type CubUpdateWithoutGuardianNudgesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -2079,6 +2145,7 @@ export type CubUncheckedUpdateWithoutGuardianNudgesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2106,6 +2173,7 @@ export type CubCreateWithoutChallengesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -2133,6 +2201,7 @@ export type CubUncheckedCreateWithoutChallengesInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -2176,6 +2245,7 @@ export type CubUpdateWithoutChallengesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -2203,6 +2273,7 @@ export type CubUncheckedUpdateWithoutChallengesInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2230,6 +2301,7 @@ export type CubCreateWithoutChallengeProgressLogsInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutCubsInput
@@ -2257,6 +2329,7 @@ export type CubUncheckedCreateWithoutChallengeProgressLogsInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
@@ -2300,6 +2373,7 @@ export type CubUpdateWithoutChallengeProgressLogsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
@@ -2327,6 +2401,7 @@ export type CubUncheckedUpdateWithoutChallengeProgressLogsInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2354,6 +2429,7 @@ export type CubCreateManyFamilyInput = {
   weekendBankCapMinutes?: number
   supervisionLevel?: $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2370,6 +2446,7 @@ export type CubUpdateWithoutFamilyInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.TaskUpdateManyWithoutCubNestedInput
@@ -2397,6 +2474,7 @@ export type CubUncheckedUpdateWithoutFamilyInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutCubNestedInput
@@ -2424,6 +2502,7 @@ export type CubUncheckedUpdateManyWithoutFamilyInput = {
   weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
   requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2561,6 +2640,7 @@ export type CubSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   weekendBankCapMinutes?: boolean
   supervisionLevel?: boolean
   requiredGrowthCategories?: boolean
+  focusAreaSwapCredits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   familyId?: boolean
@@ -2591,6 +2671,7 @@ export type CubSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   weekendBankCapMinutes?: boolean
   supervisionLevel?: boolean
   requiredGrowthCategories?: boolean
+  focusAreaSwapCredits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   familyId?: boolean
@@ -2609,6 +2690,7 @@ export type CubSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   weekendBankCapMinutes?: boolean
   supervisionLevel?: boolean
   requiredGrowthCategories?: boolean
+  focusAreaSwapCredits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   familyId?: boolean
@@ -2627,12 +2709,13 @@ export type CubSelectScalar = {
   weekendBankCapMinutes?: boolean
   supervisionLevel?: boolean
   requiredGrowthCategories?: boolean
+  focusAreaSwapCredits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   familyId?: boolean
 }
 
-export type CubOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "displayName" | "ageBand" | "focusMinutesEarned" | "phoneMinutesEarned" | "xpEarned" | "focusTokensEarned" | "dailyPhoneCapMinutes" | "weekendBankCapMinutes" | "supervisionLevel" | "requiredGrowthCategories" | "createdAt" | "updatedAt" | "familyId", ExtArgs["result"]["cub"]>
+export type CubOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "displayName" | "ageBand" | "focusMinutesEarned" | "phoneMinutesEarned" | "xpEarned" | "focusTokensEarned" | "dailyPhoneCapMinutes" | "weekendBankCapMinutes" | "supervisionLevel" | "requiredGrowthCategories" | "focusAreaSwapCredits" | "createdAt" | "updatedAt" | "familyId", ExtArgs["result"]["cub"]>
 export type CubInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.Cub$tasksArgs<ExtArgs>
@@ -2683,6 +2766,7 @@ export type $CubPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     weekendBankCapMinutes: number
     supervisionLevel: $Enums.SupervisionLevel
     requiredGrowthCategories: runtime.JsonValue
+    focusAreaSwapCredits: number
     createdAt: Date
     updatedAt: Date
     familyId: string
@@ -3132,6 +3216,7 @@ export interface CubFieldRefs {
   readonly weekendBankCapMinutes: Prisma.FieldRef<"Cub", 'Int'>
   readonly supervisionLevel: Prisma.FieldRef<"Cub", 'SupervisionLevel'>
   readonly requiredGrowthCategories: Prisma.FieldRef<"Cub", 'Json'>
+  readonly focusAreaSwapCredits: Prisma.FieldRef<"Cub", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Cub", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Cub", 'DateTime'>
   readonly familyId: Prisma.FieldRef<"Cub", 'String'>

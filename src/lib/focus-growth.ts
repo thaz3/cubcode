@@ -1,12 +1,19 @@
-import type { Cub, GrowthCategory } from "@/generated/prisma/client";
+import type { Cub, GrowthCategory, TaskStatus } from "@/generated/prisma/client";
+import { getWeekEnd, getWeekStart } from "@/lib/council-day";
 import { db } from "@/lib/db";
-import { getWeekStart } from "@/lib/council-day";
 import {
   ALL_GROWTH_CATEGORIES,
   GROWTH_CATEGORY_LABELS,
+  growthCategoryShortLabel,
 } from "@/lib/task-categories";
 
-export { ALL_GROWTH_CATEGORIES };
+export { ALL_GROWTH_CATEGORIES, GROWTH_CATEGORY_LABELS, growthCategoryShortLabel };
+
+const ACTIVE_FOCUS_STATUSES: TaskStatus[] = [
+  "CLAIMED",
+  "IN_PROGRESS",
+  "SUBMITTED",
+];
 
 export function parseRequiredGrowthCategories(cub: Cub): GrowthCategory[] {
   if (!Array.isArray(cub.requiredGrowthCategories)) {
@@ -31,14 +38,13 @@ export async function getCompletedGrowthCategoriesThisWeek(
   cubId: string,
   weekStartsOn = getWeekStart(),
 ): Promise<GrowthCategory[]> {
-  const weekEnd = new Date(weekStartsOn);
-  weekEnd.setDate(weekEnd.getDate() + 7);
+  const weekEnd = getWeekEnd(weekStartsOn);
 
   const tasks = await db.task.findMany({
     where: {
       cubId,
       category: "FOCUS_BLOCK",
-      status: "COMPLETED",
+      status: { in: ["COMPLETED", "APPROVED"] },
       growthCategory: { not: null },
       reviewedAt: {
         gte: weekStartsOn,
@@ -55,6 +61,84 @@ export async function getCompletedGrowthCategoriesThisWeek(
         .filter((value): value is GrowthCategory => value != null),
     ),
   ];
+}
+
+export async function getActiveFocusBlockByArea(
+  cubId: string,
+): Promise<Partial<Record<GrowthCategory, { id: string; title: string; status: TaskStatus }>>> {
+  const tasks = await db.task.findMany({
+    where: {
+      cubId,
+      category: "FOCUS_BLOCK",
+      status: { in: ACTIVE_FOCUS_STATUSES },
+      growthCategory: { not: null },
+    },
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      growthCategory: true,
+    },
+    orderBy: { updatedAt: "desc" },
+  });
+
+  const map: Partial<
+    Record<GrowthCategory, { id: string; title: string; status: TaskStatus }>
+  > = {};
+
+  for (const task of tasks) {
+    if (!task.growthCategory || map[task.growthCategory]) continue;
+    map[task.growthCategory] = {
+      id: task.id,
+      title: task.title,
+      status: task.status,
+    };
+  }
+
+  return map;
+}
+
+export type FocusAreaClaimEligibility = {
+  canClaim: boolean;
+  needsSwap: boolean;
+  reason?: "active" | "completed" | "spread";
+  activeTask?: { id: string; title: string; status: TaskStatus };
+};
+
+export async function getFocusAreaClaimEligibility(
+  cub: Cub,
+  area: GrowthCategory,
+  weekStartsOn = getWeekStart(),
+): Promise<FocusAreaClaimEligibility> {
+  const [activeByArea, completed, pickerAvailable] = await Promise.all([
+    getActiveFocusBlockByArea(cub.id),
+    getCompletedGrowthCategoriesThisWeek(cub.id, weekStartsOn),
+    getAvailableGrowthCategoriesForCub(cub, weekStartsOn),
+  ]);
+
+  const active = activeByArea[area];
+  if (active) {
+    return { canClaim: false, needsSwap: false, reason: "active", activeTask: active };
+  }
+
+  const required = parseRequiredGrowthCategories(cub);
+  const isRequired = required.includes(area);
+
+  if (completed.includes(area)) {
+    if ((cub.focusAreaSwapCredits ?? 0) > 0) {
+      return { canClaim: true, needsSwap: true };
+    }
+    return { canClaim: false, needsSwap: true, reason: "completed" };
+  }
+
+  if (isRequired && !pickerAvailable.includes(area)) {
+    if ((cub.focusAreaSwapCredits ?? 0) > 0) {
+      return { canClaim: true, needsSwap: true };
+    }
+    return { canClaim: false, needsSwap: false, reason: "spread" };
+  }
+
+  return { canClaim: true, needsSwap: false };
 }
 
 export async function getAvailableGrowthCategoriesForCub(

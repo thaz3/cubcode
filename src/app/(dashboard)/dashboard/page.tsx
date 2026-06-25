@@ -15,6 +15,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { CubColorDot } from "@/components/cub-color-dot";
 import { GuardianNudgesSection } from "@/components/guardian-nudges-section";
+import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -44,6 +45,7 @@ import {
 } from "@/lib/guardian-nudges/sync";
 import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
 import { countSubmittedChallengeLogs } from "@/lib/cub-routines";
+import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { redirect } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -152,6 +154,13 @@ export default async function DashboardPage() {
     0,
   );
   const totalFocusThisWeek = weeklyProgress?.householdTotals.focusMinutes ?? 0;
+
+  const cubGrowthSummaries = await Promise.all(
+    family.cubs.map(async (cub) => ({
+      cub,
+      growth: await getCubGrowthAreaSummary(cub, weekStartsOn),
+    })),
+  );
 
   const nextAction = getTodayNextAction({
     pendingReview,
@@ -303,15 +312,30 @@ export default async function DashboardPage() {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {cubRewardSummaries.map(
-              ({ cub, summary, activeCount, assignedCount }) => (
-                <CubCard
-                  key={cub.id}
-                  cub={cub}
-                  assignedCount={assignedCount}
-                  activeCount={activeCount}
-                  rewards={summary}
-                />
-              ),
+              ({ cub, summary, activeCount, assignedCount }) => {
+                const growth = cubGrowthSummaries.find(
+                  (row) => row.cub.id === cub.id,
+                )?.growth;
+                return (
+                  <div key={cub.id} className="flex flex-col gap-3">
+                    <CubCard
+                      cub={cub}
+                      assignedCount={assignedCount}
+                      activeCount={activeCount}
+                      rewards={summary}
+                    />
+                    {growth ? (
+                      <GrowthAreasCard
+                        variant="mini"
+                        summary={growth}
+                        cubId={cub.id}
+                        cubName={cub.displayName}
+                        className={cubAccentClassNames(cub.id, { border: true })}
+                      />
+                    ) : null}
+                  </div>
+                );
+              },
             )}
           </div>
         </section>
@@ -375,8 +399,8 @@ export default async function DashboardPage() {
           />
           <ActionTile
             href="/dashboard/tasks/templates"
-            label="Task templates"
-            description="Reusable household tasks"
+            label="Training Packs"
+            description="Reusable tasks and routines"
             accent="zinc"
             icon={<TemplateIcon className="h-5 w-5" />}
           />

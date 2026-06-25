@@ -10,6 +10,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
+import { parseRecurrenceConfigValue } from "@/lib/task-recurrence-config";
 
 type EditTemplatePageProps = {
   params: Promise<{ id: string }>;
@@ -39,15 +40,17 @@ export default async function EditTaskTemplatePage({ params }: EditTemplatePageP
           href="/dashboard/tasks/templates"
           className="text-sm font-medium text-amber-700"
         >
-          ← Templates
+          ← Training Packs
         </Link>
-        <h1 className="mt-2 text-3xl font-bold">Edit template</h1>
+        <h1 className="mt-2 text-3xl font-bold">Edit training pack</h1>
       </div>
 
       <Card>
         <TaskTemplateForm
           action={boundUpdate}
-          submitLabel="Save template"
+          submitLabel="Save training pack"
+          initialRecurrence={template.recurrence}
+          initialRecurrenceConfig={parseRecurrenceConfigValue(template.recurrenceConfig)}
           initialValues={{
             title: template.title,
             description: template.description ?? "",
@@ -65,9 +68,9 @@ export default async function EditTaskTemplatePage({ params }: EditTemplatePageP
 
       {template.isActive ? (
         <Card className="border-red-200 dark:border-red-900">
-          <h2 className="font-semibold text-red-700">Deactivate template</h2>
+          <h2 className="font-semibold text-red-700">Deactivate training pack</h2>
           <p className="mt-2 text-sm text-zinc-500">
-            Hides this template from the board. Existing tasks are not deleted.
+            Hides this pack from Training Packs. Existing tasks are not deleted.
           </p>
           <form action={boundDeactivate} className="mt-4">
             <Button type="submit" variant="danger">

@@ -49,7 +49,12 @@ export const challengeSchema = z
     proofPrompt: z.string().trim().max(2000).optional(),
     proofChecklistItems: proofChecklistItemsField,
   })
-  .extend(challengeRewardFieldsSchema.shape);
+  .extend(challengeRewardFieldsSchema.shape)
+  .extend({
+    growthCategory: z
+      .enum(["CONTROL", "USE", "BUILD", "CHARACTER", "WELLNESS"])
+      .optional(),
+  });
 
 export function validateChallengeDefinition(
   data: z.infer<typeof challengeSchema>,

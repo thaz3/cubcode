@@ -69,7 +69,8 @@ export default async function ChallengesPage() {
                     <CubLink
                       cubId={challenge.cub.id}
                       displayName={challenge.cub.displayName}
-                      className="text-cub-gold hover:text-cub-gold-light"
+                      linked={false}
+                      className="text-cub-gold"
                     />{" "}
                     · {formatChallengeInterval(challenge.intervalType, challenge.intervalConfig)}
                   </p>

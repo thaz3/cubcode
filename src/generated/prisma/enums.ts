@@ -139,7 +139,8 @@ export type ChallengeProgressStatus = (typeof ChallengeProgressStatus)[keyof typ
 export const RewardGrantType = {
   NONE: 'NONE',
   PHONE_TIME: 'PHONE_TIME',
-  WEEKEND_BANK: 'WEEKEND_BANK'
+  WEEKEND_BANK: 'WEEKEND_BANK',
+  FOCUS_AREA_SWAP: 'FOCUS_AREA_SWAP'
 } as const
 
 export type RewardGrantType = (typeof RewardGrantType)[keyof typeof RewardGrantType]

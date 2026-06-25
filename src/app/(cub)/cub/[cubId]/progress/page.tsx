@@ -1,5 +1,6 @@
 import { CubProgressOverview } from "@/components/cub-progress-overview";
 import { CubProgressView } from "@/components/cub-progress-view";
+import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
@@ -10,6 +11,7 @@ import { getCubLedgerEntries } from "@/lib/cub-ledger";
 import { getCubRewardSummary } from "@/lib/rewards";
 import { PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
 import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
+import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { db } from "@/lib/db";
 import { seedRewardStoreForFamily } from "@/lib/actions/rewards";
 import { redirect } from "next/navigation";
@@ -32,6 +34,7 @@ export default async function CubModeProgressPage({
 
   const [
     summary,
+    growthSummary,
     rewardItems,
     weekEarned,
     weekStats,
@@ -39,6 +42,7 @@ export default async function CubModeProgressPage({
     completedTasks,
   ] = await Promise.all([
     getCubRewardSummary(cub),
+    getCubGrowthAreaSummary(cub, weekStartsOn),
     db.rewardStoreItem.findMany({
       where: { familyId, isActive: true },
       orderBy: { costFocusTokens: "asc" },
@@ -82,6 +86,8 @@ export default async function CubModeProgressPage({
         title="My progress"
         subtitle="XP, rank, tokens, and phone time you've earned."
       />
+
+      <GrowthAreasCard summary={growthSummary} audience="cub" />
 
       <CubProgressView summary={summary} />
 

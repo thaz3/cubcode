@@ -5,6 +5,7 @@ import type { Challenge, Cub } from "@/generated/prisma/client";
 import { ProofConfigFields } from "@/components/proof-config-fields";
 import { ChallengeIntervalFields } from "@/components/challenge-interval-fields";
 import { ChallengeRewardFields } from "@/components/challenge-reward-fields";
+import { GrowthAreaFields } from "@/components/growth-area-fields";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -93,6 +94,8 @@ export function ChallengeForm({
             challenge ? getCustomDaysOfWeek(challenge) : undefined
           }
         />
+
+        <GrowthAreaFields initialValue={challenge?.growthCategory} />
 
         <ProofConfigFields
           initialValues={{

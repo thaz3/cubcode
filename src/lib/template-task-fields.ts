@@ -42,6 +42,7 @@ export function templateTaskFields(template: TaskTemplate) {
     ...templateCategoryFields(template),
     ...templateProofFields(template),
     recurrence: template.recurrence,
+    recurrenceConfig: template.recurrenceConfig ?? undefined,
     ...categoryRewardFields(template.category, {
       subcategory: template.subcategory,
       growthCategory: template.growthCategory,

@@ -11,6 +11,7 @@ import { assignTemplateToCubAction } from "@/lib/actions/task-templates";
 import { formatProofType } from "@/lib/task-labels";
 import { formatTaskCategory } from "@/lib/task-categories";
 import { formatTaskRecurrence } from "@/lib/task-recurrence";
+import { parseRecurrenceConfigValue } from "@/lib/task-recurrence-config";
 import type { TaskTemplate } from "@/generated/prisma/client";
 
 type CubTemplateAssignCardProps = {
@@ -27,7 +28,10 @@ export function CubTemplateAssignCard({
     {} as ActionState,
   );
 
-  const recurrenceLabel = formatTaskRecurrence(template.recurrence);
+  const recurrenceLabel = formatTaskRecurrence(
+    template.recurrence,
+    parseRecurrenceConfigValue(template.recurrenceConfig),
+  );
 
   return (
     <Card className="p-4">
@@ -57,7 +61,10 @@ export function CubTemplateAssignCard({
               showQuickDue
               onDueDateChange={onDueDateChange}
             />
-            <TaskRecurrenceField initialValue={template.recurrence} />
+            <TaskRecurrenceField
+              initialValue={template.recurrence}
+              initialConfig={parseRecurrenceConfigValue(template.recurrenceConfig)}
+            />
             <TaskUrgentField id={`template-urgent-${template.id}`} />
           </div>
         </CollapsibleSection>
@@ -72,7 +79,7 @@ export function CubTemplateAssignCard({
         ) : null}
 
         <Button type="submit" disabled={isPending} fullWidth>
-          {isPending ? "Assigning..." : "Assign from template"}
+          {isPending ? "Assigning..." : "Assign from training pack"}
         </Button>
       </form>
     </Card>

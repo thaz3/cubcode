@@ -34,7 +34,9 @@ type TaskTemplateFormProps = {
   showQuickDue?: boolean;
   showUrgent?: boolean;
   initialDueDate?: string;
+  showRecurrence?: boolean;
   initialRecurrence?: TaskRecurrence;
+  initialRecurrenceConfig?: import("@/lib/task-recurrence-config").TaskRecurrenceConfig | null;
   hiddenFields?: Record<string, string>;
   rewardFields?: React.ReactNode;
   compact?: boolean;
@@ -47,8 +49,10 @@ export function TaskTemplateForm({
   showDueDate = false,
   showQuickDue = false,
   showUrgent = false,
+  showRecurrence = true,
   initialDueDate = "",
   initialRecurrence = "NONE",
+  initialRecurrenceConfig = null,
   hiddenFields,
   rewardFields,
   compact = false,
@@ -150,9 +154,24 @@ export function TaskTemplateForm({
                   showQuickDue={showQuickDue}
                   onDueDateChange={onDueDateChange}
                 />
-                <TaskRecurrenceField initialValue={initialRecurrence} />
+                {showRecurrence ? (
+                  <TaskRecurrenceField
+                    initialValue={initialRecurrence}
+                    initialConfig={initialRecurrenceConfig}
+                  />
+                ) : null}
                 {showUrgent ? <TaskUrgentField id="task-urgent-create" /> : null}
               </div>
+            </CollapsibleSection>
+          ) : showRecurrence ? (
+            <CollapsibleSection
+              title="Repeat"
+              summary="Day and time for recurring tasks"
+            >
+              <TaskRecurrenceField
+                initialValue={initialRecurrence}
+                initialConfig={initialRecurrenceConfig}
+              />
             </CollapsibleSection>
           ) : null}
         </>
@@ -195,12 +214,20 @@ export function TaskTemplateForm({
                 showQuickDue={showQuickDue}
                 onDueDateChange={onDueDateChange}
               />
-              <TaskRecurrenceField initialValue={initialRecurrence} />
+              {showRecurrence ? (
+                <TaskRecurrenceField
+                  initialValue={initialRecurrence}
+                  initialConfig={initialRecurrenceConfig}
+                />
+              ) : null}
               {showUrgent ? <TaskUrgentField id="task-urgent-create-full" /> : null}
             </>
-          ) : (
-            <TaskRecurrenceField initialValue={initialRecurrence} />
-          )}
+          ) : showRecurrence ? (
+            <TaskRecurrenceField
+              initialValue={initialRecurrence}
+              initialConfig={initialRecurrenceConfig}
+            />
+          ) : null}
         </>
       )}
 
@@ -228,7 +255,7 @@ export function CreateTaskTemplateForm({
   return (
     <TaskTemplateForm
       action={createTaskTemplateAction}
-      submitLabel="Create template"
+      submitLabel="Create training pack"
       initialValues={initialValues}
     />
   );

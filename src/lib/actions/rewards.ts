@@ -15,11 +15,15 @@ const rewardItemSchema = z
     title: z.string().trim().min(1, "Title is required").max(120),
     description: z.string().trim().max(500).optional(),
     costFocusTokens: z.coerce.number().int().min(1).max(50),
-    grantType: z.enum(["NONE", "PHONE_TIME", "WEEKEND_BANK"]),
+    grantType: z.enum(["NONE", "PHONE_TIME", "WEEKEND_BANK", "FOCUS_AREA_SWAP"]),
     minutesGranted: z.coerce.number().int().min(0).max(240).optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.grantType !== "NONE" && (!data.minutesGranted || data.minutesGranted < 1)) {
+    if (
+      data.grantType !== "NONE" &&
+      data.grantType !== "FOCUS_AREA_SWAP" &&
+      (!data.minutesGranted || data.minutesGranted < 1)
+    ) {
       ctx.addIssue({
         code: "custom",
         message: "Enter minutes to grant for phone or Weekend Bank rewards.",
@@ -36,6 +40,8 @@ const redeemSchema = z.object({
 function revalidateRewardPaths(cubId: string) {
   revalidatePath("/dashboard/rewards");
   revalidatePath(`/dashboard/cubs/${cubId}/progress`);
+  revalidatePath(`/cub/${cubId}/progress`);
+  revalidatePath(`/cub/${cubId}/progress/growth`);
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/cubs");
 }
@@ -159,6 +165,8 @@ export async function redeemRewardAction(
       grantMessage = ` ${granted.phoneMinutes} min added to phone time today.`;
     } else if (granted.weekendBankMinutes > 0) {
       grantMessage = ` ${granted.weekendBankMinutes} min added to Weekend Bank.`;
+    } else if (granted.focusAreaSwaps > 0) {
+      grantMessage = ` +1 Focus area swap added (${(cub.focusAreaSwapCredits ?? 0) + 1} total).`;
     }
   });
 

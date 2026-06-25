@@ -31,16 +31,10 @@ export function TaskBoardNav({ counts }: TaskBoardNavProps) {
         </a>
       ))}
       <Link
-        href="/dashboard/tasks/library"
+        href="/dashboard/tasks/templates"
         className="inline-flex min-h-10 shrink-0 items-center rounded-full border border-violet-800/60 bg-violet-950/30 px-4 py-2 text-sm font-medium text-violet-300 transition hover:border-violet-700"
       >
-        Task library →
-      </Link>
-      <Link
-        href="/dashboard/tasks/templates"
-        className="inline-flex min-h-10 shrink-0 items-center rounded-full border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-400 transition hover:border-zinc-600 hover:text-zinc-200"
-      >
-        Templates
+        Training Packs →
       </Link>
     </nav>
   );

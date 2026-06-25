@@ -75,7 +75,7 @@ export function TaskTemplateCard({
             }}
           >
             <Button type="submit" variant="secondary" fullWidth>
-              Save to task library (assign later)
+              Save for later (ready to assign)
             </Button>
           </form>
         ) : null}

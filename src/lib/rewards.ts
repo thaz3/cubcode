@@ -244,21 +244,34 @@ export async function applyStoreRewardGrant(
   },
   createdByUserId: string,
   client: LedgerClient,
-): Promise<{ phoneMinutes: number; weekendBankMinutes: number }> {
+): Promise<{
+  phoneMinutes: number;
+  weekendBankMinutes: number;
+  focusAreaSwaps: number;
+}> {
+  if (item.grantType === "FOCUS_AREA_SWAP") {
+    await client.cub.update({
+      where: { id: cub.id },
+      data: { focusAreaSwapCredits: { increment: 1 } },
+    });
+    return { phoneMinutes: 0, weekendBankMinutes: 0, focusAreaSwaps: 1 };
+  }
+
   const minutes = item.minutesGranted ?? 0;
   if (minutes <= 0 || item.grantType === "NONE") {
-    return { phoneMinutes: 0, weekendBankMinutes: 0 };
+    return { phoneMinutes: 0, weekendBankMinutes: 0, focusAreaSwaps: 0 };
   }
 
   const note = `Redeemed: ${item.title}`;
 
   if (item.grantType === "PHONE_TIME") {
-    return creditPhoneMinutesForCub(cub, minutes, {
+    const phone = await creditPhoneMinutesForCub(cub, minutes, {
       reason: "REWARD_REDEMPTION",
       note,
       createdByUserId,
       client,
     });
+    return { ...phone, focusAreaSwaps: 0 };
   }
 
   if (item.grantType === "WEEKEND_BANK") {
@@ -267,10 +280,10 @@ export async function applyStoreRewardGrant(
       createdByUserId,
       client,
     });
-    return { phoneMinutes: 0, weekendBankMinutes };
+    return { phoneMinutes: 0, weekendBankMinutes, focusAreaSwaps: 0 };
   }
 
-  return { phoneMinutes: 0, weekendBankMinutes: 0 };
+  return { phoneMinutes: 0, weekendBankMinutes: 0, focusAreaSwaps: 0 };
 }
 
 export async function taskRewardsAlreadyCredited(
@@ -444,6 +457,14 @@ export const DEFAULT_REWARD_STORE_ITEMS = [
     grantType: "NONE" as const,
     minutesGranted: null,
   },
+  {
+    title: "Focus area swap",
+    description:
+      "Pick a growth area again this week, or start another focus session in an area you already finished.",
+    costFocusTokens: 2,
+    grantType: "FOCUS_AREA_SWAP" as const,
+    minutesGranted: null,
+  },
 ] as const;
 
 export async function ensureDefaultRewardStoreItems(familyId: string) {
@@ -460,6 +481,28 @@ export async function ensureDefaultRewardStoreItems(familyId: string) {
         minutesGranted: 15,
       },
     });
+
+    const swapExists = await db.rewardStoreItem.findFirst({
+      where: { familyId, grantType: "FOCUS_AREA_SWAP" },
+      select: { id: true },
+    });
+    if (!swapExists) {
+      const swapItem = DEFAULT_REWARD_STORE_ITEMS.find(
+        (item) => item.grantType === "FOCUS_AREA_SWAP",
+      );
+      if (swapItem) {
+        await db.rewardStoreItem.create({
+          data: {
+            familyId,
+            title: swapItem.title,
+            description: swapItem.description,
+            costFocusTokens: swapItem.costFocusTokens,
+            grantType: swapItem.grantType,
+            minutesGranted: swapItem.minutesGranted,
+          },
+        });
+      }
+    }
     return;
   }
 
