@@ -51,7 +51,7 @@ export function WeeklyProgressDashboard({
             <Link href={`/dashboard/family-day?week=${weekQuery}`}>
               <Button>{FAMILY_DAY_LABEL}</Button>
             </Link>
-            <Link href="/dashboard/tasks/templates#weekly-legacy">
+            <Link href="/dashboard/tasks/templates#know-your-roots">
               <Button variant="secondary">{LEGACY_WEEKLY_LABEL}</Button>
             </Link>
             <Link href="/dashboard/tasks/summer">

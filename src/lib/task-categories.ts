@@ -20,8 +20,8 @@ export const TASK_CATEGORY_LABELS: Record<TaskCategory, string> = {
   SCHOOL: "School-based",
   CHORE: "Chore",
   ATTITUDE: "Attitude",
-  LEGACY_WEEKLY: "Weekly Legacy",
-  SUMMER_LITE: "Summer Lite",
+  LEGACY_WEEKLY: "Know Your Roots",
+  SUMMER_LITE: "Get Some Sun",
 };
 
 export const ALL_GROWTH_CATEGORIES = [

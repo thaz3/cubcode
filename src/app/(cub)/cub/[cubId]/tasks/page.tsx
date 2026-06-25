@@ -3,6 +3,7 @@ import {
   CubWorkflowTaskCard,
   type FocusGrowthContext,
 } from "@/components/cub-workflow-task-card";
+import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
@@ -100,7 +101,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
           description="Ask your parent to assign something for you to work on."
         />
       ) : (
-        <div className="grid gap-4">
+        <SwipeCardDeck>
           {sortedTasks.map((task) => (
             <CubWorkflowTaskCard
               key={task.id}
@@ -109,7 +110,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
               focusGrowth={task.category === "FOCUS_BLOCK" ? focusGrowth : null}
             />
           ))}
-        </div>
+        </SwipeCardDeck>
       )}
     </div>
   );

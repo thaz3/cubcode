@@ -1,5 +1,6 @@
 import { ActiveTaskList } from "@/components/active-task-list";
 import { TaskPoolCard } from "@/components/task-pool-card";
+import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -114,11 +115,11 @@ export function TaskLibraryWorkflow({
           actionHref="/dashboard/tasks/templates"
         />
       ) : (
-        <div className="grid gap-4">
+        <SwipeCardDeck>
           {tasks.map((task) => (
             <TaskPoolCard key={task.id} task={task} cubs={cubs} />
           ))}
-        </div>
+        </SwipeCardDeck>
       )}
     </div>
   );

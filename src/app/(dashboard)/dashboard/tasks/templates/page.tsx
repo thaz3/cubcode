@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TaskTemplateCard } from "@/components/task-template-card";
+import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
@@ -79,7 +80,7 @@ export default async function TaskTemplatesPage() {
       </div>
 
       <Card
-        id="summer-lite"
+        id="get-some-sun"
         className="scroll-mt-8 border-sky-200 bg-sky-50/50 dark:border-sky-900 dark:bg-sky-950/20"
       >
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -95,14 +96,16 @@ export default async function TaskTemplatesPage() {
             </p>
           </div>
           <Link href="/dashboard/tasks/summer">
-            <Button variant="secondary">Summer task board</Button>
+            <Button variant="secondary">{SUMMER_LITE_LABEL} board</Button>
           </Link>
         </div>
 
         {summerTemplates.length === 0 ? (
-          <p className="mt-4 text-sm text-zinc-500">No summer templates available.</p>
+          <p className="mt-4 text-sm text-zinc-500">
+            No {SUMMER_LITE_LABEL} templates available.
+          </p>
         ) : (
-          <div className="mt-4 grid gap-4">
+          <SwipeCardDeck className="mt-4">
             {summerTemplates.map((template) => (
               <TaskTemplateCard
                 key={template.id}
@@ -111,12 +114,12 @@ export default async function TaskTemplatesPage() {
                 cubs={family.cubs}
               />
             ))}
-          </div>
+          </SwipeCardDeck>
         )}
       </Card>
 
       <Card
-        id="weekly-legacy"
+        id="know-your-roots"
         className="scroll-mt-8 border-violet-200 bg-violet-50/50 dark:border-violet-900 dark:bg-violet-950/20"
       >
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -137,9 +140,11 @@ export default async function TaskTemplatesPage() {
         </div>
 
         {legacyTemplates.length === 0 ? (
-          <p className="mt-4 text-sm text-zinc-500">No legacy templates available.</p>
+          <p className="mt-4 text-sm text-zinc-500">
+            No {LEGACY_WEEKLY_LABEL} templates available.
+          </p>
         ) : (
-          <div className="mt-4 grid gap-4">
+          <SwipeCardDeck className="mt-4">
             {legacyTemplates.map((template) => (
               <TaskTemplateCard
                 key={template.id}
@@ -148,7 +153,7 @@ export default async function TaskTemplatesPage() {
                 cubs={family.cubs}
               />
             ))}
-          </div>
+          </SwipeCardDeck>
         )}
       </Card>
 
@@ -165,7 +170,7 @@ export default async function TaskTemplatesPage() {
             <p className="text-sm text-zinc-500">No other templates yet.</p>
           </Card>
         ) : (
-          <div className="grid gap-4">
+          <SwipeCardDeck>
             {otherTemplates.map((template) => (
               <TaskTemplateCard
                 key={template.id}
@@ -173,7 +178,7 @@ export default async function TaskTemplatesPage() {
                 cubs={family.cubs}
               />
             ))}
-          </div>
+          </SwipeCardDeck>
         )}
       </section>
     </div>

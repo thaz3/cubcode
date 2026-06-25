@@ -12,7 +12,7 @@ export const DASHBOARD_PRIMARY_NAV_ITEMS = [
 export const DASHBOARD_MORE_NAV_ITEMS = [
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
   { href: "/dashboard/family/settings", label: "Settings" },
-  { href: "/dashboard/tasks/summer", label: "Summer tasks" },
+  { href: "/dashboard/tasks/summer", label: "Get Some Sun" },
   { href: "/dashboard/tasks/templates", label: "Task templates" },
 ] as const;
 

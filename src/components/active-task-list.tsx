@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { TaskCard } from "@/components/task-card";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CubColorBadge } from "@/components/cub-color-dot";
@@ -16,21 +17,19 @@ type ActiveTaskListProps = {
 };
 
 export function ActiveTaskList({ items }: ActiveTaskListProps) {
-  return (
-    <div className="grid gap-3">
-      {items.map((item) =>
-        item.type === "group" ? (
-          <GroupedActiveTaskCard
-            key={item.key}
-            title={item.title}
-            instances={item.instances}
-          />
-        ) : (
-          <TaskCard key={item.task.id} task={item.task} />
-        ),
-      )}
-    </div>
+  const cards = items.map((item) =>
+    item.type === "group" ? (
+      <GroupedActiveTaskCard
+        key={item.key}
+        title={item.title}
+        instances={item.instances}
+      />
+    ) : (
+      <TaskCard key={item.task.id} task={item.task} />
+    ),
   );
+
+  return <SwipeCardDeck emptyLabel="No tasks in this section.">{cards}</SwipeCardDeck>;
 }
 
 function GroupedActiveTaskCard({

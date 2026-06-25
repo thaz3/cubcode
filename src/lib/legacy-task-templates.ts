@@ -5,7 +5,7 @@ import {
   type LegacyWeeklySubcategory,
 } from "@/lib/task-categories";
 
-export const LEGACY_WEEKLY_LABEL = "Weekly Legacy";
+export const LEGACY_WEEKLY_LABEL = "Know Your Roots";
 
 export type { LegacyWeeklySubcategory };
 

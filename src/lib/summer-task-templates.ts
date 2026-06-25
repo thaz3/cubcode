@@ -5,8 +5,8 @@ import {
   type SummerLiteSubcategory,
 } from "@/lib/task-categories";
 
-export const SUMMER_LITE_LABEL = "Summer Lite";
-export const SUMMER_LITE_FULL_LABEL = "Cub Code Live Lite";
+export const SUMMER_LITE_LABEL = "Get Some Sun";
+export const SUMMER_LITE_FULL_LABEL = "Get Some Sun";
 
 export type { SummerLiteSubcategory };
 

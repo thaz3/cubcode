@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TaskTemplateCard } from "@/components/task-template-card";
+import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
@@ -48,7 +49,7 @@ export default async function SummerTaskBoardPage() {
           <Link href="/dashboard/tasks/templates/new?type=summer">
             <Button variant="secondary">New {SUMMER_LITE_LABEL} template</Button>
           </Link>
-          <Link href="/dashboard/tasks/templates#summer-lite">
+          <Link href="/dashboard/tasks/templates#get-some-sun">
             <Button variant="secondary">All templates</Button>
           </Link>
         </div>
@@ -56,14 +57,14 @@ export default async function SummerTaskBoardPage() {
 
       {summerTemplates.length === 0 ? (
         <Card>
-          <p className="text-sm text-zinc-500">No summer templates available.</p>
+          <p className="text-sm text-zinc-500">No {SUMMER_LITE_LABEL} templates available.</p>
         </Card>
       ) : (
-        <div className="grid gap-4">
+        <SwipeCardDeck>
           {summerTemplates.map((template) => (
             <TaskTemplateCard key={template.id} template={template} highlight="summer" />
           ))}
-        </div>
+        </SwipeCardDeck>
       )}
     </div>
   );

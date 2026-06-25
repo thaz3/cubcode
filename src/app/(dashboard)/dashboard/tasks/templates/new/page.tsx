@@ -35,7 +35,7 @@ export default async function NewTaskTemplatePage({
           }
           className="text-sm font-medium text-amber-700"
         >
-          ← {isSummer ? "Summer task board" : "Templates"}
+          ← {isSummer ? `${SUMMER_LITE_LABEL} board` : "Templates"}
         </Link>
         <h1 className="mt-2 text-3xl font-bold">
           {isLegacy
@@ -46,9 +46,9 @@ export default async function NewTaskTemplatePage({
         </h1>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
           {isLegacy
-            ? "Weekly Legacy tasks build cultural memory and family identity. Parent approval is always required."
+            ? "Know Your Roots tasks build cultural memory and family identity. Parent approval is always required."
             : isSummer
-              ? "Summer Lite outdoor tasks include location and supervision in the description. Parent approval is always required."
+              ? `${SUMMER_LITE_LABEL} outdoor tasks include location and supervision in the description. Parent approval is always required.`
               : "Templates are reusable titles and descriptions. Earned amounts come from each Cub's profile when assigned."}
         </p>
       </div>
