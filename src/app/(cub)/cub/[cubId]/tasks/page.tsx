@@ -19,7 +19,7 @@ import {
 } from "@/lib/focus-growth";
 import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
 import {
-  filterTasksForWeek,
+  filterTasksForCubWeekView,
   isTaskOverdue,
   isTaskUrgent,
   sortTasksByUrgency,
@@ -57,7 +57,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
   };
 
-  const weekTasks = filterTasksForWeek(tasks, weekStartsOn);
+  const weekTasks = filterTasksForCubWeekView(tasks, weekStartsOn);
   const sortedTasks = sortTasksByUrgency(weekTasks);
   const urgentTasks = sortedTasks.filter((task) => isTaskUrgent(task));
   const activeFocusTasks = sortedTasks
@@ -75,7 +75,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     <div className="space-y-6">
       <PageHeader
         title="My tasks"
-        subtitle={`This week · ${formatWeekLabel(weekStartsOn)}. Open instructions, do the work, and submit for parent review.`}
+        subtitle={`This week · ${formatWeekLabel(weekStartsOn)}. Overdue tasks from earlier weeks stay visible until finished.`}
       />
 
       <ActiveFocusTimersBanner

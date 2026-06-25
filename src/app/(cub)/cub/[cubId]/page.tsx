@@ -12,7 +12,7 @@ import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
 import { getCubWeekStats } from "@/lib/council-day-stats";
 import { formatMinutes } from "@/lib/ledger-labels";
 import { getCubRewardSummary } from "@/lib/rewards";
-import { sortTasksByUrgency, filterTasksForWeek } from "@/lib/task-schedule";
+import { sortTasksByUrgency, filterTasksForCubWeekView } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
 import { db } from "@/lib/db";
@@ -53,7 +53,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     getCubWeekStats(cub.id, weekStartsOn),
   ]);
 
-  const weekAssigned = filterTasksForWeek(assignedTasks, weekStartsOn);
+  const weekAssigned = filterTasksForCubWeekView(assignedTasks, weekStartsOn);
   const sortedAssigned = sortTasksByUrgency(weekAssigned);
   const nextAction = getCubNextAction(weekAssigned, cubId);
 

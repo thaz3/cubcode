@@ -339,3 +339,37 @@ export function filterTasksForWeek<T extends TaskScheduleInput>(
 ): T[] {
   return tasks.filter((task) => taskBelongsToWeek(task, weekStart));
 }
+
+/**
+ * Cub-facing week view: current-week tasks plus actionable carryover.
+ * Does not affect parent dashboards or Small Reminders.
+ */
+export function isTaskVisibleOnCubWeekView(
+  task: TaskScheduleInput,
+  weekStart: Date,
+  now = new Date(),
+): boolean {
+  if (taskBelongsToWeek(task, weekStart)) {
+    return true;
+  }
+
+  if (task.status === "SUBMITTED") {
+    return true;
+  }
+
+  if (isTaskOverdue(task, now)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function filterTasksForCubWeekView<T extends TaskScheduleInput>(
+  tasks: T[],
+  weekStart: Date,
+  now = new Date(),
+): T[] {
+  return tasks.filter((task) =>
+    isTaskVisibleOnCubWeekView(task, weekStart, now),
+  );
+}
