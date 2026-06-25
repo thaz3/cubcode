@@ -11,5 +11,5 @@ export default async function CubShellLayout({
     redirect("/login");
   }
 
-  return <div className="min-h-dvh bg-zinc-950">{children}</div>;
+  return <div className="min-h-dvh cub-app-shell">{children}</div>;
 }

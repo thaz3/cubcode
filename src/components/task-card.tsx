@@ -41,7 +41,7 @@ export function TaskCard({
           <div className="flex flex-wrap items-center gap-2">
             <Link
               href={`/dashboard/tasks/${task.id}`}
-              className="text-base font-semibold text-zinc-50 hover:text-amber-400"
+              className="text-base font-semibold text-zinc-50 hover:text-cub-gold-light"
             >
               {task.title}
             </Link>
@@ -59,7 +59,7 @@ export function TaskCard({
                 })}{" "}
                 · {formatProofType(task.proofType)}
               </p>
-              <p className="text-sm text-amber-500/90">
+              <p className="text-sm text-cub-gold/90">
                 {formatTaskRewards(task)}
               </p>
             </>

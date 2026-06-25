@@ -33,12 +33,19 @@ import { getTodayNextAction } from "@/lib/today-next-action";
 import { getHouseholdWeeklyProgress } from "@/lib/weekly-progress";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import {
+  cubSectionLabel,
+  cubSectionTitle,
+  nextActionButtonVariant,
+  nextActionCardClass,
+} from "@/lib/cub-theme";
+import {
   ensureGuardianNudgePreferences,
   getActiveGuardianNudgesForFamily,
 } from "@/lib/guardian-nudges/sync";
 import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
 import { countSubmittedChallengeLogs } from "@/lib/cub-routines";
 import { redirect } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -177,30 +184,32 @@ export default async function DashboardPage() {
         title="Dashboard"
         subtitle={`Today's Code · ${weekLabel}`}
       />
-      <p className="-mt-4 text-sm text-zinc-500">{greeting}</p>
+      <p className="-mt-4 text-sm text-cub-muted">{greeting}</p>
 
       <GuardianNudgesSection
         nudges={guardianNudges}
         hiddenByQuietHours={quietHoursActive}
       />
 
-      <Card
-        variant={nextAction.priority === "urgent" ? "accent" : "default"}
-        className="space-y-4"
-      >
+      <Card className={cn("space-y-4", nextActionCardClass(nextAction.priority))}>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-amber-500">
-            Next up
-          </p>
-          <h2 className="mt-1 text-xl font-bold text-zinc-50">
+          <p className={cubSectionLabel}>Next up</p>
+          <h2 className="mt-1 text-xl font-bold text-cub-off-white">
             {nextAction.title}
           </h2>
-          <p className="mt-2 text-sm text-zinc-400">
+          <p className="mt-2 text-sm text-cub-muted">
             {nextAction.description}
           </p>
         </div>
         <Link href={nextAction.href}>
-          <Button fullWidth size="lg">
+          <Button
+            fullWidth
+            size="lg"
+            variant={nextActionButtonVariant(
+              nextAction.priority,
+              nextAction.buttonLabel,
+            )}
+          >
             {nextAction.buttonLabel}
           </Button>
         </Link>
@@ -212,22 +221,25 @@ export default async function DashboardPage() {
             label="Needs review"
             value={String(pendingReview)}
             detail={pendingReview > 0 ? "Waiting for you" : "All caught up"}
-            highlight={pendingReview > 0 ? "amber" : undefined}
+            highlight={pendingReview > 0 ? "gold" : "gold"}
           />
           <StatCard
             label="Active tasks"
             value={String(inProgressCount)}
             detail="Claimed or in progress"
+            highlight="green"
           />
           <StatCard
             label="Phone time today"
             value={formatMinutes(totalPhoneToday)}
             detail="Available across Cubs"
+            highlight="gold"
           />
           <StatCard
             label="Focus this week"
             value={`${totalFocusThisWeek} min`}
             detail="Logged focus blocks"
+            highlight="green"
           />
         </div>
       ) : null}
@@ -235,10 +247,10 @@ export default async function DashboardPage() {
       {sortedActiveTasks.length > 0 ? (
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-zinc-100">Active now</h2>
+            <h2 className={cubSectionTitle}>Active now</h2>
             <Link
               href="/dashboard/tasks#active"
-              className="text-sm font-medium text-amber-500"
+              className="text-sm font-medium text-cub-gold"
             >
               All tasks →
             </Link>
@@ -248,17 +260,25 @@ export default async function DashboardPage() {
               <li key={task.id}>
                 <Link
                   href={`/dashboard/tasks/${task.id}`}
-                  className={`block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-zinc-700 ${cubAccentClassNames(task.cub?.id, { border: true })}`}
+                  className={cn(
+                    "block rounded-2xl border p-4 shadow-sm transition hover:shadow-md",
+                    task.status === "IN_PROGRESS"
+                      ? "border-cub-green-bright/35 cub-card-green hover:border-cub-green-bright/55"
+                      : task.status === "SENT_BACK"
+                        ? "border-cub-gold/35 cub-card-gold hover:border-cub-gold/55"
+                        : "border-cub-charcoal/80 cub-card-surface hover:border-cub-gold/30",
+                    cubAccentClassNames(task.cub?.id, { border: true }),
+                  )}
                 >
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-medium text-zinc-100">
+                    <span className="font-medium text-cub-off-white">
                       {task.title}
                     </span>
                     <StatusBadge status={task.status} />
                   </div>
                   <TaskScheduleDisplay task={task} compact className="mt-1" />
                   {task.cub ? (
-                    <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-zinc-400">
+                    <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-cub-muted">
                       <CubColorDot cubId={task.cub.id} />
                       {task.cub.displayName}
                     </p>
@@ -273,10 +293,10 @@ export default async function DashboardPage() {
       {family.cubs.length > 0 ? (
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-zinc-100">Your Cubs</h2>
+            <h2 className={cubSectionTitle}>Your Cubs</h2>
             <Link
               href="/dashboard/cubs"
-              className="text-sm font-medium text-amber-500"
+              className="text-sm font-medium text-cub-gold"
             >
               All Cubs →
             </Link>
@@ -299,8 +319,8 @@ export default async function DashboardPage() {
 
       <section className="space-y-3">
         <div>
-          <h2 className="text-lg font-semibold text-zinc-100">Quick links</h2>
-          <p className="mt-1 text-sm text-zinc-500">
+          <h2 className={cubSectionTitle}>Quick links</h2>
+          <p className="mt-1 text-sm text-cub-muted">
             Shortcuts to Cub view, weekly rhythm, and household tools.
           </p>
         </div>

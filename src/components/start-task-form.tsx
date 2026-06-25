@@ -74,6 +74,7 @@ export function StartTaskForm({
 
       <Button
         type="submit"
+        variant="constructive"
         fullWidth
         size="lg"
         disabled={isPending || (isFocusBlock && !growthCategory)}

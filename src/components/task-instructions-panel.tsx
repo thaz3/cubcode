@@ -19,8 +19,8 @@ export function TaskInstructionsPanel({ task }: TaskInstructionsPanelProps) {
 
   if (!hasContent) {
     return (
-      <div className="rounded-xl border border-indigo-800/60 bg-indigo-950/20 px-4 py-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-indigo-300">
+      <div className="rounded-xl border border-cub-green/30 bg-cub-green-muted px-4 py-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-cub-green-light">
           Instructions
         </p>
         <p className="mt-2 text-sm text-zinc-400">
@@ -31,8 +31,8 @@ export function TaskInstructionsPanel({ task }: TaskInstructionsPanelProps) {
   }
 
   return (
-    <div className="space-y-3 rounded-xl border border-indigo-800/60 bg-indigo-950/20 px-4 py-3">
-      <p className="text-xs font-semibold uppercase tracking-wide text-indigo-300">
+    <div className="space-y-3 rounded-xl border border-cub-green/30 bg-cub-green-muted px-4 py-3">
+      <p className="text-xs font-semibold uppercase tracking-wide text-cub-green-light">
         Instructions
       </p>
 

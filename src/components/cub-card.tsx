@@ -7,6 +7,7 @@ import { cubAccentClassNames } from "@/lib/cub-colors";
 import { formatMinutes } from "@/lib/ledger-labels";
 import type { CubRewardSummary } from "@/lib/rewards";
 import type { AgeBand } from "@/generated/prisma/client";
+import { cn } from "@/lib/utils";
 
 type CubCardProps = {
   cub: {
@@ -26,26 +27,31 @@ export function CubCard({
   rewards,
 }: CubCardProps) {
   return (
-    <Card className={cubAccentClassNames(cub.id, { border: true })}>
+    <Card
+      variant="constructive"
+      className={cn(cubAccentClassNames(cub.id, { border: true }))}
+    >
       <div className="space-y-4">
         <div>
           <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
-          <p className="mt-2 text-sm text-zinc-400">{formatAgeBand(cub.ageBand)}</p>
+          <p className="mt-2 text-sm text-cub-muted">{formatAgeBand(cub.ageBand)}</p>
           {rewards ? (
             <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-              <CubStat label="Rank" value={rewards.rank.current.name} />
-              <CubStat label="XP" value={String(rewards.totalXp)} />
+              <CubStat label="Rank" value={rewards.rank.current.name} tone="green" />
+              <CubStat label="XP" value={String(rewards.totalXp)} tone="gold" />
               <CubStat
                 label="Phone today"
                 value={formatMinutes(rewards.phoneMinutesAvailableToday)}
+                tone="gold"
               />
               <CubStat
                 label="Tokens"
                 value={String(rewards.totalFocusTokens)}
+                tone="gold"
               />
             </div>
           ) : null}
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-2 text-sm text-cub-muted">
             {activeCount > 0
               ? `${activeCount} active task${activeCount === 1 ? "" : "s"}`
               : assignedCount > 0
@@ -56,12 +62,12 @@ export function CubCard({
 
         <div className="flex flex-col gap-2 sm:flex-row">
           <Link href={`/cub/${cub.id}`} className="flex-1">
-            <Button fullWidth size="lg">
+            <Button variant="constructive" fullWidth size="lg">
               Open Cub view
             </Button>
           </Link>
           <Link href={`/dashboard/cubs/${cub.id}/tasks`} className="flex-1">
-            <Button variant="secondary" fullWidth size="lg">
+            <Button variant="reward" fullWidth size="lg">
               Manage
             </Button>
           </Link>
@@ -71,13 +77,33 @@ export function CubCard({
   );
 }
 
-function CubStat({ label, value }: { label: string; value: string }) {
+function CubStat({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone: "gold" | "green";
+}) {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 px-3 py-2">
-      <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
+    <div
+      className={cn(
+        "rounded-xl border px-3 py-2 shadow-sm",
+        tone === "gold"
+          ? "border-cub-gold/35 bg-cub-gold-muted/60"
+          : "border-cub-green-bright/35 bg-cub-green-muted/60",
+      )}
+    >
+      <p
+        className={cn(
+          "text-[10px] font-bold uppercase tracking-wide",
+          tone === "gold" ? "text-cub-gold-light" : "text-cub-green-light",
+        )}
+      >
         {label}
       </p>
-      <p className="mt-0.5 truncate text-sm font-semibold text-zinc-100">
+      <p className="mt-0.5 truncate text-sm font-semibold text-cub-off-white">
         {value}
       </p>
     </div>

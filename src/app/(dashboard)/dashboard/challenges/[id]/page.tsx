@@ -80,14 +80,14 @@ export default async function ChallengeDetailPage({
           <CubLink
             cubId={challenge.cub.id}
             displayName={challenge.cub.displayName}
-            className="font-medium text-amber-500"
+            className="font-medium text-cub-gold"
           />
         </p>
         {challenge.description ? (
           <p className="text-sm text-zinc-300">{challenge.description}</p>
         ) : null}
         <p className="text-sm text-zinc-500">{formatChallengeSummary(challenge)}</p>
-        <p className="text-sm text-amber-500/90">
+        <p className="text-sm text-cub-gold/90">
           Per check-in: {formatChallengeRewards(challenge)}
         </p>
         <p className="text-xs text-zinc-500">

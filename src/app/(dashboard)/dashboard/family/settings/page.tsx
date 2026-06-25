@@ -62,7 +62,7 @@ export default async function FamilySettingsPage() {
             Set your parent PIN below first. Then you can edit caps, exchange
             rates, {SMALL_REMINDERS_LABEL.toLowerCase()}, and quiet hours.
           </p>
-          <Link href="/dashboard" className="mt-4 inline-block text-sm font-medium text-amber-500">
+          <Link href="/dashboard" className="mt-4 inline-block text-sm font-medium text-cub-gold">
             Back to Dashboard →
           </Link>
         </Card>
@@ -137,7 +137,7 @@ export default async function FamilySettingsPage() {
         </p>
         {hasPin ? (
           <Link href="/dashboard/cubs" className="mt-4 inline-block">
-            <span className="text-sm font-medium text-amber-500 hover:text-amber-400">
+            <span className="text-sm font-medium text-cub-gold hover:text-cub-gold-light">
               Manage Cubs →
             </span>
           </Link>

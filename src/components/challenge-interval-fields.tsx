@@ -67,8 +67,8 @@ export function ChallengeIntervalFields({
                   onClick={() => toggleDay(day.value)}
                   className={`min-h-11 rounded-xl border px-3 py-2 text-sm font-medium transition-colors ${
                     selected
-                      ? "border-amber-500 bg-amber-500/15 text-amber-300"
-                      : "border-zinc-700 bg-zinc-900 text-zinc-400 hover:border-zinc-600"
+                      ? "border-cub-gold bg-cub-gold-muted text-cub-gold-light"
+                      : "border-cub-off-white/15 bg-cub-charcoal text-cub-muted hover:border-cub-off-white/25"
                   }`}
                 >
                   {day.label}

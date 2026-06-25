@@ -1,14 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #09090b;
-  --foreground: #f4f4f5;
-  --card: #18181b;
-  --card-border: #27272a;
-  --muted: #a1a1aa;
-  --accent: #d97706;
-  --accent-hover: #b45309;
-  --accent-foreground: #ffffff;
+  /* C.U.B. Code brand palette */
+  --cub-ebony: #121212;
+  --cub-deep-black: #070707;
+  --cub-charcoal: #1e1e1e;
+  --cub-off-white: #f4f1ea;
+  --cub-green: #1b4332;
+  --cub-green-bright: #2d6a4f;
+  --cub-gold: #d5a021;
+  --cub-gold-warm: #f2c14e;
+  --cub-red: #8b1e0f;
+  --cub-red-alert: #b23a2e;
+
+  /* Readable tints on dark surfaces */
+  --cub-green-light: #6ee7b7;
+  --cub-gold-light: #f2c14e;
+  --cub-red-light: #fca5a5;
+  --cub-muted: #a8a29e;
+
+  /* Stronger tinted surfaces */
+  --cub-green-muted: color-mix(in srgb, var(--cub-green) 38%, var(--cub-charcoal));
+  --cub-gold-muted: color-mix(in srgb, var(--cub-gold) 24%, var(--cub-charcoal));
+  --cub-red-muted: color-mix(in srgb, var(--cub-red) 30%, var(--cub-charcoal));
+
+  /* Subtle gradients for cards */
+  --cub-gradient-surface: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--cub-charcoal) 92%, var(--cub-off-white)) 0%,
+    var(--cub-ebony) 100%
+  );
+  --cub-gradient-green: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--cub-green) 45%, var(--cub-charcoal)) 0%,
+    var(--cub-charcoal) 100%
+  );
+  --cub-gradient-gold: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--cub-gold) 28%, var(--cub-charcoal)) 0%,
+    var(--cub-charcoal) 100%
+  );
+  --cub-gradient-red: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--cub-red) 32%, var(--cub-charcoal)) 0%,
+    var(--cub-charcoal) 100%
+  );
+
+  /* Semantic app tokens */
+  --background: var(--cub-deep-black);
+  --foreground: var(--cub-off-white);
+  --card: var(--cub-charcoal);
+  --card-border: color-mix(in srgb, var(--cub-green) 18%, transparent);
+  --muted: var(--cub-muted);
+  --accent: var(--cub-gold);
+  --accent-hover: var(--cub-gold-warm);
+  --accent-foreground: var(--cub-ebony);
 }
 
 @theme inline {
@@ -18,6 +64,25 @@
   --color-card-border: var(--card-border);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+
+  --color-cub-ebony: var(--cub-ebony);
+  --color-cub-deep-black: var(--cub-deep-black);
+  --color-cub-charcoal: var(--cub-charcoal);
+  --color-cub-off-white: var(--cub-off-white);
+  --color-cub-green: var(--cub-green);
+  --color-cub-green-bright: var(--cub-green-bright);
+  --color-cub-gold: var(--cub-gold);
+  --color-cub-gold-warm: var(--cub-gold-warm);
+  --color-cub-red: var(--cub-red);
+  --color-cub-red-alert: var(--cub-red-alert);
+  --color-cub-green-light: var(--cub-green-light);
+  --color-cub-gold-light: var(--cub-gold-light);
+  --color-cub-red-light: var(--cub-red-light);
+  --color-cub-muted: var(--cub-muted);
+  --color-cub-green-muted: var(--cub-green-muted);
+  --color-cub-gold-muted: var(--cub-gold-muted);
+  --color-cub-red-muted: var(--cub-red-muted);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -35,7 +100,6 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Safe area for bottom nav on notched phones */
 .pb-nav-safe {
   padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
 }
@@ -44,4 +108,30 @@ html {
   .pb-nav-safe {
     padding-bottom: 2rem;
   }
+}
+
+/* Warm app shell gradient */
+.cub-app-shell {
+  background: linear-gradient(
+    180deg,
+    var(--cub-deep-black) 0%,
+    var(--cub-ebony) 45%,
+    color-mix(in srgb, var(--cub-ebony) 90%, var(--cub-green)) 100%
+  );
+}
+
+.cub-card-surface {
+  background: var(--cub-gradient-surface);
+}
+
+.cub-card-green {
+  background: var(--cub-gradient-green);
+}
+
+.cub-card-gold {
+  background: var(--cub-gradient-gold);
+}
+
+.cub-card-red {
+  background: var(--cub-gradient-red);
 }

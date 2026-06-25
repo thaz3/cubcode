@@ -64,7 +64,7 @@ function GroupedActiveTaskCard({
         {instances.map((task) => (
           <li
             key={task.id}
-            className={`rounded-xl border border-zinc-800 bg-zinc-950/50 p-3 ${cubAccentClassNames(task.cub?.id, { border: true })}`}
+            className={`rounded-xl border border-cub-off-white/10 bg-cub-ebony/50 p-3 ${cubAccentClassNames(task.cub?.id, { border: true })}`}
           >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0 flex-1">

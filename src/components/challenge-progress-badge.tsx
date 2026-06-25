@@ -1,13 +1,14 @@
 import type { ChallengeProgressStatus } from "@/generated/prisma/client";
+import { cubStatusBadge } from "@/lib/cub-theme";
 import { CHALLENGE_PROGRESS_STATUS_LABELS } from "@/lib/challenge-transitions";
 import { cn } from "@/lib/utils";
 
 const STATUS_STYLES: Record<ChallengeProgressStatus, string> = {
-  PENDING: "bg-zinc-800 text-zinc-300",
-  SUBMITTED: "bg-amber-950 text-amber-300",
-  SENT_BACK: "bg-orange-950 text-orange-300",
-  REJECTED: "bg-red-950 text-red-300",
-  REWARDED: "bg-emerald-950 text-emerald-300",
+  PENDING: cubStatusBadge.pending,
+  SUBMITTED: cubStatusBadge.submitted,
+  SENT_BACK: cubStatusBadge.sentBack,
+  REJECTED: cubStatusBadge.rejected,
+  REWARDED: cubStatusBadge.rewarded,
 };
 
 type ChallengeProgressBadgeProps = {

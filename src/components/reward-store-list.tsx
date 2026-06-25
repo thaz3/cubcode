@@ -72,8 +72,8 @@ export function RewardStoreList({
                     ? "cursor-pointer hover:border-amber-300 dark:hover:border-amber-800"
                     : "cursor-not-allowed opacity-60",
                   isSelected && selectable
-                    ? "border-amber-500 bg-amber-50/80 ring-1 ring-amber-500 dark:border-amber-600 dark:bg-amber-950/40 dark:ring-amber-600"
-                    : "border-zinc-200 dark:border-zinc-800",
+                    ? "border-amber-500 bg-amber-50/80 ring-1 ring-cub-gold dark:border-amber-600 dark:bg-amber-950/40 dark:ring-amber-600"
+                    : "border-zinc-200 dark:border-cub-off-white/10",
                 )}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -89,7 +89,7 @@ export function RewardStoreList({
                     </p>
                   </div>
                   {isSelected && selectable ? (
-                    <span className="shrink-0 text-xs font-medium text-amber-700 dark:text-amber-400">
+                    <span className="shrink-0 text-xs font-medium text-amber-700 dark:text-cub-gold-light">
                       Selected
                     </span>
                   ) : null}

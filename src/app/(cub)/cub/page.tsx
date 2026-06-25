@@ -37,7 +37,7 @@ export default async function CubPickerPage() {
   return (
     <main className="mx-auto max-w-md space-y-6 px-4 py-16 pb-nav-safe">
       <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-wide text-amber-500">
+        <p className="text-xs font-semibold uppercase tracking-wide text-cub-gold">
           Cub view
         </p>
         <h1 className="mt-2 text-2xl font-bold text-zinc-50">Who is using this device?</h1>

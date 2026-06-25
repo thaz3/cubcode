@@ -63,7 +63,7 @@ export function ChallengeForm({
             rows={2}
             maxLength={2000}
             defaultValue={challenge?.description ?? ""}
-            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
+            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-cub-ebony px-4 py-2.5 text-base text-zinc-100 outline-none ring-cub-gold focus:ring-2"
             placeholder="What should your Cub do each time?"
           />
         </div>
@@ -76,7 +76,7 @@ export function ChallengeForm({
             required
             defaultValue={challenge?.cubId ?? defaultCubId}
             disabled={Boolean(challenge) || Boolean(defaultCubId)}
-            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2 disabled:opacity-60"
+            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-cub-ebony px-4 py-2.5 text-base text-zinc-100 outline-none ring-cub-gold focus:ring-2 disabled:opacity-60"
           >
             <option value="">Pick a Cub</option>
             {cubs.map((cub) => (

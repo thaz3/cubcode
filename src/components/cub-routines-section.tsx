@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ChallengeProgressBadge } from "@/components/challenge-progress-badge";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
+import { cubSectionLabel, cubSectionTitle } from "@/lib/cub-theme";
 import type { ChallengeIntervalType, ChallengeProgressStatus } from "@/generated/prisma/client";
 
 export type CubRoutinePreview = {
@@ -26,8 +27,8 @@ export function CubRoutinesSection({ cubId, routines }: CubRoutinesSectionProps)
     <section className="space-y-3">
       <div className="flex items-end justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-zinc-100">Today&apos;s routines</h2>
-          <p className="text-sm text-zinc-500">
+          <h2 className={cubSectionTitle}>Today&apos;s routines</h2>
+          <p className="text-sm text-cub-muted">
             {routines.length === 0
               ? "No routines due today"
               : `${routines.length} routine${routines.length === 1 ? "" : "s"} to keep up with`}
@@ -36,7 +37,7 @@ export function CubRoutinesSection({ cubId, routines }: CubRoutinesSectionProps)
         {routines.length > 0 ? (
           <Link
             href={`/cub/${cubId}/challenges`}
-            className="shrink-0 text-sm font-medium text-amber-500 hover:text-amber-400"
+            className="shrink-0 text-sm font-medium text-cub-gold hover:text-cub-gold-light"
           >
             All routines →
           </Link>
@@ -54,12 +55,12 @@ export function CubRoutinesSection({ cubId, routines }: CubRoutinesSectionProps)
             <li key={routine.id}>
               <Link href={`/cub/${cubId}/challenges/${routine.id}`}>
                 <Card
-                  variant="interactive"
+                  variant="constructive"
                   className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div>
-                    <p className="font-medium text-zinc-100">{routine.title}</p>
-                    <p className="text-sm text-zinc-500">
+                    <p className="font-medium text-cub-off-white">{routine.title}</p>
+                    <p className="text-sm text-cub-green-light/80">
                       {formatChallengeInterval(
                         routine.intervalType,
                         routine.intervalConfig,
@@ -70,7 +71,9 @@ export function CubRoutinesSection({ cubId, routines }: CubRoutinesSectionProps)
                   {routine.logStatus ? (
                     <ChallengeProgressBadge status={routine.logStatus} />
                   ) : (
-                    <span className="text-xs text-zinc-500">Not started</span>
+                    <span className="rounded-full bg-cub-charcoal px-2.5 py-1 text-xs font-medium text-cub-muted ring-1 ring-cub-off-white/10">
+                      Not started
+                    </span>
                   )}
                 </Card>
               </Link>

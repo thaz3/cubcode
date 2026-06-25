@@ -28,7 +28,7 @@ export function CubRedemptionHistory({ redemptions }: CubRedemptionHistoryProps)
       {redemptions.map((redemption) => (
         <li
           key={redemption.id}
-          className="rounded-lg border border-zinc-200 px-3 py-3 text-sm dark:border-zinc-800"
+          className="rounded-lg border border-zinc-200 px-3 py-3 text-sm dark:border-cub-off-white/10"
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="font-medium">{redemption.rewardStoreItem.title}</p>

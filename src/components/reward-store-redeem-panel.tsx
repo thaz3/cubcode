@@ -97,8 +97,8 @@ export function RewardStoreRedeemPanel({
                       ? "cursor-pointer hover:border-amber-300 dark:hover:border-amber-800"
                       : "cursor-not-allowed opacity-60",
                     isSelected && selectable
-                      ? "border-amber-500 bg-amber-50/80 ring-1 ring-amber-500 dark:border-amber-600 dark:bg-amber-950/40 dark:ring-amber-600"
-                      : "border-zinc-200 dark:border-zinc-800",
+                      ? "border-amber-500 bg-amber-50/80 ring-1 ring-cub-gold dark:border-amber-600 dark:bg-amber-950/40 dark:ring-amber-600"
+                      : "border-zinc-200 dark:border-cub-off-white/10",
                   )}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -118,7 +118,7 @@ export function RewardStoreRedeemPanel({
                     {!item.isActive ? (
                       <span className="shrink-0 text-xs text-zinc-400">Inactive</span>
                     ) : isSelected ? (
-                      <span className="shrink-0 text-xs font-medium text-amber-700 dark:text-amber-400">
+                      <span className="shrink-0 text-xs font-medium text-amber-700 dark:text-cub-gold-light">
                         Selected
                       </span>
                     ) : null}
@@ -130,7 +130,7 @@ export function RewardStoreRedeemPanel({
         </ul>
       </div>
 
-      <form action={formAction} className="space-y-4 rounded-lg border border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
+      <form action={formAction} className="space-y-4 rounded-lg border border-zinc-200 bg-zinc-50/50 p-4 dark:border-cub-off-white/10 dark:bg-zinc-900/40">
         <div>
           <p className="mb-2 text-sm font-medium">Redeem for</p>
           <input type="hidden" name="cubId" value={selectedCubId} />
@@ -169,6 +169,9 @@ export function RewardStoreRedeemPanel({
 
         <Button
           type="submit"
+          variant="reward"
+          fullWidth
+          size="lg"
           disabled={!selectedItemId || !selectedCubId || !canAfford || isPending}
         >
           {isPending ? "Redeeming..." : "Redeem selected reward"}

@@ -55,7 +55,7 @@ export function CubLedgerDropdown({
 
   return (
     <details
-      className={cn("group rounded-lg border border-zinc-200 dark:border-zinc-800", className)}
+      className={cn("group rounded-lg border border-zinc-200 dark:border-cub-off-white/10", className)}
       open={defaultOpen}
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-sm font-medium text-zinc-800 marker:content-none dark:text-zinc-200 [&::-webkit-details-marker]:hidden">
@@ -73,7 +73,7 @@ export function CubLedgerDropdown({
 
       <ul
         className={cn(
-          "space-y-1 overflow-y-auto border-t border-zinc-200 p-2 dark:border-zinc-800",
+          "space-y-1 overflow-y-auto border-t border-zinc-200 p-2 dark:border-cub-off-white/10",
           maxListHeightClass,
         )}
       >

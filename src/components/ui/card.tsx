@@ -1,15 +1,21 @@
 import { cn } from "@/lib/utils";
 
 type CardProps = React.HTMLAttributes<HTMLDivElement> & {
-  variant?: "default" | "accent" | "stat" | "interactive";
+  variant?: "default" | "accent" | "constructive" | "urgent" | "stat" | "interactive";
 };
 
 const variants = {
-  default: "border-zinc-800 bg-zinc-900",
-  accent: "border-amber-800/60 bg-amber-950/30",
-  stat: "border-zinc-800 bg-zinc-900/80",
+  default:
+    "border-cub-charcoal/90 cub-card-surface shadow-md shadow-black/25",
+  accent:
+    "border-cub-gold/40 border-l-4 border-l-cub-gold cub-card-gold shadow-lg shadow-cub-gold/12",
+  constructive:
+    "border-cub-green-bright/40 border-l-4 border-l-cub-green-bright cub-card-green shadow-lg shadow-cub-green/12",
+  urgent:
+    "border-cub-red-alert/45 border-l-4 border-l-cub-red-alert cub-card-red shadow-lg shadow-cub-red/12",
+  stat: "border-cub-charcoal/80 cub-card-surface shadow-md shadow-black/20",
   interactive:
-    "border-zinc-800 bg-zinc-900 transition hover:border-zinc-700 active:border-zinc-600",
+    "border-cub-green/25 cub-card-surface shadow-sm transition hover:border-cub-green-bright/45 hover:shadow-md hover:shadow-cub-green/10 active:border-cub-gold/40",
 };
 
 export function Card({
@@ -19,11 +25,7 @@ export function Card({
 }: CardProps) {
   return (
     <div
-      className={cn(
-        "rounded-2xl border p-5 shadow-sm",
-        variants[variant],
-        className,
-      )}
+      className={cn("rounded-2xl border p-5", variants[variant], className)}
       {...props}
     />
   );

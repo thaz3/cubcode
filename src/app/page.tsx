@@ -13,7 +13,7 @@ export default async function HomePage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-4 py-16">
       <div className="space-y-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-amber-500">
+        <p className="text-sm font-semibold uppercase tracking-wide text-cub-gold">
           Control · Use · Build
         </p>
         <h1 className="text-4xl font-bold tracking-tight text-zinc-50 sm:text-5xl">
@@ -28,7 +28,7 @@ export default async function HomePage() {
         </p>
 
         <Card className="max-w-2xl" variant="accent">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-amber-500/80">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-cub-gold/80">
             The household loop
           </h2>
           <p className="mt-2 text-base text-zinc-200">

@@ -60,7 +60,7 @@ export default async function TaskTemplatesPage() {
           <p className="mt-2 text-zinc-600 dark:text-zinc-400">
             Reusable task definitions. Use <strong className="font-medium text-zinc-300">Assign to Cub</strong> on
             any template, or save to the{" "}
-            <Link href="/dashboard/tasks/library" className="text-amber-600 hover:text-amber-500">
+            <Link href="/dashboard/tasks/library" className="text-amber-600 hover:text-cub-gold">
               task library
             </Link>{" "}
             to assign later.

@@ -17,8 +17,14 @@ import { sortTasksByUrgency, filterTasksForCubWeekView } from "@/lib/task-schedu
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
 import { getCubRoutinesDueToday } from "@/lib/cub-routines";
+import {
+  cubSectionLabel,
+  nextActionButtonVariant,
+  nextActionCardClass,
+} from "@/lib/cub-theme";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 type CubTodayPageProps = {
   params: Promise<{ cubId: string }>;
@@ -69,34 +75,36 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
       focusSessionStartedAt: t.focusSessionStartedAt!.toISOString(),
     }));
 
-  const cardVariant =
+  const cardClass =
     nextAction.tone === "urgent"
-      ? "accent"
+      ? nextActionCardClass("urgent")
       : nextAction.tone === "focus"
-        ? "default"
-        : "default";
+        ? nextActionCardClass("normal")
+        : nextActionCardClass("normal");
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-50 sm:text-3xl">
+        <h1 className="text-2xl font-bold text-cub-off-white sm:text-3xl">
           Hey, {cub.displayName}!
         </h1>
-        <p className="mt-2 text-zinc-400">Here&apos;s what to do today.</p>
+        <p className="mt-2 text-cub-gold-light/90">Here&apos;s what to do today.</p>
       </div>
 
-      <Card variant={cardVariant} className="space-y-4">
+      <Card className={cn("space-y-4", cardClass)}>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-amber-500">
-            Your next step
-          </p>
-          <h2 className="mt-1 text-xl font-bold text-zinc-50">
+          <p className={cubSectionLabel}>Your next step</p>
+          <h2 className="mt-1 text-xl font-bold text-cub-off-white">
             {nextAction.title}
           </h2>
-          <p className="mt-2 text-sm text-zinc-400">{nextAction.description}</p>
+          <p className="mt-2 text-sm text-cub-muted">{nextAction.description}</p>
         </div>
         <Link href={nextAction.href}>
-          <Button fullWidth size="lg">
+          <Button
+            fullWidth
+            size="lg"
+            variant={nextActionButtonVariant("normal", nextAction.buttonLabel)}
+          >
             {nextAction.buttonLabel}
           </Button>
         </Link>
@@ -109,11 +117,13 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
           label="XP"
           value={String(summary.totalXp)}
           detail={summary.rank.current.name}
+          highlight="gold"
         />
         <StatCard
           label="Phone time"
           value={formatMinutes(summary.phoneMinutesAvailableToday)}
           detail="Available today"
+          highlight="gold"
         />
       </div>
 

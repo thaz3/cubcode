@@ -38,7 +38,7 @@ export function CubAssignedTasksSection({
         {tasks.length > 0 ? (
           <Link
             href={`/cub/${cubId}/tasks`}
-            className="shrink-0 text-sm font-medium text-amber-500 hover:text-amber-400"
+            className="shrink-0 text-sm font-medium text-cub-gold hover:text-cub-gold-light"
           >
             All tasks →
           </Link>

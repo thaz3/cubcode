@@ -84,7 +84,7 @@ export function WeeklyProgressDashboard({
               ? `${householdTotals.pendingReview} awaiting review now`
               : "Nothing waiting for review"
           }
-          highlight={householdTotals.pendingReview > 0 ? "amber" : undefined}
+          highlight={householdTotals.pendingReview > 0 ? "gold" : undefined}
         />
         <HouseholdStat
           label="XP earned"
@@ -106,9 +106,9 @@ export function WeeklyProgressDashboard({
       <Card
         className={cn(
           familyDay.status === "completed" &&
-            "border-emerald-200 bg-emerald-50/50 dark:border-emerald-900 dark:bg-emerald-950/20",
+            "border-cub-green/30 bg-cub-green-muted",
           familyDay.status === "in_progress" &&
-            "border-violet-200 bg-violet-50/50 dark:border-violet-900 dark:bg-violet-950/20",
+            "border-cub-gold/30 bg-cub-gold-muted",
         )}
       >
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -166,11 +166,11 @@ export function WeeklyProgressDashboard({
                     />
                     <div className="flex flex-wrap gap-2">
                       {cub.familyDayReady ? (
-                        <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                        <span className="rounded-full bg-cub-green-muted px-2 py-0.5 text-xs font-medium text-cub-green-light">
                           {FAMILY_DAY_LABEL} ready
                         </span>
                       ) : cub.familyDaySaved ? (
-                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                        <span className="rounded-full bg-cub-gold-muted px-2 py-0.5 text-xs font-medium text-cub-gold-light">
                           {FAMILY_DAY_LABEL} in progress
                         </span>
                       ) : (
@@ -180,7 +180,7 @@ export function WeeklyProgressDashboard({
                       )}
                       <Link
                         href={`/dashboard/cubs/${cub.cubId}/progress`}
-                        className="text-sm font-medium text-amber-700"
+                        className="text-sm font-medium text-cub-gold hover:text-cub-gold-light"
                       >
                         Lifetime progress →
                       </Link>
@@ -216,7 +216,7 @@ export function WeeklyProgressDashboard({
                     />
                   </dl>
 
-                  <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+                  <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-cub-off-white/10">
                     <CubLedgerTimeline
                       cubId={cub.cubId}
                       entries={cub.ledgerEntries}
@@ -243,15 +243,15 @@ function HouseholdStat({
   label: string;
   value: string;
   detail: string;
-  highlight?: "amber";
+  highlight?: "gold";
 }) {
   return (
     <div
       className={cn(
         "rounded-lg border p-4",
-        highlight === "amber" &&
-          "border-amber-200 bg-amber-50/50 dark:border-amber-900 dark:bg-amber-950/20",
-        !highlight && "border-zinc-200 dark:border-zinc-800",
+        highlight === "gold" &&
+          "border-cub-gold/30 bg-cub-gold-muted",
+        !highlight && "border-zinc-200 dark:border-cub-off-white/10",
       )}
     >
       <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500">
@@ -278,7 +278,7 @@ function CubStat({
       <dd
         className={cn(
           "mt-0.5 font-semibold",
-          highlight && "text-amber-700 dark:text-amber-400",
+          highlight && "text-cub-gold-light",
         )}
       >
         {value}

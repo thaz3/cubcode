@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { RequestSessionTimer } from "@/components/request-session-timer";
 import { Card } from "@/components/ui/card";
+import { cubFocusBanner } from "@/lib/cub-theme";
+import { cn } from "@/lib/utils";
 
 export type ActiveFocusTask = {
   id: string;
@@ -24,8 +26,8 @@ export function ActiveFocusTimersBanner({
   const singleTask = tasks.length === 1;
 
   return (
-    <Card className="border-indigo-300 bg-indigo-50/90 dark:border-indigo-800 dark:bg-indigo-950/50">
-      <p className="text-sm font-medium text-indigo-900 dark:text-indigo-200">
+    <Card variant="constructive" className={cn(cubFocusBanner)}>
+      <p className="text-sm font-medium text-cub-green-light">
         {cubName} opened instructions for{" "}
         {singleTask ? "a task" : `${tasks.length} tasks`}
       </p>
@@ -37,15 +39,15 @@ export function ActiveFocusTimersBanner({
             className={
               singleTask
                 ? "flex flex-wrap items-center justify-between gap-4"
-                : "flex flex-wrap items-center justify-between gap-3 rounded-lg border border-indigo-200 bg-white/70 px-3 py-3 dark:border-indigo-900 dark:bg-zinc-950/50"
+                : "flex flex-wrap items-center justify-between gap-3 rounded-lg border border-cub-green/25 bg-cub-ebony/50 px-3 py-3"
             }
           >
             <Link
               href={`/dashboard/tasks/${task.id}`}
               className={
                 singleTask
-                  ? "text-lg font-semibold text-indigo-950 hover:underline dark:text-indigo-50"
-                  : "font-medium text-indigo-950 hover:underline dark:text-indigo-50"
+                  ? "text-lg font-semibold text-cub-off-white hover:underline"
+                  : "font-medium text-cub-off-white hover:underline"
               }
             >
               {task.title}

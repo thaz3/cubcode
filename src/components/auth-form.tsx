@@ -64,14 +64,14 @@ export function AuthForm({ mode }: AuthFormProps) {
         {mode === "login" ? (
           <>
             New here?{" "}
-            <Link href="/signup" className="font-medium text-amber-500">
+            <Link href="/signup" className="font-medium text-cub-gold">
               Create an account
             </Link>
           </>
         ) : (
           <>
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-amber-500">
+            <Link href="/login" className="font-medium text-cub-gold">
               Log in
             </Link>
           </>

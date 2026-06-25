@@ -109,7 +109,7 @@ export function FamilySettingsForm({ initialValues }: FamilySettingsFormProps) {
         ) : null}
 
         <div className="sticky bottom-20 z-10 -mx-1 rounded-xl bg-zinc-900/95 p-3 backdrop-blur lg:static lg:bg-transparent lg:p-0">
-          <Button type="submit" fullWidth size="lg" disabled={isPending}>
+          <Button type="submit" variant="constructive" fullWidth size="lg" disabled={isPending}>
             {isPending ? "Saving..." : "Save"}
           </Button>
         </div>

@@ -117,7 +117,7 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
             rows={2}
             value={proofPrompt}
             onChange={(e) => setProofPrompt(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
             placeholder={defaultProofPrompt(proofType)}
           />
         </div>
@@ -130,7 +130,7 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
             <p className="mt-1 text-xs text-zinc-500">
               Up to {MAX_CHECKLIST_ITEMS} items. Markdown supported.
               {lineCount > MAX_CHECKLIST_ITEMS ? (
-                <span className="text-amber-700 dark:text-amber-400">
+                <span className="text-amber-700 dark:text-cub-gold-light">
                   {" "}
                   Only the first {MAX_CHECKLIST_ITEMS} lines will be saved.
                 </span>
@@ -143,7 +143,7 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
               rows={Math.min(12, Math.max(4, parsedItems.length + 2))}
               value={checklistText}
               onChange={(e) => setChecklistText(e.target.value)}
-              className="mt-1 max-h-64 min-h-24 w-full resize-y rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+              className="mt-1 max-h-64 min-h-24 w-full resize-y rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
               placeholder={
                 "**Read** Chapter 3\nAnswer all questions\nCheck my work"
               }

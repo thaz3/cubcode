@@ -37,7 +37,7 @@ export function ChecklistItemContent({
   if (HTML_TAG_PATTERN.test(content)) {
     return (
       <span
-        className={`checklist-rich [&_a]:text-amber-700 [&_a]:underline dark:[&_a]:text-amber-400 ${className}`}
+        className={`checklist-rich [&_a]:text-amber-700 [&_a]:underline dark:[&_a]:text-cub-gold-light ${className}`}
         dangerouslySetInnerHTML={{ __html: sanitizeChecklistHtml(content) }}
       />
     );
@@ -45,7 +45,7 @@ export function ChecklistItemContent({
 
   return (
     <span
-      className={`checklist-markdown [&_a]:text-amber-700 [&_a]:underline dark:[&_a]:text-amber-400 ${className}`}
+      className={`checklist-markdown [&_a]:text-amber-700 [&_a]:underline dark:[&_a]:text-cub-gold-light ${className}`}
     >
       <ReactMarkdown
         components={{

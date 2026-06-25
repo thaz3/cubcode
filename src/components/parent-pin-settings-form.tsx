@@ -117,7 +117,7 @@ export function ParentPinSettingsForm({
       {embedded ? pinForm : <Card>{pinForm}</Card>}
 
       {hasPin ? (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
+        <div className="rounded-xl border border-cub-off-white/10 bg-cub-ebony/50 p-4">
           <h3 className="font-medium text-zinc-200">Remove PIN</h3>
           <p className="mt-1 text-sm text-zinc-400">
             Turns off the parent-area lock. Not recommended on shared devices.

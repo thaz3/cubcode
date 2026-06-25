@@ -52,7 +52,7 @@ export default async function TaskBoardPage() {
         }
       />
 
-      <div className="sticky top-14 z-10 -mx-4 border-b border-zinc-800 bg-zinc-950/95 px-4 pb-3 backdrop-blur lg:top-16">
+      <div className="sticky top-14 z-10 -mx-4 border-b border-cub-off-white/10 bg-cub-ebony/95 px-4 pb-3 backdrop-blur lg:top-16">
         <TaskBoardNav counts={sectionCounts} />
       </div>
 

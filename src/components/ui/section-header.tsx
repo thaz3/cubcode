@@ -10,7 +10,7 @@ export function SectionHeader({
   action,
 }: SectionHeaderProps) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-800 pb-3">
+    <div className="flex flex-wrap items-end justify-between gap-3 border-b border-cub-off-white/10 pb-3">
       <div>
         <h2 className="text-lg font-semibold text-zinc-100">{title}</h2>
         {description ? (

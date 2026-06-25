@@ -4,8 +4,26 @@ type StatCardProps = {
   label: string;
   value: string;
   detail?: string;
-  highlight?: "amber" | "green" | "violet";
+  highlight?: "gold" | "green" | "red" | "amber" | "violet";
   className?: string;
+};
+
+const ACCENT_BAR: Record<"gold" | "green" | "red", string> = {
+  gold: "bg-cub-gold",
+  green: "bg-cub-green-bright",
+  red: "bg-cub-red-alert",
+};
+
+const ACCENT_SURFACE: Record<"gold" | "green" | "red", string> = {
+  gold: "border-cub-gold/40 cub-card-gold shadow-md shadow-cub-gold/10",
+  green: "border-cub-green-bright/40 cub-card-green shadow-md shadow-cub-green/10",
+  red: "border-cub-red-alert/40 cub-card-red shadow-md shadow-cub-red/10",
+};
+
+const ACCENT_LABEL: Record<"gold" | "green" | "red", string> = {
+  gold: "text-cub-gold-light",
+  green: "text-cub-green-light",
+  red: "text-cub-red-light",
 };
 
 export function StatCard({
@@ -15,23 +33,38 @@ export function StatCard({
   highlight,
   className,
 }: StatCardProps) {
+  const tone =
+    highlight === "amber"
+      ? "gold"
+      : highlight === "violet"
+        ? "gold"
+        : highlight;
+
   return (
     <div
       className={cn(
-        "rounded-2xl border p-4",
-        highlight === "amber" && "border-amber-800/60 bg-amber-950/30",
-        highlight === "green" && "border-emerald-800/60 bg-emerald-950/30",
-        highlight === "violet" && "border-violet-800/60 bg-violet-950/30",
-        !highlight && "border-zinc-800 bg-zinc-900",
+        "relative overflow-hidden rounded-2xl border p-4",
+        tone ? ACCENT_SURFACE[tone] : "border-cub-charcoal/80 cub-card-surface shadow-sm",
         className,
       )}
     >
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+      {tone ? (
+        <div
+          className={cn("absolute inset-x-0 top-0 h-1", ACCENT_BAR[tone])}
+          aria-hidden
+        />
+      ) : null}
+      <p
+        className={cn(
+          "text-xs font-bold uppercase tracking-wide",
+          tone ? ACCENT_LABEL[tone] : "text-cub-muted",
+        )}
+      >
         {label}
       </p>
-      <p className="mt-1 text-2xl font-bold text-zinc-100">{value}</p>
+      <p className="mt-1.5 text-2xl font-bold text-cub-off-white">{value}</p>
       {detail ? (
-        <p className="mt-1 text-sm text-zinc-400">{detail}</p>
+        <p className="mt-1 text-sm text-cub-muted">{detail}</p>
       ) : null}
     </div>
   );

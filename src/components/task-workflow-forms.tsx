@@ -50,7 +50,7 @@ export function TaskSubmitForm({ task, audience = "parent" }: TaskSubmitFormProp
   const overdue = isPastDueAt(task, new Date());
 
   return (
-    <form action={formAction} className="space-y-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+    <form action={formAction} className="space-y-4 border-t border-zinc-200 pt-4 dark:border-cub-off-white/10">
       <input type="hidden" name="taskId" value={task.id} />
       <h3 className="font-medium">Submit proof</h3>
       {overdue ? <OverduePenaltyNotice /> : null}
@@ -80,7 +80,7 @@ export function TaskSubmitForm({ task, audience = "parent" }: TaskSubmitFormProp
         <p className="text-sm text-green-700">{state.success}</p>
       ) : null}
 
-      <Button type="submit" fullWidth size="lg" disabled={isPending}>
+      <Button type="submit" variant="reward" fullWidth size="lg" disabled={isPending}>
         {isPending ? "Submitting..." : "Submit for review"}
       </Button>
     </form>
@@ -146,7 +146,7 @@ function ProofInput({
             rows={4}
             required
             minLength={10}
-            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
+            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-cub-ebony px-4 py-2.5 text-base text-zinc-100 outline-none ring-cub-gold focus:ring-2"
             placeholder={
               audience === "cub"
                 ? "Describe what you worked on and what you learned…"
@@ -181,7 +181,7 @@ function ProofInput({
           id="reflection"
           name="reflection"
           rows={3}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
           placeholder={
             audience === "cub"
               ? "Anything you want your parent to know (optional)…"
@@ -204,7 +204,7 @@ function ProofInput({
           rows={4}
           required
           minLength={10}
-          className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
+          className="w-full min-h-11 rounded-xl border border-zinc-700 bg-cub-ebony px-4 py-2.5 text-base text-zinc-100 outline-none ring-cub-gold focus:ring-2"
           placeholder={
             audience === "cub"
               ? "What did you do? What did you learn?"
@@ -232,7 +232,7 @@ function ProofInput({
 
   if (proofType === "CHECKLIST") {
     return (
-      <div className="max-h-96 space-y-2 overflow-y-auto rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
+      <div className="max-h-96 space-y-2 overflow-y-auto rounded-lg border border-zinc-200 p-3 dark:border-cub-off-white/10">
         <p className="text-xs text-zinc-500">
           {checklistItems.length} item{checklistItems.length === 1 ? "" : "s"} —
           check each one before submitting.
@@ -279,7 +279,7 @@ function ProofInput({
             id="reflection"
             name="reflection"
             rows={2}
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
             placeholder={
               audience === "cub"
                 ? "Anything else your parent should know (optional)…"
@@ -323,7 +323,7 @@ export function FocusBlockForm({
     .slice(0, 16);
 
   return (
-    <form action={formAction} className="space-y-3 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+    <form action={formAction} className="space-y-3 border-t border-zinc-200 pt-4 dark:border-cub-off-white/10">
       <input type="hidden" name="cubId" value={cubId} />
       {taskId ? <input type="hidden" name="taskId" value={taskId} /> : null}
       <h3 className="font-medium">Log Focus Block</h3>

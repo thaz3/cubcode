@@ -69,7 +69,7 @@ export function FamilyDayBonusesForm({
         {cubs.map((cub) => (
           <li
             key={cub.id}
-            className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-800"
+            className="rounded-lg border border-zinc-200 p-3 dark:border-cub-off-white/10"
           >
             <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
             <p className="mt-1 text-xs text-zinc-500">

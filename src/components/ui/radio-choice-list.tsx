@@ -48,7 +48,7 @@ export function RadioChoiceList<T extends string>({
                 ? cn(
                     "flex min-h-9 items-center justify-center rounded-lg px-2 py-1.5 text-center text-xs font-medium leading-tight sm:text-sm",
                     selected
-                      ? "border-amber-600/70 bg-amber-950/40 text-amber-400"
+                      ? "border-amber-600/70 bg-amber-950/40 text-cub-gold-light"
                       : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-600",
                   )
                 : cn(

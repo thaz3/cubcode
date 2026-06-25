@@ -87,7 +87,7 @@ export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
               <CubLink
                 cubId={task.cub.id}
                 displayName={task.cub.displayName}
-                className="text-sm text-zinc-500 hover:text-amber-700 dark:hover:text-amber-400"
+                className="text-sm text-zinc-500 hover:text-amber-700 dark:hover:text-cub-gold-light"
               />
             ) : null}
           </div>

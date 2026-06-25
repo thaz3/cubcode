@@ -58,7 +58,7 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
           <CubLink
             cubId={task.cub.id}
             displayName={task.cub.displayName}
-            className="text-sm text-zinc-400 hover:text-amber-400"
+            className="text-sm text-zinc-400 hover:text-cub-gold-light"
           />
         ) : (
           <span className="text-sm text-zinc-500">Unknown Cub</span>
@@ -78,7 +78,7 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
             })}{" "}
             · Proof: {formatProofType(task.proofType)}
           </p>
-          <p className="text-sm text-amber-500/90">
+          <p className="text-sm text-cub-gold/90">
             On approval: {formatTaskRewards(task)}
           </p>
           {submittedLate ? <OverduePenaltyNotice variant="info" /> : null}
@@ -108,7 +108,7 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
                 href={task.proofLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1 block break-all text-sm text-amber-500"
+                className="mt-1 block break-all text-sm text-cub-gold"
               >
                 {task.proofLink}
               </a>
@@ -159,7 +159,7 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
                 ) : null}
                 <Link
                   href="/dashboard/tasks/review"
-                  className="inline-block font-medium text-amber-500"
+                  className="inline-block font-medium text-cub-gold"
                 >
                   Back to review inbox
                 </Link>

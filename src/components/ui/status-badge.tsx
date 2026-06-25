@@ -1,16 +1,17 @@
 import type { TaskStatus } from "@/generated/prisma/client";
+import { cubStatusBadge } from "@/lib/cub-theme";
 import { TASK_STATUS_LABELS } from "@/lib/task-transitions";
 import { cn } from "@/lib/utils";
 
 const STATUS_STYLES: Record<TaskStatus, string> = {
-  AVAILABLE: "bg-zinc-800 text-zinc-300",
-  CLAIMED: "bg-blue-950 text-blue-300",
-  IN_PROGRESS: "bg-indigo-950 text-indigo-300",
-  SUBMITTED: "bg-amber-950 text-amber-300",
-  SENT_BACK: "bg-orange-950 text-orange-300",
-  REJECTED: "bg-red-950 text-red-300",
-  APPROVED: "bg-green-950 text-green-300",
-  COMPLETED: "bg-emerald-950 text-emerald-300",
+  AVAILABLE: cubStatusBadge.available,
+  CLAIMED: cubStatusBadge.claimed,
+  IN_PROGRESS: cubStatusBadge.inProgress,
+  SUBMITTED: cubStatusBadge.submitted,
+  SENT_BACK: cubStatusBadge.sentBack,
+  REJECTED: cubStatusBadge.rejected,
+  APPROVED: cubStatusBadge.approved,
+  COMPLETED: cubStatusBadge.completed,
 };
 
 type StatusBadgeProps = {

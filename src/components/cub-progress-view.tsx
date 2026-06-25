@@ -15,20 +15,20 @@ export function CubProgressView({ summary, className }: CubProgressViewProps) {
 
   return (
     <div className={cn("space-y-4", className)}>
-      <div className="rounded-2xl border border-amber-800/60 bg-amber-950/30 p-5">
-        <p className="text-sm font-medium text-amber-200/90">
+      <div className="rounded-2xl border border-cub-gold/40 cub-card-gold p-5 shadow-lg shadow-cub-gold/10">
+        <p className="text-sm font-bold uppercase tracking-wide text-cub-gold-light">
           Rank · {summary.rank.current.name}
         </p>
-        <p className="mt-1 text-3xl font-bold text-zinc-50">{summary.totalXp} XP</p>
+        <p className="mt-1 text-3xl font-bold text-cub-off-white">{summary.totalXp} XP</p>
         {summary.rank.next ? (
           <>
-            <div className="mt-4 h-3 overflow-hidden rounded-full bg-zinc-800">
+            <div className="mt-4 h-3 overflow-hidden rounded-full bg-cub-charcoal shadow-inner">
               <div
-                className="h-full rounded-full bg-amber-600"
+                className="h-full rounded-full bg-gradient-to-r from-cub-green-bright to-cub-gold shadow-sm"
                 style={{ width: `${summary.rank.progressPercent}%` }}
               />
             </div>
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-2 text-sm text-cub-muted">
               {summary.rank.xpToNext} XP to {summary.rank.next.name}
             </p>
           </>
@@ -51,7 +51,7 @@ export function CubProgressView({ summary, className }: CubProgressViewProps) {
               ? "Daily cap reached — ask your parent"
               : `${formatMinutes(summary.phoneMinutesToday)} earned today`
           }
-          highlight={atDailyCap ? "amber" : undefined}
+          highlight={atDailyCap ? "gold" : undefined}
         />
         <StatCard
           label="Weekend Bank"

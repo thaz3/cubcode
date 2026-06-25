@@ -70,7 +70,7 @@ export function CouncilDayCubForm({
 
   return (
     <section
-      className={`rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 ${cubAccentClassNames(cubId, { border: true })}`}
+      className={`rounded-lg border border-zinc-200 p-4 dark:border-cub-off-white/10 ${cubAccentClassNames(cubId, { border: true })}`}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -145,7 +145,7 @@ export function CouncilDayCubForm({
                 name={prompt.field}
                 defaultValue={initialValues[prompt.field]}
                 rows={3}
-                className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+                className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
               />
             </div>
           ))}

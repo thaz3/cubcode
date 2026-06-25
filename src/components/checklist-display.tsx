@@ -15,7 +15,7 @@ export function ChecklistDisplay({
   if (items.length === 0) return null;
 
   return (
-    <div className="max-h-96 overflow-y-auto rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
+    <div className="max-h-96 overflow-y-auto rounded-lg border border-zinc-200 p-3 dark:border-cub-off-white/10">
       <p className="mb-2 text-xs text-zinc-500">
         {items.length} item{items.length === 1 ? "" : "s"}
       </p>

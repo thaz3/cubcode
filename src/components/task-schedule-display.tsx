@@ -12,9 +12,9 @@ type TaskScheduleDisplayProps = {
 };
 
 const TIMING_STYLES = {
-  overdue: "font-medium text-red-700 dark:text-red-400",
-  "due-today": "font-medium text-amber-700 dark:text-amber-400",
-  left: "font-medium text-emerald-700 dark:text-emerald-400",
+  overdue: "font-medium text-cub-red-light",
+  "due-today": "font-medium text-cub-gold-light",
+  left: "font-medium text-cub-green-light",
 } as const;
 
 export function TaskScheduleDisplay({
@@ -25,16 +25,14 @@ export function TaskScheduleDisplay({
   const schedule = getTaskScheduleSummary(task);
 
   return (
-    <div className={cn("space-y-0.5 text-xs text-zinc-500", className)}>
+    <div className={cn("space-y-0.5 text-xs text-cub-muted", className)}>
       <p>Assigned {formatScheduleDate(schedule.assignedAt)}</p>
       <p>
         Due{" "}
         {schedule.dueLabel ? (
-          <span className="font-medium text-zinc-700 dark:text-zinc-300">
-            {schedule.dueLabel}
-          </span>
+          <span className="font-medium text-cub-off-white">{schedule.dueLabel}</span>
         ) : (
-          <span className="italic text-zinc-400">Not set — edit task to add</span>
+          <span className="italic text-cub-muted">Not set — edit task to add</span>
         )}
       </p>
       {schedule.timingLabel && schedule.timingTone ? (
@@ -64,11 +62,11 @@ export function TaskScheduleBadge({ task }: { task: TaskScheduleInput }) {
       className={cn(
         "inline-flex rounded-full px-2 py-0.5 text-xs font-medium",
         schedule.timingTone === "overdue" &&
-          "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300",
+          "bg-cub-red-muted text-cub-off-white ring-1 ring-cub-red/40",
         schedule.timingTone === "due-today" &&
-          "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300",
+          "bg-cub-gold-muted text-cub-gold-light ring-1 ring-cub-gold/35",
         schedule.timingTone === "left" &&
-          "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
+          "bg-cub-green-muted text-cub-green-light ring-1 ring-cub-green/35",
       )}
     >
       {schedule.timingTone === "overdue" ? "Urgent · " : null}

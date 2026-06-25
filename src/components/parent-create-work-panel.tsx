@@ -43,7 +43,7 @@ export function ParentCreateWorkPanel({
         <div
           role="tablist"
           aria-label="Create a task or routine"
-          className="grid grid-cols-2 gap-2 rounded-xl border border-zinc-800 bg-zinc-950 p-1"
+          className="grid grid-cols-2 gap-2 rounded-xl border border-cub-off-white/10 bg-cub-ebony p-1"
         >
           {KIND_OPTIONS.map((option) => {
             const selected = kind === option.value;
@@ -57,8 +57,8 @@ export function ParentCreateWorkPanel({
                 className={cn(
                   "min-h-11 rounded-lg px-3 py-2 text-left transition-colors",
                   selected
-                    ? "bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/40"
-                    : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200",
+                    ? "bg-cub-gold-muted text-cub-gold-light ring-1 ring-cub-gold/40"
+                    : "text-cub-muted hover:bg-cub-charcoal hover:text-cub-off-white",
                 )}
               >
                 <span className="block text-sm font-semibold">{option.label}</span>

@@ -3,6 +3,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import type { CubRewardSummary } from "@/lib/rewards";
 import { formatMinutes } from "@/lib/ledger-labels";
 import type { CubWeekStats } from "@/lib/council-day";
+import { cubSectionTitle } from "@/lib/cub-theme";
 
 type CubTodayEarnedSectionProps = {
   cubId: string;
@@ -34,13 +35,13 @@ export function CubTodayEarnedSection({
     <section className="space-y-3">
       <div className="flex items-end justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-zinc-100">So far this week</h2>
-          <p className="text-sm text-zinc-500">{weekLabel}</p>
+          <h2 className={cubSectionTitle}>So far this week</h2>
+          <p className="text-sm text-cub-gold-light/80">{weekLabel}</p>
         </div>
         {showProgressLink ? (
           <Link
             href={`/cub/${cubId}/progress`}
-            className="shrink-0 text-sm font-medium text-amber-500 hover:text-amber-400"
+            className="shrink-0 text-sm font-medium text-cub-gold hover:text-cub-gold-light"
           >
             All progress →
           </Link>
@@ -56,12 +57,13 @@ export function CubTodayEarnedSection({
               : String(summary.totalFocusTokens)
           }
           detail={focusTokenDetail}
-          highlight={weekEarned.focusTokensEarned > 0 ? "violet" : undefined}
+          highlight={weekEarned.focusTokensEarned > 0 ? "gold" : undefined}
         />
         <StatCard
           label="Weekend bank"
           value={formatMinutes(summary.weekendBankMinutes)}
           detail="Extra time saved for weekends"
+          highlight="gold"
         />
         <StatCard
           label="Tasks done"
@@ -81,6 +83,7 @@ export function CubTodayEarnedSection({
               ? `+${weekEarned.xpEarned} XP this week`
               : "From approved tasks"
           }
+          highlight="gold"
         />
       </div>
     </section>

@@ -56,7 +56,7 @@ export function TaskTemplateCard({
         </div>
 
         {template.isActive ? (
-          <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
+          <div className="rounded-xl border border-cub-off-white/10 bg-cub-ebony/50 p-4">
             <p className="text-sm font-medium text-zinc-200">Assign to Cub</p>
             <p className="mt-1 text-xs text-zinc-500">
               Creates the task and assigns it in one step.

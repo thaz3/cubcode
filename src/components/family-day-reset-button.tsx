@@ -40,7 +40,7 @@ export function FamilyDayResetButton({
   }
 
   return (
-    <div className="space-y-2 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+    <div className="space-y-2 border-t border-zinc-200 pt-4 dark:border-cub-off-white/10">
       <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
         Start over
       </p>

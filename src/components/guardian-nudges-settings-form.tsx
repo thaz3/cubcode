@@ -97,7 +97,7 @@ export function GuardianNudgesSettingsForm({
           Gentle in-app reminders for you only. You decide what to do next.
         </p>
 
-        <ul className="divide-y divide-zinc-800 rounded-xl border border-zinc-800 bg-zinc-950/40">
+        <ul className="divide-y divide-zinc-800 rounded-xl border border-cub-off-white/10 bg-cub-ebony/40">
           {GUARDIAN_NUDGE_SETTINGS_ORDER.map((type) => {
             const rule = ruleByType.get(type);
             const enabled = enabledRules[type] ?? rule?.enabled ?? false;
@@ -139,7 +139,7 @@ export function GuardianNudgesSettingsForm({
                       id={`rule_${type}_offsetMinutes`}
                       name={`rule_${type}_offsetMinutes`}
                       defaultValue={String(rule?.offsetMinutes ?? 120)}
-                      className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm sm:max-w-xs"
+                      className="mt-1 w-full rounded-lg border border-zinc-700 bg-cub-ebony px-3 py-2 text-sm sm:max-w-xs"
                     >
                       {OFFSET_OPTIONS.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -155,7 +155,7 @@ export function GuardianNudgesSettingsForm({
         </ul>
       </fieldset>
 
-      <fieldset className="space-y-3 rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
+      <fieldset className="space-y-3 rounded-xl border border-cub-off-white/10 bg-cub-ebony/40 p-4">
         <legend className="px-1 text-sm font-medium text-zinc-100">
           Optional extras
         </legend>
@@ -189,12 +189,12 @@ export function GuardianNudgesSettingsForm({
               type="time"
               value={summaryTime}
               onChange={(event) => setSummaryTime(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm sm:max-w-xs"
+              className="mt-1 w-full rounded-lg border border-zinc-700 bg-cub-ebony px-3 py-2 text-sm sm:max-w-xs"
             />
           </div>
         ) : null}
 
-        <div className="border-t border-zinc-800 pt-3">
+        <div className="border-t border-cub-off-white/10 pt-3">
           <button
             type="button"
             onClick={() => setShowQuietHours((open) => !open)}
@@ -219,7 +219,7 @@ export function GuardianNudgesSettingsForm({
                     name="quietHoursStart"
                     type="time"
                     defaultValue={preferences.quietHoursStart ?? ""}
-                    className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm"
+                    className="mt-1 w-full rounded-lg border border-zinc-700 bg-cub-ebony px-3 py-2 text-sm"
                   />
                 </div>
                 <div>
@@ -231,7 +231,7 @@ export function GuardianNudgesSettingsForm({
                     name="quietHoursEnd"
                     type="time"
                     defaultValue={preferences.quietHoursEnd ?? ""}
-                    className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm"
+                    className="mt-1 w-full rounded-lg border border-zinc-700 bg-cub-ebony px-3 py-2 text-sm"
                   />
                 </div>
               </div>
@@ -243,7 +243,7 @@ export function GuardianNudgesSettingsForm({
                   id="timezone"
                   name="timezone"
                   defaultValue={preferences.timezone}
-                  className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-lg border border-zinc-700 bg-cub-ebony px-3 py-2 text-sm"
                 >
                   {TIMEZONE_OPTIONS.map((tz) => (
                     <option key={tz.value} value={tz.value}>

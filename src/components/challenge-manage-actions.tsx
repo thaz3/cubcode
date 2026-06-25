@@ -43,13 +43,13 @@ export function ChallengeManageActions({
     deleteState.error;
 
   return (
-    <div className="space-y-3 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4">
-      <h3 className="text-sm font-semibold text-zinc-200">Manage challenge</h3>
+    <div className="space-y-3 rounded-2xl border border-cub-off-white/10 bg-cub-charcoal/40 p-4">
+      <h3 className="text-sm font-semibold text-cub-off-white">Manage challenge</h3>
 
       {status !== "ARCHIVED" ? (
         <form action={pauseAction}>
           <input type="hidden" name="challengeId" value={challengeId} />
-          <Button type="submit" variant="secondary" fullWidth disabled={pausePending}>
+          <Button type="submit" variant="neutral" fullWidth disabled={pausePending}>
             {pausePending
               ? "Saving…"
               : status === "PAUSED"
@@ -62,7 +62,7 @@ export function ChallengeManageActions({
       {status !== "ARCHIVED" ? (
         <form action={archiveAction}>
           <input type="hidden" name="challengeId" value={challengeId} />
-          <Button type="submit" variant="secondary" fullWidth disabled={archivePending}>
+          <Button type="submit" variant="dangerOutline" fullWidth disabled={archivePending}>
             {archivePending ? "Archiving…" : "Archive challenge"}
           </Button>
         </form>

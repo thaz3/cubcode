@@ -41,7 +41,7 @@ export function CubUpcomingRoutinesSection({
       </ul>
       <Link
         href={`/cub/${cubId}/challenges`}
-        className="inline-block text-sm font-medium text-amber-500 hover:text-amber-400"
+        className="inline-block text-sm font-medium text-cub-gold hover:text-cub-gold-light"
       >
         All routines →
       </Link>

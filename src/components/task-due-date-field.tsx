@@ -186,8 +186,8 @@ export function TaskDueDateField({
         </div>
       ) : null}
 
-      <div className="mt-3 overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-        <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-2 dark:border-zinc-800">
+      <div className="mt-3 overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-cub-off-white/10 dark:bg-cub-ebony">
+        <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-2 dark:border-cub-off-white/10">
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
@@ -230,7 +230,7 @@ export function TaskDueDateField({
                 type="button"
                 onClick={() => selectDate(day)}
                 className={cn(
-                  "min-h-10 bg-white px-1 py-2 text-sm transition dark:bg-zinc-950",
+                  "min-h-10 bg-white px-1 py-2 text-sm transition dark:bg-cub-ebony",
                   inCurrentMonth
                     ? "text-zinc-900 dark:text-zinc-100"
                     : "text-zinc-400 dark:text-zinc-600",
@@ -238,7 +238,7 @@ export function TaskDueDateField({
                     ? "bg-amber-600 font-semibold text-white hover:bg-amber-700 dark:bg-amber-600"
                     : "hover:bg-amber-50 dark:hover:bg-amber-950/40",
                   isToday && !isSelected
-                    ? "ring-1 ring-inset ring-amber-400 dark:ring-amber-500"
+                    ? "ring-1 ring-inset ring-amber-400 dark:ring-cub-gold"
                     : null,
                 )}
                 aria-label={day.toLocaleDateString(undefined, {
@@ -272,7 +272,7 @@ export function TaskDueDateField({
           type="time"
           value={dueTime}
           onChange={(event) => setDueTime(event.target.value)}
-          className="mt-1 w-full max-w-xs rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+          className="mt-1 w-full max-w-xs rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
         />
         <p className="mt-1 text-xs text-zinc-500">
           Add a time for &quot;due in a few hours&quot; urgency. Leave blank for end of day.
@@ -303,7 +303,7 @@ export function TaskDueDateField({
               setSelectedDate(null);
               setDueTime("");
             }}
-            className="text-amber-700 hover:underline dark:text-amber-400"
+            className="text-amber-700 hover:underline dark:text-cub-gold-light"
           >
             Clear
           </button>

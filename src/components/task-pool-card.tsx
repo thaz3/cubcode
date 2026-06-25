@@ -21,7 +21,7 @@ export function TaskPoolCard({ task, cubs }: TaskPoolCardProps) {
           <div className="flex flex-wrap items-center gap-2">
             <Link
               href={`/dashboard/tasks/${task.id}`}
-              className="text-lg font-semibold text-zinc-50 hover:text-amber-400"
+              className="text-lg font-semibold text-zinc-50 hover:text-cub-gold-light"
             >
               {task.title}
             </Link>
@@ -39,7 +39,7 @@ export function TaskPoolCard({ task, cubs }: TaskPoolCardProps) {
           </p>
         </div>
 
-        <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
+        <div className="rounded-xl border border-cub-off-white/10 bg-cub-ebony/50 p-4">
           <p className="text-sm font-medium text-zinc-200">Assign to Cub</p>
           <div className="mt-3">
             <AssignTaskForm taskId={task.id} cubs={cubs} />

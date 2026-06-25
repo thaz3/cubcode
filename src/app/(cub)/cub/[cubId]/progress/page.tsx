@@ -105,13 +105,13 @@ export default async function CubModeProgressPage({
             {rewardItems.map((item) => (
               <li
                 key={item.id}
-                className="rounded-xl border border-zinc-800 bg-zinc-950/50 px-4 py-3"
+                className="rounded-xl border border-cub-off-white/10 bg-cub-ebony/50 px-4 py-3"
               >
                 <p className="font-medium text-zinc-100">{item.title}</p>
                 {item.description ? (
                   <p className="mt-1 text-sm text-zinc-400">{item.description}</p>
                 ) : null}
-                <p className="mt-2 text-sm text-amber-500">
+                <p className="mt-2 text-sm text-cub-gold">
                   {item.costFocusTokens} Focus Token
                   {item.costFocusTokens === 1 ? "" : "s"}
                 </p>

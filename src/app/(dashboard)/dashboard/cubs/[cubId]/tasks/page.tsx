@@ -170,8 +170,8 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                     href={`/dashboard/tasks/${task.id}`}
                     className={
                       overdue
-                        ? "flex flex-wrap items-center justify-between gap-2 rounded-lg border border-red-200 bg-white/80 px-3 py-2 hover:border-red-400 dark:border-red-900 dark:bg-zinc-950/60"
-                        : "flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-200 bg-white/80 px-3 py-2 hover:border-amber-400 dark:border-amber-900 dark:bg-zinc-950/60"
+                        ? "flex flex-wrap items-center justify-between gap-2 rounded-lg border border-red-200 bg-white/80 px-3 py-2 hover:border-red-400 dark:border-red-900 dark:bg-cub-ebony/60"
+                        : "flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-200 bg-white/80 px-3 py-2 hover:border-amber-400 dark:border-amber-900 dark:bg-cub-ebony/60"
                     }
                   >
                     <span className="font-medium">{task.title}</span>

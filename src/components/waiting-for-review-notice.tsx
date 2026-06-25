@@ -26,12 +26,12 @@ export function WaitingForReviewNotice({
 
   return (
     <Card variant="accent" className="space-y-3">
-      <p className="font-semibold text-amber-200">{headline}</p>
-      <p className="text-sm text-zinc-400">
+      <p className="font-semibold text-cub-gold-light">{headline}</p>
+      <p className="text-sm text-cub-muted">
         Approve rewards, send back for changes, or reject.
       </p>
       <Link href={reviewHref}>
-        <Button fullWidth size="lg">
+        <Button variant="reward" fullWidth size="lg">
           Review now
         </Button>
       </Link>

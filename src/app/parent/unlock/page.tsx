@@ -38,7 +38,7 @@ export default async function ParentUnlockPage({
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
       <div className="mb-6 space-y-2 text-center">
-        <p className="text-xs font-semibold uppercase tracking-wide text-amber-500">
+        <p className="text-xs font-semibold uppercase tracking-wide text-cub-gold">
           Parent area
         </p>
         <h1 className="text-2xl font-bold text-zinc-50">

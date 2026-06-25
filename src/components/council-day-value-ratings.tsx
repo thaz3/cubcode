@@ -44,7 +44,7 @@ export function CouncilDayValueRatingsFields({
             return (
               <li
                 key={dimension.id}
-                className="rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-800"
+                className="rounded-lg border border-zinc-200 px-3 py-2 dark:border-cub-off-white/10"
               >
                 <p className="font-medium text-zinc-800 dark:text-zinc-200">
                   {dimension.label}
@@ -86,7 +86,7 @@ export function CouncilDayValueRatingsFields({
           return (
             <div
               key={dimension.id}
-              className="rounded-lg border border-violet-100 bg-white/60 p-3 dark:border-violet-900/60 dark:bg-zinc-950/40"
+              className="rounded-lg border border-violet-100 bg-white/60 p-3 dark:border-violet-900/60 dark:bg-cub-ebony/40"
             >
               <p className="font-medium text-zinc-900 dark:text-zinc-100">
                 {dimension.label}
@@ -113,7 +113,7 @@ export function CouncilDayValueRatingsFields({
                 <Label htmlFor={`${cubId}-comment-${dimension.id}`}>
                   Comment
                   {showCommentHint ? (
-                    <span className="ml-1 font-normal text-amber-700 dark:text-amber-400">
+                    <span className="ml-1 font-normal text-amber-700 dark:text-cub-gold-light">
                       (helpful when ratings differ)
                     </span>
                   ) : null}
@@ -127,7 +127,7 @@ export function CouncilDayValueRatingsFields({
                   defaultValue={rating?.comment ?? ""}
                   rows={2}
                   placeholder="Optional unless parent and Cub ratings differ"
-                  className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+                  className="mt-2 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
                 />
               </div>
             </div>
@@ -185,7 +185,7 @@ function RatingRow({
                 "border-zinc-300 bg-white text-zinc-700",
                 "peer-checked:border-violet-600 peer-checked:bg-violet-600 peer-checked:text-white",
                 "hover:border-violet-400 hover:bg-violet-50",
-                "dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200",
+                "dark:border-zinc-700 dark:bg-cub-ebony dark:text-zinc-200",
                 "dark:peer-checked:border-violet-500 dark:peer-checked:bg-violet-500",
                 hovered === `${hoverKey}-${score}` &&
                   "border-violet-400 bg-violet-50 dark:bg-violet-950/40",

@@ -18,7 +18,7 @@ export function CollapsibleSection({
   return (
     <details
       className={cn(
-        "group rounded-xl border border-zinc-800 bg-zinc-900/40",
+        "group rounded-xl border border-cub-off-white/10 bg-zinc-900/40",
         className,
       )}
       open={defaultOpen || undefined}
@@ -34,7 +34,7 @@ export function CollapsibleSection({
           ▾
         </span>
       </summary>
-      <div className="border-t border-zinc-800 px-4 py-4">{children}</div>
+      <div className="border-t border-cub-off-white/10 px-4 py-4">{children}</div>
     </details>
   );
 }

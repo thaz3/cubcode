@@ -59,7 +59,7 @@ export function CubCompletedTasksSection({ tasks }: CubCompletedTasksSectionProp
                     })}
                   </p>
                   {task.status !== "REJECTED" ? (
-                    <p className="mt-2 text-sm text-amber-500/90">
+                    <p className="mt-2 text-sm text-cub-gold/90">
                       Earned: {formatTaskRewards(task, { referenceTime: finishedAt })}
                     </p>
                   ) : (

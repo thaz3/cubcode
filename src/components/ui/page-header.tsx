@@ -23,18 +23,20 @@ export function PageHeader({
       {backHref ? (
         <Link
           href={backHref}
-          className="inline-flex min-h-11 items-center text-sm font-medium text-amber-500 hover:text-amber-400"
+          className="inline-flex min-h-11 items-center text-sm font-medium text-cub-gold-light hover:text-cub-gold-warm"
         >
           ← {backLabel}
         </Link>
       ) : null}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-50 sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-cub-off-white sm:text-3xl">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-2 max-w-2xl text-base text-zinc-400">{subtitle}</p>
+            <p className="mt-2 max-w-2xl text-base text-cub-gold-light/90">
+              {subtitle}
+            </p>
           ) : null}
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}

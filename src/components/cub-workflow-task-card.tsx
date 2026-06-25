@@ -85,9 +85,9 @@ export function CubWorkflowTaskCard({
         </div>
 
         {isRequestActive && task.focusSessionStartedAt ? (
-          <div className="rounded-xl border border-indigo-800/60 bg-indigo-950/30 px-4 py-3">
+          <div className="rounded-xl border border-cub-green/30 bg-cub-green-muted px-4 py-3">
             {task.growthCategory ? (
-              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-indigo-300">
+              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-cub-green-light">
                 {GROWTH_CATEGORY_LABELS[task.growthCategory].split(" —")[0]}
               </p>
             ) : null}
@@ -95,7 +95,7 @@ export function CubWorkflowTaskCard({
               startedAt={task.focusSessionStartedAt.toISOString()}
               label="Request timer"
             />
-            <p className="mt-2 text-xs text-indigo-300/80">
+            <p className="mt-2 text-xs text-cub-green-light/80">
               Your parent can see when you opened these instructions.
             </p>
           </div>
@@ -110,7 +110,7 @@ export function CubWorkflowTaskCard({
           })}{" "}
           · {isFocusBlock ? "Reflection + proof link" : formatProofType(task.proofType)}
         </p>
-        <p className="text-sm text-amber-500/90">
+        <p className="text-sm text-cub-gold/90">
           Earn on approval: {formatTaskRewards(task)}
           {isFocusBlock && focusGrowth
             ? " (shared across weekly growth areas)"
@@ -126,7 +126,7 @@ export function CubWorkflowTaskCard({
         ) : null}
 
         {task.status === "SENT_BACK" && task.reviewNote ? (
-          <p className="rounded-xl bg-orange-950/40 px-3 py-2 text-sm text-orange-200">
+          <p className="rounded-xl border border-cub-gold/30 bg-cub-gold-muted px-3 py-2 text-sm text-cub-gold-light">
             Parent note: {task.reviewNote}
           </p>
         ) : null}

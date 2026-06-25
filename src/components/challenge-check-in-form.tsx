@@ -52,7 +52,7 @@ export function ChallengeCheckInForm({
 
   if (status === "SUBMITTED") {
     return (
-      <div className="space-y-3 rounded-2xl border border-amber-900/50 bg-amber-950/20 p-4">
+      <div className="space-y-3 rounded-2xl border border-cub-gold/30 bg-cub-gold-muted p-4">
         <ChallengeProgressBadge status="SUBMITTED" />
         <p className="text-sm text-zinc-300">
           You submitted this routine for {intervalLabel}. Your parent will review it soon.
@@ -63,7 +63,7 @@ export function ChallengeCheckInForm({
 
   if (status === "REWARDED") {
     return (
-      <div className="space-y-3 rounded-2xl border border-emerald-900/50 bg-emerald-950/20 p-4">
+      <div className="space-y-3 rounded-2xl border border-cub-green/30 bg-cub-green-muted p-4">
         <ChallengeProgressBadge status="REWARDED" />
         <p className="text-sm text-zinc-300">
           Approved for {intervalLabel}! Rewards were added to your progress.
@@ -74,7 +74,7 @@ export function ChallengeCheckInForm({
 
   if (status === "REJECTED") {
     return (
-      <div className="space-y-3 rounded-2xl border border-red-900/50 bg-red-950/20 p-4">
+      <div className="space-y-3 rounded-2xl border border-cub-red/30 bg-cub-red-muted p-4">
         <ChallengeProgressBadge status="REJECTED" />
         {log?.reviewNote ? (
           <p className="text-sm text-zinc-300">Parent note: {log.reviewNote}</p>
@@ -88,7 +88,7 @@ export function ChallengeCheckInForm({
       <p className="text-sm text-zinc-500">Interval: {intervalLabel}</p>
 
       {status === "SENT_BACK" && log?.reviewNote ? (
-        <p className="rounded-xl border border-orange-900/50 bg-orange-950/20 px-3 py-2 text-sm text-orange-200">
+        <p className="rounded-xl border border-cub-gold/30 bg-cub-gold-muted px-3 py-2 text-sm text-cub-gold-light">
           Parent note: {log.reviewNote}
         </p>
       ) : null}
@@ -107,14 +107,14 @@ export function ChallengeCheckInForm({
               I did this routine
             </span>
           </label>
-          <Button type="submit" fullWidth disabled={checkInPending}>
+          <Button type="submit" variant="constructive" fullWidth disabled={checkInPending}>
             {checkInPending ? "Saving…" : completed ? "Update check-in" : "Mark as done"}
           </Button>
         </form>
       ) : null}
 
       {canSubmit ? (
-        <form action={submitAction} className="space-y-4 border-t border-zinc-800 pt-4">
+        <form action={submitAction} className="space-y-4 border-t border-cub-off-white/10 pt-4">
           <input type="hidden" name="challengeId" value={challenge.id} />
 
           {challenge.proofType === "SHORT_REFLECTION" ? (
@@ -127,7 +127,7 @@ export function ChallengeCheckInForm({
                 required
                 minLength={10}
                 defaultValue={log?.reflection ?? ""}
-                className="w-full min-h-11 rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 outline-none ring-amber-500 focus:ring-2"
+                className="w-full min-h-11 rounded-xl border border-zinc-700 bg-cub-ebony px-4 py-2.5 text-base text-zinc-100 outline-none ring-cub-gold focus:ring-2"
                 placeholder="What did you do?"
               />
             </div>
@@ -159,7 +159,7 @@ export function ChallengeCheckInForm({
             </p>
           ) : null}
 
-          <Button type="submit" fullWidth size="lg" disabled={submitPending}>
+          <Button type="submit" variant="reward" fullWidth size="lg" disabled={submitPending}>
             {submitPending ? "Submitting…" : "Submit for parent review"}
           </Button>
         </form>

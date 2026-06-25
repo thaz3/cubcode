@@ -96,7 +96,7 @@ export default async function FamilyDayPage({ searchParams }: FamilyDayPageProps
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
+        <p className="text-sm font-medium text-amber-700 dark:text-cub-gold-light">
           Milestone 4 · {FAMILY_DAY_LABEL}
         </p>
         <h1 className="mt-1 text-3xl font-bold">{FAMILY_DAY_LABEL}</h1>
@@ -119,7 +119,7 @@ export default async function FamilyDayPage({ searchParams }: FamilyDayPageProps
               })}
             </p>
           ) : familyDaySession ? (
-            <p className="mt-1 text-sm text-amber-700 dark:text-amber-400">
+            <p className="mt-1 text-sm text-amber-700 dark:text-cub-gold-light">
               In progress — save progress for each Cub, then complete when ready.
               {lastSavedAt ? (
                 <>

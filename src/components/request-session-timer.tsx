@@ -57,7 +57,7 @@ export function RequestSessionTimer({
     >
       <span
         className={cn(
-          "font-medium text-indigo-700 dark:text-indigo-300",
+          "font-medium text-cub-green dark:text-cub-green-light",
           large ? "text-sm uppercase tracking-wide" : "text-xs",
         )}
       >
@@ -65,7 +65,7 @@ export function RequestSessionTimer({
       </span>
       <span
         className={cn(
-          "font-mono font-semibold tabular-nums text-indigo-950 dark:text-indigo-100",
+          "font-mono font-semibold tabular-nums text-cub-green dark:text-cub-off-white",
           large ? "text-4xl leading-none" : "text-lg",
         )}
       >

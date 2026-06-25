@@ -60,7 +60,7 @@ export default async function ReviewChallengeProgressPage({
         <CubLink
           cubId={log.cub.id}
           displayName={log.cub.displayName}
-          className="text-sm text-zinc-400 hover:text-amber-400"
+          className="text-sm text-zinc-400 hover:text-cub-gold-light"
         />
       </div>
 
@@ -74,7 +74,7 @@ export default async function ReviewChallengeProgressPage({
             )}{" "}
             · {formatChallengeSummary(log.challenge)}
           </p>
-          <p className="text-sm text-amber-500/90">
+          <p className="text-sm text-cub-gold/90">
             On approval: {formatChallengeRewards(log.challenge)}
           </p>
           <p className="text-sm text-zinc-500">

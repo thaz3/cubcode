@@ -14,7 +14,7 @@ export function GuardianNudgeDismissButton({ nudgeId }: { nudgeId: string }) {
   return (
     <form action={formAction}>
       <input type="hidden" name="nudgeId" value={nudgeId} />
-      <Button type="submit" variant="secondary" size="sm" disabled={isPending}>
+      <Button type="submit" variant="neutral" size="sm" disabled={isPending}>
         {isPending ? "..." : "Dismiss"}
       </Button>
       {state.error ? (

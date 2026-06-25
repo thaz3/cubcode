@@ -33,7 +33,7 @@ export default async function TaskLibraryPage() {
         action={
           <Link
             href="/dashboard/tasks"
-            className="text-sm font-medium text-amber-500 hover:text-amber-400"
+            className="text-sm font-medium text-cub-gold hover:text-cub-gold-light"
           >
             ← Back to tasks
           </Link>

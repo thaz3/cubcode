@@ -12,6 +12,7 @@ import {
   isDashboardNavActive,
 } from "@/lib/dashboard-nav-items";
 import { cn } from "@/lib/utils";
+import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
 
 type DashboardNavProps = {
   pendingReviewCount?: number;
@@ -43,10 +44,13 @@ export function DashboardNav({
   const moreActive = isDashboardMoreNavActive(pathname);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-cub-green/20 bg-cub-deep-black/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/dashboard" className="text-lg font-bold text-zinc-50">
-          C.U.B. Code
+        <Link
+          href="/dashboard"
+          className="text-lg font-bold tracking-tight text-cub-off-white"
+        >
+          <span className="text-cub-gold-light">C.U.B.</span> Code
         </Link>
 
         <nav
@@ -62,12 +66,12 @@ export function DashboardNav({
               {item.label}
               {item.href === "/dashboard/tasks/review" &&
               pendingReviewCount > 0 ? (
-                <span className="ml-1.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-amber-600 px-1.5 text-[10px] font-bold text-white">
+                <span className="ml-1.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-cub-gold px-1.5 text-[10px] font-bold text-cub-ebony">
                   {pendingReviewCount}
                 </span>
               ) : null}
               {item.href === "/dashboard" && guardianNudgeCount > 0 ? (
-                <span className="ml-1.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-violet-600 px-1.5 text-[10px] font-bold text-white">
+                <span className="ml-1.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-cub-red px-1.5 text-[10px] font-bold text-cub-off-white">
                   {guardianNudgeCount}
                 </span>
               ) : null}
@@ -81,8 +85,8 @@ export function DashboardNav({
               className={cn(
                 "rounded-lg px-3 py-2 text-sm font-medium transition",
                 moreActive || moreOpen
-                  ? "text-amber-500"
-                  : "text-zinc-400 hover:text-zinc-100",
+                  ? cubNavActive
+                  : cubNavInactive,
               )}
               aria-expanded={moreOpen}
               aria-haspopup="true"
@@ -90,22 +94,22 @@ export function DashboardNav({
               More ▾
             </button>
             {moreOpen ? (
-              <div className="absolute right-0 top-full z-50 mt-1 min-w-44 rounded-xl border border-zinc-800 bg-zinc-900 py-1 shadow-lg">
+              <div className="absolute right-0 top-full z-50 mt-1 min-w-44 rounded-xl border border-cub-gold/25 bg-cub-charcoal py-1 shadow-xl shadow-black/40">
                 {DASHBOARD_MORE_ONLY_NAV_ITEMS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "block px-4 py-2.5 text-sm transition hover:bg-zinc-800",
+                      "block px-4 py-2.5 text-sm transition hover:bg-cub-ebony",
                       isDashboardNavActive(pathname, item.href)
-                        ? "text-amber-500"
-                        : "text-zinc-300",
+                        ? "bg-cub-gold-muted font-medium text-cub-gold-light"
+                        : "text-cub-off-white/80",
                     )}
                   >
                     {item.label}
                   </Link>
                 ))}
-                <div className="my-1 border-t border-zinc-800" />
+                <div className="my-1 border-t border-cub-off-white/10" />
                 <form action={logoutAction} className="px-2 pb-1">
                   <button
                     type="submit"
@@ -139,6 +143,6 @@ function navLinkClass(pathname: string, href: string) {
   const active = isDashboardNavActive(pathname, href);
   return cn(
     "inline-flex min-h-10 items-center rounded-lg px-3 py-2 text-sm font-medium transition",
-    active ? "text-amber-500" : "text-zinc-400 hover:text-zinc-100",
+    active ? cubNavActive : cubNavInactive,
   );
 }

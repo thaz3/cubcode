@@ -40,7 +40,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-dvh bg-zinc-950">
+    <div className="min-h-dvh cub-app-shell">
       <DashboardNav
         pendingReviewCount={pendingReviewCount}
         guardianNudgeCount={guardianNudgeCount}

@@ -101,7 +101,7 @@ export function TaskTemplateForm({
           name="description"
           defaultValue={initialValues?.description ?? ""}
           rows={compact ? 2 : 3}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
         />
       </div>
 

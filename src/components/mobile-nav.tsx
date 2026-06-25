@@ -11,6 +11,7 @@ import {
   isDashboardNavActive,
 } from "@/lib/dashboard-nav-items";
 import { cn } from "@/lib/utils";
+import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
 
 type MobileNavProps = {
   pendingReviewCount?: number;
@@ -42,7 +43,7 @@ export function MobileNav({
 
       {moreOpen ? (
         <div
-          className="fixed inset-x-0 z-50 border-t border-zinc-800 bg-zinc-900 px-2 py-2 shadow-lg lg:hidden"
+          className="fixed inset-x-0 z-50 border-t border-cub-green/20 bg-cub-deep-black/95 px-2 py-2 shadow-xl shadow-black/40 lg:hidden"
           style={{
             bottom: "calc(3.5rem + env(safe-area-inset-bottom, 0px))",
           }}
@@ -57,14 +58,14 @@ export function MobileNav({
               className={cn(
                 "block rounded-lg px-4 py-3 text-sm font-medium transition hover:bg-zinc-800",
                 isDashboardNavActive(pathname, item.href)
-                  ? "text-amber-500"
+                  ? "text-cub-gold"
                   : "text-zinc-200",
               )}
             >
               {item.label}
             </Link>
           ))}
-          <div className="my-1 border-t border-zinc-800" />
+          <div className="my-1 border-t border-cub-off-white/10" />
           <form action={logoutAction}>
             <button
               type="submit"
@@ -78,7 +79,7 @@ export function MobileNav({
       ) : null}
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-zinc-800 bg-zinc-950/95 backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-cub-green/20 bg-cub-deep-black/95 backdrop-blur-md lg:hidden"
         style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
         aria-label="Main navigation"
       >
@@ -98,7 +99,7 @@ export function MobileNav({
                 href={item.href}
                 className={cn(
                   "relative flex min-h-14 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-2 text-[11px] font-medium transition",
-                  active ? "text-amber-500" : "text-zinc-500 hover:text-zinc-300",
+                  active ? cn(cubNavActive, "text-[11px]") : cn(cubNavInactive, "text-[11px]"),
                 )}
               >
                 <span className="relative">
@@ -108,8 +109,8 @@ export function MobileNav({
                       className={cn(
                         "absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white",
                         item.href === "/dashboard"
-                          ? "bg-violet-600"
-                          : "bg-amber-600",
+                          ? "bg-cub-red"
+                          : "bg-cub-gold text-cub-ebony",
                       )}
                     >
                       {badge > 9 ? "9+" : badge}
@@ -126,8 +127,8 @@ export function MobileNav({
             className={cn(
               "flex min-h-14 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-2 text-[11px] font-medium transition",
               moreActive || moreOpen
-                ? "text-amber-500"
-                : "text-zinc-500 hover:text-zinc-300",
+                ? cn(cubNavActive, "text-[11px]")
+                : cn(cubNavInactive, "text-[11px]"),
             )}
             aria-expanded={moreOpen}
             aria-haspopup="menu"

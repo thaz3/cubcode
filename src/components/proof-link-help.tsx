@@ -41,7 +41,7 @@ export function ProofLinkHelp({
   const steps = CUB_STEPS[variant];
 
   return (
-    <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-2.5">
+    <div className="mt-2 rounded-lg border border-cub-off-white/10 bg-zinc-900/60 px-3 py-2.5">
       <p className="text-xs font-medium text-zinc-300">How to add your proof</p>
       <ol className="mt-1.5 list-decimal space-y-1 pl-4 text-xs leading-relaxed text-zinc-500">
         {steps.map((step) => (

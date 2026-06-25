@@ -8,6 +8,7 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { CubLink } from "@/components/cub-link";
 import type { ActionState } from "@/lib/actions/auth";
 import { approveTaskAction } from "@/lib/actions/tasks";
+import { cubErrorText, cubLink, cubSuccessText } from "@/lib/cub-theme";
 import { formatProofType } from "@/lib/task-labels";
 import type { TaskProofType, TaskStatus } from "@/generated/prisma/client";
 
@@ -38,19 +39,19 @@ export function ReviewCard({ task }: ReviewCardProps) {
     : null;
 
   return (
-    <Card variant="interactive" className="space-y-4">
+    <Card variant="accent" className="space-y-4">
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className="text-lg font-semibold text-zinc-50">{task.title}</h2>
+          <h2 className="text-lg font-semibold text-cub-off-white">{task.title}</h2>
           <StatusBadge status={task.status} />
         </div>
-        <p className="text-sm text-zinc-400">
+        <p className="text-sm text-cub-muted">
           {task.cub ? (
             <>
               <CubLink
                 cubId={task.cub.id}
                 displayName={task.cub.displayName}
-                className="font-medium text-amber-500 hover:text-amber-400"
+                className={cubLink}
               />{" "}
               · {formatProofType(task.proofType)}
             </>
@@ -59,12 +60,12 @@ export function ReviewCard({ task }: ReviewCardProps) {
           )}
         </p>
         {reflectionSnippet ? (
-          <p className="rounded-xl bg-zinc-950/60 px-3 py-2 text-sm text-zinc-300">
+          <p className="rounded-xl bg-cub-ebony/60 px-3 py-2 text-sm text-cub-off-white">
             {reflectionSnippet}
           </p>
         ) : null}
         {task.submittedAt ? (
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-cub-muted">
             Submitted {task.submittedAt.toLocaleString()}
           </p>
         ) : null}
@@ -73,7 +74,13 @@ export function ReviewCard({ task }: ReviewCardProps) {
       <div className="flex flex-col gap-2 sm:flex-row">
         <form action={approveAction} className="flex-1">
           <input type="hidden" name="taskId" value={task.id} />
-          <Button type="submit" fullWidth size="lg" disabled={pending}>
+          <Button
+            type="submit"
+            variant="constructive"
+            fullWidth
+            size="lg"
+            disabled={pending}
+          >
             {pending ? "Approving…" : "Approve"}
           </Button>
         </form>
@@ -81,16 +88,16 @@ export function ReviewCard({ task }: ReviewCardProps) {
           href={`/dashboard/tasks/review/${task.id}`}
           className="flex-1"
         >
-          <Button variant="secondary" fullWidth size="lg">
+          <Button variant="neutral" fullWidth size="lg">
             Full review
           </Button>
         </Link>
       </div>
 
       {state.success ? (
-        <p className="text-sm text-emerald-400">{state.success}</p>
+        <p className={`text-sm ${cubSuccessText}`}>{state.success}</p>
       ) : state.error ? (
-        <p className="text-sm text-red-400">{state.error}</p>
+        <p className={`text-sm ${cubErrorText}`}>{state.error}</p>
       ) : null}
     </Card>
   );
