@@ -33,7 +33,8 @@ import {
   isTaskUrgent,
   sortTasksByUrgency,
 } from "@/lib/task-schedule";
-import { isTaskEditable } from "@/lib/task-transitions";
+import { isTaskEditable, ACTIVE_CUB_STATUSES, PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
+import { formatTaskRecurrence } from "@/lib/task-recurrence";
 import { notFound, redirect } from "next/navigation";
 
 type CubTasksPageProps = {
@@ -72,7 +73,6 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
     db.taskTemplate.findMany({
       where: { familyId: family.id, isActive: true },
       orderBy: { title: "asc" },
-      select: { id: true, title: true },
     }),
     getCompletedGrowthCategoriesThisWeek(cub.id),
     getAvailableGrowthCategoriesForCub(cub),
@@ -86,9 +86,14 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
     weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
   };
 
-  const sortedTasks = sortTasksByUrgency(tasks);
-  const urgentTasks = sortedTasks.filter((task) => isTaskUrgent(task));
-  const activeFocusTasks = sortedTasks
+  const activeTasks = sortTasksByUrgency(
+    tasks.filter((task) => ACTIVE_CUB_STATUSES.includes(task.status)),
+  );
+  const completedCount = tasks.filter((task) =>
+    PARENT_CUB_COMPLETED_STATUSES.includes(task.status),
+  ).length;
+  const urgentTasks = activeTasks.filter((task) => isTaskUrgent(task));
+  const activeFocusTasks = activeTasks
     .filter(
       (task) =>
         task.status === "IN_PROGRESS" && task.focusSessionStartedAt !== null,
@@ -195,19 +200,28 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
           <div>
             <h2 className="text-lg font-semibold">Assigned tasks</h2>
             <p className="mt-1 text-sm text-zinc-500">
-              {tasks.length === 0
-                ? "Nothing assigned yet."
-                : `${tasks.length} task${tasks.length === 1 ? "" : "s"} assigned to ${cub.displayName}`}
+              {activeTasks.length === 0
+                ? "Nothing active right now."
+                : `${activeTasks.length} active task${activeTasks.length === 1 ? "" : "s"} for ${cub.displayName}`}
             </p>
           </div>
-          <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
-            <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
-              Assign task
-            </Button>
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            {completedCount > 0 ? (
+              <Link href={`/dashboard/cubs/${cub.id}/tasks/completed`}>
+                <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
+                  Completed ({completedCount})
+                </Button>
+              </Link>
+            ) : null}
+            <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
+              <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
+                Assign task
+              </Button>
+            </Link>
+          </div>
         </div>
 
-        {tasks.length === 0 ? (
+        {activeTasks.length === 0 ? (
           <Card>
             <p className="text-sm text-zinc-500">
               Assign a task from the board or a template below.
@@ -215,7 +229,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
           </Card>
         ) : (
           <div className="grid gap-4">
-            {sortedTasks.map((task) => {
+            {activeTasks.map((task) => {
               const focusMinutes = task.focusBlocks.reduce(
                 (sum, block) => sum + block.durationMinutes,
                 0,
@@ -272,6 +286,9 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                         growthCategory: task.growthCategory,
                       })}{" "}
                       · {formatProofType(task.proofType)} · {formatTaskRewards(task)}
+                      {formatTaskRecurrence(task.recurrence)
+                        ? ` · ${formatTaskRecurrence(task.recurrence)}`
+                        : ""}
                     </p>
                     <p className="text-xs text-zinc-500">
                       Parent approval required to earn rewards.
@@ -313,15 +330,9 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                   <TaskSubmitForm task={task} />
                 )}
 
-                {["SUBMITTED", "APPROVED", "COMPLETED", "REJECTED"].includes(task.status) ? (
+                {task.status === "SUBMITTED" ? (
                   <p className="mt-4 text-sm text-zinc-500">
-                    {task.status === "SUBMITTED"
-                      ? "Waiting for parent review."
-                      : task.status === "COMPLETED"
-                        ? "Completed — rewards credited."
-                        : task.status === "APPROVED"
-                          ? "Approved — processing rewards."
-                          : "Rejected — create a new task from a template if needed."}
+                    Waiting for parent review.
                   </p>
                 ) : null}
               </Card>

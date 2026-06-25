@@ -105,3 +105,13 @@ export const RewardGrantType = {
 } as const
 
 export type RewardGrantType = (typeof RewardGrantType)[keyof typeof RewardGrantType]
+
+
+export const TaskRecurrence = {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY'
+} as const
+
+export type TaskRecurrence = (typeof TaskRecurrence)[keyof typeof TaskRecurrence]

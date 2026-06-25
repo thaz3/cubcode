@@ -78,6 +78,13 @@ enum RewardGrantType {
   WEEKEND_BANK
 }
 
+enum TaskRecurrence {
+  NONE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -194,6 +201,7 @@ model TaskTemplate {
   proofType           TaskProofType @default(SHORT_REFLECTION)
   proofPrompt         String?
   proofChecklistItems Json?
+  recurrence          TaskRecurrence @default(NONE)
   isActive            Boolean       @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -230,6 +238,7 @@ model Task {
   claimedAt         DateTime?
   dueAt             DateTime?
   dueAtHasTime      Boolean       @default(false)
+  recurrence        TaskRecurrence @default(NONE)
   focusSessionStartedAt DateTime?
   startedAt         DateTime?
   createdAt         DateTime      @default(now())

@@ -40,10 +40,10 @@ export default async function RewardsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Reward Store"
+        title="Rewards"
         subtitle="Redeem Focus Tokens. You deliver each reward in real life."
         backHref="/dashboard"
-        backLabel="Today"
+        backLabel="Home"
       />
 
       <div className="grid gap-4 lg:grid-cols-2">

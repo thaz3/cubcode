@@ -67,7 +67,7 @@ export function MobileNav({ pendingReviewCount = 0 }: MobileNavProps) {
               role="menuitem"
               className="w-full rounded-lg px-4 py-3 text-left text-sm font-medium text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
             >
-              Log out
+              Sign out
             </button>
           </form>
         </div>

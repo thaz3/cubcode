@@ -104,7 +104,7 @@ export function DashboardNav({
                     type="submit"
                     className="w-full rounded-lg px-2 py-2.5 text-left text-sm text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
                   >
-                    Log out
+                    Sign out
                   </button>
                 </form>
               </div>
@@ -114,13 +114,13 @@ export function DashboardNav({
 
         <form action={logoutAction} className="hidden lg:block">
           <Button type="submit" variant="ghost" size="sm">
-            Log out
+            Sign out
           </Button>
         </form>
 
         <form action={logoutAction} className="lg:hidden">
           <Button type="submit" variant="ghost" size="sm">
-            Out
+            Sign out
           </Button>
         </form>
       </div>

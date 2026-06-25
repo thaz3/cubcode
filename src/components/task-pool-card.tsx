@@ -66,7 +66,7 @@ export function TaskPoolCard({ task, cubs }: TaskPoolCardProps) {
           }}
         >
           <Button type="submit" variant="danger" fullWidth size="lg">
-            Delete from board
+            Delete from library
           </Button>
         </form>
       </div>

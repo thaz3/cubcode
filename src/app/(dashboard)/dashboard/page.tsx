@@ -1,5 +1,12 @@
 import Link from "next/link";
 import { ActionTile } from "@/components/ui/action-tile";
+import {
+  CalendarIcon,
+  CubDeviceIcon,
+  HomeIcon,
+  StarIcon,
+  TemplateIcon,
+} from "@/components/quick-link-icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CubCard } from "@/components/cub-card";
@@ -151,7 +158,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Today"
+        title="Dashboard"
         subtitle={`Today's Code · ${weekLabel}`}
       />
       <p className="-mt-4 text-sm text-zinc-500">{greeting}</p>
@@ -270,19 +277,28 @@ export default async function DashboardPage() {
       ) : null}
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-zinc-100">Quick links</h2>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div>
+          <h2 className="text-lg font-semibold text-zinc-100">Quick links</h2>
+          <p className="mt-1 text-sm text-zinc-500">
+            Shortcuts to Cub view, weekly rhythm, and household tools.
+          </p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
           {family.cubs.length === 1 ? (
             <ActionTile
               href={`/cub/${family.cubs[0]!.id}`}
               label={`${family.cubs[0]!.displayName}'s view`}
               description="Hand device to Cub"
+              accent="violet"
+              icon={<CubDeviceIcon className="h-5 w-5" />}
             />
           ) : family.cubs.length > 1 ? (
             <ActionTile
               href="/cub"
               label="Cub view"
               description="Pick who is using the device"
+              accent="violet"
+              icon={<CubDeviceIcon className="h-5 w-5" />}
             />
           ) : null}
           <ActionTile
@@ -293,6 +309,8 @@ export default async function DashboardPage() {
                 ? `${weeklyProgress.householdTotals.completedTasks} tasks approved`
                 : weekLabel
             }
+            accent="amber"
+            icon={<CalendarIcon className="h-5 w-5" />}
           />
           {family.cubs.length > 0 ? (
             <ActionTile
@@ -303,17 +321,23 @@ export default async function DashboardPage() {
                   ? "Completed this week"
                   : "Weekly reflection"
               }
+              accent="sky"
+              icon={<HomeIcon className="h-5 w-5" />}
             />
           ) : null}
           <ActionTile
             href="/dashboard/rewards"
-            label="Reward Store"
+            label="Rewards"
             description="Redeem Focus Tokens"
+            accent="emerald"
+            icon={<StarIcon className="h-5 w-5" />}
           />
           <ActionTile
             href="/dashboard/tasks/templates"
             label="Task templates"
             description="Reusable household tasks"
+            accent="zinc"
+            icon={<TemplateIcon className="h-5 w-5" />}
           />
         </div>
       </section>

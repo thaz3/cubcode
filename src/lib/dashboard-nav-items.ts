@@ -1,17 +1,17 @@
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
 
 export const DASHBOARD_PRIMARY_NAV_ITEMS = [
-  { href: "/dashboard", label: "Today" },
+  { href: "/dashboard", label: "Home" },
   { href: "/dashboard/tasks", label: "Tasks" },
   { href: "/dashboard/tasks/review", label: "Review" },
   { href: "/dashboard/cubs", label: "Cubs" },
-  { href: "/dashboard/family/settings", label: "Settings" },
+  { href: "/dashboard/rewards", label: "Rewards" },
+  { href: "/dashboard/week", label: "This week" },
 ] as const;
 
 export const DASHBOARD_MORE_NAV_ITEMS = [
-  { href: "/dashboard/week", label: "This week" },
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
-  { href: "/dashboard/rewards", label: "Reward Store" },
+  { href: "/dashboard/family/settings", label: "Settings" },
   { href: "/dashboard/tasks/summer", label: "Summer tasks" },
   { href: "/dashboard/tasks/templates", label: "Task templates" },
 ] as const;
@@ -32,6 +32,9 @@ export function isDashboardNavActive(pathname: string, href: string): boolean {
       pathname.startsWith("/dashboard/family-day") ||
       pathname.startsWith("/dashboard/council-day")
     );
+  }
+  if (href === "/dashboard/week") {
+    return pathname === "/dashboard/week" || pathname.startsWith("/dashboard/week/");
   }
   return pathname.startsWith(`${href}/`) || pathname === href;
 }

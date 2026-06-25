@@ -11,5 +11,5 @@ export default async function ParentGateLayout({
     redirect("/login");
   }
 
-  return <div className="min-h-screen bg-zinc-950">{children}</div>;
+  return <div className="min-h-dvh bg-zinc-950">{children}</div>;
 }

@@ -43,6 +43,12 @@ export const ACTIVE_CUB_STATUSES: TaskStatus[] = [
   "SENT_BACK",
 ];
 
+export const PARENT_CUB_COMPLETED_STATUSES: TaskStatus[] = [
+  "COMPLETED",
+  "APPROVED",
+  "REJECTED",
+];
+
 /** Parent can edit task details before submission or after send-back. */
 export const EDITABLE_TASK_STATUSES: TaskStatus[] = [
   "AVAILABLE",

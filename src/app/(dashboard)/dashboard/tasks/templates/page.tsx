@@ -53,12 +53,16 @@ export default async function TaskTemplatesPage() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <Link href="/dashboard/tasks" className="text-sm font-medium text-amber-700">
-            ← Assignment board
+            ← Tasks
           </Link>
           <h1 className="mt-2 text-3xl font-bold">Template board</h1>
           <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-            Reusable task definitions with proof style and instructions. Add a
-            template to the assignment board, then assign it to a Cub.
+            Reusable task definitions. Use <strong className="font-medium text-zinc-300">Assign to Cub</strong> on
+            any template, or save to the{" "}
+            <Link href="/dashboard/tasks/library" className="text-amber-600 hover:text-amber-500">
+              task library
+            </Link>{" "}
+            to assign later.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -100,7 +104,12 @@ export default async function TaskTemplatesPage() {
         ) : (
           <div className="mt-4 grid gap-4">
             {summerTemplates.map((template) => (
-              <TaskTemplateCard key={template.id} template={template} highlight="summer" />
+              <TaskTemplateCard
+                key={template.id}
+                template={template}
+                highlight="summer"
+                cubs={family.cubs}
+              />
             ))}
           </div>
         )}
@@ -119,7 +128,7 @@ export default async function TaskTemplatesPage() {
             <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
               Optional once-a-week tasks for Black history awareness, family
               identity, elder connection, neighborhood knowledge, and community
-              pride. You pick the template — the app does not generate lessons.
+              pride. Pick a template below and tap <strong className="font-medium text-zinc-300">Assign to Cub</strong>.
             </p>
           </div>
           <Link href="/dashboard/week">
@@ -132,7 +141,12 @@ export default async function TaskTemplatesPage() {
         ) : (
           <div className="mt-4 grid gap-4">
             {legacyTemplates.map((template) => (
-              <TaskTemplateCard key={template.id} template={template} highlight="legacy" />
+              <TaskTemplateCard
+                key={template.id}
+                template={template}
+                highlight="legacy"
+                cubs={family.cubs}
+              />
             ))}
           </div>
         )}
@@ -153,7 +167,11 @@ export default async function TaskTemplatesPage() {
         ) : (
           <div className="grid gap-4">
             {otherTemplates.map((template) => (
-              <TaskTemplateCard key={template.id} template={template} />
+              <TaskTemplateCard
+                key={template.id}
+                template={template}
+                cubs={family.cubs}
+              />
             ))}
           </div>
         )}

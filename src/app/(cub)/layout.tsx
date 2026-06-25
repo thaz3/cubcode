@@ -6,5 +6,5 @@ export default function CubShellLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-zinc-950">{children}</div>;
+  return <div className="min-h-dvh bg-zinc-950">{children}</div>;
 }

@@ -33,6 +33,7 @@ export type TaskTemplateMinAggregateOutputType = {
   growthCategory: $Enums.GrowthCategory | null
   proofType: $Enums.TaskProofType | null
   proofPrompt: string | null
+  recurrence: $Enums.TaskRecurrence | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -48,6 +49,7 @@ export type TaskTemplateMaxAggregateOutputType = {
   growthCategory: $Enums.GrowthCategory | null
   proofType: $Enums.TaskProofType | null
   proofPrompt: string | null
+  recurrence: $Enums.TaskRecurrence | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -64,6 +66,7 @@ export type TaskTemplateCountAggregateOutputType = {
   proofType: number
   proofPrompt: number
   proofChecklistItems: number
+  recurrence: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -81,6 +84,7 @@ export type TaskTemplateMinAggregateInputType = {
   growthCategory?: true
   proofType?: true
   proofPrompt?: true
+  recurrence?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -96,6 +100,7 @@ export type TaskTemplateMaxAggregateInputType = {
   growthCategory?: true
   proofType?: true
   proofPrompt?: true
+  recurrence?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -112,6 +117,7 @@ export type TaskTemplateCountAggregateInputType = {
   proofType?: true
   proofPrompt?: true
   proofChecklistItems?: true
+  recurrence?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -201,6 +207,7 @@ export type TaskTemplateGroupByOutputType = {
   proofType: $Enums.TaskProofType
   proofPrompt: string | null
   proofChecklistItems: runtime.JsonValue | null
+  recurrence: $Enums.TaskRecurrence
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -238,6 +245,7 @@ export type TaskTemplateWhereInput = {
   proofType?: Prisma.EnumTaskProofTypeFilter<"TaskTemplate"> | $Enums.TaskProofType
   proofPrompt?: Prisma.StringNullableFilter<"TaskTemplate"> | string | null
   proofChecklistItems?: Prisma.JsonNullableFilter<"TaskTemplate">
+  recurrence?: Prisma.EnumTaskRecurrenceFilter<"TaskTemplate"> | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFilter<"TaskTemplate"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TaskTemplate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TaskTemplate"> | Date | string
@@ -256,6 +264,7 @@ export type TaskTemplateOrderByWithRelationInput = {
   proofType?: Prisma.SortOrder
   proofPrompt?: Prisma.SortOrderInput | Prisma.SortOrder
   proofChecklistItems?: Prisma.SortOrderInput | Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -277,6 +286,7 @@ export type TaskTemplateWhereUniqueInput = Prisma.AtLeast<{
   proofType?: Prisma.EnumTaskProofTypeFilter<"TaskTemplate"> | $Enums.TaskProofType
   proofPrompt?: Prisma.StringNullableFilter<"TaskTemplate"> | string | null
   proofChecklistItems?: Prisma.JsonNullableFilter<"TaskTemplate">
+  recurrence?: Prisma.EnumTaskRecurrenceFilter<"TaskTemplate"> | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFilter<"TaskTemplate"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TaskTemplate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TaskTemplate"> | Date | string
@@ -295,6 +305,7 @@ export type TaskTemplateOrderByWithAggregationInput = {
   proofType?: Prisma.SortOrder
   proofPrompt?: Prisma.SortOrderInput | Prisma.SortOrder
   proofChecklistItems?: Prisma.SortOrderInput | Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -317,6 +328,7 @@ export type TaskTemplateScalarWhereWithAggregatesInput = {
   proofType?: Prisma.EnumTaskProofTypeWithAggregatesFilter<"TaskTemplate"> | $Enums.TaskProofType
   proofPrompt?: Prisma.StringNullableWithAggregatesFilter<"TaskTemplate"> | string | null
   proofChecklistItems?: Prisma.JsonNullableWithAggregatesFilter<"TaskTemplate">
+  recurrence?: Prisma.EnumTaskRecurrenceWithAggregatesFilter<"TaskTemplate"> | $Enums.TaskRecurrence
   isActive?: Prisma.BoolWithAggregatesFilter<"TaskTemplate"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TaskTemplate"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TaskTemplate"> | Date | string
@@ -333,6 +345,7 @@ export type TaskTemplateCreateInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -350,6 +363,7 @@ export type TaskTemplateUncheckedCreateInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -367,6 +381,7 @@ export type TaskTemplateUpdateInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -384,6 +399,7 @@ export type TaskTemplateUncheckedUpdateInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -401,6 +417,7 @@ export type TaskTemplateCreateManyInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -417,6 +434,7 @@ export type TaskTemplateUpdateManyMutationInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -432,6 +450,7 @@ export type TaskTemplateUncheckedUpdateManyInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -458,6 +477,7 @@ export type TaskTemplateCountOrderByAggregateInput = {
   proofType?: Prisma.SortOrder
   proofPrompt?: Prisma.SortOrder
   proofChecklistItems?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -473,6 +493,7 @@ export type TaskTemplateMaxOrderByAggregateInput = {
   growthCategory?: Prisma.SortOrder
   proofType?: Prisma.SortOrder
   proofPrompt?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -488,6 +509,7 @@ export type TaskTemplateMinOrderByAggregateInput = {
   growthCategory?: Prisma.SortOrder
   proofType?: Prisma.SortOrder
   proofPrompt?: Prisma.SortOrder
+  recurrence?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -553,6 +575,10 @@ export type EnumTaskProofTypeFieldUpdateOperationsInput = {
   set?: $Enums.TaskProofType
 }
 
+export type EnumTaskRecurrenceFieldUpdateOperationsInput = {
+  set?: $Enums.TaskRecurrence
+}
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
@@ -583,6 +609,7 @@ export type TaskTemplateCreateWithoutFamilyInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -599,6 +626,7 @@ export type TaskTemplateUncheckedCreateWithoutFamilyInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -644,6 +672,7 @@ export type TaskTemplateScalarWhereInput = {
   proofType?: Prisma.EnumTaskProofTypeFilter<"TaskTemplate"> | $Enums.TaskProofType
   proofPrompt?: Prisma.StringNullableFilter<"TaskTemplate"> | string | null
   proofChecklistItems?: Prisma.JsonNullableFilter<"TaskTemplate">
+  recurrence?: Prisma.EnumTaskRecurrenceFilter<"TaskTemplate"> | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFilter<"TaskTemplate"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TaskTemplate"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TaskTemplate"> | Date | string
@@ -660,6 +689,7 @@ export type TaskTemplateCreateWithoutTasksInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -676,6 +706,7 @@ export type TaskTemplateUncheckedCreateWithoutTasksInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -708,6 +739,7 @@ export type TaskTemplateUpdateWithoutTasksInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -724,6 +756,7 @@ export type TaskTemplateUncheckedUpdateWithoutTasksInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,6 +773,7 @@ export type TaskTemplateCreateManyFamilyInput = {
   proofType?: $Enums.TaskProofType
   proofPrompt?: string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: $Enums.TaskRecurrence
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -755,6 +789,7 @@ export type TaskTemplateUpdateWithoutFamilyInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -771,6 +806,7 @@ export type TaskTemplateUncheckedUpdateWithoutFamilyInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -787,6 +823,7 @@ export type TaskTemplateUncheckedUpdateManyWithoutFamilyInput = {
   proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
   proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -833,6 +870,7 @@ export type TaskTemplateSelect<ExtArgs extends runtime.Types.Extensions.Internal
   proofType?: boolean
   proofPrompt?: boolean
   proofChecklistItems?: boolean
+  recurrence?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -852,6 +890,7 @@ export type TaskTemplateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   proofType?: boolean
   proofPrompt?: boolean
   proofChecklistItems?: boolean
+  recurrence?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -869,6 +908,7 @@ export type TaskTemplateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   proofType?: boolean
   proofPrompt?: boolean
   proofChecklistItems?: boolean
+  recurrence?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -886,13 +926,14 @@ export type TaskTemplateSelectScalar = {
   proofType?: boolean
   proofPrompt?: boolean
   proofChecklistItems?: boolean
+  recurrence?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   familyId?: boolean
 }
 
-export type TaskTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "subcategory" | "growthCategory" | "proofType" | "proofPrompt" | "proofChecklistItems" | "isActive" | "createdAt" | "updatedAt" | "familyId", ExtArgs["result"]["taskTemplate"]>
+export type TaskTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "subcategory" | "growthCategory" | "proofType" | "proofPrompt" | "proofChecklistItems" | "recurrence" | "isActive" | "createdAt" | "updatedAt" | "familyId", ExtArgs["result"]["taskTemplate"]>
 export type TaskTemplateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.TaskTemplate$tasksArgs<ExtArgs>
@@ -921,6 +962,7 @@ export type $TaskTemplatePayload<ExtArgs extends runtime.Types.Extensions.Intern
     proofType: $Enums.TaskProofType
     proofPrompt: string | null
     proofChecklistItems: runtime.JsonValue | null
+    recurrence: $Enums.TaskRecurrence
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1359,6 +1401,7 @@ export interface TaskTemplateFieldRefs {
   readonly proofType: Prisma.FieldRef<"TaskTemplate", 'TaskProofType'>
   readonly proofPrompt: Prisma.FieldRef<"TaskTemplate", 'String'>
   readonly proofChecklistItems: Prisma.FieldRef<"TaskTemplate", 'Json'>
+  readonly recurrence: Prisma.FieldRef<"TaskTemplate", 'TaskRecurrence'>
   readonly isActive: Prisma.FieldRef<"TaskTemplate", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"TaskTemplate", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TaskTemplate", 'DateTime'>

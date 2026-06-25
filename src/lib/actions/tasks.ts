@@ -25,6 +25,8 @@ import { logTaskFocusSession } from "@/lib/focus-session";
 import { getAvailableGrowthCategoriesForCub } from "@/lib/focus-growth";
 import { creditApprovedTaskRewards } from "@/lib/rewards";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
+import { parseRecurrenceFromFormData } from "@/lib/task-recurrence";
+import { spawnNextRecurringTask } from "@/lib/task-recurrence-server";
 import type { ActionState } from "@/lib/actions/auth";
 import type { z } from "zod";
 
@@ -142,6 +144,7 @@ export async function createAndAssignCustomTaskAction(
       ...cubRewardFields(cub),
       dueAt,
       dueAtHasTime: dueFields?.dueAtHasTime ?? false,
+      recurrence: parseRecurrenceFromFormData(formData),
     },
   });
 
@@ -156,6 +159,7 @@ function revalidateTaskPaths(cubId?: string | null) {
   revalidatePath("/dashboard/tasks/review");
   if (cubId) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);
+    revalidatePath(`/dashboard/cubs/${cubId}/tasks/completed`);
     revalidatePath(`/dashboard/cubs/${cubId}/progress`);
     revalidatePath(`/cub/${cubId}`);
     revalidatePath(`/cub/${cubId}/tasks`);
@@ -213,6 +217,7 @@ export async function assignTaskAction(
       claimedAt: new Date(),
       dueAt: dueFields?.dueAt ?? parsed.data.dueDate,
       dueAtHasTime: dueFields?.dueAtHasTime ?? false,
+      recurrence: parseRecurrenceFromFormData(formData),
       ...cubRewardFields(cub),
     },
   });
@@ -495,6 +500,8 @@ export async function approveTaskAction(
       where: { id: task.id },
       data: { status: "COMPLETED" },
     });
+
+    await spawnNextRecurringTask(task, tx);
 
     return result;
   });

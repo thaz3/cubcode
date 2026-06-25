@@ -9,6 +9,10 @@ The source of truth is:
 
 Read that file before making implementation decisions.
 
+**Active refinement phase:** `/docs/PHASE_B_SCOPE_CONTRACT.md`
+
+**Future roadmap (do not implement without approval):** `/docs/PHASE_C_GUARDIAN_NUDGES.md`
+
 ## MVP Goal
 The MVP goal is to prove the first household loop:
 
@@ -64,6 +68,11 @@ Do not implement:
 - Citywide map mechanics
 - Advanced analytics
 - Complex fraud detection
+- Guardian Nudges / parent reminder rules (Phase C)
+- Child-facing reminders or notifications
+- Parent email or SMS reminders (Phase C)
+- Automatic punishment or consequence flows triggered by reminders
+- Notification spam or AI parenting advice
 
 If a feature is not directly required for the household loop, do not build it.
 
@@ -333,3 +342,52 @@ No device control.
 No crypto theater.  
 
 Prove the household loop.
+
+## Active Phase: Phase B
+Phase B is **refinement, not expansion**. See `/docs/PHASE_B_SCOPE_CONTRACT.md`.
+
+During Phase B:
+- Do not add new product features without explicit approval.
+- Propose a small plan before each implementation step.
+- Avoid schema changes unless absolutely necessary and explicitly approved.
+- Improve parent dashboard clarity using **existing task data** — not a new reminder engine.
+
+Guardian Nudges are **Phase C**, not Phase B. See `/docs/PHASE_C_GUARDIAN_NUDGES.md`.
+
+## Guardian Nudges (Phase C — Documentation Only)
+**Do not implement until explicitly approved after Phase B.**
+
+Preferred name: **Guardian Nudges** (aliases: Guardian Awareness Layer, Parent-First Nudges).
+
+### Parent-first principle
+**C.U.B. Code informs the guardian. The guardian decides the response.**
+
+The app supports parental awareness. It does not replace parental judgment.
+
+Guardian Nudges must:
+- Alert parents when a parent-defined rule detects an untouched task/goal/milestone
+- Use neutral, factual, non-shaming copy
+- Deliver to parents first (in-app → email → SMS, in that order)
+- Require parent opt-in for external channels (email, SMS)
+- Treat “touched” as existing progress events (claim, focus start, checklist, submit, etc.)
+
+Guardian Nudges must never:
+- Nag, punish, or automatically consequence the child
+- Remove device access automatically
+- Collect child phone numbers in early versions
+- Enable free-form or child-to-child messaging
+- Change reward mechanics or act as a consequence engine
+- Bypass parent authority
+- Use GPS, social features, or public profiles
+- Send AI-generated parenting advice
+
+### Valid parent responses (outside the app)
+After a nudge, parents may remind the child, pause access manually, help them get unstuck, or ignore the nudge. The app does not prescribe which response is correct.
+
+### Delivery roadmap (when approved)
+1. In-app parent reminder cards/badges
+2. Parent email (opt-in)
+3. Parent SMS (opt-in, parent phone only)
+4. Cub reminders only later, if parent-controlled and never free-form
+
+Full specification: `/docs/PHASE_C_GUARDIAN_NUDGES.md`

@@ -31,7 +31,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-dvh bg-zinc-950">
       <DashboardNav pendingReviewCount={pendingReviewCount} />
       <main className="mx-auto max-w-4xl px-4 py-6 pb-nav-safe lg:py-8">
         {children}

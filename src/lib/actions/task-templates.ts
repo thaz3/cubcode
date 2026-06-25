@@ -13,6 +13,8 @@ import {
   validateTaskDefinition,
 } from "@/lib/validations/task";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
+import { parseRecurrenceFromFormData } from "@/lib/task-recurrence";
+import type { TaskRecurrence } from "@/generated/prisma/client";
 import type { ActionState } from "@/lib/actions/auth";
 import type { z } from "zod";
 
@@ -21,6 +23,7 @@ type ParsedTemplate = z.infer<typeof taskTemplateSchema>;
 function revalidateTaskPaths() {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/tasks");
+  revalidatePath("/dashboard/tasks/library");
   revalidatePath("/dashboard/tasks/templates");
   revalidatePath("/dashboard/tasks/review");
 }
@@ -54,7 +57,7 @@ function parseTemplateFormData(
   return { ok: true, data: parsed.data };
 }
 
-function templateSettingsData(parsed: ParsedTemplate) {
+function templateSettingsData(parsed: ParsedTemplate, formData: FormData) {
   return {
     title: parsed.title,
     description: parsed.description,
@@ -66,6 +69,7 @@ function templateSettingsData(parsed: ParsedTemplate) {
     proofType: parsed.proofType,
     proofPrompt: parsed.proofPrompt || null,
     proofChecklistItems: parsed.proofChecklistItems ?? undefined,
+    recurrence: parseRecurrenceFromFormData(formData),
   };
 }
 
@@ -84,7 +88,7 @@ export async function createTaskTemplateAction(
   await db.taskTemplate.create({
     data: {
       familyId: family.id,
-      ...templateSettingsData(parsed.data),
+      ...templateSettingsData(parsed.data, formData),
     },
   });
 
@@ -115,7 +119,7 @@ export async function updateTaskTemplateAction(
 
   await db.taskTemplate.update({
     where: { id: template.id },
-    data: templateSettingsData(parsed.data),
+    data: templateSettingsData(parsed.data, formData),
   });
 
   revalidateTaskPaths();
@@ -154,6 +158,7 @@ export async function createTaskFromTemplateAction(
   cubId?: string,
   dueAt?: Date | null,
   dueAtHasTime = false,
+  recurrence?: TaskRecurrence,
 ): Promise<ActionState> {
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
@@ -187,15 +192,17 @@ export async function createTaskFromTemplateAction(
       claimedAt: cubId ? new Date() : null,
       dueAt: cubId ? dueAt ?? null : null,
       dueAtHasTime: cubId ? dueAtHasTime : false,
+      recurrence: recurrence ?? template.recurrence,
     },
   });
 
   revalidateTaskPaths();
   if (cubId) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);
+    revalidatePath(`/dashboard/cubs/${cubId}/tasks/completed`);
   }
 
-  return { success: cubId ? "Task assigned to Cub." : "Task added to board." };
+  return { success: cubId ? "Task assigned to Cub." : "Task saved to library." };
 }
 
 export async function assignTemplateToCubAction(
@@ -210,10 +217,12 @@ export async function assignTemplateToCubAction(
   }
 
   const dueFields = getDueFieldsFromFormData(formData);
+  const recurrence = parseRecurrenceFromFormData(formData);
   return createTaskFromTemplateAction(
     templateId,
     cubId,
     dueFields?.dueAt ?? null,
     dueFields?.dueAtHasTime ?? false,
+    recurrence,
   );
 }

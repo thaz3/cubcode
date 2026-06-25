@@ -45,6 +45,7 @@ export function CreateOneOffTaskForm({
         showDueDate={assignToCub}
         showQuickDue={assignToCub}
         hiddenFields={assignToCub && cubId ? { cubId } : undefined}
+        compact={compact}
       />
     </div>
   );

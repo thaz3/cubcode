@@ -1583,6 +1583,7 @@ export const TaskTemplateScalarFieldEnum = {
   proofType: 'proofType',
   proofPrompt: 'proofPrompt',
   proofChecklistItems: 'proofChecklistItems',
+  recurrence: 'recurrence',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -1617,6 +1618,7 @@ export const TaskScalarFieldEnum = {
   claimedAt: 'claimedAt',
   dueAt: 'dueAt',
   dueAtHasTime: 'dueAtHasTime',
+  recurrence: 'recurrence',
   focusSessionStartedAt: 'focusSessionStartedAt',
   startedAt: 'startedAt',
   createdAt: 'createdAt',
@@ -1909,6 +1911,20 @@ export type EnumTaskProofTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'TaskProofType[]'
  */
 export type ListEnumTaskProofTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskProofType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TaskRecurrence'
+ */
+export type EnumTaskRecurrenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskRecurrence'>
+    
+
+
+/**
+ * Reference to a field of type 'TaskRecurrence[]'
+ */
+export type ListEnumTaskRecurrenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskRecurrence[]'>
     
 
 

@@ -180,6 +180,11 @@ The MVP does not include:
 - AI recommendations
 - Citywide map game mechanics
 - Advanced analytics
+- **Guardian Nudges / parent reminder rules** (see Phase C: `/docs/PHASE_C_GUARDIAN_NUDGES.md`)
+- **Child-facing reminders or push notifications**
+- **Parent email or SMS reminders**
+- **Automatic consequences or punishment flows triggered by task state**
+- **Consequence engines that bypass parent judgment**
 
 These may be considered later only after the family behavior loop is proven.
 
@@ -202,6 +207,8 @@ MVP language must be clear:
 **C.U.B. Code calculates earned digital freedom. Parents control access.**
 
 Do not claim that the MVP locks, unlocks, blocks, or controls apps automatically.
+
+Future reminder features (Phase C Guardian Nudges) must follow the same rule: the app may inform the guardian; the guardian decides the response. Reminders must not nag the child, punish the child, or remove access automatically.
 
 ## Core User Roles
 
@@ -592,3 +599,13 @@ When there is a conflict between the long-term vision and this MVP Scope Contrac
 The goal is not to build the entire C.U.B. Code platform. The goal is to prove the first household loop:
 
 **Task → Focus → Proof → Approval → Earned Digital Freedom**
+
+## Post-MVP Roadmap (Reference Only)
+The following are documented for alignment but are **not** MVP or Phase B scope:
+
+| Phase | Theme | Key document |
+|-------|-------|--------------|
+| Phase B | Refinement of the existing loop | `/docs/PHASE_B_SCOPE_CONTRACT.md` |
+| Phase C | Guardian Nudges (parent-first awareness) | `/docs/PHASE_C_GUARDIAN_NUDGES.md` |
+
+Do not implement Phase C features until Phase B exit criteria are met and Phase C is explicitly approved.
