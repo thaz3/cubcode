@@ -1,16 +1,20 @@
 import Link from "next/link";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
+import { CubAssignedTasksSection } from "@/components/cub-assigned-tasks-section";
+import { CubTodayEarnedSection } from "@/components/cub-today-earned-section";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
-import { StatusBadge } from "@/components/ui/status-badge";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { getCubNextAction } from "@/lib/cub-next-action";
+import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
+import { getCubWeekStats } from "@/lib/council-day-stats";
 import { formatMinutes } from "@/lib/ledger-labels";
 import { getCubRewardSummary } from "@/lib/rewards";
-import { sortTasksByUrgency, isTaskUrgent } from "@/lib/task-schedule";
+import { sortTasksByUrgency } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
+import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
@@ -24,8 +28,9 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
   if (!session?.user?.id) redirect("/login");
 
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
+  const weekStartsOn = getWeekStart();
 
-  const [tasks, summary] = await Promise.all([
+  const [assignedTasks, summary, weekEarned, weekStats] = await Promise.all([
     db.task.findMany({
       where: {
         familyId,
@@ -37,19 +42,21 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         title: true,
         status: true,
         focusSessionStartedAt: true,
+        claimedAt: true,
+        dueAt: true,
+        dueAtHasTime: true,
+        createdAt: true,
       },
     }),
     getCubRewardSummary(cub),
+    getCubWeekEarnedTotals(cub.id, weekStartsOn),
+    getCubWeekStats(cub.id, weekStartsOn),
   ]);
 
-  const nextAction = getCubNextAction(tasks, cubId);
-  const urgent = sortTasksByUrgency(
-    await db.task.findMany({
-      where: { familyId, cubId: cub.id },
-    }),
-  ).filter((t) => isTaskUrgent(t) && ACTIVE_CUB_STATUSES.includes(t.status));
+  const sortedAssigned = sortTasksByUrgency(assignedTasks);
+  const nextAction = getCubNextAction(assignedTasks, cubId);
 
-  const activeFocus = tasks
+  const activeFocus = assignedTasks
     .filter((t) => t.status === "IN_PROGRESS" && t.focusSessionStartedAt)
     .map((t) => ({
       id: t.id,
@@ -105,23 +112,15 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         />
       </div>
 
-      {urgent.length > 0 ? (
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold text-zinc-100">Do now</h2>
-          <ul className="space-y-2">
-            {urgent.slice(0, 3).map((task) => (
-              <li key={task.id}>
-                <Link href={`/cub/${cubId}/tasks`}>
-                  <Card variant="interactive" className="flex items-center justify-between gap-3 py-4">
-                    <span className="font-medium text-zinc-100">{task.title}</span>
-                    <StatusBadge status={task.status} />
-                  </Card>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <CubTodayEarnedSection
+        cubId={cubId}
+        weekLabel={formatWeekLabel(weekStartsOn)}
+        summary={summary}
+        weekEarned={weekEarned}
+        weekStats={weekStats}
+      />
+
+      <CubAssignedTasksSection cubId={cubId} tasks={sortedAssigned} />
     </div>
   );
 }

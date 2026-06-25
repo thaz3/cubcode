@@ -75,6 +75,10 @@ async function getCubLedgerWeekTotals(
   };
 }
 
+export async function getCubWeekEarnedTotals(cubId: string, weekStartsOn: Date) {
+  return getCubLedgerWeekTotals(cubId, weekStartsOn, getWeekEnd(weekStartsOn));
+}
+
 export async function getHouseholdWeeklyProgress(
   familyId: string,
   cubs: Pick<Cub, "id" | "displayName" | "ageBand">[],

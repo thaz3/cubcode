@@ -110,7 +110,7 @@ function getPrimaryAction(task: TaskWithCub): React.ReactNode {
       return (
         <Link href={cubTasksHref} className="flex-1">
           <Button fullWidth size="lg">
-            {task.status === "SENT_BACK" ? "Fix & resubmit" : "Start focus"}
+            {task.status === "SENT_BACK" ? "Fix & resubmit" : "View instructions"}
           </Button>
         </Link>
       );

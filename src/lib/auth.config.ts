@@ -32,7 +32,7 @@ export const authConfig = {
       }
 
       if (isAuthPage && isLoggedIn) {
-        return Response.redirect(new URL("/dashboard", request.nextUrl));
+        return Response.redirect(new URL("/cub", request.nextUrl));
       }
 
       return true;

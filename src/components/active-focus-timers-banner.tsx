@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FocusSessionTimer } from "@/components/focus-session-timer";
+import { RequestSessionTimer } from "@/components/request-session-timer";
 import { Card } from "@/components/ui/card";
 
 export type ActiveFocusTask = {
@@ -26,8 +26,8 @@ export function ActiveFocusTimersBanner({
   return (
     <Card className="border-indigo-300 bg-indigo-50/90 dark:border-indigo-800 dark:bg-indigo-950/50">
       <p className="text-sm font-medium text-indigo-900 dark:text-indigo-200">
-        {cubName} is working on{" "}
-        {singleTask ? "a task" : `${tasks.length} tasks at once`}
+        {cubName} opened instructions for{" "}
+        {singleTask ? "a task" : `${tasks.length} tasks`}
       </p>
 
       <ul className={singleTask ? "mt-4" : "mt-4 space-y-3"}>
@@ -50,9 +50,9 @@ export function ActiveFocusTimersBanner({
             >
               {task.title}
             </Link>
-            <FocusSessionTimer
+            <RequestSessionTimer
               startedAt={task.focusSessionStartedAt}
-              label="Focus timer running"
+              label="Request timer running"
               large={singleTask}
             />
           </li>

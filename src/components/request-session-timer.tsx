@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
-type FocusSessionTimerProps = {
+type RequestSessionTimerProps = {
   startedAt: string;
   label?: string;
   large?: boolean;
@@ -23,12 +23,12 @@ function formatElapsed(elapsedMs: number): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function FocusSessionTimer({
+export function RequestSessionTimer({
   startedAt,
-  label = "Focus timer",
+  label = "Request timer",
   large = false,
   className,
-}: FocusSessionTimerProps) {
+}: RequestSessionTimerProps) {
   const startedMs = new Date(startedAt).getTime();
   const [elapsedMs, setElapsedMs] = useState(() => Date.now() - startedMs);
 

@@ -23,8 +23,8 @@ export default async function CubPickerPage() {
         <EmptyState
           title="No Cubs yet"
           description="Add a Cub profile in the parent area first."
-          actionLabel="Go to parent area"
-          actionHref="/dashboard"
+          actionLabel="Parent area (PIN required)"
+          actionHref="/parent/unlock?returnTo=%2Fdashboard%2Fcubs%2Fnew"
         />
       </main>
     );

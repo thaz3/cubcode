@@ -56,10 +56,10 @@ export function getTodayNextAction(input: NextActionInput): TodayNextAction {
 
   if (inProgressWithFocus) {
     return {
-      title: `Focus in progress: ${inProgressWithFocus.title}`,
-      description: "A focus timer is running. Submit when the task is done.",
+      title: `Instructions open: ${inProgressWithFocus.title}`,
+      description: "A request timer is running. Submit when the task is done.",
       href: inProgressWithFocus.href,
-      buttonLabel: "Continue focus",
+      buttonLabel: "Continue task",
       priority: "normal",
     };
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateFamilySettingsAction } from "@/lib/actions/family";
@@ -25,7 +25,11 @@ export function FamilySettingsForm({ initialValues }: FamilySettingsFormProps) {
   );
 
   return (
-    <Card>
+    <CollapsibleSection
+      title="Edit household rules"
+      summary="Family name, phone caps, and focus exchange"
+      defaultOpen={false}
+    >
       <form action={formAction} className="space-y-5">
         <div>
           <Label htmlFor="name">Family name (optional)</Label>
@@ -110,6 +114,6 @@ export function FamilySettingsForm({ initialValues }: FamilySettingsFormProps) {
           </Button>
         </div>
       </form>
-    </Card>
+    </CollapsibleSection>
   );
 }

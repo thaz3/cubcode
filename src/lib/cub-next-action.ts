@@ -22,7 +22,7 @@ export function getCubNextAction(
   if (inProgressFocus) {
     return {
       title: `Keep going: ${inProgressFocus.title}`,
-      description: "Your focus timer is running. Submit when you're done.",
+      description: "Your request timer is running. Submit when you're done.",
       href: baseTasks,
       buttonLabel: "Continue task",
       tone: "focus",
@@ -45,13 +45,13 @@ export function getCubNextAction(
   );
   if (claimed) {
     const label =
-      claimed.status === "IN_PROGRESS" ? "Submit task" : "Start focus";
+      claimed.status === "IN_PROGRESS" ? "Submit task" : "View instructions";
     return {
       title: claimed.title,
       description:
         claimed.status === "IN_PROGRESS"
           ? "Finish your work and submit proof for parent review."
-          : "Start your focus timer when you're ready to work.",
+          : "Tap View instructions when you're ready — your parent will know you opened them.",
       href: baseTasks,
       buttonLabel: label,
       tone: "focus",
@@ -91,9 +91,9 @@ export function getCubNextAction(
 export function cubStatusMessage(status: TaskStatus): string {
   switch (status) {
     case "CLAIMED":
-      return "Ready to start — tap Start focus when you're ready.";
+      return "Ready — tap View instructions when you're ready to begin.";
     case "IN_PROGRESS":
-      return "In progress — submit when you're done.";
+      return "Instructions open — submit when you're done.";
     case "SUBMITTED":
       return "Submitted — waiting for parent review.";
     case "SENT_BACK":

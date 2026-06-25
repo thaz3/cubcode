@@ -274,6 +274,9 @@ export type FamilyWhereInput = {
   tasks?: Prisma.TaskListRelationFilter
   rewardStoreItems?: Prisma.RewardStoreItemListRelationFilter
   councilDaySessions?: Prisma.CouncilDaySessionListRelationFilter
+  guardianNudgePreferences?: Prisma.XOR<Prisma.GuardianNudgePreferencesNullableScalarRelationFilter, Prisma.GuardianNudgePreferencesWhereInput> | null
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleListRelationFilter
+  guardianNudges?: Prisma.GuardianNudgeListRelationFilter
 }
 
 export type FamilyOrderByWithRelationInput = {
@@ -293,6 +296,9 @@ export type FamilyOrderByWithRelationInput = {
   tasks?: Prisma.TaskOrderByRelationAggregateInput
   rewardStoreItems?: Prisma.RewardStoreItemOrderByRelationAggregateInput
   councilDaySessions?: Prisma.CouncilDaySessionOrderByRelationAggregateInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesOrderByWithRelationInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleOrderByRelationAggregateInput
+  guardianNudges?: Prisma.GuardianNudgeOrderByRelationAggregateInput
 }
 
 export type FamilyWhereUniqueInput = Prisma.AtLeast<{
@@ -315,6 +321,9 @@ export type FamilyWhereUniqueInput = Prisma.AtLeast<{
   tasks?: Prisma.TaskListRelationFilter
   rewardStoreItems?: Prisma.RewardStoreItemListRelationFilter
   councilDaySessions?: Prisma.CouncilDaySessionListRelationFilter
+  guardianNudgePreferences?: Prisma.XOR<Prisma.GuardianNudgePreferencesNullableScalarRelationFilter, Prisma.GuardianNudgePreferencesWhereInput> | null
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleListRelationFilter
+  guardianNudges?: Prisma.GuardianNudgeListRelationFilter
 }, "id" | "ownerId">
 
 export type FamilyOrderByWithAggregationInput = {
@@ -367,6 +376,9 @@ export type FamilyCreateInput = {
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateInput = {
@@ -385,6 +397,9 @@ export type FamilyUncheckedCreateInput = {
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUpdateInput = {
@@ -403,6 +418,9 @@ export type FamilyUpdateInput = {
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateInput = {
@@ -421,6 +439,9 @@ export type FamilyUncheckedUpdateInput = {
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateManyInput = {
@@ -634,6 +655,48 @@ export type FamilyUpdateOneRequiredWithoutRewardStoreItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutRewardStoreItemsInput, Prisma.FamilyUpdateWithoutRewardStoreItemsInput>, Prisma.FamilyUncheckedUpdateWithoutRewardStoreItemsInput>
 }
 
+export type FamilyCreateNestedOneWithoutGuardianNudgePreferencesInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgePreferencesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutGuardianNudgePreferencesInput
+  connect?: Prisma.FamilyWhereUniqueInput
+}
+
+export type FamilyUpdateOneRequiredWithoutGuardianNudgePreferencesNestedInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgePreferencesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutGuardianNudgePreferencesInput
+  upsert?: Prisma.FamilyUpsertWithoutGuardianNudgePreferencesInput
+  connect?: Prisma.FamilyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutGuardianNudgePreferencesInput, Prisma.FamilyUpdateWithoutGuardianNudgePreferencesInput>, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput>
+}
+
+export type FamilyCreateNestedOneWithoutGuardianNudgeRulesInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgeRulesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgeRulesInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutGuardianNudgeRulesInput
+  connect?: Prisma.FamilyWhereUniqueInput
+}
+
+export type FamilyUpdateOneRequiredWithoutGuardianNudgeRulesNestedInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgeRulesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgeRulesInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutGuardianNudgeRulesInput
+  upsert?: Prisma.FamilyUpsertWithoutGuardianNudgeRulesInput
+  connect?: Prisma.FamilyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutGuardianNudgeRulesInput, Prisma.FamilyUpdateWithoutGuardianNudgeRulesInput>, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput>
+}
+
+export type FamilyCreateNestedOneWithoutGuardianNudgesInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgesInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutGuardianNudgesInput
+  connect?: Prisma.FamilyWhereUniqueInput
+}
+
+export type FamilyUpdateOneRequiredWithoutGuardianNudgesNestedInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgesInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutGuardianNudgesInput
+  upsert?: Prisma.FamilyUpsertWithoutGuardianNudgesInput
+  connect?: Prisma.FamilyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutGuardianNudgesInput, Prisma.FamilyUpdateWithoutGuardianNudgesInput>, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgesInput>
+}
+
 export type FamilyCreateWithoutOwnerInput = {
   id?: string
   name?: string | null
@@ -649,6 +712,9 @@ export type FamilyCreateWithoutOwnerInput = {
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutOwnerInput = {
@@ -666,6 +732,9 @@ export type FamilyUncheckedCreateWithoutOwnerInput = {
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutOwnerInput = {
@@ -699,6 +768,9 @@ export type FamilyUpdateWithoutOwnerInput = {
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutOwnerInput = {
@@ -716,6 +788,9 @@ export type FamilyUncheckedUpdateWithoutOwnerInput = {
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutCubsInput = {
@@ -733,6 +808,9 @@ export type FamilyCreateWithoutCubsInput = {
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutCubsInput = {
@@ -750,6 +828,9 @@ export type FamilyUncheckedCreateWithoutCubsInput = {
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutCubsInput = {
@@ -783,6 +864,9 @@ export type FamilyUpdateWithoutCubsInput = {
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutCubsInput = {
@@ -800,6 +884,9 @@ export type FamilyUncheckedUpdateWithoutCubsInput = {
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutCouncilDaySessionsInput = {
@@ -817,6 +904,9 @@ export type FamilyCreateWithoutCouncilDaySessionsInput = {
   taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutCouncilDaySessionsInput = {
@@ -834,6 +924,9 @@ export type FamilyUncheckedCreateWithoutCouncilDaySessionsInput = {
   taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutCouncilDaySessionsInput = {
@@ -867,6 +960,9 @@ export type FamilyUpdateWithoutCouncilDaySessionsInput = {
   taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutCouncilDaySessionsInput = {
@@ -884,6 +980,9 @@ export type FamilyUncheckedUpdateWithoutCouncilDaySessionsInput = {
   taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutTaskTemplatesInput = {
@@ -901,6 +1000,9 @@ export type FamilyCreateWithoutTaskTemplatesInput = {
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutTaskTemplatesInput = {
@@ -918,6 +1020,9 @@ export type FamilyUncheckedCreateWithoutTaskTemplatesInput = {
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutTaskTemplatesInput = {
@@ -951,6 +1056,9 @@ export type FamilyUpdateWithoutTaskTemplatesInput = {
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutTaskTemplatesInput = {
@@ -968,6 +1076,9 @@ export type FamilyUncheckedUpdateWithoutTaskTemplatesInput = {
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutTasksInput = {
@@ -985,6 +1096,9 @@ export type FamilyCreateWithoutTasksInput = {
   taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutTasksInput = {
@@ -1002,6 +1116,9 @@ export type FamilyUncheckedCreateWithoutTasksInput = {
   taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutTasksInput = {
@@ -1035,6 +1152,9 @@ export type FamilyUpdateWithoutTasksInput = {
   taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutTasksInput = {
@@ -1052,6 +1172,9 @@ export type FamilyUncheckedUpdateWithoutTasksInput = {
   taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
   rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutRewardStoreItemsInput = {
@@ -1069,6 +1192,9 @@ export type FamilyCreateWithoutRewardStoreItemsInput = {
   taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutRewardStoreItemsInput = {
@@ -1086,6 +1212,9 @@ export type FamilyUncheckedCreateWithoutRewardStoreItemsInput = {
   taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutRewardStoreItemsInput = {
@@ -1119,6 +1248,9 @@ export type FamilyUpdateWithoutRewardStoreItemsInput = {
   taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutRewardStoreItemsInput = {
@@ -1136,6 +1268,297 @@ export type FamilyUncheckedUpdateWithoutRewardStoreItemsInput = {
   taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyCreateWithoutGuardianNudgePreferencesInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutFamilyInput
+  cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyCreateOrConnectWithoutGuardianNudgePreferencesInput = {
+  where: Prisma.FamilyWhereUniqueInput
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgePreferencesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput>
+}
+
+export type FamilyUpsertWithoutGuardianNudgePreferencesInput = {
+  update: Prisma.XOR<Prisma.FamilyUpdateWithoutGuardianNudgePreferencesInput, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput>
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgePreferencesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput>
+  where?: Prisma.FamilyWhereInput
+}
+
+export type FamilyUpdateToOneWithWhereWithoutGuardianNudgePreferencesInput = {
+  where?: Prisma.FamilyWhereInput
+  data: Prisma.XOR<Prisma.FamilyUpdateWithoutGuardianNudgePreferencesInput, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput>
+}
+
+export type FamilyUpdateWithoutGuardianNudgePreferencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
+  cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyCreateWithoutGuardianNudgeRulesInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutFamilyInput
+  cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyUncheckedCreateWithoutGuardianNudgeRulesInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyCreateOrConnectWithoutGuardianNudgeRulesInput = {
+  where: Prisma.FamilyWhereUniqueInput
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgeRulesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgeRulesInput>
+}
+
+export type FamilyUpsertWithoutGuardianNudgeRulesInput = {
+  update: Prisma.XOR<Prisma.FamilyUpdateWithoutGuardianNudgeRulesInput, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput>
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgeRulesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgeRulesInput>
+  where?: Prisma.FamilyWhereInput
+}
+
+export type FamilyUpdateToOneWithWhereWithoutGuardianNudgeRulesInput = {
+  where?: Prisma.FamilyWhereInput
+  data: Prisma.XOR<Prisma.FamilyUpdateWithoutGuardianNudgeRulesInput, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput>
+}
+
+export type FamilyUpdateWithoutGuardianNudgeRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
+  cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyCreateWithoutGuardianNudgesInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutFamilyInput
+  cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyUncheckedCreateWithoutGuardianNudgesInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyCreateOrConnectWithoutGuardianNudgesInput = {
+  where: Prisma.FamilyWhereUniqueInput
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgesInput>
+}
+
+export type FamilyUpsertWithoutGuardianNudgesInput = {
+  update: Prisma.XOR<Prisma.FamilyUpdateWithoutGuardianNudgesInput, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgesInput>
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutGuardianNudgesInput, Prisma.FamilyUncheckedCreateWithoutGuardianNudgesInput>
+  where?: Prisma.FamilyWhereInput
+}
+
+export type FamilyUpdateToOneWithWhereWithoutGuardianNudgesInput = {
+  where?: Prisma.FamilyWhereInput
+  data: Prisma.XOR<Prisma.FamilyUpdateWithoutGuardianNudgesInput, Prisma.FamilyUncheckedUpdateWithoutGuardianNudgesInput>
+}
+
+export type FamilyUpdateWithoutGuardianNudgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
+  cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyUncheckedUpdateWithoutGuardianNudgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 
@@ -1149,6 +1572,8 @@ export type FamilyCountOutputType = {
   tasks: number
   rewardStoreItems: number
   councilDaySessions: number
+  guardianNudgeRules: number
+  guardianNudges: number
 }
 
 export type FamilyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1157,6 +1582,8 @@ export type FamilyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   tasks?: boolean | FamilyCountOutputTypeCountTasksArgs
   rewardStoreItems?: boolean | FamilyCountOutputTypeCountRewardStoreItemsArgs
   councilDaySessions?: boolean | FamilyCountOutputTypeCountCouncilDaySessionsArgs
+  guardianNudgeRules?: boolean | FamilyCountOutputTypeCountGuardianNudgeRulesArgs
+  guardianNudges?: boolean | FamilyCountOutputTypeCountGuardianNudgesArgs
 }
 
 /**
@@ -1204,6 +1631,20 @@ export type FamilyCountOutputTypeCountCouncilDaySessionsArgs<ExtArgs extends run
   where?: Prisma.CouncilDaySessionWhereInput
 }
 
+/**
+ * FamilyCountOutputType without action
+ */
+export type FamilyCountOutputTypeCountGuardianNudgeRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GuardianNudgeRuleWhereInput
+}
+
+/**
+ * FamilyCountOutputType without action
+ */
+export type FamilyCountOutputTypeCountGuardianNudgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GuardianNudgeWhereInput
+}
+
 
 export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1222,6 +1663,9 @@ export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   tasks?: boolean | Prisma.Family$tasksArgs<ExtArgs>
   rewardStoreItems?: boolean | Prisma.Family$rewardStoreItemsArgs<ExtArgs>
   councilDaySessions?: boolean | Prisma.Family$councilDaySessionsArgs<ExtArgs>
+  guardianNudgePreferences?: boolean | Prisma.Family$guardianNudgePreferencesArgs<ExtArgs>
+  guardianNudgeRules?: boolean | Prisma.Family$guardianNudgeRulesArgs<ExtArgs>
+  guardianNudges?: boolean | Prisma.Family$guardianNudgesArgs<ExtArgs>
   _count?: boolean | Prisma.FamilyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["family"]>
 
@@ -1274,6 +1718,9 @@ export type FamilyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tasks?: boolean | Prisma.Family$tasksArgs<ExtArgs>
   rewardStoreItems?: boolean | Prisma.Family$rewardStoreItemsArgs<ExtArgs>
   councilDaySessions?: boolean | Prisma.Family$councilDaySessionsArgs<ExtArgs>
+  guardianNudgePreferences?: boolean | Prisma.Family$guardianNudgePreferencesArgs<ExtArgs>
+  guardianNudgeRules?: boolean | Prisma.Family$guardianNudgeRulesArgs<ExtArgs>
+  guardianNudges?: boolean | Prisma.Family$guardianNudgesArgs<ExtArgs>
   _count?: boolean | Prisma.FamilyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FamilyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1292,6 +1739,9 @@ export type $FamilyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     tasks: Prisma.$TaskPayload<ExtArgs>[]
     rewardStoreItems: Prisma.$RewardStoreItemPayload<ExtArgs>[]
     councilDaySessions: Prisma.$CouncilDaySessionPayload<ExtArgs>[]
+    guardianNudgePreferences: Prisma.$GuardianNudgePreferencesPayload<ExtArgs> | null
+    guardianNudgeRules: Prisma.$GuardianNudgeRulePayload<ExtArgs>[]
+    guardianNudges: Prisma.$GuardianNudgePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1704,6 +2154,9 @@ export interface Prisma__FamilyClient<T, Null = never, ExtArgs extends runtime.T
   tasks<T extends Prisma.Family$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rewardStoreItems<T extends Prisma.Family$rewardStoreItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$rewardStoreItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardStoreItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   councilDaySessions<T extends Prisma.Family$councilDaySessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$councilDaySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouncilDaySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  guardianNudgePreferences<T extends Prisma.Family$guardianNudgePreferencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$guardianNudgePreferencesArgs<ExtArgs>>): Prisma.Prisma__GuardianNudgePreferencesClient<runtime.Types.Result.GetResult<Prisma.$GuardianNudgePreferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  guardianNudgeRules<T extends Prisma.Family$guardianNudgeRulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$guardianNudgeRulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GuardianNudgeRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  guardianNudges<T extends Prisma.Family$guardianNudgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$guardianNudgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GuardianNudgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2261,6 +2714,73 @@ export type Family$councilDaySessionsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.CouncilDaySessionScalarFieldEnum | Prisma.CouncilDaySessionScalarFieldEnum[]
+}
+
+/**
+ * Family.guardianNudgePreferences
+ */
+export type Family$guardianNudgePreferencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GuardianNudgePreferences
+   */
+  select?: Prisma.GuardianNudgePreferencesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GuardianNudgePreferences
+   */
+  omit?: Prisma.GuardianNudgePreferencesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GuardianNudgePreferencesInclude<ExtArgs> | null
+  where?: Prisma.GuardianNudgePreferencesWhereInput
+}
+
+/**
+ * Family.guardianNudgeRules
+ */
+export type Family$guardianNudgeRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GuardianNudgeRule
+   */
+  select?: Prisma.GuardianNudgeRuleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GuardianNudgeRule
+   */
+  omit?: Prisma.GuardianNudgeRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GuardianNudgeRuleInclude<ExtArgs> | null
+  where?: Prisma.GuardianNudgeRuleWhereInput
+  orderBy?: Prisma.GuardianNudgeRuleOrderByWithRelationInput | Prisma.GuardianNudgeRuleOrderByWithRelationInput[]
+  cursor?: Prisma.GuardianNudgeRuleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GuardianNudgeRuleScalarFieldEnum | Prisma.GuardianNudgeRuleScalarFieldEnum[]
+}
+
+/**
+ * Family.guardianNudges
+ */
+export type Family$guardianNudgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GuardianNudge
+   */
+  select?: Prisma.GuardianNudgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GuardianNudge
+   */
+  omit?: Prisma.GuardianNudgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GuardianNudgeInclude<ExtArgs> | null
+  where?: Prisma.GuardianNudgeWhereInput
+  orderBy?: Prisma.GuardianNudgeOrderByWithRelationInput | Prisma.GuardianNudgeOrderByWithRelationInput[]
+  cursor?: Prisma.GuardianNudgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GuardianNudgeScalarFieldEnum | Prisma.GuardianNudgeScalarFieldEnum[]
 }
 
 /**

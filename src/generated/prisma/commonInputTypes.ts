@@ -457,6 +457,40 @@ export type EnumRewardGrantTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumRewardGrantTypeFilter<$PrismaModel>
 }
 
+export type EnumGuardianNudgeRuleTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeRuleType | Prisma.EnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel> | $Enums.GuardianNudgeRuleType
+}
+
+export type EnumGuardianNudgeRuleTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeRuleType | Prisma.EnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeRuleTypeWithAggregatesFilter<$PrismaModel> | $Enums.GuardianNudgeRuleType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel>
+}
+
+export type EnumGuardianNudgeStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeStatus | Prisma.EnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeStatusFilter<$PrismaModel> | $Enums.GuardianNudgeStatus
+}
+
+export type EnumGuardianNudgeStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeStatus | Prisma.EnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeStatusWithAggregatesFilter<$PrismaModel> | $Enums.GuardianNudgeStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGuardianNudgeStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGuardianNudgeStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -857,6 +891,40 @@ export type NestedEnumRewardGrantTypeWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumRewardGrantTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumRewardGrantTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeRuleType | Prisma.EnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel> | $Enums.GuardianNudgeRuleType
+}
+
+export type NestedEnumGuardianNudgeRuleTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeRuleType | Prisma.EnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeRuleTypeWithAggregatesFilter<$PrismaModel> | $Enums.GuardianNudgeRuleType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumGuardianNudgeStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeStatus | Prisma.EnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeStatusFilter<$PrismaModel> | $Enums.GuardianNudgeStatus
+}
+
+export type NestedEnumGuardianNudgeStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GuardianNudgeStatus | Prisma.EnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GuardianNudgeStatus[] | Prisma.ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGuardianNudgeStatusWithAggregatesFilter<$PrismaModel> | $Enums.GuardianNudgeStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGuardianNudgeStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGuardianNudgeStatusFilter<$PrismaModel>
 }
 
 

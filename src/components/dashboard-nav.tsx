@@ -15,10 +15,12 @@ import { cn } from "@/lib/utils";
 
 type DashboardNavProps = {
   pendingReviewCount?: number;
+  guardianNudgeCount?: number;
 };
 
 export function DashboardNav({
   pendingReviewCount = 0,
+  guardianNudgeCount = 0,
 }: DashboardNavProps) {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
@@ -62,6 +64,11 @@ export function DashboardNav({
               pendingReviewCount > 0 ? (
                 <span className="ml-1.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-amber-600 px-1.5 text-[10px] font-bold text-white">
                   {pendingReviewCount}
+                </span>
+              ) : null}
+              {item.href === "/dashboard" && guardianNudgeCount > 0 ? (
+                <span className="ml-1.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-violet-600 px-1.5 text-[10px] font-bold text-white">
+                  {guardianNudgeCount}
                 </span>
               ) : null}
             </Link>

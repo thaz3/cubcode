@@ -313,6 +313,7 @@ export type CubWhereInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryListRelationFilter
   rewardRedemptions?: Prisma.RewardRedemptionListRelationFilter
   councilDayEntries?: Prisma.CouncilDayCubEntryListRelationFilter
+  guardianNudges?: Prisma.GuardianNudgeListRelationFilter
 }
 
 export type CubOrderByWithRelationInput = {
@@ -339,6 +340,7 @@ export type CubOrderByWithRelationInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryOrderByRelationAggregateInput
   rewardRedemptions?: Prisma.RewardRedemptionOrderByRelationAggregateInput
   councilDayEntries?: Prisma.CouncilDayCubEntryOrderByRelationAggregateInput
+  guardianNudges?: Prisma.GuardianNudgeOrderByRelationAggregateInput
 }
 
 export type CubWhereUniqueInput = Prisma.AtLeast<{
@@ -368,6 +370,7 @@ export type CubWhereUniqueInput = Prisma.AtLeast<{
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryListRelationFilter
   rewardRedemptions?: Prisma.RewardRedemptionListRelationFilter
   councilDayEntries?: Prisma.CouncilDayCubEntryListRelationFilter
+  guardianNudges?: Prisma.GuardianNudgeListRelationFilter
 }, "id">
 
 export type CubOrderByWithAggregationInput = {
@@ -435,6 +438,7 @@ export type CubCreateInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateInput = {
@@ -460,6 +464,7 @@ export type CubUncheckedCreateInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubUpdateInput = {
@@ -485,6 +490,7 @@ export type CubUpdateInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateInput = {
@@ -510,6 +516,7 @@ export type CubUncheckedUpdateInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateManyInput = {
@@ -813,6 +820,22 @@ export type CubUpdateOneRequiredWithoutRewardRedemptionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CubUpdateToOneWithWhereWithoutRewardRedemptionsInput, Prisma.CubUpdateWithoutRewardRedemptionsInput>, Prisma.CubUncheckedUpdateWithoutRewardRedemptionsInput>
 }
 
+export type CubCreateNestedOneWithoutGuardianNudgesInput = {
+  create?: Prisma.XOR<Prisma.CubCreateWithoutGuardianNudgesInput, Prisma.CubUncheckedCreateWithoutGuardianNudgesInput>
+  connectOrCreate?: Prisma.CubCreateOrConnectWithoutGuardianNudgesInput
+  connect?: Prisma.CubWhereUniqueInput
+}
+
+export type CubUpdateOneWithoutGuardianNudgesNestedInput = {
+  create?: Prisma.XOR<Prisma.CubCreateWithoutGuardianNudgesInput, Prisma.CubUncheckedCreateWithoutGuardianNudgesInput>
+  connectOrCreate?: Prisma.CubCreateOrConnectWithoutGuardianNudgesInput
+  upsert?: Prisma.CubUpsertWithoutGuardianNudgesInput
+  disconnect?: Prisma.CubWhereInput | boolean
+  delete?: Prisma.CubWhereInput | boolean
+  connect?: Prisma.CubWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CubUpdateToOneWithWhereWithoutGuardianNudgesInput, Prisma.CubUpdateWithoutGuardianNudgesInput>, Prisma.CubUncheckedUpdateWithoutGuardianNudgesInput>
+}
+
 export type CubCreateWithoutFamilyInput = {
   id?: string
   displayName: string
@@ -835,6 +858,7 @@ export type CubCreateWithoutFamilyInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFamilyInput = {
@@ -859,6 +883,7 @@ export type CubUncheckedCreateWithoutFamilyInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFamilyInput = {
@@ -929,6 +954,7 @@ export type CubCreateWithoutCouncilDayEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCubInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutCouncilDayEntriesInput = {
@@ -953,6 +979,7 @@ export type CubUncheckedCreateWithoutCouncilDayEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutCouncilDayEntriesInput = {
@@ -993,6 +1020,7 @@ export type CubUpdateWithoutCouncilDayEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCubNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutCouncilDayEntriesInput = {
@@ -1017,6 +1045,7 @@ export type CubUncheckedUpdateWithoutCouncilDayEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutTasksInput = {
@@ -1041,6 +1070,7 @@ export type CubCreateWithoutTasksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutTasksInput = {
@@ -1065,6 +1095,7 @@ export type CubUncheckedCreateWithoutTasksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutTasksInput = {
@@ -1105,6 +1136,7 @@ export type CubUpdateWithoutTasksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutTasksInput = {
@@ -1129,6 +1161,7 @@ export type CubUncheckedUpdateWithoutTasksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutFocusBlocksInput = {
@@ -1153,6 +1186,7 @@ export type CubCreateWithoutFocusBlocksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFocusBlocksInput = {
@@ -1177,6 +1211,7 @@ export type CubUncheckedCreateWithoutFocusBlocksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFocusBlocksInput = {
@@ -1217,6 +1252,7 @@ export type CubUpdateWithoutFocusBlocksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFocusBlocksInput = {
@@ -1241,6 +1277,7 @@ export type CubUncheckedUpdateWithoutFocusBlocksInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutXpLedgerEntriesInput = {
@@ -1265,6 +1302,7 @@ export type CubCreateWithoutXpLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutXpLedgerEntriesInput = {
@@ -1289,6 +1327,7 @@ export type CubUncheckedCreateWithoutXpLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutXpLedgerEntriesInput = {
@@ -1329,6 +1368,7 @@ export type CubUpdateWithoutXpLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutXpLedgerEntriesInput = {
@@ -1353,6 +1393,7 @@ export type CubUncheckedUpdateWithoutXpLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -1377,6 +1418,7 @@ export type CubCreateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -1401,6 +1443,7 @@ export type CubUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFocusTokenLedgerEntriesInput = {
@@ -1441,6 +1484,7 @@ export type CubUpdateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
@@ -1465,6 +1509,7 @@ export type CubUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutPhoneTimeLedgerEntriesInput = {
@@ -1489,6 +1534,7 @@ export type CubCreateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
@@ -1513,6 +1559,7 @@ export type CubUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutPhoneTimeLedgerEntriesInput = {
@@ -1553,6 +1600,7 @@ export type CubUpdateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
@@ -1577,6 +1625,7 @@ export type CubUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutWeekendBankLedgerEntriesInput = {
@@ -1601,6 +1650,7 @@ export type CubCreateWithoutWeekendBankLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
@@ -1625,6 +1675,7 @@ export type CubUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutWeekendBankLedgerEntriesInput = {
@@ -1665,6 +1716,7 @@ export type CubUpdateWithoutWeekendBankLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
@@ -1689,6 +1741,7 @@ export type CubUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutRewardRedemptionsInput = {
@@ -1713,6 +1766,7 @@ export type CubCreateWithoutRewardRedemptionsInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCubInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -1737,6 +1791,7 @@ export type CubUncheckedCreateWithoutRewardRedemptionsInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -1777,6 +1832,7 @@ export type CubUpdateWithoutRewardRedemptionsInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCubNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -1800,6 +1856,123 @@ export type CubUncheckedUpdateWithoutRewardRedemptionsInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
+}
+
+export type CubCreateWithoutGuardianNudgesInput = {
+  id?: string
+  displayName: string
+  ageBand: $Enums.AgeBand
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  supervisionLevel?: $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family: Prisma.FamilyCreateNestedOneWithoutCubsInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutCubInput
+  focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutCubInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutCubInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutCubInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCubInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
+  rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+}
+
+export type CubUncheckedCreateWithoutGuardianNudgesInput = {
+  id?: string
+  displayName: string
+  ageBand: $Enums.AgeBand
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  supervisionLevel?: $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCubInput
+  focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutCubInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+}
+
+export type CubCreateOrConnectWithoutGuardianNudgesInput = {
+  where: Prisma.CubWhereUniqueInput
+  create: Prisma.XOR<Prisma.CubCreateWithoutGuardianNudgesInput, Prisma.CubUncheckedCreateWithoutGuardianNudgesInput>
+}
+
+export type CubUpsertWithoutGuardianNudgesInput = {
+  update: Prisma.XOR<Prisma.CubUpdateWithoutGuardianNudgesInput, Prisma.CubUncheckedUpdateWithoutGuardianNudgesInput>
+  create: Prisma.XOR<Prisma.CubCreateWithoutGuardianNudgesInput, Prisma.CubUncheckedCreateWithoutGuardianNudgesInput>
+  where?: Prisma.CubWhereInput
+}
+
+export type CubUpdateToOneWithWhereWithoutGuardianNudgesInput = {
+  where?: Prisma.CubWhereInput
+  data: Prisma.XOR<Prisma.CubUpdateWithoutGuardianNudgesInput, Prisma.CubUncheckedUpdateWithoutGuardianNudgesInput>
+}
+
+export type CubUpdateWithoutGuardianNudgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  ageBand?: Prisma.EnumAgeBandFieldUpdateOperationsInput | $Enums.AgeBand
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutCubNestedInput
+  focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutCubNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutCubNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutCubNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCubNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
+  rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+}
+
+export type CubUncheckedUpdateWithoutGuardianNudgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  ageBand?: Prisma.EnumAgeBandFieldUpdateOperationsInput | $Enums.AgeBand
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutCubNestedInput
+  focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutCubNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
 }
 
@@ -1841,6 +2014,7 @@ export type CubUpdateWithoutFamilyInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFamilyInput = {
@@ -1865,6 +2039,7 @@ export type CubUncheckedUpdateWithoutFamilyInput = {
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateManyWithoutFamilyInput = {
@@ -1897,6 +2072,7 @@ export type CubCountOutputType = {
   weekendBankLedgerEntries: number
   rewardRedemptions: number
   councilDayEntries: number
+  guardianNudges: number
 }
 
 export type CubCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1908,6 +2084,7 @@ export type CubCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.In
   weekendBankLedgerEntries?: boolean | CubCountOutputTypeCountWeekendBankLedgerEntriesArgs
   rewardRedemptions?: boolean | CubCountOutputTypeCountRewardRedemptionsArgs
   councilDayEntries?: boolean | CubCountOutputTypeCountCouncilDayEntriesArgs
+  guardianNudges?: boolean | CubCountOutputTypeCountGuardianNudgesArgs
 }
 
 /**
@@ -1976,6 +2153,13 @@ export type CubCountOutputTypeCountCouncilDayEntriesArgs<ExtArgs extends runtime
   where?: Prisma.CouncilDayCubEntryWhereInput
 }
 
+/**
+ * CubCountOutputType without action
+ */
+export type CubCountOutputTypeCountGuardianNudgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GuardianNudgeWhereInput
+}
+
 
 export type CubSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2001,6 +2185,7 @@ export type CubSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   weekendBankLedgerEntries?: boolean | Prisma.Cub$weekendBankLedgerEntriesArgs<ExtArgs>
   rewardRedemptions?: boolean | Prisma.Cub$rewardRedemptionsArgs<ExtArgs>
   councilDayEntries?: boolean | Prisma.Cub$councilDayEntriesArgs<ExtArgs>
+  guardianNudges?: boolean | Prisma.Cub$guardianNudgesArgs<ExtArgs>
   _count?: boolean | Prisma.CubCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cub"]>
 
@@ -2068,6 +2253,7 @@ export type CubInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   weekendBankLedgerEntries?: boolean | Prisma.Cub$weekendBankLedgerEntriesArgs<ExtArgs>
   rewardRedemptions?: boolean | Prisma.Cub$rewardRedemptionsArgs<ExtArgs>
   councilDayEntries?: boolean | Prisma.Cub$councilDayEntriesArgs<ExtArgs>
+  guardianNudges?: boolean | Prisma.Cub$guardianNudgesArgs<ExtArgs>
   _count?: boolean | Prisma.CubCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CubIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2089,6 +2275,7 @@ export type $CubPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     weekendBankLedgerEntries: Prisma.$WeekendBankLedgerEntryPayload<ExtArgs>[]
     rewardRedemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
     councilDayEntries: Prisma.$CouncilDayCubEntryPayload<ExtArgs>[]
+    guardianNudges: Prisma.$GuardianNudgePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2508,6 +2695,7 @@ export interface Prisma__CubClient<T, Null = never, ExtArgs extends runtime.Type
   weekendBankLedgerEntries<T extends Prisma.Cub$weekendBankLedgerEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$weekendBankLedgerEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WeekendBankLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rewardRedemptions<T extends Prisma.Cub$rewardRedemptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$rewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   councilDayEntries<T extends Prisma.Cub$councilDayEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$councilDayEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouncilDayCubEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  guardianNudges<T extends Prisma.Cub$guardianNudgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$guardianNudgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GuardianNudgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3141,6 +3329,30 @@ export type Cub$councilDayEntriesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.CouncilDayCubEntryScalarFieldEnum | Prisma.CouncilDayCubEntryScalarFieldEnum[]
+}
+
+/**
+ * Cub.guardianNudges
+ */
+export type Cub$guardianNudgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GuardianNudge
+   */
+  select?: Prisma.GuardianNudgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GuardianNudge
+   */
+  omit?: Prisma.GuardianNudgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GuardianNudgeInclude<ExtArgs> | null
+  where?: Prisma.GuardianNudgeWhereInput
+  orderBy?: Prisma.GuardianNudgeOrderByWithRelationInput | Prisma.GuardianNudgeOrderByWithRelationInput[]
+  cursor?: Prisma.GuardianNudgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GuardianNudgeScalarFieldEnum | Prisma.GuardianNudgeScalarFieldEnum[]
 }
 
 /**

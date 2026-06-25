@@ -14,6 +14,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { CubColorDot } from "@/components/cub-color-dot";
+import { GuardianNudgesSection } from "@/components/guardian-nudges-section";
 import { TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -31,6 +32,11 @@ import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getTodayNextAction } from "@/lib/today-next-action";
 import { getHouseholdWeeklyProgress } from "@/lib/weekly-progress";
 import { cubAccentClassNames } from "@/lib/cub-colors";
+import {
+  ensureGuardianNudgePreferences,
+  getActiveGuardianNudgesForFamily,
+} from "@/lib/guardian-nudges/sync";
+import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
@@ -54,6 +60,8 @@ export default async function DashboardPage() {
     activeTasks,
     councilDaySession,
     focusInProgress,
+    guardianNudgePrefs,
+    guardianNudges,
   ] = await Promise.all([
     db.task.count({
       where: { familyId: family.id, status: "SUBMITTED" },
@@ -90,6 +98,8 @@ export default async function DashboardPage() {
       select: { id: true, title: true, cubId: true },
       orderBy: { focusSessionStartedAt: "desc" },
     }),
+    ensureGuardianNudgePreferences(family.id),
+    getActiveGuardianNudgesForFamily(family.id),
   ]);
 
   const sortedActiveTasks = sortTasksByUrgency(activeTasks).slice(0, 5);
@@ -154,6 +164,7 @@ export default async function DashboardPage() {
   const greeting = session.user.name
     ? `Welcome back, ${session.user.name.split(" ")[0]}`
     : "Welcome back";
+  const quietHoursActive = isWithinQuietHours(guardianNudgePrefs);
 
   return (
     <div className="space-y-6">
@@ -162,6 +173,11 @@ export default async function DashboardPage() {
         subtitle={`Today's Code · ${weekLabel}`}
       />
       <p className="-mt-4 text-sm text-zinc-500">{greeting}</p>
+
+      <GuardianNudgesSection
+        nudges={guardianNudges}
+        hiddenByQuietHours={quietHoursActive}
+      />
 
       <Card
         variant={nextAction.priority === "urgent" ? "accent" : "default"}

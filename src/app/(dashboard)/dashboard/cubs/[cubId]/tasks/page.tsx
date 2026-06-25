@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
 import { AssignTaskToCubPanel } from "@/components/assign-task-to-cub-panel";
 import { CubColorBadge } from "@/components/cub-color-dot";
-import { FocusSessionTimer } from "@/components/focus-session-timer";
+import { RequestSessionTimer } from "@/components/request-session-timer";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { FocusBlockForm, TaskSubmitForm } from "@/components/task-workflow-forms";
 import { StartTaskForm } from "@/components/start-task-form";
@@ -261,9 +261,9 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                     <TaskScheduleDisplay task={task} className="mt-1" />
                     {isTimerRunning && task.focusSessionStartedAt ? (
                       <div className="mt-3 rounded-lg border border-indigo-200 bg-indigo-50/80 px-3 py-2 dark:border-indigo-900 dark:bg-indigo-950/40">
-                        <FocusSessionTimer
+                        <RequestSessionTimer
                           startedAt={task.focusSessionStartedAt.toISOString()}
-                          label="Focus timer running"
+                          label="Request timer running"
                         />
                       </div>
                     ) : null}

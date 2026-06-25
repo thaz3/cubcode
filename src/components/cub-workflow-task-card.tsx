@@ -1,5 +1,6 @@
-import { FocusSessionTimer } from "@/components/focus-session-timer";
+import { RequestSessionTimer } from "@/components/request-session-timer";
 import { StartTaskForm } from "@/components/start-task-form";
+import { TaskInstructionsPanel } from "@/components/task-instructions-panel";
 import { TaskSubmitForm } from "@/components/task-workflow-forms";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -56,17 +57,18 @@ export function CubWorkflowTaskCard({
     (sum, block) => sum + block.durationMinutes,
     0,
   );
-  const isTimerRunning = Boolean(
+  const isRequestActive = Boolean(
     task.status === "IN_PROGRESS" && task.focusSessionStartedAt,
   );
   const statusMsg = cubStatusMessage(task.status as TaskStatus);
   const isFocusBlock = task.category === "FOCUS_BLOCK";
+  const instructionsVisible = task.status === "IN_PROGRESS";
 
   return (
     <Card
       className={cubAccentClassNames(cubId, {
         border: true,
-        cardTint: isTimerRunning,
+        cardTint: isRequestActive,
       })}
     >
       <div className="space-y-3">
@@ -82,23 +84,24 @@ export function CubWorkflowTaskCard({
           ) : null}
         </div>
 
-        {isTimerRunning && task.focusSessionStartedAt ? (
+        {isRequestActive && task.focusSessionStartedAt ? (
           <div className="rounded-xl border border-indigo-800/60 bg-indigo-950/30 px-4 py-3">
             {task.growthCategory ? (
               <p className="mb-2 text-xs font-medium uppercase tracking-wide text-indigo-300">
                 {GROWTH_CATEGORY_LABELS[task.growthCategory].split(" —")[0]}
               </p>
             ) : null}
-            <FocusSessionTimer
+            <RequestSessionTimer
               startedAt={task.focusSessionStartedAt.toISOString()}
-              label="Focus timer"
+              label="Request timer"
             />
+            <p className="mt-2 text-xs text-indigo-300/80">
+              Your parent can see when you opened these instructions.
+            </p>
           </div>
         ) : null}
 
-        {task.description ? (
-          <p className="text-sm text-zinc-400">{task.description}</p>
-        ) : null}
+        {instructionsVisible ? <TaskInstructionsPanel task={task} /> : null}
 
         <p className="text-sm text-zinc-500">
           {formatTaskCategory(task.category, {
@@ -119,7 +122,7 @@ export function CubWorkflowTaskCard({
         ) : null}
 
         {focusMinutes > 0 ? (
-          <p className="text-xs text-zinc-500">{focusMinutes} min focus logged</p>
+          <p className="text-xs text-zinc-500">{focusMinutes} min logged</p>
         ) : null}
 
         {task.status === "SENT_BACK" && task.reviewNote ? (

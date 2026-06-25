@@ -85,6 +85,20 @@ enum TaskRecurrence {
   MONTHLY
 }
 
+enum GuardianNudgeRuleType {
+  NOT_TOUCHED_AFTER_ASSIGN
+  NOT_STARTED_BEFORE_DUE
+  OVERDUE_NOT_STARTED
+  SUBMITTED_FOR_REVIEW
+  DAILY_SUMMARY
+}
+
+enum GuardianNudgeStatus {
+  ACTIVE
+  SEEN
+  DISMISSED
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -116,6 +130,9 @@ model Family {
   tasks         Task[]
   rewardStoreItems RewardStoreItem[]
   councilDaySessions CouncilDaySession[]
+  guardianNudgePreferences GuardianNudgePreferences?
+  guardianNudgeRules GuardianNudgeRule[]
+  guardianNudges GuardianNudge[]
 }
 
 model Cub {
@@ -143,6 +160,7 @@ model Cub {
   weekendBankLedgerEntries WeekendBankLedgerEntry[]
   rewardRedemptions        RewardRedemption[]
   councilDayEntries        CouncilDayCubEntry[]
+  guardianNudges           GuardianNudge[]
 
   @@index([familyId])
 }
@@ -258,6 +276,7 @@ model Task {
   focusTokenLedgerEntries  FocusTokenLedgerEntry[]
   phoneTimeLedgerEntries   PhoneTimeLedgerEntry[]
   weekendBankLedgerEntries WeekendBankLedgerEntry[]
+  guardianNudges           GuardianNudge[]
 
   @@index([familyId])
   @@index([cubId])
@@ -398,4 +417,61 @@ model RewardRedemption {
 
   @@index([cubId])
   @@index([rewardStoreItemId])
+}
+
+model GuardianNudgePreferences {
+  id                  String   @id @default(cuid())
+  quietHoursStart     String?  // HH:mm local
+  quietHoursEnd       String?  // HH:mm local
+  timezone            String   @default("America/New_York")
+  dailySummaryEnabled Boolean  @default(false)
+  dailySummaryTime    String?  // HH:mm local
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  familyId String @unique
+  family   Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+}
+
+model GuardianNudgeRule {
+  id            String                @id @default(cuid())
+  type          GuardianNudgeRuleType
+  enabled       Boolean               @default(true)
+  offsetMinutes Int?
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  familyId        String
+  createdByUserId String?
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@unique([familyId, type])
+  @@index([familyId])
+}
+
+model GuardianNudge {
+  id          String                @id @default(cuid())
+  type        GuardianNudgeRuleType
+  status      GuardianNudgeStatus   @default(ACTIVE)
+  message     String
+  dedupeKey   String
+  triggeredAt DateTime              @default(now())
+  seenAt      DateTime?
+  dismissedAt DateTime?
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  familyId String
+  taskId   String?
+  cubId    String?
+  ruleId   String?
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  task   Task?  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  cub    Cub?   @relation(fields: [cubId], references: [id], onDelete: SetNull)
+
+  @@unique([familyId, dedupeKey])
+  @@index([familyId, status])
+  @@index([taskId])
 }

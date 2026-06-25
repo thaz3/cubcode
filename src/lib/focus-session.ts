@@ -30,7 +30,7 @@ export async function logTaskFocusSession(
     task.focusSessionStartedAt,
     endedAt,
   );
-  const attemptNote = options?.attemptLabel ?? "Task session";
+  const attemptNote = options?.attemptLabel ?? "Instructions viewed";
   const note = options?.note ?? `${attemptNote}: ${task.title}`;
 
   return client.focusBlockLog.create({
@@ -63,5 +63,5 @@ export function formatFocusSessionStatus(
   }
 
   const minutes = calculateFocusSessionMinutes(focusSessionStartedAt);
-  return `Focus timer running · ${minutes} min so far`;
+  return `Request timer running · ${minutes} min since instructions opened`;
 }

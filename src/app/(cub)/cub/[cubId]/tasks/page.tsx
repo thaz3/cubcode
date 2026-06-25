@@ -70,7 +70,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     <div className="space-y-6">
       <PageHeader
         title="My tasks"
-        subtitle="Start focus, do the work, and submit for parent review."
+        subtitle="Open instructions, do the work, and submit for parent review."
       />
 
       <ActiveFocusTimersBanner

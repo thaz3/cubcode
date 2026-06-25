@@ -15,6 +15,7 @@ import { RadioChoiceList } from "@/components/ui/radio-choice-list";
 import { useState } from "react";
 
 const PROOF_TYPE_SHORT_LABELS: Record<CubProofType, string> = {
+  PARENT_APPROVAL: "Parent approval",
   SHORT_REFLECTION: "Reflection",
   CHECKLIST: "Checklist",
   TIME_LOG: "Time log",
@@ -76,20 +77,24 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
           }))}
         />
         <p className="text-xs text-zinc-500">
-          Parent approval is always required to earn rewards.
+          {proofType === "PARENT_APPROVAL"
+            ? "Cub taps View instructions, does the work, and submits — you approve to award rewards."
+            : "Parent approval is always required to earn rewards."}
         </p>
       </div>
 
       <div className="space-y-3 rounded-lg border border-zinc-200 bg-zinc-50/50 p-3 dark:border-zinc-700 dark:bg-zinc-900/50">
         <div>
           <Label htmlFor="proofPrompt" className="text-xs">
-            {proofType === "CHECKLIST"
-              ? "Instructions (optional)"
-              : proofType === "SHORT_REFLECTION"
-                ? "Reflection question"
-                : proofType === "PERFORMANCE_VIDEO" || proofType === "SLIDESHOW"
-                  ? "Upload instructions"
-                  : "Instructions (optional)"}
+            {proofType === "PARENT_APPROVAL"
+              ? "Instructions for your Cub (optional)"
+              : proofType === "CHECKLIST"
+                ? "Instructions (optional)"
+                : proofType === "SHORT_REFLECTION"
+                  ? "Reflection question"
+                  : proofType === "PERFORMANCE_VIDEO" || proofType === "SLIDESHOW"
+                    ? "Upload instructions"
+                    : "Instructions (optional)"}
           </Label>
           <textarea
             id="proofPrompt"

@@ -1,6 +1,7 @@
 import type { LedgerReason } from "@/generated/prisma/client";
 import { db } from "@/lib/db";
 import { getWeekEnd } from "@/lib/council-day";
+import { LEDGER_REASON_LABELS } from "@/lib/ledger-labels";
 
 export type CubLedgerEntry = {
   id: string;
@@ -161,4 +162,150 @@ export async function getCubLedgerEntriesGrouped(
     phoneEntries: phoneEntries.map(normalizePhoneEntry),
     weekendBankEntries: weekendBankEntries.map(normalizePhoneEntry),
   };
+}
+
+export type GroupedEarnedRewards = {
+  xp: number;
+  focusTokens: number;
+  phoneMinutes: number;
+  weekendBankMinutes: number;
+};
+
+export type GroupedEarnedEntry = {
+  id: string;
+  createdAt: Date;
+  reason: LedgerReason;
+  label: string;
+  title: string;
+  rewards: GroupedEarnedRewards;
+};
+
+function ledgerGroupKey(entry: CubLedgerEntry): string {
+  if (entry.sourceTaskId) {
+    return `task:${entry.sourceTaskId}`;
+  }
+  if (entry.councilDayCubEntryId) {
+    return `council:${entry.councilDayCubEntryId}`;
+  }
+  if (
+    entry.reason === "REWARD_REDEMPTION" ||
+    entry.note?.startsWith("Redeemed:")
+  ) {
+    const baseNote = entry.note?.split(" — ")[0]?.trim() ?? entry.id;
+    return `redeem:${baseNote}`;
+  }
+  return `solo:${entry.id}`;
+}
+
+function titleFromLedgerNote(note: string | null, reason: LedgerReason): string {
+  if (!note) {
+    return LEDGER_REASON_LABELS[reason];
+  }
+  const approved = /^Approved: (.+)$/.exec(note);
+  if (approved) {
+    return approved[1]!.replace(/ · .+$/, "").replace(/ \(50%.*$/, "");
+  }
+  const redeemed = /^Redeemed: (.+)$/.exec(note.split(" — ")[0] ?? note);
+  if (redeemed) {
+    return redeemed[1]!;
+  }
+  return note.split(" — ")[0] ?? note;
+}
+
+function groupLabelForEntry(entry: CubLedgerEntry): string {
+  if (entry.sourceTaskId && entry.reason === "TASK_APPROVAL") {
+    return "Task approved";
+  }
+  if (entry.councilDayCubEntryId) {
+    return LEDGER_REASON_LABELS.COUNCIL_DAY;
+  }
+  if (entry.note?.startsWith("Redeemed:")) {
+    return "Reward redeemed";
+  }
+  return LEDGER_REASON_LABELS[entry.reason];
+}
+
+function addToGroupedRewards(
+  rewards: GroupedEarnedRewards,
+  entry: CubLedgerEntry,
+): void {
+  switch (entry.ledgerType) {
+    case "xp":
+      rewards.xp += entry.amount;
+      break;
+    case "focusToken":
+      rewards.focusTokens += entry.amount;
+      break;
+    case "phone":
+      rewards.phoneMinutes += entry.amount;
+      break;
+    case "weekendBank":
+      rewards.weekendBankMinutes += entry.amount;
+      break;
+  }
+}
+
+/** Merge ledger lines that belong to the same task approval, redemption, or Family Day bonus. */
+export function groupCubLedgerEntries(
+  entries: CubLedgerEntry[],
+): GroupedEarnedEntry[] {
+  const groups = new Map<string, GroupedEarnedEntry>();
+
+  for (const entry of entries) {
+    const key = ledgerGroupKey(entry);
+    let group = groups.get(key);
+
+    if (!group) {
+      group = {
+        id: key,
+        createdAt: entry.createdAt,
+        reason: entry.reason,
+        label: groupLabelForEntry(entry),
+        title: titleFromLedgerNote(entry.note, entry.reason),
+        rewards: {
+          xp: 0,
+          focusTokens: 0,
+          phoneMinutes: 0,
+          weekendBankMinutes: 0,
+        },
+      };
+      groups.set(key, group);
+    }
+
+    if (entry.createdAt > group.createdAt) {
+      group.createdAt = entry.createdAt;
+    }
+
+    addToGroupedRewards(group.rewards, entry);
+  }
+
+  return [...groups.values()].sort(
+    (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+  );
+}
+
+export function formatGroupedEarnedRewards(rewards: GroupedEarnedRewards): string {
+  const parts: string[] = [];
+
+  if (rewards.xp !== 0) {
+    parts.push(`${rewards.xp > 0 ? "+" : ""}${rewards.xp} XP`);
+  }
+  if (rewards.focusTokens !== 0) {
+    const abs = Math.abs(rewards.focusTokens);
+    parts.push(
+      `${rewards.focusTokens > 0 ? "+" : "−"}${abs} Focus Token${abs === 1 ? "" : "s"}`,
+    );
+  }
+  if (rewards.phoneMinutes !== 0) {
+    parts.push(
+      `${rewards.phoneMinutes > 0 ? "+" : ""}${rewards.phoneMinutes} min phone`,
+    );
+  }
+  if (rewards.weekendBankMinutes !== 0) {
+    parts.push(
+      `${rewards.weekendBankMinutes > 0 ? "+" : ""}${rewards.weekendBankMinutes} min bank`,
+    );
+  }
+
+  return parts.join(" · ");
 }

@@ -42,6 +42,7 @@ const proofChecklistItemsField = z
 
 export const taskProofConfigSchema = z.object({
   proofType: z.enum([
+    "PARENT_APPROVAL",
     "SHORT_REFLECTION",
     "CHECKLIST",
     "TIME_LOG",

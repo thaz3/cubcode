@@ -8,12 +8,7 @@ import { redirect } from "next/navigation";
 
 export async function requireParentUnlock(userId: string): Promise<void> {
   const family = await getFamilyForUser(userId);
-  if (!family?.parentPinHash) {
-    return;
-  }
-
-  const unlocked = await isParentAreaUnlocked(userId, family.id);
-  if (unlocked) {
+  if (!family) {
     return;
   }
 
@@ -23,6 +18,17 @@ export async function requireParentUnlock(userId: string): Promise<void> {
     headersList.get("x-url") ??
     "/dashboard";
   const returnTo = safeParentReturnTo(pathname);
+
+  if (!family.parentPinHash) {
+    redirect(
+      `/parent/unlock?returnTo=${encodeURIComponent(returnTo)}`,
+    );
+  }
+
+  const unlocked = await isParentAreaUnlocked(userId, family.id);
+  if (unlocked) {
+    return;
+  }
 
   redirect(
     `/parent/unlock?returnTo=${encodeURIComponent(returnTo)}`,

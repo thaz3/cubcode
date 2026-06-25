@@ -111,3 +111,18 @@ export type RewardStoreItem = Prisma.RewardStoreItemModel
  * 
  */
 export type RewardRedemption = Prisma.RewardRedemptionModel
+/**
+ * Model GuardianNudgePreferences
+ * 
+ */
+export type GuardianNudgePreferences = Prisma.GuardianNudgePreferencesModel
+/**
+ * Model GuardianNudgeRule
+ * 
+ */
+export type GuardianNudgeRule = Prisma.GuardianNudgeRuleModel
+/**
+ * Model GuardianNudge
+ * 
+ */
+export type GuardianNudge = Prisma.GuardianNudgeModel

@@ -105,7 +105,7 @@ const FOCUS_BLOCK_BASE: CategorySuggestion = {
   xpEarned: 10,
   focusTokensEarned: 1,
   logInstructions:
-    "Start a focus timer, then submit a short reflection and a share link to your proof. Pick a different growth area each week — you earn rewards across all areas your parent requires.",
+    "Open instructions to start a request timer, then submit a short reflection and a share link to your proof. Pick a different growth area each week — you earn rewards across all areas your parent requires.",
 };
 
 const GROWTH_TWEAKS: Partial<

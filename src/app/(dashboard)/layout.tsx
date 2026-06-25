@@ -2,6 +2,10 @@ import { DashboardNav } from "@/components/dashboard-nav";
 import { MobileNav } from "@/components/mobile-nav";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import {
+  countUnseenGuardianNudges,
+  syncGuardianNudgesForFamily,
+} from "@/lib/guardian-nudges/sync";
 import { requireParentUnlock } from "@/lib/require-parent-unlock";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -21,22 +25,33 @@ export default async function DashboardLayout({
   }
 
   let pendingReviewCount = 0;
+  let guardianNudgeCount = 0;
   if (session.user.id) {
     const family = await getFamilyForUser(session.user.id);
     if (family) {
-      pendingReviewCount = await db.task.count({
-        where: { familyId: family.id, status: "SUBMITTED" },
-      });
+      await syncGuardianNudgesForFamily(family.id);
+      [pendingReviewCount, guardianNudgeCount] = await Promise.all([
+        db.task.count({
+          where: { familyId: family.id, status: "SUBMITTED" },
+        }),
+        countUnseenGuardianNudges(family.id),
+      ]);
     }
   }
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <DashboardNav pendingReviewCount={pendingReviewCount} />
+      <DashboardNav
+        pendingReviewCount={pendingReviewCount}
+        guardianNudgeCount={guardianNudgeCount}
+      />
       <main className="mx-auto max-w-4xl px-4 py-6 pb-nav-safe lg:py-8">
         {children}
       </main>
-      <MobileNav pendingReviewCount={pendingReviewCount} />
+      <MobileNav
+        pendingReviewCount={pendingReviewCount}
+        guardianNudgeCount={guardianNudgeCount}
+      />
     </div>
   );
 }

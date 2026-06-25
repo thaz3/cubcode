@@ -14,9 +14,13 @@ import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
   pendingReviewCount?: number;
+  guardianNudgeCount?: number;
 };
 
-export function MobileNav({ pendingReviewCount = 0 }: MobileNavProps) {
+export function MobileNav({
+  pendingReviewCount = 0,
+  guardianNudgeCount = 0,
+}: MobileNavProps) {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
   const moreActive = isDashboardMoreNavActive(pathname);
@@ -84,7 +88,9 @@ export function MobileNav({ pendingReviewCount = 0 }: MobileNavProps) {
             const badge =
               item.href === "/dashboard/tasks/review" && pendingReviewCount > 0
                 ? pendingReviewCount
-                : null;
+                : item.href === "/dashboard" && guardianNudgeCount > 0
+                  ? guardianNudgeCount
+                  : null;
 
             return (
               <Link
@@ -98,7 +104,14 @@ export function MobileNav({ pendingReviewCount = 0 }: MobileNavProps) {
                 <span className="relative">
                   {item.label}
                   {badge != null ? (
-                    <span className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-600 px-1 text-[10px] font-bold text-white">
+                    <span
+                      className={cn(
+                        "absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white",
+                        item.href === "/dashboard"
+                          ? "bg-violet-600"
+                          : "bg-amber-600",
+                      )}
+                    >
                       {badge > 9 ? "9+" : badge}
                     </span>
                   ) : null}

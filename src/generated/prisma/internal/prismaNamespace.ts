@@ -397,7 +397,10 @@ export const ModelName = {
   PhoneTimeLedgerEntry: 'PhoneTimeLedgerEntry',
   WeekendBankLedgerEntry: 'WeekendBankLedgerEntry',
   RewardStoreItem: 'RewardStoreItem',
-  RewardRedemption: 'RewardRedemption'
+  RewardRedemption: 'RewardRedemption',
+  GuardianNudgePreferences: 'GuardianNudgePreferences',
+  GuardianNudgeRule: 'GuardianNudgeRule',
+  GuardianNudge: 'GuardianNudge'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption"
+    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1453,6 +1456,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GuardianNudgePreferences: {
+      payload: Prisma.$GuardianNudgePreferencesPayload<ExtArgs>
+      fields: Prisma.GuardianNudgePreferencesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GuardianNudgePreferencesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GuardianNudgePreferencesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>
+        }
+        findFirst: {
+          args: Prisma.GuardianNudgePreferencesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GuardianNudgePreferencesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>
+        }
+        findMany: {
+          args: Prisma.GuardianNudgePreferencesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>[]
+        }
+        create: {
+          args: Prisma.GuardianNudgePreferencesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>
+        }
+        createMany: {
+          args: Prisma.GuardianNudgePreferencesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GuardianNudgePreferencesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>[]
+        }
+        delete: {
+          args: Prisma.GuardianNudgePreferencesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>
+        }
+        update: {
+          args: Prisma.GuardianNudgePreferencesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>
+        }
+        deleteMany: {
+          args: Prisma.GuardianNudgePreferencesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GuardianNudgePreferencesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GuardianNudgePreferencesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>[]
+        }
+        upsert: {
+          args: Prisma.GuardianNudgePreferencesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePreferencesPayload>
+        }
+        aggregate: {
+          args: Prisma.GuardianNudgePreferencesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGuardianNudgePreferences>
+        }
+        groupBy: {
+          args: Prisma.GuardianNudgePreferencesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuardianNudgePreferencesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GuardianNudgePreferencesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuardianNudgePreferencesCountAggregateOutputType> | number
+        }
+      }
+    }
+    GuardianNudgeRule: {
+      payload: Prisma.$GuardianNudgeRulePayload<ExtArgs>
+      fields: Prisma.GuardianNudgeRuleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GuardianNudgeRuleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GuardianNudgeRuleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>
+        }
+        findFirst: {
+          args: Prisma.GuardianNudgeRuleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GuardianNudgeRuleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>
+        }
+        findMany: {
+          args: Prisma.GuardianNudgeRuleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>[]
+        }
+        create: {
+          args: Prisma.GuardianNudgeRuleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>
+        }
+        createMany: {
+          args: Prisma.GuardianNudgeRuleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GuardianNudgeRuleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>[]
+        }
+        delete: {
+          args: Prisma.GuardianNudgeRuleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>
+        }
+        update: {
+          args: Prisma.GuardianNudgeRuleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>
+        }
+        deleteMany: {
+          args: Prisma.GuardianNudgeRuleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GuardianNudgeRuleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GuardianNudgeRuleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>[]
+        }
+        upsert: {
+          args: Prisma.GuardianNudgeRuleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgeRulePayload>
+        }
+        aggregate: {
+          args: Prisma.GuardianNudgeRuleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGuardianNudgeRule>
+        }
+        groupBy: {
+          args: Prisma.GuardianNudgeRuleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuardianNudgeRuleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GuardianNudgeRuleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuardianNudgeRuleCountAggregateOutputType> | number
+        }
+      }
+    }
+    GuardianNudge: {
+      payload: Prisma.$GuardianNudgePayload<ExtArgs>
+      fields: Prisma.GuardianNudgeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GuardianNudgeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GuardianNudgeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>
+        }
+        findFirst: {
+          args: Prisma.GuardianNudgeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GuardianNudgeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>
+        }
+        findMany: {
+          args: Prisma.GuardianNudgeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>[]
+        }
+        create: {
+          args: Prisma.GuardianNudgeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>
+        }
+        createMany: {
+          args: Prisma.GuardianNudgeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GuardianNudgeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>[]
+        }
+        delete: {
+          args: Prisma.GuardianNudgeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>
+        }
+        update: {
+          args: Prisma.GuardianNudgeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>
+        }
+        deleteMany: {
+          args: Prisma.GuardianNudgeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GuardianNudgeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GuardianNudgeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>[]
+        }
+        upsert: {
+          args: Prisma.GuardianNudgeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GuardianNudgePayload>
+        }
+        aggregate: {
+          args: Prisma.GuardianNudgeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGuardianNudge>
+        }
+        groupBy: {
+          args: Prisma.GuardianNudgeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuardianNudgeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GuardianNudgeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GuardianNudgeCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1734,6 +1959,55 @@ export const RewardRedemptionScalarFieldEnum = {
 export type RewardRedemptionScalarFieldEnum = (typeof RewardRedemptionScalarFieldEnum)[keyof typeof RewardRedemptionScalarFieldEnum]
 
 
+export const GuardianNudgePreferencesScalarFieldEnum = {
+  id: 'id',
+  quietHoursStart: 'quietHoursStart',
+  quietHoursEnd: 'quietHoursEnd',
+  timezone: 'timezone',
+  dailySummaryEnabled: 'dailySummaryEnabled',
+  dailySummaryTime: 'dailySummaryTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId'
+} as const
+
+export type GuardianNudgePreferencesScalarFieldEnum = (typeof GuardianNudgePreferencesScalarFieldEnum)[keyof typeof GuardianNudgePreferencesScalarFieldEnum]
+
+
+export const GuardianNudgeRuleScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  enabled: 'enabled',
+  offsetMinutes: 'offsetMinutes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  createdByUserId: 'createdByUserId'
+} as const
+
+export type GuardianNudgeRuleScalarFieldEnum = (typeof GuardianNudgeRuleScalarFieldEnum)[keyof typeof GuardianNudgeRuleScalarFieldEnum]
+
+
+export const GuardianNudgeScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  status: 'status',
+  message: 'message',
+  dedupeKey: 'dedupeKey',
+  triggeredAt: 'triggeredAt',
+  seenAt: 'seenAt',
+  dismissedAt: 'dismissedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  taskId: 'taskId',
+  cubId: 'cubId',
+  ruleId: 'ruleId'
+} as const
+
+export type GuardianNudgeScalarFieldEnum = (typeof GuardianNudgeScalarFieldEnum)[keyof typeof GuardianNudgeScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1978,6 +2252,34 @@ export type ListEnumRewardGrantTypeFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'GuardianNudgeRuleType'
+ */
+export type EnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GuardianNudgeRuleType'>
+    
+
+
+/**
+ * Reference to a field of type 'GuardianNudgeRuleType[]'
+ */
+export type ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GuardianNudgeRuleType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'GuardianNudgeStatus'
+ */
+export type EnumGuardianNudgeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GuardianNudgeStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'GuardianNudgeStatus[]'
+ */
+export type ListEnumGuardianNudgeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GuardianNudgeStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2114,6 +2416,9 @@ export type GlobalOmitConfig = {
   weekendBankLedgerEntry?: Prisma.WeekendBankLedgerEntryOmit
   rewardStoreItem?: Prisma.RewardStoreItemOmit
   rewardRedemption?: Prisma.RewardRedemptionOmit
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesOmit
+  guardianNudgeRule?: Prisma.GuardianNudgeRuleOmit
+  guardianNudge?: Prisma.GuardianNudgeOmit
 }
 
 /* Types for Logging */

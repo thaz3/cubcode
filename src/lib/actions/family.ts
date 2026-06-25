@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { AGE_BAND_DEFAULTS } from "@/lib/age-band-defaults";
 import { db } from "@/lib/db";
+import { requireParentPinConfigured } from "@/lib/require-parent-pin-configured";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 import {
   familySettingsSchema,
@@ -16,6 +17,11 @@ export async function updateFamilySettingsAction(
 ): Promise<ActionState> {
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
+
+  const pinCheck = await requireParentPinConfigured();
+  if (!pinCheck.ok) {
+    return { error: pinCheck.error };
+  }
 
   const parsed = familySettingsSchema.safeParse({
     name: formData.get("name") || undefined,
@@ -51,6 +57,11 @@ export async function applySuggestedCapsAction(
 ): Promise<ActionState> {
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
+
+  const pinCheck = await requireParentPinConfigured();
+  if (!pinCheck.ok) {
+    return { error: pinCheck.error };
+  }
 
   const parsed = suggestedCapsSchema.safeParse({ ageBand });
   if (!parsed.success) {

@@ -1,9 +1,15 @@
+import { CubProgressOverview } from "@/components/cub-progress-overview";
 import { CubProgressView } from "@/components/cub-progress-view";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
+import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
+import { getCubWeekStats } from "@/lib/council-day-stats";
+import { getCubLedgerEntries } from "@/lib/cub-ledger";
 import { getCubRewardSummary } from "@/lib/rewards";
+import { PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
+import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
 import { db } from "@/lib/db";
 import { seedRewardStoreForFamily } from "@/lib/actions/rewards";
 import { redirect } from "next/navigation";
@@ -20,10 +26,18 @@ export default async function CubModeProgressPage({
   if (!session?.user?.id) redirect("/login");
 
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
+  const weekStartsOn = getWeekStart();
 
   await seedRewardStoreForFamily(familyId);
 
-  const [summary, rewardItems] = await Promise.all([
+  const [
+    summary,
+    rewardItems,
+    weekEarned,
+    weekStats,
+    ledgerEntries,
+    completedTasks,
+  ] = await Promise.all([
     getCubRewardSummary(cub),
     db.rewardStoreItem.findMany({
       where: { familyId, isActive: true },
@@ -33,6 +47,31 @@ export default async function CubModeProgressPage({
         title: true,
         description: true,
         costFocusTokens: true,
+      },
+    }),
+    getCubWeekEarnedTotals(cub.id, weekStartsOn),
+    getCubWeekStats(cub.id, weekStartsOn),
+    getCubLedgerEntries(cub.id, { limit: 40 }),
+    db.task.findMany({
+      where: {
+        familyId,
+        cubId: cub.id,
+        status: { in: PARENT_CUB_COMPLETED_STATUSES },
+      },
+      orderBy: [{ reviewedAt: "desc" }, { updatedAt: "desc" }],
+      take: 10,
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        reviewedAt: true,
+        updatedAt: true,
+        xpEarned: true,
+        focusTokensEarned: true,
+        phoneMinutesEarned: true,
+        focusMinutesEarned: true,
+        dueAt: true,
+        submittedAt: true,
       },
     }),
   ]);
@@ -45,6 +84,16 @@ export default async function CubModeProgressPage({
       />
 
       <CubProgressView summary={summary} />
+
+      <CubProgressOverview
+        cubId={cubId}
+        weekLabel={formatWeekLabel(weekStartsOn)}
+        summary={summary}
+        weekEarned={weekEarned}
+        weekStats={weekStats}
+        ledgerEntries={ledgerEntries}
+        completedTasks={completedTasks}
+      />
 
       {rewardItems.length > 0 ? (
         <Card>

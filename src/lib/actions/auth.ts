@@ -2,6 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
+import { clearParentUnlockCookie } from "@/lib/parent-pin";
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { loginSchema, signupSchema } from "@/lib/validations/auth";
@@ -49,7 +50,7 @@ export async function signupAction(
     await signIn("credentials", {
       email,
       password: parsed.data.password,
-      redirectTo: "/dashboard",
+      redirectTo: "/cub",
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -78,7 +79,7 @@ export async function loginAction(
     await signIn("credentials", {
       email: parsed.data.email.toLowerCase(),
       password: parsed.data.password,
-      redirectTo: "/dashboard",
+      redirectTo: "/cub",
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -91,5 +92,6 @@ export async function loginAction(
 }
 
 export async function logoutAction() {
+  await clearParentUnlockCookie();
   await signOut({ redirectTo: "/" });
 }

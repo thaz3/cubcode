@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ParentPinSettingsForm } from "@/components/parent-pin-settings-form";
 import { ParentPinUnlockForm } from "@/components/parent-pin-unlock-form";
 import { Card } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
@@ -28,13 +29,9 @@ export default async function ParentUnlockPage({
 
   const { returnTo } = await searchParams;
   const safeReturn = safeParentReturnTo(returnTo);
+  const hasPin = Boolean(family.parentPinHash);
 
-  // No PIN configured — parent area is not gated.
-  if (!family.parentPinHash) {
-    redirect(safeReturn);
-  }
-
-  if (await isParentAreaUnlocked(session.user.id, family.id)) {
+  if (hasPin && (await isParentAreaUnlocked(session.user.id, family.id))) {
     redirect(safeReturn);
   }
 
@@ -44,13 +41,25 @@ export default async function ParentUnlockPage({
         <p className="text-xs font-semibold uppercase tracking-wide text-amber-500">
           Parent area
         </p>
-        <h1 className="text-2xl font-bold text-zinc-50">Enter parent PIN</h1>
+        <h1 className="text-2xl font-bold text-zinc-50">
+          {hasPin ? "Enter parent PIN" : "Set your parent PIN"}
+        </h1>
         <p className="text-sm text-zinc-400">
-          This keeps kids out of settings and approvals on a shared device.
+          {hasPin
+            ? "Required every time you open the parent area from Cub view."
+            : "Create a PIN before household settings and approvals are available."}
         </p>
       </div>
       <Card>
-        <ParentPinUnlockForm returnTo={safeReturn} />
+        {hasPin ? (
+          <ParentPinUnlockForm returnTo={safeReturn} />
+        ) : (
+          <ParentPinSettingsForm
+            hasPin={false}
+            returnTo={safeReturn}
+            embedded
+          />
+        )}
       </Card>
       <Link
         href="/cub"

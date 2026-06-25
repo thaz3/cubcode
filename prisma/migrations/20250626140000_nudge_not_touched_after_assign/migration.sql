@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "GuardianNudgeRuleType" ADD VALUE IF NOT EXISTS 'NOT_TOUCHED_AFTER_ASSIGN';

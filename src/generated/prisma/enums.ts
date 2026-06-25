@@ -115,3 +115,23 @@ export const TaskRecurrence = {
 } as const
 
 export type TaskRecurrence = (typeof TaskRecurrence)[keyof typeof TaskRecurrence]
+
+
+export const GuardianNudgeRuleType = {
+  NOT_TOUCHED_AFTER_ASSIGN: 'NOT_TOUCHED_AFTER_ASSIGN',
+  NOT_STARTED_BEFORE_DUE: 'NOT_STARTED_BEFORE_DUE',
+  OVERDUE_NOT_STARTED: 'OVERDUE_NOT_STARTED',
+  SUBMITTED_FOR_REVIEW: 'SUBMITTED_FOR_REVIEW',
+  DAILY_SUMMARY: 'DAILY_SUMMARY'
+} as const
+
+export type GuardianNudgeRuleType = (typeof GuardianNudgeRuleType)[keyof typeof GuardianNudgeRuleType]
+
+
+export const GuardianNudgeStatus = {
+  ACTIVE: 'ACTIVE',
+  SEEN: 'SEEN',
+  DISMISSED: 'DISMISSED'
+} as const
+
+export type GuardianNudgeStatus = (typeof GuardianNudgeStatus)[keyof typeof GuardianNudgeStatus]

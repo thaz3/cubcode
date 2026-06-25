@@ -35,7 +35,9 @@ export async function verifyParentPinAction(
   }
 
   if (!family.parentPinHash) {
-    redirect(safeParentReturnTo(parsed.data.returnTo));
+    redirect(
+      `/parent/unlock?returnTo=${encodeURIComponent(safeParentReturnTo(parsed.data.returnTo))}`,
+    );
   }
 
   const valid = await verifyParentPin(parsed.data.pin, family.parentPinHash);
@@ -77,6 +79,7 @@ export async function setParentPinAction(
     }
   }
 
+  const isFirstPin = !family.parentPinHash;
   const parentPinHash = await hashParentPin(parsed.data.newPin);
 
   await db.family.update({
@@ -89,10 +92,15 @@ export async function setParentPinAction(
   revalidatePath("/dashboard/family/settings");
   revalidatePath("/parent/unlock");
 
+  const returnTo = formData.get("returnTo")?.toString();
+  if (isFirstPin && returnTo) {
+    redirect(safeParentReturnTo(returnTo));
+  }
+
   return {
-    success: family.parentPinHash
-      ? "Parent PIN updated."
-      : "Parent PIN set. Cub view will now ask for this PIN to open the parent area.",
+    success: isFirstPin
+      ? "Parent PIN set. Cub view will now ask for this PIN to open the parent area."
+      : "Parent PIN updated.",
   };
 }
 

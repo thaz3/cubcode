@@ -27,6 +27,10 @@ import { creditApprovedTaskRewards } from "@/lib/rewards";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
 import { parseRecurrenceFromFormData } from "@/lib/task-recurrence";
 import { spawnNextRecurringTask } from "@/lib/task-recurrence-server";
+import {
+  resolveGuardianNudgesForTask,
+  syncGuardianNudgesForFamily,
+} from "@/lib/guardian-nudges/sync";
 import type { ActionState } from "@/lib/actions/auth";
 import type { z } from "zod";
 
@@ -157,6 +161,7 @@ function revalidateTaskPaths(cubId?: string | null) {
   revalidatePath("/dashboard/tasks");
   revalidatePath("/dashboard/tasks/library");
   revalidatePath("/dashboard/tasks/review");
+  revalidatePath("/dashboard/family/settings");
   if (cubId) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);
     revalidatePath(`/dashboard/cubs/${cubId}/tasks/completed`);
@@ -165,6 +170,28 @@ function revalidateTaskPaths(cubId?: string | null) {
     revalidatePath(`/cub/${cubId}/tasks`);
     revalidatePath(`/cub/${cubId}/progress`);
   }
+}
+
+async function syncGuardianNudgesAfterTaskChange(
+  familyId: string,
+  options?: {
+    taskId?: string;
+    resolveTypes?: Array<
+      | "NOT_TOUCHED_AFTER_ASSIGN"
+      | "NOT_STARTED_BEFORE_DUE"
+      | "OVERDUE_NOT_STARTED"
+      | "SUBMITTED_FOR_REVIEW"
+    >;
+  },
+) {
+  if (options?.taskId && options.resolveTypes?.length) {
+    await resolveGuardianNudgesForTask(
+      familyId,
+      options.taskId,
+      options.resolveTypes,
+    );
+  }
+  await syncGuardianNudgesForFamily(familyId);
 }
 
 async function getFamilyTask(taskId: string, familyId: string) {
@@ -302,8 +329,17 @@ export async function startTaskAction(
     },
   });
 
+  await syncGuardianNudgesAfterTaskChange(family.id, {
+    taskId: task.id,
+    resolveTypes: [
+      "NOT_TOUCHED_AFTER_ASSIGN",
+      "NOT_STARTED_BEFORE_DUE",
+      "OVERDUE_NOT_STARTED",
+    ],
+  });
+
   revalidateTaskPaths(task.cubId);
-  return { success: "Task started — focus timer is running." };
+  return { success: "Instructions opened — request timer is running." };
 }
 
 export async function logFocusBlockAction(
@@ -447,6 +483,15 @@ export async function submitTaskAction(
     });
   });
 
+  await syncGuardianNudgesAfterTaskChange(family.id, {
+    taskId: task.id,
+    resolveTypes: [
+      "NOT_TOUCHED_AFTER_ASSIGN",
+      "NOT_STARTED_BEFORE_DUE",
+      "OVERDUE_NOT_STARTED",
+    ],
+  });
+
   revalidateTaskPaths(task.cubId);
   return { success: "Task submitted for review. Focus time was logged automatically." };
 }
@@ -506,6 +551,11 @@ export async function approveTaskAction(
     return result;
   });
 
+  await syncGuardianNudgesAfterTaskChange(family.id, {
+    taskId: task.id,
+    resolveTypes: ["SUBMITTED_FOR_REVIEW"],
+  });
+
   revalidateTaskPaths(task.cubId);
   revalidatePath(`/dashboard/tasks/review/${task.id}`);
   revalidatePath(`/dashboard/cubs/${task.cubId}/progress`);
@@ -559,6 +609,11 @@ export async function rejectTaskAction(
     },
   });
 
+  await syncGuardianNudgesAfterTaskChange(family.id, {
+    taskId: task.id,
+    resolveTypes: ["SUBMITTED_FOR_REVIEW"],
+  });
+
   revalidateTaskPaths(task.cubId);
   revalidatePath(`/dashboard/tasks/review/${task.id}`);
   return { success: "Task rejected." };
@@ -600,6 +655,11 @@ export async function sendBackTaskAction(
       reviewedAt: new Date(),
       reviewedByUserId: userId,
     },
+  });
+
+  await syncGuardianNudgesAfterTaskChange(family.id, {
+    taskId: task.id,
+    resolveTypes: ["SUBMITTED_FOR_REVIEW"],
   });
 
   revalidateTaskPaths(task.cubId);

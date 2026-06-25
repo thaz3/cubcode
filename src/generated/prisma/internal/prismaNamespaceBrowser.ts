@@ -64,7 +64,10 @@ export const ModelName = {
   PhoneTimeLedgerEntry: 'PhoneTimeLedgerEntry',
   WeekendBankLedgerEntry: 'WeekendBankLedgerEntry',
   RewardStoreItem: 'RewardStoreItem',
-  RewardRedemption: 'RewardRedemption'
+  RewardRedemption: 'RewardRedemption',
+  GuardianNudgePreferences: 'GuardianNudgePreferences',
+  GuardianNudgeRule: 'GuardianNudgeRule',
+  GuardianNudge: 'GuardianNudge'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -323,6 +326,55 @@ export const RewardRedemptionScalarFieldEnum = {
 } as const
 
 export type RewardRedemptionScalarFieldEnum = (typeof RewardRedemptionScalarFieldEnum)[keyof typeof RewardRedemptionScalarFieldEnum]
+
+
+export const GuardianNudgePreferencesScalarFieldEnum = {
+  id: 'id',
+  quietHoursStart: 'quietHoursStart',
+  quietHoursEnd: 'quietHoursEnd',
+  timezone: 'timezone',
+  dailySummaryEnabled: 'dailySummaryEnabled',
+  dailySummaryTime: 'dailySummaryTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId'
+} as const
+
+export type GuardianNudgePreferencesScalarFieldEnum = (typeof GuardianNudgePreferencesScalarFieldEnum)[keyof typeof GuardianNudgePreferencesScalarFieldEnum]
+
+
+export const GuardianNudgeRuleScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  enabled: 'enabled',
+  offsetMinutes: 'offsetMinutes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  createdByUserId: 'createdByUserId'
+} as const
+
+export type GuardianNudgeRuleScalarFieldEnum = (typeof GuardianNudgeRuleScalarFieldEnum)[keyof typeof GuardianNudgeRuleScalarFieldEnum]
+
+
+export const GuardianNudgeScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  status: 'status',
+  message: 'message',
+  dedupeKey: 'dedupeKey',
+  triggeredAt: 'triggeredAt',
+  seenAt: 'seenAt',
+  dismissedAt: 'dismissedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  taskId: 'taskId',
+  cubId: 'cubId',
+  ruleId: 'ruleId'
+} as const
+
+export type GuardianNudgeScalarFieldEnum = (typeof GuardianNudgeScalarFieldEnum)[keyof typeof GuardianNudgeScalarFieldEnum]
 
 
 export const SortOrder = {

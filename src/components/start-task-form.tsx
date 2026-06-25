@@ -79,12 +79,12 @@ export function StartTaskForm({
         disabled={isPending || (isFocusBlock && !growthCategory)}
       >
         {isPending
-          ? "Starting..."
+          ? "Opening..."
           : isResubmit
-            ? "Start again"
+            ? "View instructions again"
             : isFocusBlock
-              ? "Start focus"
-              : "Start task"}
+              ? "View instructions"
+              : "View instructions"}
       </Button>
     </form>
   );

@@ -13,9 +13,20 @@ import { useActionState } from "react";
 
 type ParentPinSettingsFormProps = {
   hasPin: boolean;
+  /** When set (e.g. from /parent/unlock), redirect after first PIN is created. */
+  returnTo?: string;
+  /** Omit outer card when already inside a parent unlock shell. */
+  embedded?: boolean;
+  /** Hide title and intro when wrapped in a collapsible section. */
+  hideHeader?: boolean;
 };
 
-export function ParentPinSettingsForm({ hasPin }: ParentPinSettingsFormProps) {
+export function ParentPinSettingsForm({
+  hasPin,
+  returnTo,
+  embedded = false,
+  hideHeader = false,
+}: ParentPinSettingsFormProps) {
   const [setState, setAction, setPending] = useActionState(
     setParentPinAction,
     {} as ActionState,
@@ -25,17 +36,23 @@ export function ParentPinSettingsForm({ hasPin }: ParentPinSettingsFormProps) {
     {} as ActionState,
   );
 
-  return (
-    <div className="space-y-4">
-      <Card>
-        <h2 className="text-lg font-semibold text-zinc-100">Parent PIN</h2>
-        <p className="mt-1 text-sm text-zinc-400">
-          {hasPin
-            ? "Required to leave Cub view and open the parent area on a shared device."
-            : "Set a PIN so kids cannot open settings, review, or assign tasks from Cub view."}
-        </p>
+  const pinForm = (
+    <>
+      {hideHeader ? null : (
+        <>
+          <h2 className="text-lg font-semibold text-zinc-100">Parent PIN</h2>
+          <p className="mt-1 text-sm text-zinc-400">
+            {hasPin
+              ? "Required to leave Cub view and open the parent area on a shared device."
+              : "Set a PIN so kids cannot open settings, review, or assign tasks from Cub view."}
+          </p>
+        </>
+      )}
 
-        <form action={setAction} className="mt-5 space-y-4">
+      <form action={setAction} className={hideHeader ? "space-y-4" : "mt-5 space-y-4"}>
+        {returnTo ? (
+          <input type="hidden" name="returnTo" value={returnTo} />
+        ) : null}
           {hasPin ? (
             <div>
               <Label htmlFor="currentPin">Current PIN</Label>
@@ -92,10 +109,15 @@ export function ParentPinSettingsForm({ hasPin }: ParentPinSettingsFormProps) {
                 : "Set parent PIN"}
           </Button>
         </form>
-      </Card>
+    </>
+  );
+
+  return (
+    <div className="space-y-4">
+      {embedded ? pinForm : <Card>{pinForm}</Card>}
 
       {hasPin ? (
-        <Card>
+        <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
           <h3 className="font-medium text-zinc-200">Remove PIN</h3>
           <p className="mt-1 text-sm text-zinc-400">
             Turns off the parent-area lock. Not recommended on shared devices.
@@ -130,7 +152,7 @@ export function ParentPinSettingsForm({ hasPin }: ParentPinSettingsFormProps) {
               {removePending ? "Removing…" : "Remove PIN"}
             </Button>
           </form>
-        </Card>
+        </div>
       ) : null}
     </div>
   );

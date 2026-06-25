@@ -96,7 +96,7 @@ function ProofFields({
 }) {
   const checklistItems = getTaskChecklistItems(task);
 
-  if (task.proofPrompt) {
+  if (task.proofPrompt && audience !== "cub") {
     return (
       <div className="space-y-4">
         <div className="rounded-lg bg-zinc-50 p-3 text-sm dark:bg-zinc-900">

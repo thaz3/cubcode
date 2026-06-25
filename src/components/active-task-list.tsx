@@ -105,7 +105,7 @@ function TaskInstanceActions({ task }: { task: TaskWithCub }) {
       : task.status === "IN_PROGRESS"
         ? "Submit"
         : task.status === "CLAIMED" || task.status === "SENT_BACK"
-          ? "Start focus"
+          ? "View instructions"
           : "View";
 
   return (

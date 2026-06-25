@@ -1,8 +1,15 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
+  if (session?.user) {
+    redirect("/cub");
+  }
+
   return (
     <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-4 py-16">
       <div className="space-y-6">

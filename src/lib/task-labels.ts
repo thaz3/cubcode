@@ -11,11 +11,9 @@ export const DEFAULT_CHECKLIST_ITEMS = [
   "I checked my work before submitting",
 ] as const;
 
-/** Proof types the parent can choose — parent approval to earn rewards is always required. */
-export const CUB_PROOF_TYPE_LABELS: Record<
-  Exclude<TaskProofType, "PARENT_APPROVAL">,
-  string
-> = {
+/** Proof types the parent can choose when assigning a task. */
+export const CUB_PROOF_TYPE_LABELS: Record<TaskProofType, string> = {
+  PARENT_APPROVAL: "Parent approval only",
   SHORT_REFLECTION: "Short written reflection",
   CHECKLIST: "Checklist",
   TIME_LOG: "Simple time log",
@@ -39,10 +37,7 @@ export function parseChecklistLines(text: string): string[] {
 }
 
 export function formatProofType(proofType: TaskProofType): string {
-  if (proofType === "PARENT_APPROVAL") {
-    return "Proof submitted (parent approval required to earn)";
-  }
-  return CUB_PROOF_TYPE_LABELS[proofType as CubProofType];
+  return CUB_PROOF_TYPE_LABELS[proofType];
 }
 
 export function checklistItemsToText(items: string[] | null | undefined): string {
@@ -67,14 +62,13 @@ export function formatTaskRewards(
 }
 
 export function normalizeCubProofType(proofType: TaskProofType): CubProofType {
-  if (proofType === "PARENT_APPROVAL") {
-    return "SHORT_REFLECTION";
-  }
-  return proofType as CubProofType;
+  return proofType;
 }
 
 export function defaultProofPrompt(proofType: CubProofType): string {
   switch (proofType) {
+    case "PARENT_APPROVAL":
+      return "Describe what your Cub should do. They submit when finished — you approve to award rewards.";
     case "SHORT_REFLECTION":
       return "What did you do? What did you learn?";
     case "CHECKLIST":
