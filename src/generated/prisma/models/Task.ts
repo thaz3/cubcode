@@ -66,6 +66,7 @@ export type TaskMinAggregateOutputType = {
   dueAt: Date | null
   dueAtHasTime: boolean | null
   recurrence: $Enums.TaskRecurrence | null
+  isUrgent: boolean | null
   focusSessionStartedAt: Date | null
   startedAt: Date | null
   createdAt: Date | null
@@ -100,6 +101,7 @@ export type TaskMaxAggregateOutputType = {
   dueAt: Date | null
   dueAtHasTime: boolean | null
   recurrence: $Enums.TaskRecurrence | null
+  isUrgent: boolean | null
   focusSessionStartedAt: Date | null
   startedAt: Date | null
   createdAt: Date | null
@@ -136,6 +138,7 @@ export type TaskCountAggregateOutputType = {
   dueAt: number
   dueAtHasTime: number
   recurrence: number
+  isUrgent: number
   focusSessionStartedAt: number
   startedAt: number
   createdAt: number
@@ -188,6 +191,7 @@ export type TaskMinAggregateInputType = {
   dueAt?: true
   dueAtHasTime?: true
   recurrence?: true
+  isUrgent?: true
   focusSessionStartedAt?: true
   startedAt?: true
   createdAt?: true
@@ -222,6 +226,7 @@ export type TaskMaxAggregateInputType = {
   dueAt?: true
   dueAtHasTime?: true
   recurrence?: true
+  isUrgent?: true
   focusSessionStartedAt?: true
   startedAt?: true
   createdAt?: true
@@ -258,6 +263,7 @@ export type TaskCountAggregateInputType = {
   dueAt?: true
   dueAtHasTime?: true
   recurrence?: true
+  isUrgent?: true
   focusSessionStartedAt?: true
   startedAt?: true
   createdAt?: true
@@ -381,6 +387,7 @@ export type TaskGroupByOutputType = {
   dueAt: Date | null
   dueAtHasTime: boolean
   recurrence: $Enums.TaskRecurrence
+  isUrgent: boolean
   focusSessionStartedAt: Date | null
   startedAt: Date | null
   createdAt: Date
@@ -440,6 +447,7 @@ export type TaskWhereInput = {
   dueAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   dueAtHasTime?: Prisma.BoolFilter<"Task"> | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFilter<"Task"> | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFilter<"Task"> | boolean
   focusSessionStartedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   startedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
@@ -486,6 +494,7 @@ export type TaskOrderByWithRelationInput = {
   dueAt?: Prisma.SortOrderInput | Prisma.SortOrder
   dueAtHasTime?: Prisma.SortOrder
   recurrence?: Prisma.SortOrder
+  isUrgent?: Prisma.SortOrder
   focusSessionStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -535,6 +544,7 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   dueAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   dueAtHasTime?: Prisma.BoolFilter<"Task"> | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFilter<"Task"> | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFilter<"Task"> | boolean
   focusSessionStartedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   startedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
@@ -581,6 +591,7 @@ export type TaskOrderByWithAggregationInput = {
   dueAt?: Prisma.SortOrderInput | Prisma.SortOrder
   dueAtHasTime?: Prisma.SortOrder
   recurrence?: Prisma.SortOrder
+  isUrgent?: Prisma.SortOrder
   focusSessionStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -625,6 +636,7 @@ export type TaskScalarWhereWithAggregatesInput = {
   dueAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   dueAtHasTime?: Prisma.BoolWithAggregatesFilter<"Task"> | boolean
   recurrence?: Prisma.EnumTaskRecurrenceWithAggregatesFilter<"Task"> | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolWithAggregatesFilter<"Task"> | boolean
   focusSessionStartedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
@@ -661,6 +673,7 @@ export type TaskCreateInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -703,6 +716,7 @@ export type TaskUncheckedCreateInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -745,6 +759,7 @@ export type TaskUpdateInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -787,6 +802,7 @@ export type TaskUncheckedUpdateInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -829,6 +845,7 @@ export type TaskCreateManyInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -865,6 +882,7 @@ export type TaskUpdateManyMutationInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -897,6 +915,7 @@ export type TaskUncheckedUpdateManyInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -943,6 +962,7 @@ export type TaskCountOrderByAggregateInput = {
   dueAt?: Prisma.SortOrder
   dueAtHasTime?: Prisma.SortOrder
   recurrence?: Prisma.SortOrder
+  isUrgent?: Prisma.SortOrder
   focusSessionStartedAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -985,6 +1005,7 @@ export type TaskMaxOrderByAggregateInput = {
   dueAt?: Prisma.SortOrder
   dueAtHasTime?: Prisma.SortOrder
   recurrence?: Prisma.SortOrder
+  isUrgent?: Prisma.SortOrder
   focusSessionStartedAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -1019,6 +1040,7 @@ export type TaskMinOrderByAggregateInput = {
   dueAt?: Prisma.SortOrder
   dueAtHasTime?: Prisma.SortOrder
   recurrence?: Prisma.SortOrder
+  isUrgent?: Prisma.SortOrder
   focusSessionStartedAt?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -1344,6 +1366,7 @@ export type TaskCreateWithoutReviewedByInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1385,6 +1408,7 @@ export type TaskUncheckedCreateWithoutReviewedByInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1455,6 +1479,7 @@ export type TaskScalarWhereInput = {
   dueAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   dueAtHasTime?: Prisma.BoolFilter<"Task"> | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFilter<"Task"> | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFilter<"Task"> | boolean
   focusSessionStartedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   startedAt?: Prisma.DateTimeNullableFilter<"Task"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
@@ -1491,6 +1516,7 @@ export type TaskCreateWithoutFamilyInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1532,6 +1558,7 @@ export type TaskUncheckedCreateWithoutFamilyInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1599,6 +1626,7 @@ export type TaskCreateWithoutCubInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1640,6 +1668,7 @@ export type TaskUncheckedCreateWithoutCubInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1707,6 +1736,7 @@ export type TaskCreateWithoutTemplateInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1748,6 +1778,7 @@ export type TaskUncheckedCreateWithoutTemplateInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1815,6 +1846,7 @@ export type TaskCreateWithoutFocusBlocksInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1856,6 +1888,7 @@ export type TaskUncheckedCreateWithoutFocusBlocksInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -1913,6 +1946,7 @@ export type TaskUpdateWithoutFocusBlocksInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1954,6 +1988,7 @@ export type TaskUncheckedUpdateWithoutFocusBlocksInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1995,6 +2030,7 @@ export type TaskCreateWithoutXpLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2036,6 +2072,7 @@ export type TaskUncheckedCreateWithoutXpLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2093,6 +2130,7 @@ export type TaskUpdateWithoutXpLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2134,6 +2172,7 @@ export type TaskUncheckedUpdateWithoutXpLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2175,6 +2214,7 @@ export type TaskCreateWithoutFocusTokenLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2216,6 +2256,7 @@ export type TaskUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2273,6 +2314,7 @@ export type TaskUpdateWithoutFocusTokenLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2314,6 +2356,7 @@ export type TaskUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2355,6 +2398,7 @@ export type TaskCreateWithoutPhoneTimeLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2396,6 +2440,7 @@ export type TaskUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2453,6 +2498,7 @@ export type TaskUpdateWithoutPhoneTimeLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2494,6 +2540,7 @@ export type TaskUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2535,6 +2582,7 @@ export type TaskCreateWithoutWeekendBankLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2576,6 +2624,7 @@ export type TaskUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2633,6 +2682,7 @@ export type TaskUpdateWithoutWeekendBankLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2674,6 +2724,7 @@ export type TaskUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2715,6 +2766,7 @@ export type TaskCreateWithoutGuardianNudgesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2756,6 +2808,7 @@ export type TaskUncheckedCreateWithoutGuardianNudgesInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2813,6 +2866,7 @@ export type TaskUpdateWithoutGuardianNudgesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2854,6 +2908,7 @@ export type TaskUncheckedUpdateWithoutGuardianNudgesInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2895,6 +2950,7 @@ export type TaskCreateManyReviewedByInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -2930,6 +2986,7 @@ export type TaskUpdateWithoutReviewedByInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2971,6 +3028,7 @@ export type TaskUncheckedUpdateWithoutReviewedByInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3012,6 +3070,7 @@ export type TaskUncheckedUpdateManyWithoutReviewedByInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3047,6 +3106,7 @@ export type TaskCreateManyFamilyInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -3082,6 +3142,7 @@ export type TaskUpdateWithoutFamilyInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3123,6 +3184,7 @@ export type TaskUncheckedUpdateWithoutFamilyInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3164,6 +3226,7 @@ export type TaskUncheckedUpdateManyWithoutFamilyInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3199,6 +3262,7 @@ export type TaskCreateManyCubInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -3234,6 +3298,7 @@ export type TaskUpdateWithoutCubInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3275,6 +3340,7 @@ export type TaskUncheckedUpdateWithoutCubInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3316,6 +3382,7 @@ export type TaskUncheckedUpdateManyWithoutCubInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3351,6 +3418,7 @@ export type TaskCreateManyTemplateInput = {
   dueAt?: Date | string | null
   dueAtHasTime?: boolean
   recurrence?: $Enums.TaskRecurrence
+  isUrgent?: boolean
   focusSessionStartedAt?: Date | string | null
   startedAt?: Date | string | null
   createdAt?: Date | string
@@ -3386,6 +3454,7 @@ export type TaskUpdateWithoutTemplateInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3427,6 +3496,7 @@ export type TaskUncheckedUpdateWithoutTemplateInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3468,6 +3538,7 @@ export type TaskUncheckedUpdateManyWithoutTemplateInput = {
   dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
   recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3579,6 +3650,7 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   dueAt?: boolean
   dueAtHasTime?: boolean
   recurrence?: boolean
+  isUrgent?: boolean
   focusSessionStartedAt?: boolean
   startedAt?: boolean
   createdAt?: boolean
@@ -3626,6 +3698,7 @@ export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   dueAt?: boolean
   dueAtHasTime?: boolean
   recurrence?: boolean
+  isUrgent?: boolean
   focusSessionStartedAt?: boolean
   startedAt?: boolean
   createdAt?: boolean
@@ -3666,6 +3739,7 @@ export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   dueAt?: boolean
   dueAtHasTime?: boolean
   recurrence?: boolean
+  isUrgent?: boolean
   focusSessionStartedAt?: boolean
   startedAt?: boolean
   createdAt?: boolean
@@ -3706,6 +3780,7 @@ export type TaskSelectScalar = {
   dueAt?: boolean
   dueAtHasTime?: boolean
   recurrence?: boolean
+  isUrgent?: boolean
   focusSessionStartedAt?: boolean
   startedAt?: boolean
   createdAt?: boolean
@@ -3716,7 +3791,7 @@ export type TaskSelectScalar = {
   reviewedByUserId?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "subcategory" | "growthCategory" | "proofType" | "proofPrompt" | "proofChecklistItems" | "focusMinutesEarned" | "phoneMinutesEarned" | "xpEarned" | "focusTokensEarned" | "status" | "reflection" | "proofLink" | "checklistData" | "timeLoggedMinutes" | "reviewNote" | "submittedAt" | "reviewedAt" | "claimedAt" | "dueAt" | "dueAtHasTime" | "recurrence" | "focusSessionStartedAt" | "startedAt" | "createdAt" | "updatedAt" | "familyId" | "cubId" | "templateId" | "reviewedByUserId", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "subcategory" | "growthCategory" | "proofType" | "proofPrompt" | "proofChecklistItems" | "focusMinutesEarned" | "phoneMinutesEarned" | "xpEarned" | "focusTokensEarned" | "status" | "reflection" | "proofLink" | "checklistData" | "timeLoggedMinutes" | "reviewNote" | "submittedAt" | "reviewedAt" | "claimedAt" | "dueAt" | "dueAtHasTime" | "recurrence" | "isUrgent" | "focusSessionStartedAt" | "startedAt" | "createdAt" | "updatedAt" | "familyId" | "cubId" | "templateId" | "reviewedByUserId", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.Task$cubArgs<ExtArgs>
@@ -3783,6 +3858,7 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     dueAt: Date | null
     dueAtHasTime: boolean
     recurrence: $Enums.TaskRecurrence
+    isUrgent: boolean
     focusSessionStartedAt: Date | null
     startedAt: Date | null
     createdAt: Date
@@ -4249,6 +4325,7 @@ export interface TaskFieldRefs {
   readonly dueAt: Prisma.FieldRef<"Task", 'DateTime'>
   readonly dueAtHasTime: Prisma.FieldRef<"Task", 'Boolean'>
   readonly recurrence: Prisma.FieldRef<"Task", 'TaskRecurrence'>
+  readonly isUrgent: Prisma.FieldRef<"Task", 'Boolean'>
   readonly focusSessionStartedAt: Prisma.FieldRef<"Task", 'DateTime'>
   readonly startedAt: Prisma.FieldRef<"Task", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Task", 'DateTime'>

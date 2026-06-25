@@ -13,7 +13,9 @@ import {
   validateTaskDefinition,
 } from "@/lib/validations/task";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
+import { parseIsUrgentFromFormData } from "@/lib/task-assign-fields";
 import { parseRecurrenceFromFormData } from "@/lib/task-recurrence";
+import { syncGuardianNudgesForFamily } from "@/lib/guardian-nudges/sync";
 import type { TaskRecurrence } from "@/generated/prisma/client";
 import type { ActionState } from "@/lib/actions/auth";
 import type { z } from "zod";
@@ -159,6 +161,7 @@ export async function createTaskFromTemplateAction(
   dueAt?: Date | null,
   dueAtHasTime = false,
   recurrence?: TaskRecurrence,
+  isUrgent = false,
 ): Promise<ActionState> {
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
@@ -190,6 +193,7 @@ export async function createTaskFromTemplateAction(
       status: cubId ? "CLAIMED" : "AVAILABLE",
       cubId: cubId ?? null,
       claimedAt: cubId ? new Date() : null,
+      isUrgent: cubId ? isUrgent : false,
       dueAt: cubId ? dueAt ?? null : null,
       dueAtHasTime: cubId ? dueAtHasTime : false,
       recurrence: recurrence ?? template.recurrence,
@@ -198,6 +202,7 @@ export async function createTaskFromTemplateAction(
 
   revalidateTaskPaths();
   if (cubId) {
+    await syncGuardianNudgesForFamily(family.id);
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);
     revalidatePath(`/dashboard/cubs/${cubId}/tasks/completed`);
   }
@@ -224,5 +229,6 @@ export async function assignTemplateToCubAction(
     dueFields?.dueAt ?? null,
     dueFields?.dueAtHasTime ?? false,
     recurrence,
+    parseIsUrgentFromFormData(formData),
   );
 }

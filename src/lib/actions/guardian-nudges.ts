@@ -7,6 +7,7 @@ import {
   ensureGuardianNudgePreferences,
   syncGuardianNudgesForFamily,
 } from "@/lib/guardian-nudges/sync";
+import { GUARDIAN_NUDGE_SETTINGS_ORDER } from "@/lib/guardian-nudges/types";
 import { requireParentPinConfigured } from "@/lib/require-parent-pin-configured";
 import type { ActionState } from "@/lib/actions/auth";
 import {
@@ -14,7 +15,9 @@ import {
   guardianNudgeRuleSchema,
   nudgeIdSchema,
 } from "@/lib/validations/guardian-nudges";
+import { isGuardianNudgeDismissAllowed } from "@/lib/guardian-nudges/rule-state";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
+import type { GuardianNudgeRuleType } from "@/generated/prisma/client";
 
 function revalidateGuardianNudgePaths() {
   revalidatePath("/dashboard");
@@ -35,7 +38,14 @@ function normalizeHm(value?: string | null): string | null {
   return `${match[1]!.padStart(2, "0")}:${match[2]}`;
 }
 
-export async function updateGuardianNudgePreferencesAction(
+function ruleEnabledFromForm(
+  formData: FormData,
+  type: GuardianNudgeRuleType,
+): boolean {
+  return formData.get(`rule_${type}_enabled`) === "on";
+}
+
+export async function updateGuardianNudgesSettingsAction(
   _prevState: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
@@ -47,7 +57,7 @@ export async function updateGuardianNudgePreferencesAction(
     return { error: pinCheck.error };
   }
 
-  const parsed = guardianNudgePreferencesSchema.safeParse({
+  const prefsParsed = guardianNudgePreferencesSchema.safeParse({
     quietHoursStart: formData.get("quietHoursStart")?.toString() || undefined,
     quietHoursEnd: formData.get("quietHoursEnd")?.toString() || undefined,
     timezone: formData.get("timezone")?.toString() || "America/New_York",
@@ -55,31 +65,68 @@ export async function updateGuardianNudgePreferencesAction(
     dailySummaryTime: formData.get("dailySummaryTime")?.toString() || undefined,
   });
 
-  if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
+  if (!prefsParsed.success) {
+    return { error: prefsParsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const start = normalizeHm(parsed.data.quietHoursStart);
-  const end = normalizeHm(parsed.data.quietHoursEnd);
-  if ((start && !end) || (!start && end)) {
-    return { error: "Set both quiet hour start and end, or leave both blank." };
+  const quietStart = normalizeHm(prefsParsed.data.quietHoursStart);
+  const quietEnd = normalizeHm(prefsParsed.data.quietHoursEnd);
+  if ((quietStart && !quietEnd) || (!quietStart && quietEnd)) {
+    return {
+      error: "Set both a start and end time for quiet hours, or leave both blank.",
+    };
   }
 
+  for (const type of GUARDIAN_NUDGE_SETTINGS_ORDER) {
+    const ruleParsed = guardianNudgeRuleSchema.safeParse({
+      type,
+      enabled: ruleEnabledFromForm(formData, type),
+      offsetMinutes:
+        formData.get(`rule_${type}_offsetMinutes`)?.toString() || undefined,
+    });
+
+    if (!ruleParsed.success) {
+      return { error: ruleParsed.error.issues[0]?.message ?? "Invalid input" };
+    }
+  }
+
+  await ensureDefaultGuardianNudgeRules(family.id, userId);
   await ensureGuardianNudgePreferences(family.id);
+
   await db.guardianNudgePreferences.update({
     where: { familyId: family.id },
     data: {
-      quietHoursStart: start,
-      quietHoursEnd: end,
-      timezone: parsed.data.timezone,
-      dailySummaryEnabled: parsed.data.dailySummaryEnabled,
+      quietHoursStart: quietStart,
+      quietHoursEnd: quietEnd,
+      timezone: prefsParsed.data.timezone,
+      dailySummaryEnabled: prefsParsed.data.dailySummaryEnabled,
       dailySummaryTime:
-        normalizeHm(parsed.data.dailySummaryTime) ??
-        (parsed.data.dailySummaryEnabled ? "08:00" : null),
+        normalizeHm(prefsParsed.data.dailySummaryTime) ??
+        (prefsParsed.data.dailySummaryEnabled ? "08:00" : null),
     },
   });
 
-  await ensureDefaultGuardianNudgeRules(family.id, userId);
+  for (const type of GUARDIAN_NUDGE_SETTINGS_ORDER) {
+    const enabled = ruleEnabledFromForm(formData, type);
+    const offsetRaw = formData.get(`rule_${type}_offsetMinutes`)?.toString();
+    const offsetMinutes =
+      type === "NOT_STARTED_BEFORE_DUE" ||
+      type === "NOT_TOUCHED_AFTER_ASSIGN"
+        ? Number(offsetRaw ?? 120)
+        : null;
+
+    await db.guardianNudgeRule.update({
+      where: {
+        familyId_type: { familyId: family.id, type },
+      },
+      data: {
+        enabled,
+        offsetMinutes,
+        createdByUserId: userId,
+      },
+    });
+  }
+
   const summaryRule = await db.guardianNudgeRule.findUnique({
     where: {
       familyId_type: { familyId: family.id, type: "DAILY_SUMMARY" },
@@ -88,12 +135,20 @@ export async function updateGuardianNudgePreferencesAction(
   if (summaryRule) {
     await db.guardianNudgeRule.update({
       where: { id: summaryRule.id },
-      data: { enabled: parsed.data.dailySummaryEnabled },
+      data: { enabled: prefsParsed.data.dailySummaryEnabled },
     });
   }
 
+  await syncGuardianNudgesForFamily(family.id);
   revalidateGuardianNudgePaths();
-  return { success: "Guardian Nudge preferences saved." };
+  return { success: "Reminders saved." };
+}
+
+export async function updateGuardianNudgePreferencesAction(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  return updateGuardianNudgesSettingsAction(_prevState, formData);
 }
 
 export async function updateGuardianNudgeRuleAction(
@@ -140,7 +195,7 @@ export async function updateGuardianNudgeRuleAction(
 
   await syncGuardianNudgesForFamily(family.id);
   revalidateGuardianNudgePaths();
-  return { success: "Guardian Nudge rule saved." };
+  return { success: "Reminders saved." };
 }
 
 export async function dismissGuardianNudgeAction(
@@ -162,13 +217,20 @@ export async function dismissGuardianNudgeAction(
     return { error: "Nudge not found." };
   }
 
+  if (!isGuardianNudgeDismissAllowed(nudge.type)) {
+    return {
+      error:
+        "Review reminders stay until you review the task. Mark seen or open Review when ready.",
+    };
+  }
+
   await db.guardianNudge.update({
     where: { id: nudge.id },
     data: { status: "DISMISSED", dismissedAt: new Date() },
   });
 
   revalidateGuardianNudgePaths();
-  return { success: "Nudge dismissed." };
+  return { success: "Reminder cleared." };
 }
 
 export async function markGuardianNudgeSeenAction(

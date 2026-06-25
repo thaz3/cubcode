@@ -25,6 +25,7 @@ import { logTaskFocusSession } from "@/lib/focus-session";
 import { getAvailableGrowthCategoriesForCub } from "@/lib/focus-growth";
 import { creditApprovedTaskRewards } from "@/lib/rewards";
 import { getDueFieldsFromFormData } from "@/lib/due-date-fields";
+import { parseIsUrgentFromFormData } from "@/lib/task-assign-fields";
 import { parseRecurrenceFromFormData } from "@/lib/task-recurrence";
 import { spawnNextRecurringTask } from "@/lib/task-recurrence-server";
 import {
@@ -144,6 +145,7 @@ export async function createAndAssignCustomTaskAction(
       status: "CLAIMED",
       cubId: cub.id,
       claimedAt: new Date(),
+      isUrgent: parseIsUrgentFromFormData(formData),
       ...customTaskDefinitionData(parsed.data),
       ...cubRewardFields(cub),
       dueAt,
@@ -151,6 +153,8 @@ export async function createAndAssignCustomTaskAction(
       recurrence: parseRecurrenceFromFormData(formData),
     },
   });
+
+  await syncGuardianNudgesAfterTaskChange(family.id);
 
   revalidateTaskPaths(cub.id);
   return { success: `Task created and assigned to ${cub.displayName}.` };
@@ -242,12 +246,15 @@ export async function assignTaskAction(
       status: "CLAIMED",
       cubId: parsed.data.cubId,
       claimedAt: new Date(),
+      isUrgent: parseIsUrgentFromFormData(formData),
       dueAt: dueFields?.dueAt ?? parsed.data.dueDate,
       dueAtHasTime: dueFields?.dueAtHasTime ?? false,
       recurrence: parseRecurrenceFromFormData(formData),
       ...cubRewardFields(cub),
     },
   });
+
+  await syncGuardianNudgesAfterTaskChange(family.id, { taskId: task.id });
 
   revalidateTaskPaths(parsed.data.cubId);
   return { success: "Task assigned." };
@@ -400,6 +407,19 @@ export async function logFocusBlockAction(
       growthCategory: taskGrowthCategory,
     },
   });
+
+  if (taskId) {
+    await syncGuardianNudgesAfterTaskChange(family.id, {
+      taskId,
+      resolveTypes: [
+        "NOT_TOUCHED_AFTER_ASSIGN",
+        "NOT_STARTED_BEFORE_DUE",
+        "OVERDUE_NOT_STARTED",
+      ],
+    });
+  } else {
+    await syncGuardianNudgesAfterTaskChange(family.id);
+  }
 
   revalidateTaskPaths(cub.id);
   return { success: "Focus Block logged." };

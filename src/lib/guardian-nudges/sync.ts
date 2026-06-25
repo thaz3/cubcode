@@ -4,6 +4,11 @@ import {
   evaluateGuardianNudgeCandidates,
   prioritizeGuardianNudgeCandidates,
 } from "@/lib/guardian-nudges/evaluate";
+import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
+import {
+  shouldDismissNudgeForDisabledRule,
+  shouldSkipDismissedCandidate,
+} from "@/lib/guardian-nudges/rule-state";
 import { DEFAULT_GUARDIAN_NUDGE_RULES } from "@/lib/guardian-nudges/types";
 import type { TaskForNudgeEvaluation } from "@/lib/guardian-nudges/types";
 import { guardianNudgePriority } from "@/lib/guardian-nudges/types";
@@ -85,7 +90,7 @@ export async function syncGuardianNudgesForFamily(familyId: string) {
   );
 
   for (const candidate of candidates) {
-    const dismissed = await db.guardianNudge.findUnique({
+    const existing = await db.guardianNudge.findUnique({
       where: {
         familyId_dedupeKey: {
           familyId,
@@ -94,9 +99,14 @@ export async function syncGuardianNudgesForFamily(familyId: string) {
       },
     });
 
-    if (dismissed?.status === "DISMISSED") {
+    if (
+      shouldSkipDismissedCandidate(candidate.type, existing?.status)
+    ) {
       continue;
     }
+
+    const nextStatus =
+      existing?.status === "SEEN" ? "SEEN" : "ACTIVE";
 
     await db.guardianNudge.upsert({
       where: {
@@ -118,12 +128,21 @@ export async function syncGuardianNudgesForFamily(familyId: string) {
         message: candidate.message,
         taskId: candidate.taskId ?? null,
         cubId: candidate.cubId ?? null,
-        status: dismissed?.status === "SEEN" ? "SEEN" : "ACTIVE",
+        status: nextStatus,
+        dismissedAt: null,
       },
     });
   }
 
   for (const nudge of existingNudges) {
+    if (shouldDismissNudgeForDisabledRule(nudge.type, rules, prefs)) {
+      await db.guardianNudge.update({
+        where: { id: nudge.id },
+        data: { status: "DISMISSED", dismissedAt: new Date() },
+      });
+      continue;
+    }
+
     const matchingCandidate = candidates.find(
       (c) => c.dedupeKey === nudge.dedupeKey,
     );
@@ -164,8 +183,38 @@ export async function syncGuardianNudgesForFamily(familyId: string) {
   }
 }
 
+function sortNudgesForDisplay<
+  T extends {
+    type: GuardianNudge["type"];
+    taskId: string | null;
+    status: GuardianNudge["status"];
+    triggeredAt: Date;
+    task?: { isUrgent: boolean } | null;
+  },
+>(nudges: T[]): T[] {
+  return [...nudges].sort((a, b) => {
+    const aUrgent = a.task?.isUrgent ? 1 : 0;
+    const bUrgent = b.task?.isUrgent ? 1 : 0;
+    if (bUrgent !== aUrgent) {
+      return bUrgent - aUrgent;
+    }
+
+    if (a.status !== b.status) {
+      return a.status === "ACTIVE" ? -1 : 1;
+    }
+
+    return b.triggeredAt.getTime() - a.triggeredAt.getTime();
+  });
+}
+
 function prioritizePersistedGuardianNudges<
-  T extends { type: GuardianNudge["type"]; taskId: string | null },
+  T extends {
+    type: GuardianNudge["type"];
+    taskId: string | null;
+    status: GuardianNudge["status"];
+    triggeredAt: Date;
+    task?: { isUrgent: boolean } | null;
+  },
 >(nudges: T[]): T[] {
   const dailySummaries = nudges.filter((nudge) => nudge.type === "DAILY_SUMMARY");
   const bestByTask = new Map<string, T>();
@@ -184,7 +233,7 @@ function prioritizePersistedGuardianNudges<
     }
   }
 
-  return [...bestByTask.values(), ...dailySummaries];
+  return sortNudgesForDisplay([...bestByTask.values(), ...dailySummaries]);
 }
 
 export async function getActiveGuardianNudgesForFamily(familyId: string) {
@@ -195,7 +244,7 @@ export async function getActiveGuardianNudgesForFamily(familyId: string) {
     },
     orderBy: [{ status: "asc" }, { triggeredAt: "desc" }],
     include: {
-      task: { select: { id: true, title: true, status: true } },
+      task: { select: { id: true, title: true, status: true, isUrgent: true } },
       cub: { select: { id: true, displayName: true } },
     },
   });
@@ -204,9 +253,21 @@ export async function getActiveGuardianNudgesForFamily(familyId: string) {
 }
 
 export async function countUnseenGuardianNudges(familyId: string) {
+  const prefs = await ensureGuardianNudgePreferences(familyId);
+  if (isWithinQuietHours(prefs)) {
+    return 0;
+  }
+
   const nudges = await db.guardianNudge.findMany({
     where: { familyId, status: "ACTIVE" },
-    select: { id: true, type: true, taskId: true },
+    select: {
+      id: true,
+      type: true,
+      taskId: true,
+      status: true,
+      triggeredAt: true,
+      task: { select: { isUrgent: true } },
+    },
   });
 
   return prioritizePersistedGuardianNudges(nudges).length;

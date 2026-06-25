@@ -52,6 +52,7 @@ function baseCopyInput(task: TaskForNudgeEvaluation) {
     dueAt: task.dueAt,
     dueAtHasTime: task.dueAtHasTime,
     claimedAt: task.claimedAt,
+    isUrgent: task.isUrgent,
   };
 }
 

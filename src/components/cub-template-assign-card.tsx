@@ -1,5 +1,6 @@
 "use client";
 
+import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { TaskRecurrenceField } from "@/components/task-recurrence-field";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
@@ -57,6 +58,7 @@ export function CubTemplateAssignCard({
               onDueDateChange={onDueDateChange}
             />
             <TaskRecurrenceField initialValue={template.recurrence} />
+            <TaskUrgentField id={`template-urgent-${template.id}`} />
           </div>
         </CollapsibleSection>
 

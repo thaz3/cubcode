@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -45,6 +46,7 @@ export function TaskCard({
               {task.title}
             </Link>
             <StatusBadge status={task.status} />
+            {task.isUrgent ? <TaskUrgentBadge /> : null}
             <TaskScheduleBadge task={task} />
           </div>
           {!compact ? (

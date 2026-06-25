@@ -14,11 +14,11 @@ export const DEFAULT_GUARDIAN_NUDGE_RULES: Array<{
 
 export const GUARDIAN_NUDGE_RULE_LABELS: Record<GuardianNudgeRuleType, string> =
   {
-    NOT_TOUCHED_AFTER_ASSIGN: "No action after assignment",
+    NOT_TOUCHED_AFTER_ASSIGN: "No progress after assigning",
     NOT_STARTED_BEFORE_DUE: "Due soon and not started",
-    OVERDUE_NOT_STARTED: "Overdue and not started",
-    SUBMITTED_FOR_REVIEW: "Submitted for review",
-    DAILY_SUMMARY: "Daily parent summary",
+    OVERDUE_NOT_STARTED: "Past due and not started",
+    SUBMITTED_FOR_REVIEW: "Ready for your review",
+    DAILY_SUMMARY: "Morning snapshot on Dashboard",
   };
 
 export const GUARDIAN_NUDGE_RULE_DESCRIPTIONS: Record<
@@ -26,16 +26,24 @@ export const GUARDIAN_NUDGE_RULE_DESCRIPTIONS: Record<
   string
 > = {
   NOT_TOUCHED_AFTER_ASSIGN:
-    "Nudge when a task is assigned but your Cub has not taken meaningful action within your chosen time after assignment.",
+    "You assigned a task and your child hasn't started working on it yet.",
   NOT_STARTED_BEFORE_DUE:
-    "Nudge when a task has a due time and your Cub has not started it within your chosen window before the due time.",
+    "A due date is coming up and your child hasn't started yet.",
   OVERDUE_NOT_STARTED:
-    "Nudge when the due time has passed and your Cub has not started the task.",
+    "A due date has passed and your child still hasn't started.",
   SUBMITTED_FOR_REVIEW:
-    "Nudge when your Cub submits a task and it is waiting for your review.",
+    "Your child turned something in and it's waiting for you to review.",
   DAILY_SUMMARY:
-    "Optional once-a-day in-app summary on your Dashboard. You choose the time.",
+    "One quick summary when you open the Dashboard each day.",
 };
+
+/** Parent-friendly order on the settings screen (most urgent first). */
+export const GUARDIAN_NUDGE_SETTINGS_ORDER: GuardianNudgeRuleType[] = [
+  "SUBMITTED_FOR_REVIEW",
+  "OVERDUE_NOT_STARTED",
+  "NOT_STARTED_BEFORE_DUE",
+  "NOT_TOUCHED_AFTER_ASSIGN",
+];
 
 /** Highest-priority task nudge wins when multiple rules apply at once. */
 export const GUARDIAN_NUDGE_TASK_PRIORITY: GuardianNudgeRuleType[] = [
@@ -77,6 +85,7 @@ export type TaskForNudgeEvaluation = {
   checklistData: unknown;
   submittedAt: Date | null;
   cubId: string | null;
+  isUrgent: boolean;
   cub: { id: string; displayName: string } | null;
   focusBlocks: Array<{ id: string }>;
 };

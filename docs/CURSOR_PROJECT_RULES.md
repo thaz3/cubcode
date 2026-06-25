@@ -71,10 +71,9 @@ Do not implement:
 - Citywide map mechanics
 - Advanced analytics
 - Complex fraud detection
-- Guardian Nudges / parent reminder rules (Phase C1)
 - Core Challenges / repeatable challenge programs (Phase C2)
 - Child-facing reminders or notifications
-- Parent email or SMS reminders (Phase C1)
+- Parent email, SMS, or push Guardian Nudge delivery (beyond C1 in-app)
 - Automatic punishment or consequence flows triggered by reminders
 - Notification spam or AI parenting advice
 
@@ -358,10 +357,8 @@ During Phase B:
 
 Guardian Nudges are **Phase C1**, not Phase B. Core Challenges are **Phase C2**. See the Phase C docs below.
 
-## Guardian Nudges (Phase C1 — Documentation Only)
-**Do not implement until explicitly approved after Phase B.**
-
-Preferred name: **Guardian Nudges** (aliases: Guardian Awareness Layer, Parent-First Nudges).
+## Guardian Nudges (Phase C1 — In-App Implemented)
+C1 in-app Guardian Nudges are implemented. Do not add SMS, email, push, or child-facing delivery without explicit approval.
 
 ### Parent-first principle
 **C.U.B. Code informs the guardian. The guardian decides the response.**
@@ -373,7 +370,7 @@ Guardian Nudges must:
 - Use neutral, factual, non-shaming copy
 - Deliver to parents first (in-app → email → SMS, in that order)
 - Require parent opt-in for external channels (email, SMS)
-- Treat “touched” as existing progress events (claim, focus start, checklist, submit, etc.)
+- Treat “touched” as meaningful Cub progress (start, focus, checklist, submit, etc.) — not `CLAIMED` alone
 
 Guardian Nudges must never:
 - Nag, punish, or automatically consequence the child
@@ -388,11 +385,11 @@ Guardian Nudges must never:
 ### Valid parent responses (outside the app)
 After a nudge, parents may remind the child, pause access manually, help them get unstuck, or ignore the nudge. The app does not prescribe which response is correct.
 
-### Delivery roadmap (when approved)
-1. In-app parent reminder cards/badges
-2. Parent email (opt-in)
-3. Parent SMS (opt-in, parent phone only)
-4. Cub reminders only later, if parent-controlled and never free-form
+### Delivery roadmap
+1. In-app parent reminder cards/badges — **implemented (C1)**
+2. Parent email (opt-in) — not implemented
+3. Parent SMS (opt-in, parent phone only) — not implemented
+4. Cub reminders only later, if parent-controlled and never free-form — not implemented
 
 Full specification: `/docs/PHASE_C_GUARDIAN_NUDGES.md`
 

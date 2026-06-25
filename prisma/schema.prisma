@@ -257,6 +257,7 @@ model Task {
   dueAt             DateTime?
   dueAtHasTime      Boolean       @default(false)
   recurrence        TaskRecurrence @default(NONE)
+  isUrgent          Boolean       @default(false)
   focusSessionStartedAt DateTime?
   startedAt         DateTime?
   createdAt         DateTime      @default(now())

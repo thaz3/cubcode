@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { CreateOneOffTaskForm } from "@/components/create-one-off-task-form";
 import { CubTemplateAssignCard } from "@/components/cub-template-assign-card";
+import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { TaskRecurrenceField } from "@/components/task-recurrence-field";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
@@ -85,6 +86,7 @@ export function AssignTaskToCubPanel({
                   onDueDateChange={onPoolDueDateChange}
                 />
                 <TaskRecurrenceField />
+                <TaskUrgentField id={`pool-urgent-${cubId}`} />
               </div>
             </CollapsibleSection>
             {poolState.error ? (

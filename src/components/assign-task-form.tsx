@@ -1,5 +1,6 @@
 "use client";
 
+import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { Button } from "@/components/ui/button";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
@@ -61,6 +62,8 @@ export function AssignTaskForm({
         onDueDateChange={onDueDateChange}
         showQuickDue
       />
+
+      <TaskUrgentField id={`assign-urgent-${taskId}`} />
 
       {state.error ? (
         <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>

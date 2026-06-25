@@ -44,6 +44,7 @@ export function CreateOneOffTaskForm({
         }
         showDueDate={assignToCub}
         showQuickDue={assignToCub}
+        showUrgent={assignToCub}
         hiddenFields={assignToCub && cubId ? { cubId } : undefined}
         compact={compact}
       />

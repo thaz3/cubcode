@@ -6,13 +6,21 @@ type NudgeCopyInput = {
   dueAt?: Date | null;
   dueAtHasTime?: boolean;
   claimedAt?: Date | null;
+  isUrgent?: boolean;
 };
+
+function withUrgentPrefix(message: string, isUrgent?: boolean): string {
+  return isUrgent ? `Urgent · ${message}` : message;
+}
 
 export function formatNotTouchedAfterAssignMessage(input: NudgeCopyInput): string {
   const assignedPart = input.claimedAt
     ? ` It was assigned ${formatScheduleDate(input.claimedAt)}.`
     : "";
-  return `${input.cubDisplayName} has not taken action on “${input.taskTitle}” yet.${assignedPart}`;
+  return withUrgentPrefix(
+    `${input.cubDisplayName} has not taken action on “${input.taskTitle}” yet.${assignedPart}`,
+    input.isUrgent,
+  );
 }
 
 export function formatNotStartedMessage(input: NudgeCopyInput): string {
@@ -20,7 +28,10 @@ export function formatNotStartedMessage(input: NudgeCopyInput): string {
     input.dueAt != null
       ? ` It is due at ${formatDueScheduleDate(input.dueAt, input.dueAtHasTime ?? false)}.`
       : "";
-  return `${input.cubDisplayName} has not started “${input.taskTitle}” yet.${duePart}`;
+  return withUrgentPrefix(
+    `${input.cubDisplayName} has not started “${input.taskTitle}” yet.${duePart}`,
+    input.isUrgent,
+  );
 }
 
 export function formatOverdueMessage(input: NudgeCopyInput): string {
@@ -28,11 +39,17 @@ export function formatOverdueMessage(input: NudgeCopyInput): string {
     input.dueAt != null
       ? ` It was due at ${formatDueScheduleDate(input.dueAt, input.dueAtHasTime ?? false)}.`
       : "";
-  return `${input.cubDisplayName} has not started “${input.taskTitle}”.${duePart}`;
+  return withUrgentPrefix(
+    `${input.cubDisplayName} has not started “${input.taskTitle}”.${duePart}`,
+    input.isUrgent,
+  );
 }
 
 export function formatSubmittedMessage(input: NudgeCopyInput): string {
-  return `${input.cubDisplayName} submitted “${input.taskTitle}” for your review.`;
+  return withUrgentPrefix(
+    `${input.cubDisplayName} submitted “${input.taskTitle}” for your review.`,
+    input.isUrgent,
+  );
 }
 
 export function formatDailySummaryMessage(counts: {

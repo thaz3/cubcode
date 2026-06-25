@@ -4,10 +4,13 @@ import { GuardianNudgeSeenButton } from "@/components/guardian-nudge-seen-button
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { GuardianNudge, GuardianNudgeRuleType } from "@/generated/prisma/client";
+import { TaskUrgentBadge } from "@/components/task-urgent-badge";
+import { isGuardianNudgeDismissAllowed } from "@/lib/guardian-nudges/rule-state";
+import { SMALL_REMINDERS_LABEL } from "@/lib/small-reminders-labels";
 import { cn } from "@/lib/utils";
 
 type NudgeWithRelations = GuardianNudge & {
-  task: { id: string; title: string; status: string } | null;
+  task: { id: string; title: string; status: string; isUrgent: boolean } | null;
   cub: { id: string; displayName: string } | null;
 };
 
@@ -88,7 +91,7 @@ export function GuardianNudgesSection({
   const unseenCount = nudges.filter((nudge) => nudge.status === "ACTIVE").length;
 
   return (
-    <section id="guardian-nudges" className="scroll-mt-4">
+    <section id="small-reminders" className="scroll-mt-4">
       <Card className="overflow-hidden border-violet-700/60 bg-gradient-to-br from-violet-950/40 via-zinc-900 to-zinc-950 p-0 shadow-lg shadow-violet-950/20 ring-1 ring-violet-500/25">
         <div className="flex flex-wrap items-start justify-between gap-3 border-b border-violet-800/50 bg-violet-950/50 px-5 py-4">
           <div className="min-w-0">
@@ -100,7 +103,7 @@ export function GuardianNudgesSection({
                 />
               ) : null}
               <h2 className="text-lg font-bold tracking-tight text-violet-100">
-                Guardian Nudges
+                {SMALL_REMINDERS_LABEL}
               </h2>
               {unseenCount > 0 ? (
                 <span className="rounded-full bg-violet-600 px-2.5 py-0.5 text-xs font-bold text-white">
@@ -109,7 +112,7 @@ export function GuardianNudgesSection({
               ) : null}
             </div>
             <p className="mt-1.5 text-sm text-violet-200/75">
-              Awareness for you only. You decide what happens next.
+              A quick heads-up — you decide what happens next.
             </p>
           </div>
           <Link
@@ -156,11 +159,14 @@ export function GuardianNudgesSection({
                           >
                             {nudgeLabel(nudge.type)}
                           </span>
+                          {nudge.task?.isUrgent ? <TaskUrgentBadge /> : null}
                           <p className="text-base font-medium leading-snug text-zinc-50">
                             {nudge.message}
                           </p>
                         </div>
-                        <GuardianNudgeDismissButton nudgeId={nudge.id} />
+                        {isGuardianNudgeDismissAllowed(nudge.type) ? (
+                          <GuardianNudgeDismissButton nudgeId={nudge.id} />
+                        ) : null}
                       </div>
 
                       <div className="mt-4 flex flex-wrap items-center gap-2">

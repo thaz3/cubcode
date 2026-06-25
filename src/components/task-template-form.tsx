@@ -1,5 +1,6 @@
 "use client";
 
+import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { TaskRecurrenceField } from "@/components/task-recurrence-field";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
@@ -31,6 +32,7 @@ type TaskTemplateFormProps = {
   submitLabel: string;
   showDueDate?: boolean;
   showQuickDue?: boolean;
+  showUrgent?: boolean;
   initialDueDate?: string;
   initialRecurrence?: TaskRecurrence;
   hiddenFields?: Record<string, string>;
@@ -44,6 +46,7 @@ export function TaskTemplateForm({
   submitLabel,
   showDueDate = false,
   showQuickDue = false,
+  showUrgent = false,
   initialDueDate = "",
   initialRecurrence = "NONE",
   hiddenFields,
@@ -148,6 +151,7 @@ export function TaskTemplateForm({
                   onDueDateChange={onDueDateChange}
                 />
                 <TaskRecurrenceField initialValue={initialRecurrence} />
+                {showUrgent ? <TaskUrgentField id="task-urgent-create" /> : null}
               </div>
             </CollapsibleSection>
           ) : null}
@@ -192,6 +196,7 @@ export function TaskTemplateForm({
                 onDueDateChange={onDueDateChange}
               />
               <TaskRecurrenceField initialValue={initialRecurrence} />
+              {showUrgent ? <TaskUrgentField id="task-urgent-create-full" /> : null}
             </>
           ) : (
             <TaskRecurrenceField initialValue={initialRecurrence} />

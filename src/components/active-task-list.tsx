@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { TaskCard } from "@/components/task-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
@@ -77,6 +78,7 @@ function GroupedActiveTaskCard({
                     <span className="text-zinc-500">Unassigned</span>
                   )}
                   <StatusBadge status={task.status} />
+                  {task.isUrgent ? <TaskUrgentBadge /> : null}
                   <TaskScheduleBadge task={task} />
                 </div>
                 <TaskScheduleDisplay task={task} compact className="mt-1" />

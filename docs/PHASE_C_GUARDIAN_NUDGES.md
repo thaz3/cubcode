@@ -1,12 +1,19 @@
-# C.U.B. Code Phase C1 — Guardian Nudges
+# C.U.B. Code Phase C1 — Small Reminders
+
+## Product name
+**Small Reminders** is the parent-facing name for Phase C1 in-app reminders (internal code: Guardian Nudges).
 
 ## Version
-0.1 — Roadmap Concept (Not Approved for Implementation)
+0.2 — C1 In-App Implementation
 
 ## Status
-**Documentation only.** Do not implement application code until this document is explicitly approved and scheduled after Phase B exit criteria are met.
+**Phase C1 (Small Reminders, in-app) is implemented** in the parent dashboard and family settings.
 
-This document is **Phase C1** (Guardian Nudges). **Phase C2** (Core Challenges) is documented separately in `/docs/PHASE_C2_CORE_CHALLENGES.md`.
+- Delivery: in-app parent cards and nav badge only
+- Parent-first: C.U.B. Code informs the guardian; the guardian decides the response
+- No SMS, email, push notifications, or child-facing reminders in C1
+
+**Phase C2 (Core Challenges)** remains documentation-only. See `/docs/PHASE_C2_CORE_CHALLENGES.md`.
 
 **Naming note:** Delivery stages inside this feature (in-app, email, SMS, Cub) are labeled C1–C4 *within Guardian Nudges*. Those labels are not the same as Phase C1 / Phase C2 product phases.
 
@@ -132,14 +139,23 @@ Guardian Nudges must never:
 
 Parents can disable all external channels and use in-app only.
 
-## Data Model (Conceptual — Not for Implementation Yet)
-Future implementation may need:
-- `ReminderRule` (parent-owned, family-scoped, linked to task or milestone)
-- `ReminderEvent` or delivery log (audit, deduplication, rate limiting)
-- Parent notification preferences (email/SMS opt-in, quiet hours)
-- “Last touched” derived from existing task/progress events — prefer derivation over duplicate tracking where possible
+## Data Model (Implemented for C1)
+C1 uses family-scoped tables:
 
-Schema design awaits explicit Phase C approval.
+- `GuardianNudgeRule` — parent-owned reminder rule toggles per family
+- `GuardianNudgePreferences` — quiet hours, timezone, daily summary time
+- `GuardianNudge` — in-app delivery log with dedupe keys and ACTIVE / SEEN / DISMISSED status
+
+“Touched” is derived from existing task progress (status, focus blocks, checklist, proof) — not from `CLAIMED` alone.
+
+Per-task reminder rules remain a future enhancement. C1 uses family-wide rule toggles.
+
+## C1 Implementation Notes
+- Sync runs on dashboard layout load and after key task actions (assign, start, focus log, submit, review)
+- One nudge per task at a time (priority: review → overdue → due soon → no action)
+- `SUBMITTED_FOR_REVIEW` nudges cannot be dismissed — only marked seen or reviewed
+- Disabling a rule dismisses existing ACTIVE / SEEN nudges of that type
+- Quiet hours hide dashboard cards and return nav badge count `0`
 
 ## Prerequisites Before Parent SMS (C3)
 Build in order:
@@ -175,10 +191,12 @@ Guardian Nudges on challenges follow the same parent-first principle: inform the
 - Cross-family reminder templates marketplace
 
 ## Cursor Instruction
-When this document is approved for implementation:
-1. Ship C1 (in-app only) first.
-2. Preserve parent-first delivery and neutral copy in all channels.
-3. Do not add child phone fields until C3 is explicitly approved.
-4. Do not connect reminders to reward overrides or device control APIs (none exist in MVP).
+When extending Guardian Nudges:
 
-When this document is **not** approved: do not add reminder tables, routes, cron jobs, or notification integrations.
+1. Preserve C1 in-app, parent-first delivery and neutral copy.
+2. Do not add child phone fields, SMS, email, or push without explicit approval and the delivery roadmap order below.
+3. Do not connect reminders to reward overrides or device control APIs (none exist in MVP).
+4. Do not implement Phase C2 Core Challenges from this document.
+
+### Future delivery (not yet implemented)
+Parent email (Guardian Nudges C2), SMS (C3), and Cub-facing reminders (C4) are **not implemented**. See **Reminder Delivery Roadmap** above.

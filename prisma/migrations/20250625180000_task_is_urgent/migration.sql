@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Task" ADD COLUMN "isUrgent" BOOLEAN NOT NULL DEFAULT false;

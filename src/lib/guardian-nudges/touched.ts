@@ -14,7 +14,10 @@ function hasChecklistProgress(checklistData: unknown): boolean {
   return Object.values(checklistData as Record<string, boolean>).some(Boolean);
 }
 
-/** True when the Cub has taken meaningful action beyond parent assignment. */
+/**
+ * True when the Cub has taken meaningful action beyond parent assignment.
+ * `CLAIMED` alone does not count — parent assignment is not Cub progress.
+ */
 export function isTaskTouchedByCub(task: TaskForNudgeEvaluation): boolean {
   if (TOUCHED_STATUSES.has(task.status)) {
     return true;

@@ -213,6 +213,7 @@ export const TaskScalarFieldEnum = {
   dueAt: 'dueAt',
   dueAtHasTime: 'dueAtHasTime',
   recurrence: 'recurrence',
+  isUrgent: 'isUrgent',
   focusSessionStartedAt: 'focusSessionStartedAt',
   startedAt: 'startedAt',
   createdAt: 'createdAt',
