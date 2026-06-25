@@ -15,6 +15,8 @@
 
 **Phase C2 (Core Challenges)** remains documentation-only. See `/docs/PHASE_C2_CORE_CHALLENGES.md`.
 
+**Phase C2B (Focus Deck)** remains documentation-only. See `/docs/PHASE_C2B_FOCUS_DECK.md`.
+
 **Naming note:** Delivery stages inside this feature (in-app, email, SMS, Cub) are labeled C1–C4 *within Guardian Nudges*. Those labels are not the same as Phase C1 / Phase C2 product phases.
 
 ## Feature Names (aliases)
@@ -180,6 +182,11 @@ Core Challenges (`/docs/PHASE_C2_CORE_CHALLENGES.md`) are a separate Phase C cap
 Challenges may optionally attach Guardian Nudge rules (e.g. alert parent if a weekday practice interval has not been started). Nudge linkage is a **later enhancement** after both Phase C1 in-app nudges and Phase C2 challenge loops exist.
 
 Guardian Nudges on challenges follow the same parent-first principle: inform the guardian; the guardian decides the response.
+
+## Relationship to Phase C2B (Focus Deck)
+Focus Deck (`/docs/PHASE_C2B_FOCUS_DECK.md`) is a separate Phase C capability scheduled after Phase C2 `BINARY_ROUTINE` is stable.
+
+Focus Cards may optionally attach Guardian Nudge rules (e.g. alert parent if a card in the weekly stack has not been started). Nudge linkage is a **later enhancement** after Focus Deck completion flows exist.
 
 ## Out of Scope (Phase C and beyond unless separately approved)
 - Automatic device locking/unlocking triggered by reminders

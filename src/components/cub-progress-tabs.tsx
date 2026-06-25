@@ -9,8 +9,8 @@ type CubProgressTabsProps = {
 };
 
 const TABS = [
-  { suffix: "", label: "Overview" },
-  { suffix: "/growth", label: "Growth boards" },
+  { suffix: "", label: "Growth" },
+  { suffix: "/growth", label: "Boards" },
 ] as const;
 
 export function CubProgressTabs({ cubId }: CubProgressTabsProps) {

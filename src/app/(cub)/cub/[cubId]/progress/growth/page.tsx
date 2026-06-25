@@ -23,10 +23,10 @@ export default async function CubGrowthBoardPage({
     <>
       <PageHeader
         title="Growth boards"
-        subtitle="Pick focus sessions and claim work in each growth area. One active focus session per area."
+        subtitle="Pick and claim work in each growth area."
       />
 
-      <GrowthBoardPanels cubId={cubId} board={board} />
+      <GrowthBoardPanels cubId={cubId} board={board} mode="boards" />
     </>
   );
 }

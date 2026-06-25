@@ -182,6 +182,7 @@ The MVP does not include:
 - Advanced analytics
 - **Guardian Nudges / parent reminder rules** (see Phase C1: `/docs/PHASE_C_GUARDIAN_NUDGES.md`)
 - **Core Challenges / repeatable challenge programs** (see Phase C2: `/docs/PHASE_C2_CORE_CHALLENGES.md`)
+- **Focus Deck / multi-area activity cards** (see Phase C2B: `/docs/PHASE_C2B_FOCUS_DECK.md`)
 - **Child-facing reminders or push notifications**
 - **Parent email or SMS reminders**
 - **Automatic consequences or punishment flows triggered by task state**
@@ -609,5 +610,6 @@ The following are documented for alignment but are **not** MVP or Phase B scope:
 | Phase B | Refinement of the existing loop | `/docs/PHASE_B_SCOPE_CONTRACT.md` |
 | Phase C1 | Guardian Nudges (parent-first awareness) | `/docs/PHASE_C_GUARDIAN_NUDGES.md` |
 | Phase C2 | Core Challenges (repeatable growth programs) | `/docs/PHASE_C2_CORE_CHALLENGES.md` |
+| Phase C2B | Focus Deck (multi-area activity cards) | `/docs/PHASE_C2B_FOCUS_DECK.md` |
 
 Do not implement Phase C features until Phase B exit criteria are met and the relevant Phase C document is explicitly approved.

@@ -40,10 +40,10 @@ export function CubTodayEarnedSection({
         </div>
         {showProgressLink ? (
           <Link
-            href={`/cub/${cubId}/progress`}
+            href={`/cub/${cubId}/rewards`}
             className="shrink-0 text-sm font-medium text-cub-gold hover:text-cub-gold-light"
           >
-            All progress →
+            All rewards →
           </Link>
         ) : null}
       </div>

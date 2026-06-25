@@ -28,15 +28,64 @@ const AREA_ACCENT: Record<GrowthAreaBoard["area"], string> = {
   WELLNESS: "border-l-cub-off-white",
 };
 
-type GrowthBoardViewProps = {
+type GrowthBoardPanelsProps = {
   cubId: string;
   board: GrowthBoardView;
+  /** focus = start focus sessions only; boards = claim/continue work; all = everything */
+  mode?: "all" | "focus" | "boards";
 };
 
-export function GrowthBoardPanels({ cubId, board }: GrowthBoardViewProps) {
+export function GrowthBoardPanels({
+  cubId,
+  board,
+  mode = "all",
+}: GrowthBoardPanelsProps) {
+  const showFocus = mode === "all" || mode === "focus";
+  const showBoards = mode === "all" || mode === "boards";
+
+  if (mode === "focus") {
+    return (
+      <Card className="space-y-4">
+        <div>
+          <h2 className="text-lg font-semibold text-cub-off-white">Focus sessions</h2>
+          <p className="mt-1 text-sm text-cub-muted">
+            Start a focus block in each growth area. One active session per area.
+          </p>
+        </div>
+
+        {board.swapCredits > 0 ? (
+          <p className="rounded-lg border border-cub-green/25 bg-cub-green-muted/20 px-3 py-2 text-sm text-cub-muted">
+            <span className="font-medium text-cub-green-light">
+              {board.swapCredits} Focus area swap
+              {board.swapCredits === 1 ? "" : "s"}
+            </span>{" "}
+            available.
+          </p>
+        ) : null}
+
+        <ul className="divide-y divide-cub-charcoal">
+          {board.areas.map((areaBoard) => (
+            <li key={areaBoard.area} className="space-y-2 py-3 first:pt-0 last:pb-0">
+              <p className="text-sm font-semibold text-cub-gold-light">
+                {growthCategoryShortLabel(areaBoard.area)}
+              </p>
+              <FocusBlockLane
+                cubId={cubId}
+                area={areaBoard.area}
+                eligibility={areaBoard.focusEligibility}
+                templates={areaBoard.focusTemplates}
+                swapCredits={board.swapCredits}
+              />
+            </li>
+          ))}
+        </ul>
+      </Card>
+    );
+  }
+
   return (
     <div className="space-y-4">
-      {board.swapCredits > 0 ? (
+      {showFocus && board.swapCredits > 0 ? (
         <Card variant="constructive" className="text-sm text-cub-muted">
           <span className="font-medium text-cub-green-light">
             {board.swapCredits} Focus area swap
@@ -53,6 +102,8 @@ export function GrowthBoardPanels({ cubId, board }: GrowthBoardViewProps) {
           cubId={cubId}
           board={areaBoard}
           swapCredits={board.swapCredits}
+          showFocus={showFocus}
+          showBoards={showBoards}
         />
       ))}
     </div>
@@ -63,45 +114,64 @@ function GrowthAreaBoardPanel({
   cubId,
   board,
   swapCredits,
+  showFocus,
+  showBoards,
+  compact = false,
 }: {
   cubId: string;
   board: GrowthAreaBoard;
   swapCredits: number;
+  showFocus: boolean;
+  showBoards: boolean;
+  compact?: boolean;
 }) {
   const { area, focusEligibility } = board;
-  const hasContent =
-    board.focusTemplates.length > 0 ||
-    board.availableToClaim.length > 0 ||
-    board.yours.length > 0 ||
-    focusEligibility.activeTask != null ||
-    focusEligibility.canClaim;
+  const hasFocusContent =
+    showFocus &&
+    (focusEligibility.activeTask != null ||
+      focusEligibility.canClaim ||
+      board.focusTemplates.length > 0);
+  const hasBoardContent =
+    showBoards &&
+    (board.availableToClaim.length > 0 || board.yours.length > 0);
+  const hasContent = hasFocusContent || hasBoardContent;
+
+  if (!hasContent && compact) {
+    return null;
+  }
 
   return (
     <Card
       className={cn(
-        "space-y-4 border-l-4 pl-4",
-        AREA_ACCENT[area],
+        compact ? "space-y-3 p-4" : "space-y-4 border-l-4 pl-4",
+        !compact && AREA_ACCENT[area],
       )}
     >
       <div>
         <p className={cubSectionLabel}>{growthCategoryShortLabel(area)}</p>
-        <h2 className="text-lg font-semibold text-cub-off-white">
-          {GROWTH_CATEGORY_LABELS[area]}
-        </h2>
+        {!compact ? (
+          <h2 className="text-lg font-semibold text-cub-off-white">
+            {GROWTH_CATEGORY_LABELS[area]}
+          </h2>
+        ) : null}
       </div>
 
-      <section className="space-y-2">
-        <h3 className="text-sm font-medium text-cub-off-white">Focus Block</h3>
-        <FocusBlockLane
-          cubId={cubId}
-          area={area}
-          eligibility={focusEligibility}
-          templates={board.focusTemplates}
-          swapCredits={swapCredits}
-        />
-      </section>
+      {showFocus ? (
+        <section className="space-y-2">
+          {!compact ? (
+            <h3 className="text-sm font-medium text-cub-off-white">Focus Block</h3>
+          ) : null}
+          <FocusBlockLane
+            cubId={cubId}
+            area={area}
+            eligibility={focusEligibility}
+            templates={board.focusTemplates}
+            swapCredits={swapCredits}
+          />
+        </section>
+      ) : null}
 
-      {board.availableToClaim.length > 0 ? (
+      {showBoards && board.availableToClaim.length > 0 ? (
         <section className="space-y-2">
           <h3 className="text-sm font-medium text-cub-off-white">Claim from board</h3>
           <ul className="space-y-2">
@@ -118,7 +188,7 @@ function GrowthAreaBoardPanel({
         </section>
       ) : null}
 
-      {board.yours.length > 0 ? (
+      {showBoards && board.yours.length > 0 ? (
         <section className="space-y-2">
           <h3 className="text-sm font-medium text-cub-off-white">Your work</h3>
           <ul className="space-y-2">
@@ -143,7 +213,7 @@ function GrowthAreaBoardPanel({
         </section>
       ) : null}
 
-      {!hasContent ? (
+      {!hasContent && !compact ? (
         <p className="text-sm text-cub-muted">
           Nothing on this board yet. Ask your parent to publish tasks tagged with{" "}
           {growthCategoryShortLabel(area)}.

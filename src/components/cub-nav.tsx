@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils";
 
 type CubNavProps = {
   cubId: string;
+  showCubSwitcher?: boolean;
 };
 
-export function CubNav({ cubId }: CubNavProps) {
+export function CubNav({ cubId, showCubSwitcher = false }: CubNavProps) {
   const pathname = usePathname();
   const base = `/cub/${cubId}`;
 
@@ -38,6 +39,17 @@ export function CubNav({ cubId }: CubNavProps) {
             </Link>
           );
         })}
+        {showCubSwitcher ? (
+          <Link
+            href="/cub"
+            className={cn(
+              "flex min-h-14 min-w-0 flex-1 flex-col items-center justify-center rounded-lg px-1 py-2 text-[11px] font-medium transition",
+              pathname === "/cub" ? cubNavActive : cubNavInactive,
+            )}
+          >
+            Switch
+          </Link>
+        ) : null}
       </div>
     </nav>
   );

@@ -30,15 +30,9 @@ import {
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
 import { sortTasksByUrgency } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
-import { getTodayNextAction } from "@/lib/today-next-action";
 import { getHouseholdWeeklyProgress } from "@/lib/weekly-progress";
 import { cubAccentClassNames } from "@/lib/cub-colors";
-import {
-  cubSectionLabel,
-  cubSectionTitle,
-  nextActionButtonVariant,
-  nextActionCardClass,
-} from "@/lib/cub-theme";
+import { cubSectionTitle } from "@/lib/cub-theme";
 import {
   ensureGuardianNudgePreferences,
   getActiveGuardianNudgesForFamily,
@@ -67,10 +61,9 @@ export default async function DashboardPage() {
   const [
     pendingTaskReview,
     pendingChallengeReview,
-    sentBackCount,
     activeTasks,
+    focusInProgressTasks,
     councilDaySession,
-    focusInProgress,
     guardianNudgePrefs,
     guardianNudges,
   ] = await Promise.all([
@@ -78,9 +71,6 @@ export default async function DashboardPage() {
       where: { familyId: family.id, status: "SUBMITTED" },
     }),
     countSubmittedChallengeLogs(family.id),
-    db.task.count({
-      where: { familyId: family.id, status: "SENT_BACK" },
-    }),
     db.task.findMany({
       where: {
         familyId: family.id,
@@ -89,6 +79,20 @@ export default async function DashboardPage() {
       },
       include: { cub: true },
       orderBy: [{ claimedAt: "desc" }],
+    }),
+    db.task.findMany({
+      where: {
+        familyId: family.id,
+        status: "IN_PROGRESS",
+        focusSessionStartedAt: { not: null },
+      },
+      select: {
+        id: true,
+        title: true,
+        cubId: true,
+        cub: { select: { displayName: true } },
+      },
+      orderBy: { focusSessionStartedAt: "desc" },
     }),
     family.cubs.length > 0
       ? db.councilDaySession.findUnique({
@@ -101,15 +105,6 @@ export default async function DashboardPage() {
           select: { conductedAt: true, id: true },
         })
       : Promise.resolve(null),
-    db.task.findFirst({
-      where: {
-        familyId: family.id,
-        status: "IN_PROGRESS",
-        focusSessionStartedAt: { not: null },
-      },
-      select: { id: true, title: true, cubId: true },
-      orderBy: { focusSessionStartedAt: "desc" },
-    }),
     ensureGuardianNudgePreferences(family.id),
     getActiveGuardianNudgesForFamily(family.id),
   ]);
@@ -162,25 +157,15 @@ export default async function DashboardPage() {
     })),
   );
 
-  const nextAction = getTodayNextAction({
-    pendingReview,
-    cubsCount: family.cubs.length,
-    activeTasksCount: activeTasks.length,
-    sentBackCount,
-    inProgressWithFocus: focusInProgress
-      ? {
-          title: focusInProgress.title,
-          href: focusInProgress.cubId
-            ? `/dashboard/cubs/${focusInProgress.cubId}/tasks`
-            : `/dashboard/tasks/${focusInProgress.id}`,
-        }
-      : null,
-    familyDayPending:
-      family.cubs.length > 0 && !councilDaySession?.conductedAt && !councilDaySession?.id,
-    familyDayInProgress:
-      Boolean(councilDaySession?.id) && !councilDaySession?.conductedAt,
-    weekQuery,
-  });
+  const focusSessionReminders = focusInProgressTasks.map((task) => ({
+    id: task.id,
+    title: task.title,
+    cubId: task.cubId,
+    cubName: task.cub?.displayName ?? null,
+    href: task.cubId
+      ? `/dashboard/cubs/${task.cubId}/tasks`
+      : `/dashboard/tasks/${task.id}`,
+  }));
 
   const greeting = session.user.name
     ? `Welcome back, ${session.user.name.split(" ")[0]}`
@@ -190,39 +175,62 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Dashboard"
+        title="Parent's Room"
         subtitle={`Today's Code · ${weekLabel}`}
       />
       <p className="-mt-4 text-sm text-cub-muted">{greeting}</p>
 
-      <GuardianNudgesSection
-        nudges={guardianNudges}
-        hiddenByQuietHours={quietHoursActive}
-      />
-
-      <Card className={cn("space-y-4", nextActionCardClass(nextAction.priority))}>
-        <div>
-          <p className={cubSectionLabel}>Next up</p>
-          <h2 className="mt-1 text-xl font-bold text-cub-off-white">
-            {nextAction.title}
-          </h2>
-          <p className="mt-2 text-sm text-cub-muted">
-            {nextAction.description}
-          </p>
-        </div>
-        <Link href={nextAction.href}>
-          <Button
-            fullWidth
-            size="lg"
-            variant={nextActionButtonVariant(
-              nextAction.priority,
-              nextAction.buttonLabel,
+      {family.cubs.length > 0 ? (
+        <section className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className={cubSectionTitle}>Your Cubs</h2>
+            <Link
+              href="/dashboard/cubs"
+              className="text-sm font-medium text-cub-gold"
+            >
+              All Cubs →
+            </Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {cubRewardSummaries.map(
+              ({ cub, summary, activeCount, assignedCount }) => {
+                const growth = cubGrowthSummaries.find(
+                  (row) => row.cub.id === cub.id,
+                )?.growth;
+                return (
+                  <div key={cub.id} className="flex flex-col gap-3">
+                    <CubCard
+                      cub={cub}
+                      assignedCount={assignedCount}
+                      activeCount={activeCount}
+                      rewards={summary}
+                    />
+                    {growth ? (
+                      <GrowthAreasCard
+                        variant="mini"
+                        summary={growth}
+                        cubId={cub.id}
+                        cubName={cub.displayName}
+                        className={cubAccentClassNames(cub.id, { border: true })}
+                      />
+                    ) : null}
+                  </div>
+                );
+              },
             )}
-          >
-            {nextAction.buttonLabel}
-          </Button>
-        </Link>
-      </Card>
+          </div>
+        </section>
+      ) : (
+        <Card className="space-y-4">
+          <h2 className={cubSectionTitle}>Your Cubs</h2>
+          <p className="text-sm text-cub-muted">
+            Add a Cub profile to assign tasks and track growth.
+          </p>
+          <Link href="/dashboard/cubs/new">
+            <Button>Add your first Cub</Button>
+          </Link>
+        </Card>
+      )}
 
       {family.cubs.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -230,7 +238,7 @@ export default async function DashboardPage() {
             label="Needs review"
             value={String(pendingReview)}
             detail={pendingReview > 0 ? "Waiting for you" : "All caught up"}
-            highlight={pendingReview > 0 ? "gold" : "gold"}
+            highlight="gold"
           />
           <StatCard
             label="Active tasks"
@@ -299,47 +307,11 @@ export default async function DashboardPage() {
         </section>
       ) : null}
 
-      {family.cubs.length > 0 ? (
-        <section className="space-y-3">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className={cubSectionTitle}>Your Cubs</h2>
-            <Link
-              href="/dashboard/cubs"
-              className="text-sm font-medium text-cub-gold"
-            >
-              All Cubs →
-            </Link>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {cubRewardSummaries.map(
-              ({ cub, summary, activeCount, assignedCount }) => {
-                const growth = cubGrowthSummaries.find(
-                  (row) => row.cub.id === cub.id,
-                )?.growth;
-                return (
-                  <div key={cub.id} className="flex flex-col gap-3">
-                    <CubCard
-                      cub={cub}
-                      assignedCount={assignedCount}
-                      activeCount={activeCount}
-                      rewards={summary}
-                    />
-                    {growth ? (
-                      <GrowthAreasCard
-                        variant="mini"
-                        summary={growth}
-                        cubId={cub.id}
-                        cubName={cub.displayName}
-                        className={cubAccentClassNames(cub.id, { border: true })}
-                      />
-                    ) : null}
-                  </div>
-                );
-              },
-            )}
-          </div>
-        </section>
-      ) : null}
+      <GuardianNudgesSection
+        nudges={guardianNudges}
+        focusSessions={focusSessionReminders}
+        hiddenByQuietHours={quietHoursActive}
+      />
 
       <section className="space-y-3">
         <div>

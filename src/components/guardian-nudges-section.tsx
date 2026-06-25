@@ -58,20 +58,38 @@ const NUDGE_BADGE: Record<GuardianNudgeRuleType, string> = {
     "bg-cub-gold-muted text-cub-gold-light ring-cub-gold/50",
 };
 
+type FocusSessionReminder = {
+  id: string;
+  title: string;
+  cubId: string | null;
+  cubName: string | null;
+  href: string;
+};
+
 type GuardianNudgesSectionProps = {
   nudges: NudgeWithRelations[];
+  focusSessions?: FocusSessionReminder[];
   hiddenByQuietHours?: boolean;
 };
 
+const FOCUS_BADGE =
+  "bg-cub-green-muted text-cub-green-light ring-cub-green-bright/45";
+
 export function GuardianNudgesSection({
   nudges,
+  focusSessions = [],
   hiddenByQuietHours = false,
 }: GuardianNudgesSectionProps) {
-  if (nudges.length === 0) {
+  const hasFocus = focusSessions.length > 0;
+  const hasNudges = nudges.length > 0;
+
+  if (!hasFocus && !hasNudges) {
     return null;
   }
 
-  const unseenCount = nudges.filter((nudge) => nudge.status === "ACTIVE").length;
+  const unseenCount =
+    nudges.filter((nudge) => nudge.status === "ACTIVE").length +
+    focusSessions.length;
 
   return (
     <section id="small-reminders" className="scroll-mt-4">
@@ -109,7 +127,7 @@ export function GuardianNudgesSection({
         </div>
 
         <div className="space-y-3 p-4">
-          {hiddenByQuietHours ? (
+          {hiddenByQuietHours && hasNudges ? (
             <div className={cn("rounded-xl px-4 py-4", cubNudgeCard)}>
               <p className="text-sm font-medium text-cub-off-white">
                 {nudges.length} nudge{nudges.length === 1 ? "" : "s"} waiting
@@ -119,9 +137,50 @@ export function GuardianNudgesSection({
                 Review and tasks are not affected.
               </p>
             </div>
-          ) : (
-            <ul className="space-y-3">
-              {nudges.map((nudge) => {
+          ) : null}
+
+          <ul className="space-y-3">
+            {focusSessions.map((session) => (
+              <li key={`focus-${session.id}`}>
+                <div
+                  className={cn(
+                    "rounded-xl border-l-4 border-l-cub-green-bright p-4 shadow-sm",
+                    "border border-cub-green/30 bg-cub-green-muted/15 ring-1 ring-cub-green/20",
+                  )}
+                >
+                  <div className="space-y-2">
+                    <span
+                      className={cn(
+                        "inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ring-1",
+                        FOCUS_BADGE,
+                      )}
+                    >
+                      Focus
+                    </span>
+                    <p className="text-base font-medium leading-snug text-cub-off-white">
+                      {session.title}
+                    </p>
+                    {session.cubName ? (
+                      <p className="text-sm text-cub-muted">{session.cubName}</p>
+                    ) : null}
+                    <p className="text-sm text-cub-green-light">
+                      Request timer running — check in when they submit.
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <Link href={session.href}>
+                      <Button size="sm" variant="constructive">
+                        Continue task
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </li>
+            ))}
+
+            {hiddenByQuietHours
+              ? null
+              : nudges.map((nudge) => {
                 const isNew = nudge.status === "ACTIVE";
                 const reviewCta = nudge.type === "SUBMITTED_FOR_REVIEW";
 
@@ -173,8 +232,7 @@ export function GuardianNudgesSection({
                   </li>
                 );
               })}
-            </ul>
-          )}
+          </ul>
         </div>
       </Card>
     </section>

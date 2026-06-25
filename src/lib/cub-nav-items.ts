@@ -3,6 +3,7 @@ export const CUB_NAV_ITEMS = [
   { suffix: "/tasks", label: "Tasks" },
   { suffix: "/challenges", label: "Routines" },
   { suffix: "/progress", label: "Progress" },
+  { suffix: "/rewards", label: "Rewards" },
 ] as const;
 
 export function isCubNavActive(

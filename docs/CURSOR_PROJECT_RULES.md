@@ -15,6 +15,7 @@ Read that file before making implementation decisions.
 
 - `/docs/PHASE_C_GUARDIAN_NUDGES.md` (Phase C1)
 - `/docs/PHASE_C2_CORE_CHALLENGES.md` (Phase C2)
+- `/docs/PHASE_C2B_FOCUS_DECK.md` (Phase C2B)
 
 ## MVP Goal
 The MVP goal is to prove the first household loop:
@@ -72,6 +73,7 @@ Do not implement:
 - Advanced analytics
 - Complex fraud detection
 - Core Challenges / repeatable challenge programs (Phase C2)
+- Focus Deck / multi-area activity cards (Phase C2B)
 - Child-facing reminders or notifications
 - Parent email, SMS, or push Guardian Nudge delivery (beyond C1 in-app)
 - Automatic punishment or consequence flows triggered by reminders
@@ -412,3 +414,12 @@ They strengthen the household loop; they do not replace tasks or add device cont
 - Organization dashboards or child-to-child challenges
 
 Full specification: `/docs/PHASE_C2_CORE_CHALLENGES.md`
+
+## Focus Deck (Phase C2B — Documentation Only)
+**Do not implement until explicitly approved after Phase C2 `BINARY_ROUTINE` is stable.**
+
+Focus Deck gives parents a stack of parent-approved activity cards Cubs can choose from. Each card represents focused practice or study that awards **weighted points across multiple growth areas** (Character, Wellness, Creativity, Responsibility, Community).
+
+Focus Deck does not replace Tasks or Challenges. It feeds the same loop: **Focus Card → Activity → Proof → Parent Approval → Earned Digital Freedom**.
+
+Full specification: `/docs/PHASE_C2B_FOCUS_DECK.md`

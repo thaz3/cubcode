@@ -59,6 +59,7 @@ export function GrowthAreasCard({
         summary={summary}
         cubName={cubName}
         cubId={cubId}
+        audience={audience}
         className={className}
       />
     );
@@ -115,6 +116,7 @@ type GrowthAreasMiniCardProps = {
   summary: GrowthAreaSummary;
   cubName?: string;
   cubId?: string;
+  audience?: "parent" | "cub";
   className?: string;
 };
 
@@ -122,9 +124,14 @@ function GrowthAreasMiniCard({
   summary,
   cubName,
   cubId,
+  audience = "parent",
   className,
 }: GrowthAreasMiniCardProps) {
-  const progressHref = cubId ? `/dashboard/cubs/${cubId}/progress` : undefined;
+  const progressHref = cubId
+    ? audience === "cub"
+      ? `/cub/${cubId}/progress`
+      : `/dashboard/cubs/${cubId}/progress`
+    : undefined;
 
   return (
     <Card
@@ -134,13 +141,9 @@ function GrowthAreasMiniCard({
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
-            Growth areas
+            Growth this week
           </p>
-          {cubName ? (
-            <p className="mt-0.5 truncate text-sm font-semibold text-cub-off-white">
-              {cubName}
-            </p>
-          ) : null}
+          <p className="mt-0.5 text-sm text-cub-muted">{summary.weekLabel}</p>
         </div>
         <p className="shrink-0 text-right text-sm font-semibold text-cub-green-light">
           {summary.coverage.met}/{summary.coverage.total}
@@ -189,7 +192,7 @@ function GrowthAreasMiniCard({
           href={progressHref}
           className="text-center text-xs font-medium text-cub-gold-light hover:text-cub-gold-warm"
         >
-          View growth details →
+          View full growth →
         </Link>
       ) : null}
     </Card>

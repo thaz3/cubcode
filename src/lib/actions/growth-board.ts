@@ -30,6 +30,7 @@ function revalidateCubGrowthPaths(cubId: string) {
   revalidatePath(`/cub/${cubId}/tasks`);
   revalidatePath(`/cub/${cubId}/progress`);
   revalidatePath(`/cub/${cubId}/progress/growth`);
+  revalidatePath(`/cub/${cubId}/rewards`);
   revalidatePath(`/dashboard/cubs/${cubId}/progress`);
 }
 

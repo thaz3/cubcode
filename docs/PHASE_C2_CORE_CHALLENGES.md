@@ -257,6 +257,18 @@ Future `GuardianNudgeRule` (or successor) should support optional linkage to `Ch
 
 Tasks remain valid for one-off work. Challenges are for ongoing agreements. Do not force all chores into challenges or all challenges into the task board without explicit product design during implementation approval.
 
+## Relationship to Focus Deck (Phase C2B)
+
+Focus Deck (`/docs/PHASE_C2B_FOCUS_DECK.md`) is a **later** roadmap item. Ship `BINARY_ROUTINE` (and ideally numeric challenges) before Focus Deck.
+
+| | Challenge | Focus Activity Card |
+|---|-----------|---------------------|
+| Shape | Repeatable program with interval + target | Parent-approved card; Cub picks from weekly stack |
+| Growth | Optional single tag | Multi-area weighted point spread |
+| Best for | Ongoing agreements (practice, chores, grade checks) | Rich development activities (walk + journal, elder interview, room reset) |
+
+Both may feed the same weekly growth graph and ledger system. Do not merge models without an approved schema plan.
+
 ## Prerequisites
 
 Build in order:

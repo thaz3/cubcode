@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { CubColorDot } from "@/components/cub-color-dot";
 import { EmptyState } from "@/components/ui/empty-state";
 import { auth } from "@/lib/auth";
 import { getFamilyForUser } from "@/lib/session";
@@ -42,14 +43,16 @@ export default async function CubPickerPage() {
         </p>
         <h1 className="mt-2 text-2xl font-bold text-zinc-50">Who is using this device?</h1>
         <p className="mt-2 text-sm text-zinc-400">
-          Pick your profile. Parents can switch back anytime.
+          Pick your profile to see your chores and tasks. Switch here anytime if
+          a sibling needs a turn.
         </p>
       </div>
       <ul className="space-y-3">
         {family.cubs.map((cub) => (
           <li key={cub.id}>
             <Link href={`/cub/${cub.id}`}>
-              <Card variant="interactive" className="text-center">
+              <Card variant="interactive" className="flex items-center justify-center gap-3 py-5 text-center">
+                <CubColorDot cubId={cub.id} className="h-4 w-4" />
                 <p className="text-lg font-semibold text-zinc-50">
                   {cub.displayName}
                 </p>
