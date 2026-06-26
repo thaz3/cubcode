@@ -21,13 +21,13 @@ type CubHeaderProps = {
 };
 
 export function CubHeader({ cubId, displayName, focusTokens, cubs }: CubHeaderProps) {
-  const { pathname } = useCubNavLocation();
+  const { pathname, hash } = useCubNavLocation();
   const base = `/cub/${cubId}`;
   const [questsMenuOpen, setQuestsMenuOpen] = useState(false);
 
   useEffect(() => {
     setQuestsMenuOpen(false);
-  }, [pathname]);
+  }, [pathname, hash]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-violet-500/20 bg-cub-deep-black/90 backdrop-blur-md">

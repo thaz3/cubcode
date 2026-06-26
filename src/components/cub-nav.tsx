@@ -25,21 +25,21 @@ type CubNavProps = {
 };
 
 export function CubNav({ cubId, cubs, currentDisplayName }: CubNavProps) {
-  const { pathname } = useCubNavLocation();
+  const { pathname, hash } = useCubNavLocation();
   const base = `/cub/${cubId}`;
   const [questsMenuOpen, setQuestsMenuOpen] = useState(false);
 
   useEffect(() => {
     setQuestsMenuOpen(false);
-  }, [pathname]);
+  }, [pathname, hash]);
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-500/25 bg-cub-deep-black/95 backdrop-blur-md lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 overflow-visible border-t border-violet-500/25 bg-cub-deep-black/95 backdrop-blur-md lg:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label="Cub navigation"
     >
-      <div className="mx-auto flex max-w-lg items-stretch justify-around px-1 pt-1">
+      <div className="mx-auto flex max-w-lg items-stretch justify-around overflow-visible px-1 pt-1">
         {CUB_NAV_ITEMS.map((item) => {
           if (item.type === "group") {
             return (

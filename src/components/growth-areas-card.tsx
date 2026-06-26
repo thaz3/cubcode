@@ -20,21 +20,24 @@ const AREA_COLORS: Record<GrowthCategory, string> = {
   COMMUNITY: "text-cub-green-light",
 };
 
-const AREA_RING: Record<GrowthCategory, string> = {
-  CHARACTER: "stroke-cub-green-light",
-  WELLNESS: "stroke-cub-off-white",
-  CREATIVITY: "stroke-cub-gold-warm",
-  RESPONSIBILITY: "stroke-cub-gold",
-  COMMUNITY: "stroke-cub-green-bright",
+const GROWTH_RING_COLORS: Record<GrowthCategory, string> = {
+  CHARACTER: "#6ee7b7",
+  WELLNESS: "#f4f1ea",
+  CREATIVITY: "#f2c14e",
+  RESPONSIBILITY: "#d5a021",
+  COMMUNITY: "#4ade80",
 };
 
-const AREA_FILL: Record<GrowthCategory, string> = {
-  CHARACTER: "fill-cub-green-light/30",
-  WELLNESS: "fill-cub-off-white/20",
-  CREATIVITY: "fill-cub-gold-warm/35",
-  RESPONSIBILITY: "fill-cub-gold/35",
-  COMMUNITY: "fill-cub-green-bright/35",
+const GROWTH_FILL_COLORS: Record<GrowthCategory, string> = {
+  CHARACTER: "rgba(110, 231, 183, 0.35)",
+  WELLNESS: "rgba(244, 241, 234, 0.2)",
+  CREATIVITY: "rgba(242, 193, 78, 0.35)",
+  RESPONSIBILITY: "rgba(213, 160, 33, 0.35)",
+  COMMUNITY: "rgba(74, 222, 128, 0.35)",
 };
+
+const GROWTH_TRACK_COLOR = "#78716c";
+const GROWTH_GRID_COLOR = "#57534e";
 
 function radarLabelAnchor(angle: number): "start" | "middle" | "end" {
   const x = Math.cos(angle);
@@ -196,8 +199,9 @@ function GrowthAreasMiniCard({
                 }
               >
                 <CoverageRing
+                  area={area}
                   filled={filled}
-                  strokeClass={AREA_RING[area]}
+                  points={count}
                   label={growthCategoryShortLabel(area)}
                   size="sm"
                 />
@@ -253,8 +257,9 @@ function GrowthAreasMiniCard({
               }
             >
               <CoverageRing
+                area={area}
                 filled={filled}
-                strokeClass={AREA_RING[area]}
+                points={count}
                 label={growthCategoryShortLabel(area)}
                 size="sm"
               />
@@ -299,8 +304,9 @@ function CoverageRings({ summary }: { summary: GrowthAreaSummary }) {
               className="flex items-center gap-3 rounded-xl border border-cub-green/25 bg-cub-ebony/50 px-3 py-2.5"
             >
               <CoverageRing
+                area={area}
                 filled={filled}
-                strokeClass={AREA_RING[area]}
+                points={stats.points}
                 label={growthCategoryShortLabel(area)}
               />
               <div className="min-w-0">
@@ -320,52 +326,36 @@ function CoverageRings({ summary }: { summary: GrowthAreaSummary }) {
 }
 
 function CoverageRing({
+  area,
   filled,
-  strokeClass,
+  points = 0,
   label,
   size = "md",
 }: {
+  area: GrowthCategory;
   filled: boolean;
-  strokeClass: string;
+  points?: number;
   label: string;
   size?: "sm" | "md";
 }) {
-  const radius = size === "sm" ? 12 : 18;
-  const dimension = size === "sm" ? 28 : 44;
-  const strokeWidth = size === "sm" ? 3 : 4;
-  const circumference = 2 * Math.PI * radius;
-  const dash = filled ? circumference : circumference * 0.2;
-  const center = dimension / 2;
+  const dim = size === "sm" ? 32 : 48;
+  const thickness = size === "sm" ? 4 : 5;
+  const color = GROWTH_RING_COLORS[area];
+  const sweep = filled ? Math.min(100, Math.max(30, (points / 5) * 100)) : 18;
 
   return (
-    <svg
-      width={dimension}
-      height={dimension}
-      viewBox={`0 0 ${dimension} ${dimension}`}
-      className="shrink-0"
-      aria-hidden
-    >
-      <title>{`${label}: ${filled ? "work shown" : "no work yet"}`}</title>
-      <circle
-        cx={center}
-        cy={center}
-        r={radius}
-        className="stroke-cub-charcoal"
-        strokeWidth={strokeWidth}
-        fill="none"
-      />
-      <circle
-        cx={center}
-        cy={center}
-        r={radius}
-        className={cn(strokeClass, filled ? "opacity-100" : "opacity-35")}
-        strokeWidth={strokeWidth}
-        fill="none"
-        strokeLinecap="round"
-        strokeDasharray={`${dash} ${circumference}`}
-        transform={`rotate(-90 ${center} ${center})`}
-      />
-    </svg>
+    <div
+      className="shrink-0 rounded-full"
+      role="img"
+      aria-label={`${label}: ${filled ? "work shown" : "no work yet"}`}
+      style={{
+        width: dim,
+        height: dim,
+        background: `conic-gradient(from -90deg, ${color} 0deg, ${color} ${sweep * 3.6}deg, ${GROWTH_TRACK_COLOR} ${sweep * 3.6}deg, ${GROWTH_TRACK_COLOR} 360deg)`,
+        WebkitMaskImage: `radial-gradient(farthest-side, transparent calc(100% - ${thickness}px), #000 calc(100% - ${thickness}px))`,
+        maskImage: `radial-gradient(farthest-side, transparent calc(100% - ${thickness}px), #000 calc(100% - ${thickness}px))`,
+      }}
+    />
   );
 }
 
@@ -415,8 +405,9 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
               <polygon
                 key={level}
                 points={ring}
-                className="fill-none stroke-cub-charcoal"
-                strokeWidth="1"
+                fill="none"
+                stroke={GROWTH_GRID_COLOR}
+                strokeWidth={1}
               />
             );
           })}
@@ -435,8 +426,8 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
                   y1={center}
                   x2={outer.x}
                   y2={outer.y}
-                  className="stroke-cub-charcoal"
-                  strokeWidth="1"
+                  stroke={GROWTH_GRID_COLOR}
+                  strokeWidth={1}
                 />
                 <text
                   x={lx}
@@ -457,8 +448,9 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
           {summary.totalPoints > 0 ? (
             <polygon
               points={polygon}
-              className="fill-cub-gold/25 stroke-cub-gold-warm"
-              strokeWidth="2"
+              fill="rgba(213, 160, 33, 0.25)"
+              stroke="#f2c14e"
+              strokeWidth={2}
             />
           ) : null}
           {ALL_GROWTH_CATEGORIES.map((area) => {
@@ -470,8 +462,9 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
                   cx={p.x}
                   cy={p.y}
                   r={points > 0 ? 5 : 3}
-                  className={cn(AREA_FILL[area], AREA_RING[area])}
-                  strokeWidth="2"
+                  fill={GROWTH_FILL_COLORS[area]}
+                  stroke={GROWTH_RING_COLORS[area]}
+                  strokeWidth={2}
                 />
               </g>
             );
