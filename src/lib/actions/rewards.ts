@@ -8,6 +8,7 @@ import {
   applyStoreRewardGrant,
   ensureDefaultRewardStoreItems,
 } from "@/lib/rewards";
+import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 
 const rewardItemSchema = z
@@ -40,8 +41,7 @@ const redeemSchema = z.object({
 function revalidateRewardPaths(cubId: string) {
   revalidatePath("/dashboard/rewards");
   revalidatePath(`/dashboard/cubs/${cubId}/progress`);
-  revalidatePath(`/cub/${cubId}/progress`);
-  revalidatePath(`/cub/${cubId}/progress/growth`);
+  revalidatePath(cubProgressPath(cubId));
   revalidatePath(`/cub/${cubId}/rewards`);
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/cubs");

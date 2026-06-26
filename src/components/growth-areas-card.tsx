@@ -8,6 +8,7 @@ import {
   growthCategoryShortLabel,
 } from "@/lib/task-categories";
 import type { GrowthAreaSummary } from "@/lib/growth-area-summary";
+import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { cn } from "@/lib/utils";
 
 const AREA_COLORS: Record<GrowthCategory, string> = {
@@ -39,7 +40,6 @@ type GrowthAreasCardProps = {
   cubName?: string;
   cubId?: string;
   audience?: "parent" | "cub";
-  compact?: boolean;
   variant?: "full" | "mini";
   className?: string;
 };
@@ -49,7 +49,6 @@ export function GrowthAreasCard({
   cubName,
   cubId,
   audience = "parent",
-  compact = false,
   variant = "full",
   className,
 }: GrowthAreasCardProps) {
@@ -87,24 +86,11 @@ export function GrowthAreasCard({
           {summary.coverage.met}/{summary.coverage.total} required areas with
           work this week
         </p>
-        {audience === "cub" && cubId ? (
-          <Link
-            href={`/cub/${cubId}/progress/growth`}
-            className="mt-3 inline-block text-sm font-medium text-cub-gold-light hover:text-cub-gold-warm"
-          >
-            Open growth boards →
-          </Link>
-        ) : null}
       </div>
 
-      <div
-        className={cn(
-          "grid gap-6",
-          compact ? "md:grid-cols-[auto_1fr]" : "lg:grid-cols-[220px_1fr]",
-        )}
-      >
+      <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
         <CoverageRings summary={summary} />
-        <GrowthRadar summary={summary} compact={compact} />
+        <GrowthRadar summary={summary} />
       </div>
 
       <GrowthAreaDrillDown summary={summary} />
@@ -129,25 +115,20 @@ function GrowthAreasMiniCard({
 }: GrowthAreasMiniCardProps) {
   const progressHref = cubId
     ? audience === "cub"
-      ? `/cub/${cubId}/progress`
+      ? cubProgressPath(cubId)
       : `/dashboard/cubs/${cubId}/progress`
     : undefined;
 
   return (
     <Card
       variant="constructive"
-      className={cn("flex h-full flex-col gap-3 p-4", className)}
+      className={cn("flex flex-col gap-3 p-4", className)}
     >
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
-            Growth this week
-          </p>
-          <p className="mt-0.5 text-sm text-cub-muted">{summary.weekLabel}</p>
-        </div>
-        <p className="shrink-0 text-right text-sm font-semibold text-cub-green-light">
-          {summary.coverage.met}/{summary.coverage.total}
+      <div>
+        <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
+          Growth this week
         </p>
+        <p className="mt-0.5 text-sm text-cub-muted">{summary.weekLabel}</p>
       </div>
 
       <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
@@ -182,10 +163,6 @@ function GrowthAreasMiniCard({
           );
         })}
       </ul>
-
-      <div className="flex flex-1 items-center justify-center py-1">
-        <GrowthRadar summary={summary} compact mini />
-      </div>
 
       {progressHref ? (
         <Link
@@ -287,18 +264,10 @@ function CoverageRing({
   );
 }
 
-function GrowthRadar({
-  summary,
-  compact,
-  mini,
-}: {
-  summary: GrowthAreaSummary;
-  compact?: boolean;
-  mini?: boolean;
-}) {
-  const size = mini ? 120 : compact ? 200 : 260;
+function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
+  const size = 260;
   const center = size / 2;
-  const maxRadius = center - (mini ? 22 : 36);
+  const maxRadius = center - 36;
   const angles = ALL_GROWTH_CATEGORIES.map(
     (_, index) => -Math.PI / 2 + (index * 2 * Math.PI) / ALL_GROWTH_CATEGORIES.length,
   );
@@ -307,8 +276,7 @@ function GrowthRadar({
     const index = ALL_GROWTH_CATEGORIES.indexOf(area);
     const angle = angles[index]!;
     const value = summary.byArea[area].completions;
-    const radius =
-      (value / summary.maxCompletions) * maxRadius * scale;
+    const radius = (value / summary.maxCompletions) * maxRadius * scale;
     return {
       x: center + radius * Math.cos(angle),
       y: center + radius * Math.sin(angle),
@@ -316,19 +284,15 @@ function GrowthRadar({
   }
 
   const gridLevels = [0.25, 0.5, 0.75, 1];
-  const dataPoints = ALL_GROWTH_CATEGORIES.map((area) =>
-    pointFor(area, 1),
-  );
+  const dataPoints = ALL_GROWTH_CATEGORIES.map((area) => pointFor(area, 1));
   const polygon = dataPoints.map((p) => `${p.x},${p.y}`).join(" ");
 
   return (
-    <div className={cn("space-y-3", mini && "space-y-0")}>
-      {!mini ? (
-        <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
-          Balance
-        </p>
-      ) : null}
-      <div className={cn("mx-auto w-full", mini ? "max-w-[120px]" : "max-w-xs")}>
+    <div className="space-y-3">
+      <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
+        Balance
+      </p>
+      <div className="mx-auto w-full max-w-xs">
         <svg
           viewBox={`0 0 ${size} ${size}`}
           className="w-full"
@@ -353,35 +317,31 @@ function GrowthRadar({
           {ALL_GROWTH_CATEGORIES.map((area, index) => {
             const outer = pointFor(area, 1);
             const angle = angles[index]!;
-            const labelRadius = maxRadius + (mini ? 14 : 22);
+            const labelRadius = maxRadius + 22;
             const lx = center + labelRadius * Math.cos(angle);
             const ly = center + labelRadius * Math.sin(angle);
             return (
               <g key={area}>
-                {!mini ? (
-                  <line
-                    x1={center}
-                    y1={center}
-                    x2={outer.x}
-                    y2={outer.y}
-                    className="stroke-cub-charcoal"
-                    strokeWidth="1"
-                  />
-                ) : null}
-                {!mini ? (
-                  <text
-                    x={lx}
-                    y={ly}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className={cn(
-                      "fill-current text-[10px] font-semibold",
-                      AREA_COLORS[area],
-                    )}
-                  >
-                    {growthCategoryShortLabel(area)}
-                  </text>
-                ) : null}
+                <line
+                  x1={center}
+                  y1={center}
+                  x2={outer.x}
+                  y2={outer.y}
+                  className="stroke-cub-charcoal"
+                  strokeWidth="1"
+                />
+                <text
+                  x={lx}
+                  y={ly}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className={cn(
+                    "fill-current text-[10px] font-semibold",
+                    AREA_COLORS[area],
+                  )}
+                >
+                  {growthCategoryShortLabel(area)}
+                </text>
               </g>
             );
           })}
@@ -399,7 +359,7 @@ function GrowthRadar({
                 <circle
                   cx={p.x}
                   cy={p.y}
-                  r={count > 0 ? (mini ? 3 : 5) : mini ? 2 : 3}
+                  r={count > 0 ? 5 : 3}
                   className={cn(AREA_FILL[area], AREA_RING[area])}
                   strokeWidth="2"
                 />
@@ -407,11 +367,9 @@ function GrowthRadar({
             );
           })}
         </svg>
-        {!mini ? (
-          <p className="mt-2 text-center text-xs text-cub-muted">
-            Completion counts this week · larger shape = more balanced activity
-          </p>
-        ) : null}
+        <p className="mt-2 text-center text-xs text-cub-muted">
+          Completion counts this week · larger shape = more balanced activity
+        </p>
       </div>
     </div>
   );
@@ -462,7 +420,12 @@ function GrowthAreaDrillDown({ summary }: { summary: GrowthAreaSummary }) {
                   >
                     <span className="min-w-0 truncate">
                       <span className="text-cub-muted">
-                        {item.type === "routine" ? "Routine" : "Task"} ·{" "}
+                        {item.type === "routine"
+                          ? "Routine"
+                          : item.type === "bonus"
+                            ? "Parent bonus"
+                            : "Task"}{" "}
+                        ·{" "}
                       </span>
                       {item.title}
                     </span>

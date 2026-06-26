@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
 import { CubAssignedTasksSection } from "@/components/cub-assigned-tasks-section";
+import { CubFocusWeekSection } from "@/components/cub-focus-week-section";
 import { CubRoutinesSection } from "@/components/cub-routines-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import { getWeekStart } from "@/lib/council-day";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { sortTasksByUrgency, filterTasksForCubWeekView } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
+import { getCubWeeklyFocusStack } from "@/lib/cub-focus-deck-week";
 import { getCubRoutinesDueToday } from "@/lib/cub-routines";
 import {
   cubSectionLabel,
@@ -34,7 +36,8 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
 
-  const [assignedTasks, growthSummary, routinesDueToday] = await Promise.all([
+  const [assignedTasks, growthSummary, routinesDueToday, focusWeekCards] =
+    await Promise.all([
     db.task.findMany({
       where: {
         familyId,
@@ -54,6 +57,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     }),
     getCubGrowthAreaSummary(cub, weekStartsOn),
     getCubRoutinesDueToday(familyId, cub.id),
+    getCubWeeklyFocusStack(familyId, cub.id, weekStartsOn),
   ]);
 
   const weekAssigned = filterTasksForCubWeekView(assignedTasks, weekStartsOn);
@@ -84,7 +88,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         <p className="mt-2 text-cub-gold-light/90">Here&apos;s what to do today.</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <CubRoutinesSection
           cubId={cubId}
           routines={routinesDueToday}
@@ -93,6 +97,11 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         <CubAssignedTasksSection
           cubId={cubId}
           tasks={sortedAssigned}
+          variant="compact"
+        />
+        <CubFocusWeekSection
+          cubId={cubId}
+          cards={focusWeekCards}
           variant="compact"
         />
       </div>

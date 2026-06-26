@@ -23,10 +23,10 @@ export const DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS = DASHBOARD_CORE_NAV_ITEMS;
 
 export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [
   { href: "/dashboard/create", label: "Create" },
-  { href: "/dashboard/focus-deck", label: "Focus Deck" },
+  { href: "/dashboard/focus-deck", label: "Focus Decks" },
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
   { href: "/dashboard/family/settings", label: "Settings" },
-  { href: "/dashboard/tasks/templates", label: "Training Packs" },
+  { href: "/dashboard/tasks/templates", label: "Training Board" },
 ] as const;
 
 /** Mobile More sheet — extended + settings links. */

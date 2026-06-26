@@ -70,6 +70,7 @@ export const ModelName = {
   GuardianNudge: 'GuardianNudge',
   Challenge: 'Challenge',
   ChallengeProgressLog: 'ChallengeProgressLog',
+  TrainingDeck: 'TrainingDeck',
   FocusActivityCard: 'FocusActivityCard',
   FocusDeckStackItem: 'FocusDeckStackItem',
   FocusActivityCompletion: 'FocusActivityCompletion'
@@ -229,6 +230,8 @@ export const TaskScalarFieldEnum = {
   familyId: 'familyId',
   cubId: 'cubId',
   templateId: 'templateId',
+  focusActivityCardId: 'focusActivityCardId',
+  trainingDeckId: 'trainingDeckId',
   reviewedByUserId: 'reviewedByUserId'
 } as const
 
@@ -254,6 +257,7 @@ export const XpLedgerEntryScalarFieldEnum = {
   amount: 'amount',
   reason: 'reason',
   note: 'note',
+  growthCategory: 'growthCategory',
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
@@ -439,6 +443,21 @@ export const ChallengeProgressLogScalarFieldEnum = {
 export type ChallengeProgressLogScalarFieldEnum = (typeof ChallengeProgressLogScalarFieldEnum)[keyof typeof ChallengeProgressLogScalarFieldEnum]
 
 
+export const TrainingDeckScalarFieldEnum = {
+  id: 'id',
+  milestoneNumber: 'milestoneNumber',
+  title: 'title',
+  description: 'description',
+  slug: 'slug',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId'
+} as const
+
+export type TrainingDeckScalarFieldEnum = (typeof TrainingDeckScalarFieldEnum)[keyof typeof TrainingDeckScalarFieldEnum]
+
+
 export const FocusActivityCardScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -457,6 +476,8 @@ export const FocusActivityCardScalarFieldEnum = {
   focusTokensEarned: 'focusTokensEarned',
   status: 'status',
   starterKey: 'starterKey',
+  trainingDeckId: 'trainingDeckId',
+  sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   familyId: 'familyId',

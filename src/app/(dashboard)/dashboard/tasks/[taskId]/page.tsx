@@ -17,6 +17,7 @@ import {
 } from "@/lib/task-categories";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
+import { TaskSubmitForm } from "@/components/task-workflow-forms";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { formatDueScheduleDate, formatScheduleDate } from "@/lib/task-schedule";
 import { notFound, redirect } from "next/navigation";
@@ -261,6 +262,20 @@ export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
                   Parent note: {task.reviewNote}
                 </p>
               ) : null}
+            </Card>
+          ) : null}
+
+          {task.status === "IN_PROGRESS" && task.cub ? (
+            <Card className="space-y-3">
+              <div>
+                <h2 className="text-lg font-semibold">Submit on their behalf</h2>
+                <p className="mt-1 text-sm text-zinc-500">
+                  For supervised work when {task.cub.displayName} isn&apos;t on
+                  their device. This sends the task to your review queue — same
+                  as if they submitted from Cub view.
+                </p>
+              </div>
+              <TaskSubmitForm task={task} audience="parent" />
             </Card>
           ) : null}
 

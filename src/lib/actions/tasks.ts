@@ -33,6 +33,8 @@ import {
   resolveGuardianNudgesForTask,
   syncGuardianNudgesForFamily,
 } from "@/lib/guardian-nudges/sync";
+import { cubProgressPath } from "@/lib/cub-progress-paths";
+import { revalidateTrainingBoardAfterTaskReview } from "@/lib/actions/training-board";
 import type { ActionState } from "@/lib/actions/auth";
 import type { z } from "zod";
 
@@ -180,8 +182,7 @@ function revalidateTaskPaths(cubId?: string | null) {
     revalidatePath(`/dashboard/cubs/${cubId}/progress`);
     revalidatePath(`/cub/${cubId}`);
     revalidatePath(`/cub/${cubId}/tasks`);
-    revalidatePath(`/cub/${cubId}/progress`);
-    revalidatePath(`/cub/${cubId}/progress/growth`);
+    revalidatePath(cubProgressPath(cubId));
     revalidatePath(`/cub/${cubId}/rewards`);
   }
 }
@@ -592,6 +593,13 @@ export async function approveTaskAction(
   revalidatePath(`/dashboard/tasks/review/${task.id}`);
   revalidatePath(`/dashboard/cubs/${task.cubId}/progress`);
   revalidatePath("/dashboard");
+
+  await revalidateTrainingBoardAfterTaskReview(family.id, {
+    cubId: task.cubId,
+    focusActivityCardId: task.focusActivityCardId,
+    trainingDeckId: task.trainingDeckId,
+    status: "COMPLETED",
+  });
 
   if (creditResult.penalizedForLateSubmission) {
     return {

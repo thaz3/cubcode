@@ -7,7 +7,7 @@ import type { GuardianNudge, GuardianNudgeRuleType } from "@/generated/prisma/cl
 import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { isGuardianNudgeDismissAllowed } from "@/lib/guardian-nudges/rule-state";
 import { SMALL_REMINDERS_LABEL } from "@/lib/small-reminders-labels";
-import { cubLink, cubNudgeCard, cubNudgeHeader } from "@/lib/cub-theme";
+import { cubLink, cubNudgeCard, cubNudgeHeader, cubSectionTitle } from "@/lib/cub-theme";
 import { cn } from "@/lib/utils";
 
 type NudgeWithRelations = GuardianNudge & {
@@ -92,11 +92,28 @@ export function GuardianNudgesSection({
     focusSessions.length;
 
   return (
-    <section id="small-reminders" className="scroll-mt-4">
+    <section id="small-reminders" className="scroll-mt-4 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className={cubSectionTitle}>{SMALL_REMINDERS_LABEL}</h2>
+          {unseenCount > 0 ? (
+            <span className="rounded-full bg-cub-red-muted px-2.5 py-0.5 text-xs font-bold text-cub-off-white ring-1 ring-cub-red/40">
+              {unseenCount} new
+            </span>
+          ) : null}
+        </div>
+        <Link
+          href="/dashboard/family/settings"
+          className={cn("text-sm font-medium", cubLink)}
+        >
+          Settings →
+        </Link>
+      </div>
+
       <Card className="overflow-hidden border-cub-red-alert/30 bg-cub-charcoal p-0 shadow-lg shadow-cub-red/15 ring-1 ring-cub-red/20">
         <div
           className={cn(
-            "flex flex-wrap items-start justify-between gap-3 px-5 py-4",
+            "flex flex-wrap items-start gap-3 px-5 py-4",
             cubNudgeHeader,
           )}
         >
@@ -108,22 +125,11 @@ export function GuardianNudgesSection({
                   aria-hidden
                 />
               ) : null}
-              <h2 className="text-lg font-bold tracking-tight text-cub-off-white">
-                {SMALL_REMINDERS_LABEL}
-              </h2>
-              {unseenCount > 0 ? (
-                <span className="rounded-full bg-cub-red-muted px-2.5 py-0.5 text-xs font-bold text-cub-off-white ring-1 ring-cub-red/40">
-                  {unseenCount} new
-                </span>
-              ) : null}
+              <p className="text-sm text-cub-muted">
+                A quick heads-up — you decide what happens next.
+              </p>
             </div>
-            <p className="mt-1.5 text-sm text-cub-muted">
-              A quick heads-up — you decide what happens next.
-            </p>
           </div>
-          <Link href="/dashboard/family/settings" className={cn("shrink-0 text-xs font-medium", cubLink)}>
-            Settings →
-          </Link>
         </div>
 
         <div className="space-y-3 p-4">

@@ -2,7 +2,7 @@ import type { GrowthCategory } from "@/generated/prisma/client";
 import { ALL_GROWTH_CATEGORIES } from "@/lib/task-categories";
 
 export type GrowthAreaItem = {
-  type: "task" | "routine";
+  type: "task" | "routine" | "bonus";
   id: string;
   title: string;
   completedAt: Date;

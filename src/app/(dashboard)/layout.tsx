@@ -1,11 +1,11 @@
 import { DashboardNav } from "@/components/dashboard-nav";
 import { MobileNav } from "@/components/mobile-nav";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
 import {
   countUnseenGuardianNudges,
   syncGuardianNudgesForFamily,
 } from "@/lib/guardian-nudges/sync";
+import { countPendingReviews } from "@/lib/pending-review";
 import { requireParentUnlock } from "@/lib/require-parent-unlock";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -31,17 +31,7 @@ export default async function DashboardLayout({
     if (family) {
       await syncGuardianNudgesForFamily(family.id);
       [pendingReviewCount, guardianNudgeCount] = await Promise.all([
-        Promise.all([
-          db.task.count({
-            where: { familyId: family.id, status: "SUBMITTED" },
-          }),
-          db.challengeProgressLog.count({
-            where: { familyId: family.id, status: "SUBMITTED" },
-          }),
-          db.focusActivityCompletion.count({
-            where: { familyId: family.id, status: "SUBMITTED" },
-          }),
-        ]).then((counts) => counts.reduce((sum, n) => sum + n, 0)),
+        countPendingReviews(family.id).then((r) => r.total),
         countUnseenGuardianNudges(family.id),
       ]);
     }

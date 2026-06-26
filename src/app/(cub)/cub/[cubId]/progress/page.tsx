@@ -30,7 +30,7 @@ export default async function CubModeProgressPage({
     <>
       <PageHeader
         title="My progress"
-        subtitle="Your growth areas this week — tasks, routines, and Focus Deck cards."
+        subtitle="See how you're growing this week — tasks, routines, Focus Deck, and parent bonuses."
       />
 
       <div className="space-y-6">

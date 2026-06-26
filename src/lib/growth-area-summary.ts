@@ -37,7 +37,7 @@ export async function getCubGrowthAreaSummary(
   const required = parseRequiredGrowthCategories(cub as Cub);
   const byArea = createEmptyByArea();
 
-  const [tasks, routineLogs, xpEntries] = await Promise.all([
+  const [tasks, routineLogs, xpEntries, parentBonuses] = await Promise.all([
     db.task.findMany({
       where: {
         cubId: cub.id,
@@ -93,6 +93,22 @@ export async function getCubGrowthAreaSummary(
         },
       },
     }),
+    db.xpLedgerEntry.findMany({
+      where: {
+        cubId: cub.id,
+        reason: "PARENT_ADJUSTMENT",
+        growthCategory: { not: null },
+        createdAt: { gte: weekStartsOn, lt: weekEnd },
+      },
+      select: {
+        id: true,
+        amount: true,
+        note: true,
+        growthCategory: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
   ]);
 
   for (const task of tasks) {
@@ -123,6 +139,17 @@ export async function getCubGrowthAreaSummary(
       entry.sourceChallengeProgressLog?.challenge.growthCategory;
     if (!area) continue;
     byArea[area].xpEarned += entry.amount;
+  }
+
+  for (const bonus of parentBonuses) {
+    if (!bonus.growthCategory) continue;
+    mergeGrowthAreaItem(byArea, bonus.growthCategory, {
+      type: "bonus",
+      id: bonus.id,
+      title: bonus.note?.trim() || "Offline behavior bonus",
+      completedAt: bonus.createdAt,
+    });
+    byArea[bonus.growthCategory].xpEarned += bonus.amount;
   }
 
   return finalizeGrowthAreaSummary(

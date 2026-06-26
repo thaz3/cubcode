@@ -39,6 +39,7 @@ export type XpLedgerEntryMinAggregateOutputType = {
   amount: number | null
   reason: $Enums.LedgerReason | null
   note: string | null
+  growthCategory: $Enums.GrowthCategory | null
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
@@ -53,6 +54,7 @@ export type XpLedgerEntryMaxAggregateOutputType = {
   amount: number | null
   reason: $Enums.LedgerReason | null
   note: string | null
+  growthCategory: $Enums.GrowthCategory | null
   createdAt: Date | null
   cubId: string | null
   sourceTaskId: string | null
@@ -67,6 +69,7 @@ export type XpLedgerEntryCountAggregateOutputType = {
   amount: number
   reason: number
   note: number
+  growthCategory: number
   createdAt: number
   cubId: number
   sourceTaskId: number
@@ -91,6 +94,7 @@ export type XpLedgerEntryMinAggregateInputType = {
   amount?: true
   reason?: true
   note?: true
+  growthCategory?: true
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
@@ -105,6 +109,7 @@ export type XpLedgerEntryMaxAggregateInputType = {
   amount?: true
   reason?: true
   note?: true
+  growthCategory?: true
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
@@ -119,6 +124,7 @@ export type XpLedgerEntryCountAggregateInputType = {
   amount?: true
   reason?: true
   note?: true
+  growthCategory?: true
   createdAt?: true
   cubId?: true
   sourceTaskId?: true
@@ -220,6 +226,7 @@ export type XpLedgerEntryGroupByOutputType = {
   amount: number
   reason: $Enums.LedgerReason
   note: string | null
+  growthCategory: $Enums.GrowthCategory | null
   createdAt: Date
   cubId: string
   sourceTaskId: string | null
@@ -257,6 +264,7 @@ export type XpLedgerEntryWhereInput = {
   amount?: Prisma.IntFilter<"XpLedgerEntry"> | number
   reason?: Prisma.EnumLedgerReasonFilter<"XpLedgerEntry"> | $Enums.LedgerReason
   note?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
+  growthCategory?: Prisma.EnumGrowthCategoryNullableFilter<"XpLedgerEntry"> | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
@@ -276,6 +284,7 @@ export type XpLedgerEntryOrderByWithRelationInput = {
   amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  growthCategory?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -298,6 +307,7 @@ export type XpLedgerEntryWhereUniqueInput = Prisma.AtLeast<{
   amount?: Prisma.IntFilter<"XpLedgerEntry"> | number
   reason?: Prisma.EnumLedgerReasonFilter<"XpLedgerEntry"> | $Enums.LedgerReason
   note?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
+  growthCategory?: Prisma.EnumGrowthCategoryNullableFilter<"XpLedgerEntry"> | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
@@ -317,6 +327,7 @@ export type XpLedgerEntryOrderByWithAggregationInput = {
   amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
+  growthCategory?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -339,6 +350,7 @@ export type XpLedgerEntryScalarWhereWithAggregatesInput = {
   amount?: Prisma.IntWithAggregatesFilter<"XpLedgerEntry"> | number
   reason?: Prisma.EnumLedgerReasonWithAggregatesFilter<"XpLedgerEntry"> | $Enums.LedgerReason
   note?: Prisma.StringNullableWithAggregatesFilter<"XpLedgerEntry"> | string | null
+  growthCategory?: Prisma.EnumGrowthCategoryNullableWithAggregatesFilter<"XpLedgerEntry"> | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringWithAggregatesFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableWithAggregatesFilter<"XpLedgerEntry"> | string | null
@@ -353,6 +365,7 @@ export type XpLedgerEntryCreateInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
@@ -367,6 +380,7 @@ export type XpLedgerEntryUncheckedCreateInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -381,6 +395,7 @@ export type XpLedgerEntryUpdateInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
@@ -395,6 +410,7 @@ export type XpLedgerEntryUncheckedUpdateInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -409,6 +425,7 @@ export type XpLedgerEntryCreateManyInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -423,6 +440,7 @@ export type XpLedgerEntryUpdateManyMutationInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -432,6 +450,7 @@ export type XpLedgerEntryUncheckedUpdateManyInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -456,6 +475,7 @@ export type XpLedgerEntryCountOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  growthCategory?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
@@ -474,6 +494,7 @@ export type XpLedgerEntryMaxOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  growthCategory?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
@@ -488,6 +509,7 @@ export type XpLedgerEntryMinOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   note?: Prisma.SortOrder
+  growthCategory?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   sourceTaskId?: Prisma.SortOrder
@@ -720,6 +742,7 @@ export type XpLedgerEntryCreateWithoutCubInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   createdByUserId?: string | null
   sourceTask?: Prisma.TaskCreateNestedOneWithoutXpLedgerEntriesInput
@@ -733,6 +756,7 @@ export type XpLedgerEntryUncheckedCreateWithoutCubInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   sourceTaskId?: string | null
   sourceChallengeProgressLogId?: string | null
@@ -775,6 +799,7 @@ export type XpLedgerEntryScalarWhereInput = {
   amount?: Prisma.IntFilter<"XpLedgerEntry"> | number
   reason?: Prisma.EnumLedgerReasonFilter<"XpLedgerEntry"> | $Enums.LedgerReason
   note?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
+  growthCategory?: Prisma.EnumGrowthCategoryNullableFilter<"XpLedgerEntry"> | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFilter<"XpLedgerEntry"> | Date | string
   cubId?: Prisma.StringFilter<"XpLedgerEntry"> | string
   sourceTaskId?: Prisma.StringNullableFilter<"XpLedgerEntry"> | string | null
@@ -789,6 +814,7 @@ export type XpLedgerEntryCreateWithoutCouncilDayCubEntryInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
@@ -802,6 +828,7 @@ export type XpLedgerEntryUncheckedCreateWithoutCouncilDayCubEntryInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -841,6 +868,7 @@ export type XpLedgerEntryCreateWithoutSourceTaskInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
@@ -854,6 +882,7 @@ export type XpLedgerEntryUncheckedCreateWithoutSourceTaskInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceChallengeProgressLogId?: string | null
@@ -893,6 +922,7 @@ export type XpLedgerEntryCreateWithoutSourceChallengeProgressLogInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
@@ -906,6 +936,7 @@ export type XpLedgerEntryUncheckedCreateWithoutSourceChallengeProgressLogInput =
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -945,6 +976,7 @@ export type XpLedgerEntryCreateWithoutSourceFocusActivityCompletionInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   createdByUserId?: string | null
   cub: Prisma.CubCreateNestedOneWithoutXpLedgerEntriesInput
@@ -958,6 +990,7 @@ export type XpLedgerEntryUncheckedCreateWithoutSourceFocusActivityCompletionInpu
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -997,6 +1030,7 @@ export type XpLedgerEntryCreateManyCubInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   sourceTaskId?: string | null
   sourceChallengeProgressLogId?: string | null
@@ -1010,6 +1044,7 @@ export type XpLedgerEntryUpdateWithoutCubInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceTask?: Prisma.TaskUpdateOneWithoutXpLedgerEntriesNestedInput
@@ -1023,6 +1058,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutCubInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1036,6 +1072,7 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutCubInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1049,6 +1086,7 @@ export type XpLedgerEntryCreateManyCouncilDayCubEntryInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -1062,6 +1100,7 @@ export type XpLedgerEntryUpdateWithoutCouncilDayCubEntryInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
@@ -1075,6 +1114,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutCouncilDayCubEntryInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1088,6 +1128,7 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1101,6 +1142,7 @@ export type XpLedgerEntryCreateManySourceTaskInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceChallengeProgressLogId?: string | null
@@ -1114,6 +1156,7 @@ export type XpLedgerEntryUpdateWithoutSourceTaskInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
@@ -1127,6 +1170,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutSourceTaskInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1140,6 +1184,7 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceChallengeProgressLogId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1153,6 +1198,7 @@ export type XpLedgerEntryCreateManySourceChallengeProgressLogInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -1166,6 +1212,7 @@ export type XpLedgerEntryUpdateWithoutSourceChallengeProgressLogInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
@@ -1179,6 +1226,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutSourceChallengeProgressLogInput =
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1192,6 +1240,7 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutSourceChallengeProgressLogInp
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1205,6 +1254,7 @@ export type XpLedgerEntryCreateManySourceFocusActivityCompletionInput = {
   amount: number
   reason: $Enums.LedgerReason
   note?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
   createdAt?: Date | string
   cubId: string
   sourceTaskId?: string | null
@@ -1218,6 +1268,7 @@ export type XpLedgerEntryUpdateWithoutSourceFocusActivityCompletionInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cub?: Prisma.CubUpdateOneRequiredWithoutXpLedgerEntriesNestedInput
@@ -1231,6 +1282,7 @@ export type XpLedgerEntryUncheckedUpdateWithoutSourceFocusActivityCompletionInpu
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1244,6 +1296,7 @@ export type XpLedgerEntryUncheckedUpdateManyWithoutSourceFocusActivityCompletion
   amount?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.EnumLedgerReasonFieldUpdateOperationsInput | $Enums.LedgerReason
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   sourceTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1259,6 +1312,7 @@ export type XpLedgerEntrySelect<ExtArgs extends runtime.Types.Extensions.Interna
   amount?: boolean
   reason?: boolean
   note?: boolean
+  growthCategory?: boolean
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
@@ -1278,6 +1332,7 @@ export type XpLedgerEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types
   amount?: boolean
   reason?: boolean
   note?: boolean
+  growthCategory?: boolean
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
@@ -1297,6 +1352,7 @@ export type XpLedgerEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   amount?: boolean
   reason?: boolean
   note?: boolean
+  growthCategory?: boolean
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
@@ -1316,6 +1372,7 @@ export type XpLedgerEntrySelectScalar = {
   amount?: boolean
   reason?: boolean
   note?: boolean
+  growthCategory?: boolean
   createdAt?: boolean
   cubId?: boolean
   sourceTaskId?: boolean
@@ -1325,7 +1382,7 @@ export type XpLedgerEntrySelectScalar = {
   createdByUserId?: boolean
 }
 
-export type XpLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "createdAt" | "cubId" | "sourceTaskId" | "sourceChallengeProgressLogId" | "sourceFocusActivityCompletionId" | "councilDayCubEntryId" | "createdByUserId", ExtArgs["result"]["xpLedgerEntry"]>
+export type XpLedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "note" | "growthCategory" | "createdAt" | "cubId" | "sourceTaskId" | "sourceChallengeProgressLogId" | "sourceFocusActivityCompletionId" | "councilDayCubEntryId" | "createdByUserId", ExtArgs["result"]["xpLedgerEntry"]>
 export type XpLedgerEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   sourceTask?: boolean | Prisma.XpLedgerEntry$sourceTaskArgs<ExtArgs>
@@ -1362,6 +1419,7 @@ export type $XpLedgerEntryPayload<ExtArgs extends runtime.Types.Extensions.Inter
     amount: number
     reason: $Enums.LedgerReason
     note: string | null
+    growthCategory: $Enums.GrowthCategory | null
     createdAt: Date
     cubId: string
     sourceTaskId: string | null
@@ -1801,6 +1859,7 @@ export interface XpLedgerEntryFieldRefs {
   readonly amount: Prisma.FieldRef<"XpLedgerEntry", 'Int'>
   readonly reason: Prisma.FieldRef<"XpLedgerEntry", 'LedgerReason'>
   readonly note: Prisma.FieldRef<"XpLedgerEntry", 'String'>
+  readonly growthCategory: Prisma.FieldRef<"XpLedgerEntry", 'GrowthCategory'>
   readonly createdAt: Prisma.FieldRef<"XpLedgerEntry", 'DateTime'>
   readonly cubId: Prisma.FieldRef<"XpLedgerEntry", 'String'>
   readonly sourceTaskId: Prisma.FieldRef<"XpLedgerEntry", 'String'>

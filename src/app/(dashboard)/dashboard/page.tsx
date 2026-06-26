@@ -14,6 +14,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { CubColorDot } from "@/components/cub-color-dot";
+import { ParentAwaitingReviewSection } from "@/components/parent-awaiting-review-section";
 import { GuardianNudgesSection } from "@/components/guardian-nudges-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { TaskScheduleDisplay } from "@/components/task-schedule-display";
@@ -38,7 +39,7 @@ import {
   getActiveGuardianNudgesForFamily,
 } from "@/lib/guardian-nudges/sync";
 import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
-import { countSubmittedChallengeLogs } from "@/lib/cub-routines";
+import { countPendingReviews, getPendingReviewItems } from "@/lib/pending-review";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { redirect } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -59,18 +60,16 @@ export default async function DashboardPage() {
   const weekQuery = formatWeekParam(weekStartsOn);
 
   const [
-    pendingTaskReview,
-    pendingChallengeReview,
+    pendingReviews,
+    pendingReviewItems,
     activeTasks,
     focusInProgressTasks,
     councilDaySession,
     guardianNudgePrefs,
     guardianNudges,
   ] = await Promise.all([
-    db.task.count({
-      where: { familyId: family.id, status: "SUBMITTED" },
-    }),
-    countSubmittedChallengeLogs(family.id),
+    countPendingReviews(family.id),
+    getPendingReviewItems(family.id),
     db.task.findMany({
       where: {
         familyId: family.id,
@@ -109,7 +108,7 @@ export default async function DashboardPage() {
     getActiveGuardianNudgesForFamily(family.id),
   ]);
 
-  const pendingReview = pendingTaskReview + pendingChallengeReview;
+  const pendingReview = pendingReviews.total;
 
   const sortedActiveTasks = sortTasksByUrgency(activeTasks).slice(0, 5);
   const inProgressCount = activeTasks.filter(
@@ -243,7 +242,13 @@ export default async function DashboardPage() {
           <StatCard
             label="Needs review"
             value={String(pendingReview)}
-            detail={pendingReview > 0 ? "Waiting for you" : "All caught up"}
+            detail={
+              pendingReview > 0
+                ? pendingReviews.focusCards > 0
+                  ? `${pendingReviews.focusCards} Focus card${pendingReviews.focusCards === 1 ? "" : "s"} · waiting for you`
+                  : "Waiting for you"
+                : "All caught up"
+            }
             highlight="gold"
           />
           <StatCard
@@ -266,6 +271,8 @@ export default async function DashboardPage() {
           />
         </div>
       ) : null}
+
+      <ParentAwaitingReviewSection items={pendingReviewItems} />
 
       {sortedActiveTasks.length > 0 ? (
         <section className="space-y-3">
@@ -377,8 +384,8 @@ export default async function DashboardPage() {
           />
           <ActionTile
             href="/dashboard/tasks/templates"
-            label="Training Packs"
-            description="Themed learning — Get Some Sun, Know Your Roots, and more"
+            label="Training Board"
+            description="Themed Focus Deck path — milestones, cards, and unlocks"
             accent="zinc"
             icon={<TemplateIcon className="h-5 w-5" />}
           />

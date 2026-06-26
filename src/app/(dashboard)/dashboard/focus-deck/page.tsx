@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FocusActivityCardForm } from "@/components/focus-activity-card-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
@@ -45,7 +46,7 @@ export default async function FocusDeckDashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Focus Deck"
+        title="Focus Decks"
         subtitle="Parent-approved activity cards with multi-area growth points."
         action={
           <Link href="/dashboard/focus-deck/new">
@@ -54,17 +55,18 @@ export default async function FocusDeckDashboardPage() {
         }
       />
 
-      <Card className="space-y-4">
-        <div>
-          <h2 className="text-lg font-semibold text-zinc-100">
-            This week&apos;s decks · {formatWeekLabel(weekStartsOn)}
-          </h2>
-          <p className="text-sm text-zinc-500">
-            Add active cards to each Cub&apos;s stack for the week.
-          </p>
-        </div>
+      <CollapsibleSection
+        title={`This week's decks · ${formatWeekLabel(weekStartsOn)}`}
+        summary={
+          stackItems.length === 0
+            ? "No cards on any Cub deck yet this week."
+            : `${stackItems.length} card${stackItems.length === 1 ? "" : "s"} on deck · tap to manage`
+        }
+      >
         {stackItems.length === 0 ? (
-          <p className="text-sm text-zinc-500">No cards on any Cub deck yet this week.</p>
+          <p className="text-sm text-zinc-500">
+            Add active cards to each Cub&apos;s stack for the week from Your cards below.
+          </p>
         ) : (
           <ul className="space-y-2">
             {stackItems.map((item) => (
@@ -87,7 +89,7 @@ export default async function FocusDeckDashboardPage() {
             ))}
           </ul>
         )}
-      </Card>
+      </CollapsibleSection>
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-zinc-100">Your cards</h2>

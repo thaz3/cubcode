@@ -1,23 +1,22 @@
 import Link from "next/link";
-import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
 import { AssignTaskToCubPanel } from "@/components/assign-task-to-cub-panel";
 import { CubColorBadge } from "@/components/cub-color-dot";
 import { RequestSessionTimer } from "@/components/request-session-timer";
 import { ParentFocusSessionControls } from "@/components/parent-focus-session-controls";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { FocusBlockForm, TaskSubmitForm } from "@/components/task-workflow-forms";
+import { ParentBonusXpForm } from "@/components/parent-bonus-xp-form";
 import { AssignmentManageActions } from "@/components/assignment-manage-actions";
 import { StartTaskForm } from "@/components/start-task-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
+import { TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { auth } from "@/lib/auth";
 import type { SupervisionLevel } from "@/generated/prisma/client";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
 import {
   formatTaskCategory,
-  GROWTH_CATEGORY_LABELS,
+  growthCategoryShortLabel,
 } from "@/lib/task-categories";
 import { db } from "@/lib/db";
 import {
@@ -37,6 +36,7 @@ import {
 } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES, PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
 import { formatTaskRecurrence } from "@/lib/task-recurrence";
+import { cn } from "@/lib/utils";
 import { notFound, redirect } from "next/navigation";
 
 type CubTasksPageProps = {
@@ -54,7 +54,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
   const cub = family.cubs.find((c) => c.id === cubId);
   if (!cub) notFound();
 
-  const [tasks, focusBlocks, availableTasks, templates, completedGrowth, availableGrowth] =
+  const [tasks, recentParentBonuses, libraryTasks, completedGrowth, availableGrowth] =
     await Promise.all([
     db.task.findMany({
       where: { familyId: family.id, cubId: cub.id },
@@ -62,19 +62,33 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
         focusBlocks: { select: { durationMinutes: true } },
       },
     }),
-    db.focusBlockLog.findMany({
-      where: { cubId: cub.id },
-      orderBy: { startedAt: "desc" },
+    db.xpLedgerEntry.findMany({
+      where: {
+        cubId: cub.id,
+        reason: "PARENT_ADJUSTMENT",
+      },
+      orderBy: { createdAt: "desc" },
       take: 5,
+      select: {
+        id: true,
+        amount: true,
+        note: true,
+        growthCategory: true,
+        createdAt: true,
+      },
     }),
     db.task.findMany({
       where: { familyId: family.id, status: "AVAILABLE" },
-      orderBy: { title: "asc" },
-      select: { id: true, title: true },
-    }),
-    db.taskTemplate.findMany({
-      where: { familyId: family.id, isActive: true },
-      orderBy: { title: "asc" },
+      orderBy: { updatedAt: "desc" },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        category: true,
+        subcategory: true,
+        growthCategory: true,
+        proofType: true,
+      },
     }),
     getCompletedGrowthCategoriesThisWeek(cub.id),
     getAvailableGrowthCategoriesForCub(cub),
@@ -87,6 +101,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
     ),
     weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
   };
+  const bonusGrowthOptions = growthCategoryOptionsForCub(cub);
 
   const activeTasks = sortTasksByUrgency(
     tasks.filter((task) => ACTIVE_CUB_STATUSES.includes(task.status)),
@@ -95,16 +110,6 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
     PARENT_CUB_COMPLETED_STATUSES.includes(task.status),
   ).length;
   const urgentTasks = activeTasks.filter((task) => isTaskUrgent(task));
-  const activeFocusTasks = activeTasks
-    .filter(
-      (task) =>
-        task.status === "IN_PROGRESS" && task.focusSessionStartedAt !== null,
-    )
-    .map((task) => ({
-      id: task.id,
-      title: task.title,
-      focusSessionStartedAt: task.focusSessionStartedAt!.toISOString(),
-    }));
 
   return (
     <div className="space-y-8">
@@ -128,12 +133,91 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
       />
       <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
 
-      <ActiveFocusTimersBanner
-        cubName={cub.displayName}
-        tasks={activeFocusTasks}
-      />
+      <Card
+        variant="accent"
+        className={cn(
+          cubAccentClassNames(cub.id, { border: true }),
+          "ring-1 ring-cub-gold/30",
+        )}
+      >
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 flex-1 space-y-3">
+            <div>
+              <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
+              <h2 className="mt-2 text-lg font-semibold text-cub-off-white">
+                {cub.displayName}&apos;s settings
+              </h2>
+              <p className="mt-1 text-sm text-cub-muted">
+                Default rewards for new tasks and household limits for this Cub.
+              </p>
+            </div>
 
-      {urgentTasks.length > 0 ? (
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <CubSettingsStat
+                label="Focus"
+                value={`${cub.focusMinutesEarned} min`}
+              />
+              <CubSettingsStat
+                label="Phone"
+                value={`${cub.phoneMinutesEarned} min`}
+              />
+              <CubSettingsStat label="XP" value={String(cub.xpEarned)} />
+              <CubSettingsStat
+                label="Tokens"
+                value={String(cub.focusTokensEarned)}
+              />
+            </div>
+
+            <div className="rounded-xl border border-cub-gold/30 bg-cub-gold-muted/25 px-3 py-2.5 text-sm text-cub-off-white">
+              <p className="font-medium text-cub-gold-light">Phone limits</p>
+              <p className="mt-1 text-cub-off-white/90">
+                Daily cap {cub.dailyPhoneCapMinutes} min · Weekend bank{" "}
+                {cub.weekendBankCapMinutes} min
+              </p>
+              <p className="mt-1 text-cub-muted">
+                {formatSupervision(cub.supervisionLevel)}
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href={`/dashboard/cubs/${cub.id}/edit`}
+            className="shrink-0 sm:pt-1"
+          >
+            <Button variant="reward" fullWidth className="sm:w-auto">
+              Edit Cub settings
+            </Button>
+          </Link>
+        </div>
+      </Card>
+
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold">Assigned tasks</h2>
+            <p className="mt-1 text-sm text-zinc-500">
+              {activeTasks.length === 0
+                ? "Nothing active right now."
+                : `${activeTasks.length} active task${activeTasks.length === 1 ? "" : "s"} for ${cub.displayName}`}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {completedCount > 0 ? (
+              <Link href={`/dashboard/cubs/${cub.id}/tasks/completed`}>
+                <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
+                  Completed ({completedCount})
+                </Button>
+              </Link>
+            ) : null}
+            <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
+              <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
+                Assign task
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {urgentTasks.length > 0 ? (
         <Card
           className={
             urgentTasks.some((task) => isTaskOverdue(task))
@@ -195,42 +279,16 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
             })}
           </ul>
         </Card>
-      ) : null}
-
-      <section className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-semibold">Assigned tasks</h2>
-            <p className="mt-1 text-sm text-zinc-500">
-              {activeTasks.length === 0
-                ? "Nothing active right now."
-                : `${activeTasks.length} active task${activeTasks.length === 1 ? "" : "s"} for ${cub.displayName}`}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {completedCount > 0 ? (
-              <Link href={`/dashboard/cubs/${cub.id}/tasks/completed`}>
-                <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
-                  Completed ({completedCount})
-                </Button>
-              </Link>
-            ) : null}
-            <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
-              <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
-                Assign task
-              </Button>
-            </Link>
-          </div>
-        </div>
+        ) : null}
 
         {activeTasks.length === 0 ? (
           <Card>
             <p className="text-sm text-zinc-500">
-              Assign a task from the board or a template below.
+              Assign a task from your library below.
             </p>
           </Card>
         ) : (
-          <div className="grid gap-4">
+          <div className="grid gap-3">
             {activeTasks.map((task) => {
               const focusMinutes = task.focusBlocks.reduce(
                 (sum, block) => sum + block.durationMinutes,
@@ -243,31 +301,33 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
               return (
               <Card
                 key={task.id}
-                className={cubAccentClassNames(cub.id, {
-                  border: true,
-                  cardTint: isTimerRunning,
-                })}
+                className={cn(
+                  "p-4",
+                  cubAccentClassNames(cub.id, {
+                    border: true,
+                    cardTint: isTimerRunning,
+                  }),
+                )}
               >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                       <Link
                         href={`/dashboard/tasks/${task.id}`}
-                        className="text-lg font-semibold hover:text-amber-700"
+                        className="font-semibold hover:text-amber-700"
                       >
                         {task.title}
                       </Link>
                       <StatusBadge status={task.status} />
-                    <TaskScheduleBadge task={task} />
                     </div>
-                    <TaskScheduleDisplay task={task} className="mt-1" />
+                    <TaskScheduleDisplay task={task} inline className="mt-0.5" />
                     {isTimerRunning && task.focusSessionStartedAt ? (
-                      <div className="mt-3 rounded-lg border border-indigo-200 bg-indigo-50/80 px-3 py-2 dark:border-indigo-900 dark:bg-indigo-950/40">
-                        <RequestSessionTimer
-                          startedAt={task.focusSessionStartedAt.toISOString()}
-                          label="Request timer running"
-                        />
-                      </div>
+                      <RequestSessionTimer
+                        startedAt={task.focusSessionStartedAt.toISOString()}
+                        label="Request timer"
+                        inline
+                        className="mt-1"
+                      />
                     ) : null}
                     {task.category === "FOCUS_BLOCK" &&
                     (task.status === "CLAIMED" || task.status === "IN_PROGRESS") ? (
@@ -281,20 +341,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                         compact
                       />
                     ) : null}
-                    {focusMinutes > 0 ? (
-                      <p className="mt-1 text-xs text-zinc-500">
-                        {focusMinutes} min focus logged total
-                        {task.status === "SENT_BACK"
-                          ? " · start again to log redo time on submit"
-                          : ""}
-                      </p>
-                    ) : null}
-                    {task.description ? (
-                      <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                        {task.description}
-                      </p>
-                    ) : null}
-                    <p className="mt-1 text-sm text-zinc-500">
+                    <p className="mt-1 text-xs text-zinc-500">
                       {formatTaskCategory(task.category, {
                         subcategory: task.subcategory,
                         growthCategory: task.growthCategory,
@@ -303,12 +350,15 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                       {formatTaskRecurrence(task.recurrence)
                         ? ` · ${formatTaskRecurrence(task.recurrence)}`
                         : ""}
+                      {focusMinutes > 0 ? ` · ${focusMinutes} min logged` : ""}
                     </p>
-                    <p className="text-xs text-zinc-500">
-                      Parent approval required to earn rewards.
-                    </p>
+                    {task.description ? (
+                      <p className="mt-0.5 line-clamp-2 text-xs text-zinc-600 dark:text-zinc-400">
+                        {task.description}
+                      </p>
+                    ) : null}
                     {task.status === "SENT_BACK" && task.reviewNote ? (
-                      <p className="mt-2 rounded-lg bg-orange-50 p-2 text-sm text-orange-900 dark:bg-orange-950 dark:text-orange-200">
+                      <p className="mt-1 rounded-md bg-orange-50 px-2 py-1 text-xs text-orange-900 dark:bg-orange-950 dark:text-orange-200">
                         Parent note: {task.reviewNote}
                       </p>
                     ) : null}
@@ -321,7 +371,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                 </div>
 
                 {(task.status === "CLAIMED" || task.status === "SENT_BACK") && (
-                  <div className="mt-4">
+                  <div className="mt-3">
                     <StartTaskForm
                       taskId={task.id}
                       isFocusBlock={task.category === "FOCUS_BLOCK"}
@@ -341,11 +391,24 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                 )}
 
                 {task.status === "IN_PROGRESS" && (
-                  <TaskSubmitForm task={task} />
+                  <p className="mt-3 text-xs text-zinc-500">
+                    {cub.displayName} is working on this. They submit from{" "}
+                    <Link href={`/cub/${cub.id}/tasks`} className="font-medium text-cub-gold">
+                      Cub view
+                    </Link>
+                    , or you can{" "}
+                    <Link
+                      href={`/dashboard/tasks/${task.id}`}
+                      className="font-medium text-cub-gold"
+                    >
+                      submit on their behalf
+                    </Link>
+                    .
+                  </p>
                 )}
 
                 {task.status === "SUBMITTED" ? (
-                  <p className="mt-4 text-sm text-zinc-500">
+                  <p className="mt-3 text-xs text-zinc-500">
                     Waiting for parent review.
                   </p>
                 ) : null}
@@ -356,62 +419,59 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
         )}
       </section>
 
-      <Card className="flex flex-wrap items-start justify-between gap-4">
-        <div className="space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
-          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            This Cub&apos;s settings
-          </h2>
-          <p>{formatTaskRewards(cub)}</p>
-          <p>
-            Daily cap {cub.dailyPhoneCapMinutes} min · Weekend bank{" "}
-            {cub.weekendBankCapMinutes} min · {formatSupervision(cub.supervisionLevel)}
-          </p>
-        </div>
-        <Link href={`/dashboard/cubs/${cub.id}/edit`}>
-          <Button variant="secondary">Edit Cub settings</Button>
-        </Link>
-      </Card>
-
       <Card id="assign-task" className="scroll-mt-8">
         <h2 className="text-lg font-semibold">Assign work</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Create a one-time task or repeating routine, pick from the library, or
-          use a template for {cub.displayName}.
+          Create a one-time task or routine, or assign from your household task
+          library for {cub.displayName}.
         </p>
         <div className="mt-4">
           <AssignTaskToCubPanel
             cubId={cub.id}
             cubName={cub.displayName}
-            availableTasks={availableTasks}
-            templates={templates}
+            libraryTasks={libraryTasks}
             cubs={family.cubs}
           />
         </div>
       </Card>
 
       <Card>
-        <h2 className="text-lg font-semibold">Extra focus (optional)</h2>
+        <h2 className="text-lg font-semibold">Offline behavior bonus</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Log focus not tied to a task. Task focus is recorded automatically from
-          Start until Submit.
+          Award extra XP when {cub.displayName} shows strong offline behavior.
+          Counts toward their weekly growth chart.
         </p>
-        {focusBlocks.length === 0 ? (
-          <p className="mt-2 text-sm text-zinc-500">None logged yet.</p>
+        {recentParentBonuses.length === 0 ? (
+          <p className="mt-2 text-sm text-zinc-500">No bonuses awarded yet.</p>
         ) : (
-          <ul className="mt-3 space-y-1 text-sm text-zinc-600">
-            {focusBlocks.map((block) => (
-              <li key={block.id}>
-                {block.durationMinutes} min · {block.startedAt.toLocaleString()}
-                {block.growthCategory
-                  ? ` · ${GROWTH_CATEGORY_LABELS[block.growthCategory].split(" —")[0]}`
-                  : ""}
-                {block.note ? ` · ${block.note}` : ""}
+          <ul className="mt-3 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+            {recentParentBonuses.map((bonus) => (
+              <li key={bonus.id}>
+                +{bonus.amount} XP
+                {bonus.growthCategory
+                  ? ` · ${growthCategoryShortLabel(bonus.growthCategory)}`
+                  : ""}{" "}
+                · {bonus.createdAt.toLocaleString()}
+                {bonus.note ? ` · ${bonus.note}` : ""}
               </li>
             ))}
           </ul>
         )}
-        <FocusBlockForm cubId={cub.id} defaultDurationMinutes={cub.focusMinutesEarned} />
+        <ParentBonusXpForm cubId={cub.id} growthOptions={bonusGrowthOptions} />
       </Card>
+    </div>
+  );
+}
+
+function CubSettingsStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-cub-gold/35 bg-cub-ebony/50 px-3 py-2 shadow-sm">
+      <p className="text-[10px] font-bold uppercase tracking-wide text-cub-gold-light">
+        {label}
+      </p>
+      <p className="mt-0.5 text-sm font-semibold leading-snug text-cub-off-white">
+        {value}
+      </p>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default async function EditFocusDeckCardPage({
         title={card.title}
         subtitle="Edit Focus activity card"
         backHref="/dashboard/focus-deck"
-        backLabel="Focus Deck"
+        backLabel="Focus Decks"
       />
       <Card>
         <FocusActivityCardForm card={card} submitLabel="Save changes" />

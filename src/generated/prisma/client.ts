@@ -137,6 +137,11 @@ export type Challenge = Prisma.ChallengeModel
  */
 export type ChallengeProgressLog = Prisma.ChallengeProgressLogModel
 /**
+ * Model TrainingDeck
+ * 
+ */
+export type TrainingDeck = Prisma.TrainingDeckModel
+/**
  * Model FocusActivityCard
  * 
  */

@@ -70,7 +70,7 @@ export default async function TaskBoardPage() {
             </Link>
             <Link href="/dashboard/tasks/templates">
               <Button variant="secondary" size="lg">
-                Training Packs
+                Training Board
               </Button>
             </Link>
           </div>
@@ -115,9 +115,9 @@ export default async function TaskBoardPage() {
 
       <Card className="border-cub-charcoal/80 bg-cub-charcoal/30">
         <p className="text-sm text-zinc-500">
-          Themed learning packs like Get Some Sun and Know Your Roots live under{" "}
+          Themed learning decks live on the{" "}
           <Link href="/dashboard/tasks/templates" className="font-medium text-cub-gold">
-            Training Packs
+            Training Board
           </Link>
           .
         </p>

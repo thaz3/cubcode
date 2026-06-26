@@ -8,7 +8,7 @@ export const LEDGER_REASON_LABELS: Record<LedgerReason, string> = {
   CHALLENGE_APPROVAL: "Routine approved",
   FOCUS_DECK_APPROVAL: "Focus card approved",
   REWARD_REDEMPTION: "Reward redeemed",
-  PARENT_ADJUSTMENT: "Parent adjustment",
+  PARENT_ADJUSTMENT: "Offline behavior bonus",
   DAILY_CAP_OVERFLOW: "Weekend Bank (daily cap)",
   WEEKEND_BANK_USE: "Weekend Bank used",
   COUNCIL_DAY: `${FAMILY_DAY_LABEL} bonus`,

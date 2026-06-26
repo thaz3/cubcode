@@ -74,6 +74,8 @@ export type TaskMinAggregateOutputType = {
   familyId: string | null
   cubId: string | null
   templateId: string | null
+  focusActivityCardId: string | null
+  trainingDeckId: string | null
   reviewedByUserId: string | null
 }
 
@@ -109,6 +111,8 @@ export type TaskMaxAggregateOutputType = {
   familyId: string | null
   cubId: string | null
   templateId: string | null
+  focusActivityCardId: string | null
+  trainingDeckId: string | null
   reviewedByUserId: string | null
 }
 
@@ -147,6 +151,8 @@ export type TaskCountAggregateOutputType = {
   familyId: number
   cubId: number
   templateId: number
+  focusActivityCardId: number
+  trainingDeckId: number
   reviewedByUserId: number
   _all: number
 }
@@ -200,6 +206,8 @@ export type TaskMinAggregateInputType = {
   familyId?: true
   cubId?: true
   templateId?: true
+  focusActivityCardId?: true
+  trainingDeckId?: true
   reviewedByUserId?: true
 }
 
@@ -235,6 +243,8 @@ export type TaskMaxAggregateInputType = {
   familyId?: true
   cubId?: true
   templateId?: true
+  focusActivityCardId?: true
+  trainingDeckId?: true
   reviewedByUserId?: true
 }
 
@@ -273,6 +283,8 @@ export type TaskCountAggregateInputType = {
   familyId?: true
   cubId?: true
   templateId?: true
+  focusActivityCardId?: true
+  trainingDeckId?: true
   reviewedByUserId?: true
   _all?: true
 }
@@ -398,6 +410,8 @@ export type TaskGroupByOutputType = {
   familyId: string
   cubId: string | null
   templateId: string | null
+  focusActivityCardId: string | null
+  trainingDeckId: string | null
   reviewedByUserId: string | null
   _count: TaskCountAggregateOutputType | null
   _avg: TaskAvgAggregateOutputType | null
@@ -459,10 +473,14 @@ export type TaskWhereInput = {
   familyId?: Prisma.StringFilter<"Task"> | string
   cubId?: Prisma.StringNullableFilter<"Task"> | string | null
   templateId?: Prisma.StringNullableFilter<"Task"> | string | null
+  focusActivityCardId?: Prisma.StringNullableFilter<"Task"> | string | null
+  trainingDeckId?: Prisma.StringNullableFilter<"Task"> | string | null
   reviewedByUserId?: Prisma.StringNullableFilter<"Task"> | string | null
   family?: Prisma.XOR<Prisma.FamilyScalarRelationFilter, Prisma.FamilyWhereInput>
   cub?: Prisma.XOR<Prisma.CubNullableScalarRelationFilter, Prisma.CubWhereInput> | null
   template?: Prisma.XOR<Prisma.TaskTemplateNullableScalarRelationFilter, Prisma.TaskTemplateWhereInput> | null
+  focusActivityCard?: Prisma.XOR<Prisma.FocusActivityCardNullableScalarRelationFilter, Prisma.FocusActivityCardWhereInput> | null
+  trainingDeck?: Prisma.XOR<Prisma.TrainingDeckNullableScalarRelationFilter, Prisma.TrainingDeckWhereInput> | null
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   focusBlocks?: Prisma.FocusBlockLogListRelationFilter
   xpLedgerEntries?: Prisma.XpLedgerEntryListRelationFilter
@@ -507,10 +525,14 @@ export type TaskOrderByWithRelationInput = {
   familyId?: Prisma.SortOrder
   cubId?: Prisma.SortOrderInput | Prisma.SortOrder
   templateId?: Prisma.SortOrderInput | Prisma.SortOrder
+  focusActivityCardId?: Prisma.SortOrderInput | Prisma.SortOrder
+  trainingDeckId?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   family?: Prisma.FamilyOrderByWithRelationInput
   cub?: Prisma.CubOrderByWithRelationInput
   template?: Prisma.TaskTemplateOrderByWithRelationInput
+  focusActivityCard?: Prisma.FocusActivityCardOrderByWithRelationInput
+  trainingDeck?: Prisma.TrainingDeckOrderByWithRelationInput
   reviewedBy?: Prisma.UserOrderByWithRelationInput
   focusBlocks?: Prisma.FocusBlockLogOrderByRelationAggregateInput
   xpLedgerEntries?: Prisma.XpLedgerEntryOrderByRelationAggregateInput
@@ -558,10 +580,14 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   familyId?: Prisma.StringFilter<"Task"> | string
   cubId?: Prisma.StringNullableFilter<"Task"> | string | null
   templateId?: Prisma.StringNullableFilter<"Task"> | string | null
+  focusActivityCardId?: Prisma.StringNullableFilter<"Task"> | string | null
+  trainingDeckId?: Prisma.StringNullableFilter<"Task"> | string | null
   reviewedByUserId?: Prisma.StringNullableFilter<"Task"> | string | null
   family?: Prisma.XOR<Prisma.FamilyScalarRelationFilter, Prisma.FamilyWhereInput>
   cub?: Prisma.XOR<Prisma.CubNullableScalarRelationFilter, Prisma.CubWhereInput> | null
   template?: Prisma.XOR<Prisma.TaskTemplateNullableScalarRelationFilter, Prisma.TaskTemplateWhereInput> | null
+  focusActivityCard?: Prisma.XOR<Prisma.FocusActivityCardNullableScalarRelationFilter, Prisma.FocusActivityCardWhereInput> | null
+  trainingDeck?: Prisma.XOR<Prisma.TrainingDeckNullableScalarRelationFilter, Prisma.TrainingDeckWhereInput> | null
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   focusBlocks?: Prisma.FocusBlockLogListRelationFilter
   xpLedgerEntries?: Prisma.XpLedgerEntryListRelationFilter
@@ -606,6 +632,8 @@ export type TaskOrderByWithAggregationInput = {
   familyId?: Prisma.SortOrder
   cubId?: Prisma.SortOrderInput | Prisma.SortOrder
   templateId?: Prisma.SortOrderInput | Prisma.SortOrder
+  focusActivityCardId?: Prisma.SortOrderInput | Prisma.SortOrder
+  trainingDeckId?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TaskCountOrderByAggregateInput
   _avg?: Prisma.TaskAvgOrderByAggregateInput
@@ -652,6 +680,8 @@ export type TaskScalarWhereWithAggregatesInput = {
   familyId?: Prisma.StringWithAggregatesFilter<"Task"> | string
   cubId?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
   templateId?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
+  focusActivityCardId?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
+  trainingDeckId?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
   reviewedByUserId?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
 }
 
@@ -690,6 +720,8 @@ export type TaskCreateInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -734,6 +766,8 @@ export type TaskUncheckedCreateInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -778,6 +812,8 @@ export type TaskUpdateInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -822,6 +858,8 @@ export type TaskUncheckedUpdateInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -866,6 +904,8 @@ export type TaskCreateManyInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
 }
 
@@ -938,6 +978,8 @@ export type TaskUncheckedUpdateManyInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -986,6 +1028,8 @@ export type TaskCountOrderByAggregateInput = {
   familyId?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
+  focusActivityCardId?: Prisma.SortOrder
+  trainingDeckId?: Prisma.SortOrder
   reviewedByUserId?: Prisma.SortOrder
 }
 
@@ -1029,6 +1073,8 @@ export type TaskMaxOrderByAggregateInput = {
   familyId?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
+  focusActivityCardId?: Prisma.SortOrder
+  trainingDeckId?: Prisma.SortOrder
   reviewedByUserId?: Prisma.SortOrder
 }
 
@@ -1064,6 +1110,8 @@ export type TaskMinOrderByAggregateInput = {
   familyId?: Prisma.SortOrder
   cubId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
+  focusActivityCardId?: Prisma.SortOrder
+  trainingDeckId?: Prisma.SortOrder
   reviewedByUserId?: Prisma.SortOrder
 }
 
@@ -1356,6 +1404,90 @@ export type TaskUpdateOneWithoutGuardianNudgesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TaskUpdateToOneWithWhereWithoutGuardianNudgesInput, Prisma.TaskUpdateWithoutGuardianNudgesInput>, Prisma.TaskUncheckedUpdateWithoutGuardianNudgesInput>
 }
 
+export type TaskCreateNestedManyWithoutTrainingDeckInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutTrainingDeckInput, Prisma.TaskUncheckedCreateWithoutTrainingDeckInput> | Prisma.TaskCreateWithoutTrainingDeckInput[] | Prisma.TaskUncheckedCreateWithoutTrainingDeckInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutTrainingDeckInput | Prisma.TaskCreateOrConnectWithoutTrainingDeckInput[]
+  createMany?: Prisma.TaskCreateManyTrainingDeckInputEnvelope
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+}
+
+export type TaskUncheckedCreateNestedManyWithoutTrainingDeckInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutTrainingDeckInput, Prisma.TaskUncheckedCreateWithoutTrainingDeckInput> | Prisma.TaskCreateWithoutTrainingDeckInput[] | Prisma.TaskUncheckedCreateWithoutTrainingDeckInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutTrainingDeckInput | Prisma.TaskCreateOrConnectWithoutTrainingDeckInput[]
+  createMany?: Prisma.TaskCreateManyTrainingDeckInputEnvelope
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+}
+
+export type TaskUpdateManyWithoutTrainingDeckNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutTrainingDeckInput, Prisma.TaskUncheckedCreateWithoutTrainingDeckInput> | Prisma.TaskCreateWithoutTrainingDeckInput[] | Prisma.TaskUncheckedCreateWithoutTrainingDeckInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutTrainingDeckInput | Prisma.TaskCreateOrConnectWithoutTrainingDeckInput[]
+  upsert?: Prisma.TaskUpsertWithWhereUniqueWithoutTrainingDeckInput | Prisma.TaskUpsertWithWhereUniqueWithoutTrainingDeckInput[]
+  createMany?: Prisma.TaskCreateManyTrainingDeckInputEnvelope
+  set?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  disconnect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  delete?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  update?: Prisma.TaskUpdateWithWhereUniqueWithoutTrainingDeckInput | Prisma.TaskUpdateWithWhereUniqueWithoutTrainingDeckInput[]
+  updateMany?: Prisma.TaskUpdateManyWithWhereWithoutTrainingDeckInput | Prisma.TaskUpdateManyWithWhereWithoutTrainingDeckInput[]
+  deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+}
+
+export type TaskUncheckedUpdateManyWithoutTrainingDeckNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutTrainingDeckInput, Prisma.TaskUncheckedCreateWithoutTrainingDeckInput> | Prisma.TaskCreateWithoutTrainingDeckInput[] | Prisma.TaskUncheckedCreateWithoutTrainingDeckInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutTrainingDeckInput | Prisma.TaskCreateOrConnectWithoutTrainingDeckInput[]
+  upsert?: Prisma.TaskUpsertWithWhereUniqueWithoutTrainingDeckInput | Prisma.TaskUpsertWithWhereUniqueWithoutTrainingDeckInput[]
+  createMany?: Prisma.TaskCreateManyTrainingDeckInputEnvelope
+  set?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  disconnect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  delete?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  update?: Prisma.TaskUpdateWithWhereUniqueWithoutTrainingDeckInput | Prisma.TaskUpdateWithWhereUniqueWithoutTrainingDeckInput[]
+  updateMany?: Prisma.TaskUpdateManyWithWhereWithoutTrainingDeckInput | Prisma.TaskUpdateManyWithWhereWithoutTrainingDeckInput[]
+  deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+}
+
+export type TaskCreateNestedManyWithoutFocusActivityCardInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutFocusActivityCardInput, Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput> | Prisma.TaskCreateWithoutFocusActivityCardInput[] | Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput | Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput[]
+  createMany?: Prisma.TaskCreateManyFocusActivityCardInputEnvelope
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+}
+
+export type TaskUncheckedCreateNestedManyWithoutFocusActivityCardInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutFocusActivityCardInput, Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput> | Prisma.TaskCreateWithoutFocusActivityCardInput[] | Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput | Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput[]
+  createMany?: Prisma.TaskCreateManyFocusActivityCardInputEnvelope
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+}
+
+export type TaskUpdateManyWithoutFocusActivityCardNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutFocusActivityCardInput, Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput> | Prisma.TaskCreateWithoutFocusActivityCardInput[] | Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput | Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput[]
+  upsert?: Prisma.TaskUpsertWithWhereUniqueWithoutFocusActivityCardInput | Prisma.TaskUpsertWithWhereUniqueWithoutFocusActivityCardInput[]
+  createMany?: Prisma.TaskCreateManyFocusActivityCardInputEnvelope
+  set?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  disconnect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  delete?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  update?: Prisma.TaskUpdateWithWhereUniqueWithoutFocusActivityCardInput | Prisma.TaskUpdateWithWhereUniqueWithoutFocusActivityCardInput[]
+  updateMany?: Prisma.TaskUpdateManyWithWhereWithoutFocusActivityCardInput | Prisma.TaskUpdateManyWithWhereWithoutFocusActivityCardInput[]
+  deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+}
+
+export type TaskUncheckedUpdateManyWithoutFocusActivityCardNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutFocusActivityCardInput, Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput> | Prisma.TaskCreateWithoutFocusActivityCardInput[] | Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput[]
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput | Prisma.TaskCreateOrConnectWithoutFocusActivityCardInput[]
+  upsert?: Prisma.TaskUpsertWithWhereUniqueWithoutFocusActivityCardInput | Prisma.TaskUpsertWithWhereUniqueWithoutFocusActivityCardInput[]
+  createMany?: Prisma.TaskCreateManyFocusActivityCardInputEnvelope
+  set?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  disconnect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  delete?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  connect?: Prisma.TaskWhereUniqueInput | Prisma.TaskWhereUniqueInput[]
+  update?: Prisma.TaskUpdateWithWhereUniqueWithoutFocusActivityCardInput | Prisma.TaskUpdateWithWhereUniqueWithoutFocusActivityCardInput[]
+  updateMany?: Prisma.TaskUpdateManyWithWhereWithoutFocusActivityCardInput | Prisma.TaskUpdateManyWithWhereWithoutFocusActivityCardInput[]
+  deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+}
+
 export type TaskCreateWithoutReviewedByInput = {
   id?: string
   title: string
@@ -1391,6 +1523,8 @@ export type TaskCreateWithoutReviewedByInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -1434,6 +1568,8 @@ export type TaskUncheckedCreateWithoutReviewedByInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -1506,6 +1642,8 @@ export type TaskScalarWhereInput = {
   familyId?: Prisma.StringFilter<"Task"> | string
   cubId?: Prisma.StringNullableFilter<"Task"> | string | null
   templateId?: Prisma.StringNullableFilter<"Task"> | string | null
+  focusActivityCardId?: Prisma.StringNullableFilter<"Task"> | string | null
+  trainingDeckId?: Prisma.StringNullableFilter<"Task"> | string | null
   reviewedByUserId?: Prisma.StringNullableFilter<"Task"> | string | null
 }
 
@@ -1543,6 +1681,8 @@ export type TaskCreateWithoutFamilyInput = {
   updatedAt?: Date | string
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -1586,6 +1726,8 @@ export type TaskUncheckedCreateWithoutFamilyInput = {
   updatedAt?: Date | string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -1655,6 +1797,8 @@ export type TaskCreateWithoutCubInput = {
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -1698,6 +1842,8 @@ export type TaskUncheckedCreateWithoutCubInput = {
   updatedAt?: Date | string
   familyId: string
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -1767,6 +1913,8 @@ export type TaskCreateWithoutTemplateInput = {
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -1810,6 +1958,8 @@ export type TaskUncheckedCreateWithoutTemplateInput = {
   updatedAt?: Date | string
   familyId: string
   cubId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -1880,6 +2030,8 @@ export type TaskCreateWithoutFocusBlocksInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -1923,6 +2075,8 @@ export type TaskUncheckedCreateWithoutFocusBlocksInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -1982,6 +2136,8 @@ export type TaskUpdateWithoutFocusBlocksInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -2025,6 +2181,8 @@ export type TaskUncheckedUpdateWithoutFocusBlocksInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -2068,6 +2226,8 @@ export type TaskCreateWithoutXpLedgerEntriesInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -2111,6 +2271,8 @@ export type TaskUncheckedCreateWithoutXpLedgerEntriesInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -2170,6 +2332,8 @@ export type TaskUpdateWithoutXpLedgerEntriesInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -2213,6 +2377,8 @@ export type TaskUncheckedUpdateWithoutXpLedgerEntriesInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -2256,6 +2422,8 @@ export type TaskCreateWithoutFocusTokenLedgerEntriesInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -2299,6 +2467,8 @@ export type TaskUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -2358,6 +2528,8 @@ export type TaskUpdateWithoutFocusTokenLedgerEntriesInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -2401,6 +2573,8 @@ export type TaskUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -2444,6 +2618,8 @@ export type TaskCreateWithoutPhoneTimeLedgerEntriesInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -2487,6 +2663,8 @@ export type TaskUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -2546,6 +2724,8 @@ export type TaskUpdateWithoutPhoneTimeLedgerEntriesInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -2589,6 +2769,8 @@ export type TaskUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -2632,6 +2814,8 @@ export type TaskCreateWithoutWeekendBankLedgerEntriesInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -2675,6 +2859,8 @@ export type TaskUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -2734,6 +2920,8 @@ export type TaskUpdateWithoutWeekendBankLedgerEntriesInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -2777,6 +2965,8 @@ export type TaskUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -2820,6 +3010,8 @@ export type TaskCreateWithoutGuardianNudgesInput = {
   family: Prisma.FamilyCreateNestedOneWithoutTasksInput
   cub?: Prisma.CubCreateNestedOneWithoutTasksInput
   template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
   focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
@@ -2863,6 +3055,8 @@ export type TaskUncheckedCreateWithoutGuardianNudgesInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
@@ -2922,6 +3116,8 @@ export type TaskUpdateWithoutGuardianNudgesInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -2965,12 +3161,246 @@ export type TaskUncheckedUpdateWithoutGuardianNudgesInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+}
+
+export type TaskCreateWithoutTrainingDeckInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family: Prisma.FamilyCreateNestedOneWithoutTasksInput
+  cub?: Prisma.CubCreateNestedOneWithoutTasksInput
+  template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
+  focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+}
+
+export type TaskUncheckedCreateWithoutTrainingDeckInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  cubId?: string | null
+  templateId?: string | null
+  focusActivityCardId?: string | null
+  reviewedByUserId?: string | null
+  focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+}
+
+export type TaskCreateOrConnectWithoutTrainingDeckInput = {
+  where: Prisma.TaskWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaskCreateWithoutTrainingDeckInput, Prisma.TaskUncheckedCreateWithoutTrainingDeckInput>
+}
+
+export type TaskCreateManyTrainingDeckInputEnvelope = {
+  data: Prisma.TaskCreateManyTrainingDeckInput | Prisma.TaskCreateManyTrainingDeckInput[]
+  skipDuplicates?: boolean
+}
+
+export type TaskUpsertWithWhereUniqueWithoutTrainingDeckInput = {
+  where: Prisma.TaskWhereUniqueInput
+  update: Prisma.XOR<Prisma.TaskUpdateWithoutTrainingDeckInput, Prisma.TaskUncheckedUpdateWithoutTrainingDeckInput>
+  create: Prisma.XOR<Prisma.TaskCreateWithoutTrainingDeckInput, Prisma.TaskUncheckedCreateWithoutTrainingDeckInput>
+}
+
+export type TaskUpdateWithWhereUniqueWithoutTrainingDeckInput = {
+  where: Prisma.TaskWhereUniqueInput
+  data: Prisma.XOR<Prisma.TaskUpdateWithoutTrainingDeckInput, Prisma.TaskUncheckedUpdateWithoutTrainingDeckInput>
+}
+
+export type TaskUpdateManyWithWhereWithoutTrainingDeckInput = {
+  where: Prisma.TaskScalarWhereInput
+  data: Prisma.XOR<Prisma.TaskUpdateManyMutationInput, Prisma.TaskUncheckedUpdateManyWithoutTrainingDeckInput>
+}
+
+export type TaskCreateWithoutFocusActivityCardInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family: Prisma.FamilyCreateNestedOneWithoutTasksInput
+  cub?: Prisma.CubCreateNestedOneWithoutTasksInput
+  template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
+  focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+}
+
+export type TaskUncheckedCreateWithoutFocusActivityCardInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  cubId?: string | null
+  templateId?: string | null
+  trainingDeckId?: string | null
+  reviewedByUserId?: string | null
+  focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+}
+
+export type TaskCreateOrConnectWithoutFocusActivityCardInput = {
+  where: Prisma.TaskWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaskCreateWithoutFocusActivityCardInput, Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput>
+}
+
+export type TaskCreateManyFocusActivityCardInputEnvelope = {
+  data: Prisma.TaskCreateManyFocusActivityCardInput | Prisma.TaskCreateManyFocusActivityCardInput[]
+  skipDuplicates?: boolean
+}
+
+export type TaskUpsertWithWhereUniqueWithoutFocusActivityCardInput = {
+  where: Prisma.TaskWhereUniqueInput
+  update: Prisma.XOR<Prisma.TaskUpdateWithoutFocusActivityCardInput, Prisma.TaskUncheckedUpdateWithoutFocusActivityCardInput>
+  create: Prisma.XOR<Prisma.TaskCreateWithoutFocusActivityCardInput, Prisma.TaskUncheckedCreateWithoutFocusActivityCardInput>
+}
+
+export type TaskUpdateWithWhereUniqueWithoutFocusActivityCardInput = {
+  where: Prisma.TaskWhereUniqueInput
+  data: Prisma.XOR<Prisma.TaskUpdateWithoutFocusActivityCardInput, Prisma.TaskUncheckedUpdateWithoutFocusActivityCardInput>
+}
+
+export type TaskUpdateManyWithWhereWithoutFocusActivityCardInput = {
+  where: Prisma.TaskScalarWhereInput
+  data: Prisma.XOR<Prisma.TaskUpdateManyMutationInput, Prisma.TaskUncheckedUpdateManyWithoutFocusActivityCardInput>
 }
 
 export type TaskCreateManyReviewedByInput = {
@@ -3008,6 +3438,8 @@ export type TaskCreateManyReviewedByInput = {
   familyId: string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
 }
 
 export type TaskUpdateWithoutReviewedByInput = {
@@ -3045,6 +3477,8 @@ export type TaskUpdateWithoutReviewedByInput = {
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -3088,6 +3522,8 @@ export type TaskUncheckedUpdateWithoutReviewedByInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -3131,6 +3567,8 @@ export type TaskUncheckedUpdateManyWithoutReviewedByInput = {
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TaskCreateManyFamilyInput = {
@@ -3167,6 +3605,8 @@ export type TaskCreateManyFamilyInput = {
   updatedAt?: Date | string
   cubId?: string | null
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
 }
 
@@ -3204,6 +3644,8 @@ export type TaskUpdateWithoutFamilyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -3247,6 +3689,8 @@ export type TaskUncheckedUpdateWithoutFamilyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -3290,6 +3734,8 @@ export type TaskUncheckedUpdateManyWithoutFamilyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -3327,6 +3773,8 @@ export type TaskCreateManyCubInput = {
   updatedAt?: Date | string
   familyId: string
   templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
 }
 
@@ -3364,6 +3812,8 @@ export type TaskUpdateWithoutCubInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -3407,6 +3857,8 @@ export type TaskUncheckedUpdateWithoutCubInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -3450,6 +3902,8 @@ export type TaskUncheckedUpdateManyWithoutCubInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -3487,6 +3941,8 @@ export type TaskCreateManyTemplateInput = {
   updatedAt?: Date | string
   familyId: string
   cubId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
   reviewedByUserId?: string | null
 }
 
@@ -3524,6 +3980,8 @@ export type TaskUpdateWithoutTemplateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
   cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
   focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
@@ -3567,6 +4025,8 @@ export type TaskUncheckedUpdateWithoutTemplateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
@@ -3610,6 +4070,344 @@ export type TaskUncheckedUpdateManyWithoutTemplateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type TaskCreateManyTrainingDeckInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  cubId?: string | null
+  templateId?: string | null
+  focusActivityCardId?: string | null
+  reviewedByUserId?: string | null
+}
+
+export type TaskUpdateWithoutTrainingDeckInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
+  cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
+  template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
+  focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+}
+
+export type TaskUncheckedUpdateWithoutTrainingDeckInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+}
+
+export type TaskUncheckedUpdateManyWithoutTrainingDeckInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type TaskCreateManyFocusActivityCardInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  cubId?: string | null
+  templateId?: string | null
+  trainingDeckId?: string | null
+  reviewedByUserId?: string | null
+}
+
+export type TaskUpdateWithoutFocusActivityCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
+  cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
+  template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
+  focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+}
+
+export type TaskUncheckedUpdateWithoutFocusActivityCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+}
+
+export type TaskUncheckedUpdateManyWithoutFocusActivityCardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -3724,10 +4522,14 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   familyId?: boolean
   cubId?: boolean
   templateId?: boolean
+  focusActivityCardId?: boolean
+  trainingDeckId?: boolean
   reviewedByUserId?: boolean
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.Task$cubArgs<ExtArgs>
   template?: boolean | Prisma.Task$templateArgs<ExtArgs>
+  focusActivityCard?: boolean | Prisma.Task$focusActivityCardArgs<ExtArgs>
+  trainingDeck?: boolean | Prisma.Task$trainingDeckArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.Task$reviewedByArgs<ExtArgs>
   focusBlocks?: boolean | Prisma.Task$focusBlocksArgs<ExtArgs>
   xpLedgerEntries?: boolean | Prisma.Task$xpLedgerEntriesArgs<ExtArgs>
@@ -3773,10 +4575,14 @@ export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   familyId?: boolean
   cubId?: boolean
   templateId?: boolean
+  focusActivityCardId?: boolean
+  trainingDeckId?: boolean
   reviewedByUserId?: boolean
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.Task$cubArgs<ExtArgs>
   template?: boolean | Prisma.Task$templateArgs<ExtArgs>
+  focusActivityCard?: boolean | Prisma.Task$focusActivityCardArgs<ExtArgs>
+  trainingDeck?: boolean | Prisma.Task$trainingDeckArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.Task$reviewedByArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
@@ -3815,10 +4621,14 @@ export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   familyId?: boolean
   cubId?: boolean
   templateId?: boolean
+  focusActivityCardId?: boolean
+  trainingDeckId?: boolean
   reviewedByUserId?: boolean
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.Task$cubArgs<ExtArgs>
   template?: boolean | Prisma.Task$templateArgs<ExtArgs>
+  focusActivityCard?: boolean | Prisma.Task$focusActivityCardArgs<ExtArgs>
+  trainingDeck?: boolean | Prisma.Task$trainingDeckArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.Task$reviewedByArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
@@ -3857,14 +4667,18 @@ export type TaskSelectScalar = {
   familyId?: boolean
   cubId?: boolean
   templateId?: boolean
+  focusActivityCardId?: boolean
+  trainingDeckId?: boolean
   reviewedByUserId?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "subcategory" | "growthCategory" | "proofType" | "proofPrompt" | "proofChecklistItems" | "focusMinutesEarned" | "phoneMinutesEarned" | "xpEarned" | "focusTokensEarned" | "status" | "reflection" | "proofLink" | "checklistData" | "timeLoggedMinutes" | "reviewNote" | "submittedAt" | "reviewedAt" | "claimedAt" | "dueAt" | "dueAtHasTime" | "recurrence" | "recurrenceConfig" | "isUrgent" | "focusSessionStartedAt" | "startedAt" | "createdAt" | "updatedAt" | "familyId" | "cubId" | "templateId" | "reviewedByUserId", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "subcategory" | "growthCategory" | "proofType" | "proofPrompt" | "proofChecklistItems" | "focusMinutesEarned" | "phoneMinutesEarned" | "xpEarned" | "focusTokensEarned" | "status" | "reflection" | "proofLink" | "checklistData" | "timeLoggedMinutes" | "reviewNote" | "submittedAt" | "reviewedAt" | "claimedAt" | "dueAt" | "dueAtHasTime" | "recurrence" | "recurrenceConfig" | "isUrgent" | "focusSessionStartedAt" | "startedAt" | "createdAt" | "updatedAt" | "familyId" | "cubId" | "templateId" | "focusActivityCardId" | "trainingDeckId" | "reviewedByUserId", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.Task$cubArgs<ExtArgs>
   template?: boolean | Prisma.Task$templateArgs<ExtArgs>
+  focusActivityCard?: boolean | Prisma.Task$focusActivityCardArgs<ExtArgs>
+  trainingDeck?: boolean | Prisma.Task$trainingDeckArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.Task$reviewedByArgs<ExtArgs>
   focusBlocks?: boolean | Prisma.Task$focusBlocksArgs<ExtArgs>
   xpLedgerEntries?: boolean | Prisma.Task$xpLedgerEntriesArgs<ExtArgs>
@@ -3878,12 +4692,16 @@ export type TaskIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.Task$cubArgs<ExtArgs>
   template?: boolean | Prisma.Task$templateArgs<ExtArgs>
+  focusActivityCard?: boolean | Prisma.Task$focusActivityCardArgs<ExtArgs>
+  trainingDeck?: boolean | Prisma.Task$trainingDeckArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.Task$reviewedByArgs<ExtArgs>
 }
 export type TaskIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.Task$cubArgs<ExtArgs>
   template?: boolean | Prisma.Task$templateArgs<ExtArgs>
+  focusActivityCard?: boolean | Prisma.Task$focusActivityCardArgs<ExtArgs>
+  trainingDeck?: boolean | Prisma.Task$trainingDeckArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.Task$reviewedByArgs<ExtArgs>
 }
 
@@ -3893,6 +4711,8 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     family: Prisma.$FamilyPayload<ExtArgs>
     cub: Prisma.$CubPayload<ExtArgs> | null
     template: Prisma.$TaskTemplatePayload<ExtArgs> | null
+    focusActivityCard: Prisma.$FocusActivityCardPayload<ExtArgs> | null
+    trainingDeck: Prisma.$TrainingDeckPayload<ExtArgs> | null
     reviewedBy: Prisma.$UserPayload<ExtArgs> | null
     focusBlocks: Prisma.$FocusBlockLogPayload<ExtArgs>[]
     xpLedgerEntries: Prisma.$XpLedgerEntryPayload<ExtArgs>[]
@@ -3936,6 +4756,8 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     familyId: string
     cubId: string | null
     templateId: string | null
+    focusActivityCardId: string | null
+    trainingDeckId: string | null
     reviewedByUserId: string | null
   }, ExtArgs["result"]["task"]>
   composites: {}
@@ -4334,6 +5156,8 @@ export interface Prisma__TaskClient<T, Null = never, ExtArgs extends runtime.Typ
   family<T extends Prisma.FamilyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FamilyDefaultArgs<ExtArgs>>): Prisma.Prisma__FamilyClient<runtime.Types.Result.GetResult<Prisma.$FamilyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   cub<T extends Prisma.Task$cubArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$cubArgs<ExtArgs>>): Prisma.Prisma__CubClient<runtime.Types.Result.GetResult<Prisma.$CubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   template<T extends Prisma.Task$templateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$templateArgs<ExtArgs>>): Prisma.Prisma__TaskTemplateClient<runtime.Types.Result.GetResult<Prisma.$TaskTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  focusActivityCard<T extends Prisma.Task$focusActivityCardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$focusActivityCardArgs<ExtArgs>>): Prisma.Prisma__FocusActivityCardClient<runtime.Types.Result.GetResult<Prisma.$FocusActivityCardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  trainingDeck<T extends Prisma.Task$trainingDeckArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$trainingDeckArgs<ExtArgs>>): Prisma.Prisma__TrainingDeckClient<runtime.Types.Result.GetResult<Prisma.$TrainingDeckPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reviewedBy<T extends Prisma.Task$reviewedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$reviewedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   focusBlocks<T extends Prisma.Task$focusBlocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$focusBlocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FocusBlockLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   xpLedgerEntries<T extends Prisma.Task$xpLedgerEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$xpLedgerEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$XpLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4404,6 +5228,8 @@ export interface TaskFieldRefs {
   readonly familyId: Prisma.FieldRef<"Task", 'String'>
   readonly cubId: Prisma.FieldRef<"Task", 'String'>
   readonly templateId: Prisma.FieldRef<"Task", 'String'>
+  readonly focusActivityCardId: Prisma.FieldRef<"Task", 'String'>
+  readonly trainingDeckId: Prisma.FieldRef<"Task", 'String'>
   readonly reviewedByUserId: Prisma.FieldRef<"Task", 'String'>
 }
     
@@ -4841,6 +5667,44 @@ export type Task$templateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   include?: Prisma.TaskTemplateInclude<ExtArgs> | null
   where?: Prisma.TaskTemplateWhereInput
+}
+
+/**
+ * Task.focusActivityCard
+ */
+export type Task$focusActivityCardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FocusActivityCard
+   */
+  select?: Prisma.FocusActivityCardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FocusActivityCard
+   */
+  omit?: Prisma.FocusActivityCardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FocusActivityCardInclude<ExtArgs> | null
+  where?: Prisma.FocusActivityCardWhereInput
+}
+
+/**
+ * Task.trainingDeck
+ */
+export type Task$trainingDeckArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainingDeck
+   */
+  select?: Prisma.TrainingDeckSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainingDeck
+   */
+  omit?: Prisma.TrainingDeckOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainingDeckInclude<ExtArgs> | null
+  where?: Prisma.TrainingDeckWhereInput
 }
 
 /**

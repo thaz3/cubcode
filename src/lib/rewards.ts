@@ -188,7 +188,9 @@ export async function creditPhoneMinutesForCub(
     if (weekendBankMinutes > 0) {
       await client.weekendBankLedgerEntry.create({
         data: {
-          ...baseEntry,
+          cubId: cub.id,
+          sourceTaskId: options.sourceTaskId ?? null,
+          createdByUserId: options.createdByUserId,
           amount: weekendBankMinutes,
           reason: "DAILY_CAP_OVERFLOW",
           note: `${options.note} — ${weekendBankMinutes} min to Weekend Bank (daily cap)`,

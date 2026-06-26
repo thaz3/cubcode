@@ -1,161 +1,144 @@
 import Link from "next/link";
-import { TaskTemplateCard } from "@/components/task-template-card";
-import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
+import { redirect } from "next/navigation";
+import { TrainingBoardPath } from "@/components/training-board-path";
+import { CubColorBadge } from "@/components/cub-color-dot";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import type { TrainingDeckBoardStatus } from "@/lib/training-board-progress";
 import {
-  ensureDefaultLegacyTemplates,
-} from "@/lib/legacy-task-templates";
+  buildLatestTasksByCardId,
+  countApprovedCardsForDeck,
+  getTrainingDeckBoardStatus,
+} from "@/lib/training-board-progress";
 import {
-  ensureDefaultSummerTemplates,
-} from "@/lib/summer-task-templates";
-import {
-  GET_SOME_SUN_LABEL,
-  KNOW_YOUR_CITY_LABEL,
-  KNOW_YOUR_ROOTS_LABEL,
-  THEMED_PACK_SECTIONS,
-  isThemedPackCategory,
-} from "@/lib/themed-training-packs";
+  ensureTrainingBoardSeeded,
+  getTrainingDecksForFamily,
+} from "@/lib/training-deck-seed";
 import { getFamilyForUser } from "@/lib/session";
-import { redirect } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-const ACCENT_CARD: Record<"sky" | "violet" | "amber", string> = {
-  sky: "border-sky-200 bg-sky-50/50 dark:border-sky-900 dark:bg-sky-950/20",
-  violet:
-    "border-violet-200 bg-violet-50/50 dark:border-violet-900 dark:bg-violet-950/20",
-  amber:
-    "border-amber-200 bg-amber-50/50 dark:border-amber-900 dark:bg-amber-950/20",
+type TrainingBoardPageProps = {
+  searchParams: Promise<{ cubId?: string }>;
 };
 
-const ACCENT_LABEL: Record<"sky" | "violet" | "amber", string> = {
-  sky: "text-sky-800 dark:text-sky-300",
-  violet: "text-violet-800 dark:text-violet-300",
-  amber: "text-amber-800 dark:text-amber-300",
-};
-
-export default async function ThemedTrainingPacksPage() {
+export default async function TrainingBoardPage({
+  searchParams,
+}: TrainingBoardPageProps) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
   const family = await getFamilyForUser(session.user.id);
   if (!family) redirect("/signup");
 
-  await Promise.all([
-    ensureDefaultLegacyTemplates(family.id),
-    ensureDefaultSummerTemplates(family.id),
-  ]);
+  await ensureTrainingBoardSeeded(family.id);
 
-  const templates = await db.taskTemplate.findMany({
-    where: { familyId: family.id, isActive: true },
-    orderBy: [{ title: "asc" }],
-  });
+  const params = await searchParams;
+  const cub =
+    family.cubs.find((c) => c.id === params.cubId) ?? family.cubs[0] ?? null;
 
-  const templatesByCategory = {
-    SUMMER_LITE: templates.filter((t) => t.category === "SUMMER_LITE"),
-    LEGACY_WEEKLY: templates.filter((t) => t.category === "LEGACY_WEEKLY"),
-  };
+  const decks = await getTrainingDecksForFamily(family.id);
+
+  let milestones: Array<{
+    slug: string;
+    milestoneNumber: number;
+    title: string;
+    description: string;
+    status: TrainingDeckBoardStatus;
+    approvedCount: number;
+    totalCards: number;
+  }> = decks.map((deck) => ({
+    slug: deck.slug,
+    milestoneNumber: deck.milestoneNumber,
+    title: deck.title,
+    description: deck.description ?? "",
+    status: "LOCKED" as const,
+    approvedCount: 0,
+    totalCards: deck.cards.length,
+  }));
+
+  if (cub) {
+    const cubTasks = await db.task.findMany({
+      where: {
+        familyId: family.id,
+        cubId: cub.id,
+        focusActivityCardId: { not: null },
+      },
+      select: {
+        id: true,
+        status: true,
+        focusActivityCardId: true,
+        updatedAt: true,
+      },
+    });
+
+    const tasksByCardId = buildLatestTasksByCardId(cubTasks);
+
+    milestones = decks.map((deck) => ({
+      slug: deck.slug,
+      milestoneNumber: deck.milestoneNumber,
+      title: deck.title,
+      description: deck.description ?? "",
+      status: getTrainingDeckBoardStatus(deck, decks, tasksByCardId),
+      approvedCount: countApprovedCardsForDeck(deck, tasksByCardId),
+      totalCards: deck.cards.length,
+    }));
+  }
 
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Training Packs"
-        subtitle="Themed learning decks — outdoor summer, Black history, and your city. Everyday tasks and routines live under Assignments."
+        title="Cub Training Board"
+        subtitle="Complete each Focus Deck to unlock the next part of the Code."
         backHref="/dashboard/tasks"
         backLabel="Assignments"
         action={
-          <div className="flex flex-wrap gap-2">
-            <Link href="/dashboard/tasks/templates/new?type=summer">
-              <Button variant="secondary" size="lg">
-                New {GET_SOME_SUN_LABEL} pack
-              </Button>
-            </Link>
-            <Link href="/dashboard/tasks/templates/new?type=legacy">
-              <Button variant="secondary" size="lg">
-                New {KNOW_YOUR_ROOTS_LABEL} pack
-              </Button>
-            </Link>
-          </div>
+          <Link href="/dashboard/focus-deck">
+            <Button variant="secondary" size="lg">
+              Manage Decks
+            </Button>
+          </Link>
         }
       />
 
-      {THEMED_PACK_SECTIONS.map((section) => {
-        const packs =
-          section.category === null
-            ? []
-            : templatesByCategory[section.category];
-
-        return (
-          <Card
-            key={section.id}
-            id={section.id}
-            className={cn("scroll-mt-36", ACCENT_CARD[section.accent])}
-          >
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <p className={cn("text-sm font-medium", ACCENT_LABEL[section.accent])}>
-                  {section.milestone}
-                </p>
-                <h2 className="mt-1 text-xl font-semibold">{section.label}</h2>
-                <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
-                  {section.description}
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {section.boardHref && section.boardLabel ? (
-                  <Link href={section.boardHref}>
-                    <Button variant="secondary">{section.boardLabel}</Button>
-                  </Link>
-                ) : null}
-                {section.newHref && section.newLabel ? (
-                  <Link href={section.newHref}>
-                    <Button>{section.newLabel}</Button>
-                  </Link>
-                ) : null}
-              </div>
-            </div>
-
-            {packs.length === 0 ? (
-              <p className="mt-4 text-sm text-zinc-500">
-                {section.category === null
-                  ? `${KNOW_YOUR_CITY_LABEL} packs are coming soon.`
-                  : `No ${section.label} packs available yet.`}
-              </p>
-            ) : (
-              <SwipeCardDeck className="mt-4">
-                {packs.map((template) => (
-                  <TaskTemplateCard
-                    key={template.id}
-                    template={template}
-                    highlight={
-                      section.category === "SUMMER_LITE"
-                        ? "summer"
-                        : section.category === "LEGACY_WEEKLY"
-                          ? "legacy"
-                          : undefined
-                    }
-                    cubs={family.cubs}
+      {family.cubs.length === 0 ? (
+        <Card>
+          <p className="text-sm text-cub-muted">
+            Add a Cub profile to start the training path.
+          </p>
+        </Card>
+      ) : (
+        <>
+          <Card className="p-4">
+            <p className="text-sm font-medium text-cub-off-white">Training path for</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {family.cubs.map((familyCub) => (
+                <Link
+                  key={familyCub.id}
+                  href={`/dashboard/tasks/templates?cubId=${familyCub.id}`}
+                  className={cn(
+                    "rounded-full border px-3 py-1.5 text-sm transition",
+                    cub?.id === familyCub.id
+                      ? "border-cub-gold/50 bg-cub-gold-muted text-cub-gold-light"
+                      : "border-zinc-700 text-zinc-400 hover:border-cub-gold/30",
+                  )}
+                >
+                  <CubColorBadge
+                    cubId={familyCub.id}
+                    displayName={familyCub.displayName}
                   />
-                ))}
-              </SwipeCardDeck>
-            )}
+                </Link>
+              ))}
+            </div>
           </Card>
-        );
-      })}
 
-      <Card className="border-cub-charcoal/80 bg-cub-charcoal/30">
-        <p className="text-sm text-zinc-500">
-          Looking for chores, focus blocks, or custom one-off tasks? Those belong
-          under{" "}
-          <Link href="/dashboard/tasks" className="font-medium text-cub-gold">
-            Assignments
-          </Link>
-          , not training packs.
-        </p>
-      </Card>
+          {cub ? (
+            <TrainingBoardPath milestones={milestones} cubId={cub.id} />
+          ) : null}
+        </>
+      )}
     </div>
   );
 }

@@ -16,6 +16,7 @@ import {
   GROWTH_CATEGORY_LABELS,
 } from "@/lib/task-categories";
 import { isPastDueAt } from "@/lib/task-rewards";
+import { cn } from "@/lib/utils";
 import type { GrowthCategory, Task } from "@/generated/prisma/client";
 import { useActionState } from "react";
 
@@ -39,9 +40,14 @@ type TaskSubmitFormProps = {
     | "focusMinutesEarned"
   >;
   audience?: "parent" | "cub";
+  compact?: boolean;
 };
 
-export function TaskSubmitForm({ task, audience = "parent" }: TaskSubmitFormProps) {
+export function TaskSubmitForm({
+  task,
+  audience = "parent",
+  compact = false,
+}: TaskSubmitFormProps) {
   const [state, formAction, isPending] = useActionState(submitTaskAction, {});
   const logHint = getCategorySuggestions(task.category, {
     subcategory: task.subcategory,
@@ -50,37 +56,55 @@ export function TaskSubmitForm({ task, audience = "parent" }: TaskSubmitFormProp
   const overdue = isPastDueAt(task, new Date());
 
   return (
-    <form action={formAction} className="space-y-4 border-t border-zinc-200 pt-4 dark:border-cub-off-white/10">
+    <form
+      action={formAction}
+      className={cn(
+        "border-t border-zinc-200 dark:border-cub-off-white/10",
+        compact ? "mt-3 space-y-2 border-t pt-3" : "space-y-4 pt-4",
+      )}
+    >
       <input type="hidden" name="taskId" value={task.id} />
-      <h3 className="font-medium">Submit proof</h3>
+      <h3 className={cn("font-medium", compact && "text-sm")}>Submit proof</h3>
       {overdue ? <OverduePenaltyNotice /> : null}
-      <p className="text-sm text-zinc-500">
-        {formatTaskCategory(task.category, {
-          subcategory: task.subcategory,
-          growthCategory: task.growthCategory,
-        })}{" "}
-        · {formatProofType(task.proofType)}
-      </p>
-      <p className="rounded-lg bg-amber-50/60 p-2 text-sm text-zinc-600 dark:bg-amber-950/30 dark:text-zinc-400">
-        {logHint}
-      </p>
-      <p className="text-sm text-zinc-500">
-        On approval: {formatTaskRewards(task)}
-      </p>
-      <p className="text-sm text-zinc-500">
-        {audience === "cub"
-          ? "Your parent approves work before you earn rewards."
-          : "Parent approval is required to earn XP, Focus Tokens, focus minutes, and phone time."}
-      </p>
+      {!compact ? (
+        <>
+          <p className="text-sm text-zinc-500">
+            {formatTaskCategory(task.category, {
+              subcategory: task.subcategory,
+              growthCategory: task.growthCategory,
+            })}{" "}
+            · {formatProofType(task.proofType)}
+          </p>
+          <p className="rounded-lg bg-amber-50/60 p-2 text-sm text-zinc-600 dark:bg-amber-950/30 dark:text-zinc-400">
+            {logHint}
+          </p>
+          <p className="text-sm text-zinc-500">
+            On approval: {formatTaskRewards(task)}
+          </p>
+          <p className="text-sm text-zinc-500">
+            {audience === "cub"
+              ? "Your parent approves work before you earn rewards."
+              : "Parent approval is required to earn XP, Focus Tokens, focus minutes, and phone time."}
+          </p>
+        </>
+      ) : (
+        <p className="text-xs text-zinc-500">{logHint}</p>
+      )}
 
-      <ProofFields task={task} audience={audience} />
+      <ProofFields task={task} audience={audience} compact={compact} />
 
       {state.error ? <p className="text-sm text-red-600">{state.error}</p> : null}
       {state.success ? (
         <p className="text-sm text-green-700">{state.success}</p>
       ) : null}
 
-      <Button type="submit" variant="reward" fullWidth size="lg" disabled={isPending}>
+      <Button
+        type="submit"
+        variant="reward"
+        fullWidth
+        size={compact ? "md" : "lg"}
+        disabled={isPending}
+      >
         {isPending ? "Submitting..." : "Submit for review"}
       </Button>
     </form>
@@ -90,20 +114,32 @@ export function TaskSubmitForm({ task, audience = "parent" }: TaskSubmitFormProp
 function ProofFields({
   task,
   audience = "parent",
+  compact = false,
 }: {
   task: TaskSubmitFormProps["task"];
   audience?: "parent" | "cub";
+  compact?: boolean;
 }) {
   const checklistItems = getTaskChecklistItems(task);
 
   if (task.proofPrompt && audience !== "cub") {
     return (
-      <div className="space-y-4">
-        <div className="rounded-lg bg-zinc-50 p-3 text-sm dark:bg-zinc-900">
+      <div className={compact ? "space-y-2" : "space-y-4"}>
+        <div
+          className={cn(
+            "rounded-lg bg-zinc-50 text-sm dark:bg-zinc-900",
+            compact ? "p-2" : "p-3",
+          )}
+        >
           <p className="font-medium text-zinc-800 dark:text-zinc-200">
             Instructions
           </p>
-          <p className="mt-1 whitespace-pre-wrap text-zinc-600 dark:text-zinc-400">
+          <p
+            className={cn(
+              "whitespace-pre-wrap text-zinc-600 dark:text-zinc-400",
+              compact ? "mt-0.5 text-xs" : "mt-1",
+            )}
+          >
             {task.proofPrompt}
           </p>
         </div>

@@ -36,19 +36,25 @@ export function CubCard({
           <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
           <p className="mt-2 text-sm text-cub-muted">{formatAgeBand(cub.ageBand)}</p>
           {rewards ? (
-            <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-              <CubStat label="Rank" value={rewards.rank.current.name} tone="green" />
-              <CubStat label="XP" value={String(rewards.totalXp)} tone="gold" />
+            <div className="mt-3 space-y-2">
               <CubStat
-                label="Phone today"
-                value={formatMinutes(rewards.phoneMinutesAvailableToday)}
-                tone="gold"
+                label="Rank"
+                value={rewards.rank.current.name}
+                tone="green"
               />
-              <CubStat
-                label="Tokens"
-                value={String(rewards.totalFocusTokens)}
-                tone="gold"
-              />
+              <div className="grid grid-cols-3 gap-2">
+                <CubStat label="XP" value={String(rewards.totalXp)} tone="gold" />
+                <CubStat
+                  label="Phone today"
+                  value={formatMinutes(rewards.phoneMinutesAvailableToday)}
+                  tone="gold"
+                />
+                <CubStat
+                  label="Tokens"
+                  value={String(rewards.totalFocusTokens)}
+                  tone="gold"
+                />
+              </div>
             </div>
           ) : null}
           <p className="mt-2 text-sm text-cub-muted">
@@ -60,14 +66,14 @@ export function CubCard({
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Link href={`/cub/${cub.id}`} className="flex-1">
-            <Button variant="constructive" fullWidth size="lg">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+          <Link href={`/cub/${cub.id}`} className="flex flex-1">
+            <Button variant="constructive" fullWidth size="lg" className="h-full">
               Open Cub view
             </Button>
           </Link>
-          <Link href={`/dashboard/cubs/${cub.id}/tasks`} className="flex-1">
-            <Button variant="reward" fullWidth size="lg">
+          <Link href={`/dashboard/cubs/${cub.id}/tasks`} className="flex flex-1">
+            <Button variant="reward" fullWidth size="lg" className="h-full">
               Manage
             </Button>
           </Link>
@@ -103,7 +109,7 @@ function CubStat({
       >
         {label}
       </p>
-      <p className="mt-0.5 truncate text-sm font-semibold text-cub-off-white">
+      <p className="mt-0.5 text-sm font-semibold leading-snug text-cub-off-white">
         {value}
       </p>
     </div>

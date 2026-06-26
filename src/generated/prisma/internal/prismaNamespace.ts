@@ -403,6 +403,7 @@ export const ModelName = {
   GuardianNudge: 'GuardianNudge',
   Challenge: 'Challenge',
   ChallengeProgressLog: 'ChallengeProgressLog',
+  TrainingDeck: 'TrainingDeck',
   FocusActivityCard: 'FocusActivityCard',
   FocusDeckStackItem: 'FocusDeckStackItem',
   FocusActivityCompletion: 'FocusActivityCompletion'
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog" | "focusActivityCard" | "focusDeckStackItem" | "focusActivityCompletion"
+    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog" | "trainingDeck" | "focusActivityCard" | "focusDeckStackItem" | "focusActivityCompletion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1831,6 +1832,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TrainingDeck: {
+      payload: Prisma.$TrainingDeckPayload<ExtArgs>
+      fields: Prisma.TrainingDeckFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrainingDeckFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrainingDeckFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>
+        }
+        findFirst: {
+          args: Prisma.TrainingDeckFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrainingDeckFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>
+        }
+        findMany: {
+          args: Prisma.TrainingDeckFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>[]
+        }
+        create: {
+          args: Prisma.TrainingDeckCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>
+        }
+        createMany: {
+          args: Prisma.TrainingDeckCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrainingDeckCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>[]
+        }
+        delete: {
+          args: Prisma.TrainingDeckDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>
+        }
+        update: {
+          args: Prisma.TrainingDeckUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrainingDeckDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrainingDeckUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrainingDeckUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrainingDeckUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainingDeckPayload>
+        }
+        aggregate: {
+          args: Prisma.TrainingDeckAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrainingDeck>
+        }
+        groupBy: {
+          args: Prisma.TrainingDeckGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainingDeckGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrainingDeckCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainingDeckCountAggregateOutputType> | number
+        }
+      }
+    }
     FocusActivityCard: {
       payload: Prisma.$FocusActivityCardPayload<ExtArgs>
       fields: Prisma.FocusActivityCardFieldRefs
@@ -2230,6 +2305,8 @@ export const TaskScalarFieldEnum = {
   familyId: 'familyId',
   cubId: 'cubId',
   templateId: 'templateId',
+  focusActivityCardId: 'focusActivityCardId',
+  trainingDeckId: 'trainingDeckId',
   reviewedByUserId: 'reviewedByUserId'
 } as const
 
@@ -2255,6 +2332,7 @@ export const XpLedgerEntryScalarFieldEnum = {
   amount: 'amount',
   reason: 'reason',
   note: 'note',
+  growthCategory: 'growthCategory',
   createdAt: 'createdAt',
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
@@ -2440,6 +2518,21 @@ export const ChallengeProgressLogScalarFieldEnum = {
 export type ChallengeProgressLogScalarFieldEnum = (typeof ChallengeProgressLogScalarFieldEnum)[keyof typeof ChallengeProgressLogScalarFieldEnum]
 
 
+export const TrainingDeckScalarFieldEnum = {
+  id: 'id',
+  milestoneNumber: 'milestoneNumber',
+  title: 'title',
+  description: 'description',
+  slug: 'slug',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId'
+} as const
+
+export type TrainingDeckScalarFieldEnum = (typeof TrainingDeckScalarFieldEnum)[keyof typeof TrainingDeckScalarFieldEnum]
+
+
 export const FocusActivityCardScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -2458,6 +2551,8 @@ export const FocusActivityCardScalarFieldEnum = {
   focusTokensEarned: 'focusTokensEarned',
   status: 'status',
   starterKey: 'starterKey',
+  trainingDeckId: 'trainingDeckId',
+  sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   familyId: 'familyId',
@@ -3026,6 +3121,7 @@ export type GlobalOmitConfig = {
   guardianNudge?: Prisma.GuardianNudgeOmit
   challenge?: Prisma.ChallengeOmit
   challengeProgressLog?: Prisma.ChallengeProgressLogOmit
+  trainingDeck?: Prisma.TrainingDeckOmit
   focusActivityCard?: Prisma.FocusActivityCardOmit
   focusDeckStackItem?: Prisma.FocusDeckStackItemOmit
   focusActivityCompletion?: Prisma.FocusActivityCompletionOmit

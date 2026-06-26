@@ -9,6 +9,8 @@ type TaskScheduleDisplayProps = {
   task: TaskScheduleInput;
   className?: string;
   compact?: boolean;
+  /** Single line: assigned · due · timing */
+  inline?: boolean;
 };
 
 const TIMING_STYLES = {
@@ -21,8 +23,42 @@ export function TaskScheduleDisplay({
   task,
   className,
   compact = false,
+  inline = false,
 }: TaskScheduleDisplayProps) {
   const schedule = getTaskScheduleSummary(task);
+
+  if (inline) {
+    const parts = [
+      `Assigned ${formatScheduleDate(schedule.assignedAt)}`,
+      schedule.dueLabel
+        ? `Due ${schedule.dueLabel}`
+        : "Due not set",
+    ];
+    if (schedule.timingLabel && schedule.timingTone) {
+      parts.push(
+        schedule.timingTone === "overdue"
+          ? `Urgent · ${schedule.timingLabel}`
+          : schedule.timingLabel,
+      );
+    }
+
+    return (
+      <p className={cn("text-xs text-cub-muted", className)}>
+        {parts.map((part, index) => (
+          <span key={part}>
+            {index > 0 ? (
+              <span className="text-cub-charcoal dark:text-zinc-600"> · </span>
+            ) : null}
+            {schedule.timingLabel && index === parts.length - 1 && schedule.timingTone ? (
+              <span className={TIMING_STYLES[schedule.timingTone]}>{part}</span>
+            ) : (
+              part
+            )}
+          </span>
+        ))}
+      </p>
+    );
+  }
 
   return (
     <div className={cn("space-y-0.5 text-xs text-cub-muted", className)}>

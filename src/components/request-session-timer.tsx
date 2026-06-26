@@ -7,6 +7,8 @@ type RequestSessionTimerProps = {
   startedAt: string;
   label?: string;
   large?: boolean;
+  /** Label and time on one row */
+  inline?: boolean;
   className?: string;
 };
 
@@ -29,6 +31,7 @@ export function RequestSessionTimer({
   startedAt,
   label = "Request timer",
   large = false,
+  inline = false,
   className,
 }: RequestSessionTimerProps) {
   const startedMs = new Date(startedAt).getTime();
@@ -47,8 +50,10 @@ export function RequestSessionTimer({
   return (
     <div
       className={cn(
-        "inline-flex flex-col",
-        large ? "items-center text-center" : "items-start",
+        inline
+          ? "inline-flex items-baseline gap-2"
+          : "inline-flex flex-col",
+        !inline && (large ? "items-center text-center" : "items-start"),
         className,
       )}
       role="timer"
@@ -58,7 +63,7 @@ export function RequestSessionTimer({
       <span
         className={cn(
           "font-medium text-cub-green dark:text-cub-green-light",
-          large ? "text-sm uppercase tracking-wide" : "text-xs",
+          inline ? "text-xs" : large ? "text-sm uppercase tracking-wide" : "text-xs",
         )}
       >
         {label}
@@ -66,7 +71,7 @@ export function RequestSessionTimer({
       <span
         className={cn(
           "font-mono font-semibold tabular-nums text-cub-green dark:text-cub-off-white",
-          large ? "text-4xl leading-none" : "text-lg",
+          inline ? "text-sm" : large ? "text-4xl leading-none" : "text-lg",
         )}
       >
         {display}

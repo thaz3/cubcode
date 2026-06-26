@@ -64,7 +64,7 @@ export default async function CubFocusDeckPage({ params }: CubFocusDeckPageProps
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Focus Deck"
+        title="Focus Decks"
         subtitle={`Pick a card for ${formatWeekLabel(weekStartsOn)}. One real-world activity, multiple growth areas.`}
       />
 
@@ -144,7 +144,7 @@ export default async function CubFocusDeckPage({ params }: CubFocusDeckPageProps
       </section>
 
       <Link href={`/cub/${cubId}/progress`} className="text-sm font-medium text-cub-gold-light">
-        View Focus Deck growth chart →
+        View Focus Decks growth chart →
       </Link>
     </div>
   );

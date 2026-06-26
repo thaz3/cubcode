@@ -7,65 +7,61 @@ import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { ActionState } from "@/lib/actions/auth";
-import { assignTemplateToCubAction } from "@/lib/actions/task-templates";
+import { assignTaskAction } from "@/lib/actions/tasks";
 import { formatProofType } from "@/lib/task-labels";
 import { formatTaskCategory } from "@/lib/task-categories";
-import { formatTaskRecurrence } from "@/lib/task-recurrence";
-import { parseRecurrenceConfigValue } from "@/lib/task-recurrence-config";
-import type { TaskTemplate } from "@/generated/prisma/client";
+import type { GrowthCategory, TaskCategory, TaskProofType } from "@/generated/prisma/client";
 
-type CubTemplateAssignCardProps = {
-  template: TaskTemplate;
+export type LibraryTaskOption = {
+  id: string;
+  title: string;
+  description: string | null;
+  category: TaskCategory;
+  subcategory: string | null;
+  growthCategory: GrowthCategory | null;
+  proofType: TaskProofType;
+};
+
+type CubLibraryAssignCardProps = {
+  task: LibraryTaskOption;
   cubId: string;
 };
 
-export function CubTemplateAssignCard({
-  template,
-  cubId,
-}: CubTemplateAssignCardProps) {
+export function CubLibraryAssignCard({ task, cubId }: CubLibraryAssignCardProps) {
   const { state, formAction, isPending, onDueDateChange } = useDueDateFormAction(
-    assignTemplateToCubAction,
+    assignTaskAction,
     {} as ActionState,
-  );
-
-  const recurrenceLabel = formatTaskRecurrence(
-    template.recurrence,
-    parseRecurrenceConfigValue(template.recurrenceConfig),
   );
 
   return (
     <Card className="p-4">
       <div>
-        <h3 className="font-medium text-zinc-100">{template.title}</h3>
-        {template.description ? (
-          <p className="mt-1 text-sm text-zinc-500">{template.description}</p>
+        <h3 className="font-medium text-zinc-100">{task.title}</h3>
+        {task.description ? (
+          <p className="mt-1 text-sm text-zinc-500">{task.description}</p>
         ) : null}
         <p className="mt-1 text-xs text-zinc-500">
-          {formatTaskCategory(template.category, {
-            subcategory: template.subcategory,
-            growthCategory: template.growthCategory,
+          {formatTaskCategory(task.category, {
+            subcategory: task.subcategory,
+            growthCategory: task.growthCategory,
           })}{" "}
-          · {formatProofType(template.proofType)}
-          {recurrenceLabel ? ` · ${recurrenceLabel}` : ""}
+          · {formatProofType(task.proofType)}
         </p>
       </div>
 
       <form action={formAction} className="mt-4 space-y-3">
-        <input type="hidden" name="templateId" value={template.id} />
+        <input type="hidden" name="taskId" value={task.id} />
         <input type="hidden" name="cubId" value={cubId} />
 
         <CollapsibleSection title="Schedule" summary="Due date and repeat">
           <div className="space-y-4">
             <TaskDueDateField
-              id={`template-card-due-${template.id}`}
+              id={`library-card-due-${task.id}`}
               showQuickDue
               onDueDateChange={onDueDateChange}
             />
-            <TaskRecurrenceField
-              initialValue={template.recurrence}
-              initialConfig={parseRecurrenceConfigValue(template.recurrenceConfig)}
-            />
-            <TaskUrgentField id={`template-urgent-${template.id}`} />
+            <TaskRecurrenceField />
+            <TaskUrgentField id={`library-urgent-${task.id}`} />
           </div>
         </CollapsibleSection>
 
@@ -79,7 +75,7 @@ export function CubTemplateAssignCard({
         ) : null}
 
         <Button type="submit" disabled={isPending} fullWidth>
-          {isPending ? "Assigning..." : "Assign from training pack"}
+          {isPending ? "Assigning..." : "Assign from library"}
         </Button>
       </form>
     </Card>

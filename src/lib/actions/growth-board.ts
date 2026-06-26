@@ -16,7 +16,7 @@ import { syncGuardianNudgesForFamily } from "@/lib/guardian-nudges/sync";
 import { logTaskFocusSession } from "@/lib/focus-session";
 import { categoryRewardFields } from "@/lib/template-task-fields";
 import { getCategorySuggestions } from "@/lib/task-categories";
-import { assertTransition } from "@/lib/task-transitions";
+import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 
 const growthCategorySchema = z.enum([
@@ -30,8 +30,7 @@ const growthCategorySchema = z.enum([
 function revalidateCubGrowthPaths(cubId: string, taskId?: string) {
   revalidatePath(`/cub/${cubId}`);
   revalidatePath(`/cub/${cubId}/tasks`);
-  revalidatePath(`/cub/${cubId}/progress`);
-  revalidatePath(`/cub/${cubId}/progress/growth`);
+  revalidatePath(cubProgressPath(cubId));
   revalidatePath(`/cub/${cubId}/rewards`);
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/tasks");
@@ -164,48 +163,6 @@ export async function claimFocusBlockSessionAction(
       startedAt: new Date(),
       focusSessionStartedAt: new Date(),
       ...focusBlockDefaults(area),
-      ...cubRewardFields(cub),
-    },
-  });
-
-  await syncGuardianNudgesForFamily(familyId);
-  revalidateCubGrowthPaths(cub.id);
-  redirect(`/cub/${cub.id}/tasks`);
-}
-
-export async function claimBoardTaskByCubAction(
-  _prev: ActionState,
-  formData: FormData,
-): Promise<ActionState> {
-  const cubId = formData.get("cubId")?.toString();
-  const taskId = formData.get("taskId")?.toString();
-
-  if (!cubId || !taskId) {
-    return { error: "Invalid claim request." };
-  }
-
-  const { cub, familyId } = await requireCubActor(cubId);
-
-  const task = await db.task.findFirst({
-    where: { id: taskId, familyId, status: "AVAILABLE" },
-  });
-
-  if (!task) {
-    return { error: "This task is no longer available." };
-  }
-
-  if (!task.growthCategory) {
-    return { error: "This task is not on a growth board." };
-  }
-
-  assertTransition(task.status, "CLAIMED");
-
-  await db.task.update({
-    where: { id: task.id },
-    data: {
-      status: "CLAIMED",
-      cubId: cub.id,
-      claimedAt: new Date(),
       ...cubRewardFields(cub),
     },
   });
