@@ -16,12 +16,12 @@ export const TASK_BOARD_SECTIONS: Array<{
   {
     id: "assigned",
     title: "Assigned",
-    description: "Task Created. Waiting for Assignment.",
+    description: "In your library waiting for a Cub, or assigned and waiting to start.",
     statuses: ["CLAIMED"],
   },
   {
     id: "active",
-    title: "Active",
+    title: "Active Tasks",
     description: "Work in progress — not yet submitted for review.",
     statuses: ["IN_PROGRESS", "SENT_BACK"],
   },

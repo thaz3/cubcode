@@ -61,8 +61,8 @@ export default async function ChallengeDetailPage({
           challenge.intervalType,
           challenge.intervalConfig,
         )}
-        backHref="/dashboard/challenges"
-        backLabel="Challenges"
+        backHref="/dashboard/tasks#routines"
+        backLabel="Routines"
         action={
           challenge.status !== "ARCHIVED" ? (
             <Link href={`/dashboard/challenges/${challenge.id}/edit`}>

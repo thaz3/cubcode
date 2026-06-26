@@ -54,7 +54,7 @@ export function WeeklyProgressDashboard({
             <Link href="/dashboard/tasks/templates#know-your-roots">
               <Button variant="secondary">{LEGACY_WEEKLY_LABEL}</Button>
             </Link>
-            <Link href="/dashboard/tasks/summer">
+            <Link href="/dashboard/tasks/templates#get-some-sun">
               <Button variant="secondary">{SUMMER_LITE_LABEL}</Button>
             </Link>
           </div>

@@ -133,7 +133,7 @@ export function AssignTaskToCubPanel({
       ) : !hasPoolTasks ? (
         <p className="text-sm text-zinc-500">
           Or{" "}
-          <Link href="/dashboard/tasks/templates/new" className="text-amber-700">
+          <Link href="/dashboard/create" className="text-amber-700">
             save a reusable template
           </Link>{" "}
           for tasks you assign often.

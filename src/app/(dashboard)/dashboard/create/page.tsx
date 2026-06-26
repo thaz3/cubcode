@@ -31,14 +31,14 @@ export default async function CreateWorkPage({ searchParams }: CreateWorkPagePro
   const backHref = defaultCubId
     ? `/dashboard/cubs/${defaultCubId}/tasks`
     : defaultKind === "challenge"
-      ? "/dashboard/challenges"
+      ? "/dashboard/tasks#routines"
       : "/dashboard/tasks";
 
   const backLabel = defaultCubId
     ? "Cub tasks"
     : defaultKind === "challenge"
-      ? "Challenges"
-      : "Tasks";
+      ? "Routines"
+      : "Assignments";
 
   return (
     <div className="space-y-6">

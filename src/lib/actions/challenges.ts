@@ -29,6 +29,7 @@ import type { ActionState } from "@/lib/actions/auth";
 
 function revalidateChallengePaths(cubId: string) {
   revalidatePath("/dashboard");
+  revalidatePath("/dashboard/tasks");
   revalidatePath("/dashboard/challenges");
   revalidatePath("/dashboard/tasks/review");
   revalidatePath(`/cub/${cubId}`);

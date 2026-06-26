@@ -7,7 +7,7 @@ import { CubLink } from "@/components/cub-link";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
 import { formatChallengeSummary } from "@/lib/challenge-labels";
 
-export type TrainingPackRoutine = {
+export type AssignmentRoutine = {
   id: string;
   title: string;
   status: string;
@@ -17,21 +17,21 @@ export type TrainingPackRoutine = {
   cub: { id: string; displayName: string };
 };
 
-type TrainingPacksRoutinesSectionProps = {
-  routines: TrainingPackRoutine[];
+type AssignmentsRoutinesSectionProps = {
+  routines: AssignmentRoutine[];
 };
 
-export function TrainingPacksRoutinesSection({
+export function AssignmentsRoutinesSection({
   routines,
-}: TrainingPacksRoutinesSectionProps) {
+}: AssignmentsRoutinesSectionProps) {
   return (
-    <section id="routines" className="scroll-mt-8 space-y-4">
+    <section id="routines" className="scroll-mt-36 space-y-4">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">Routines</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            Repeating habits assigned to a Cub — separate from one-time tasks that
-            repeat after approval.
+            Repeating habits assigned to a Cub — part of your household
+            assignments, separate from themed training packs.
           </p>
         </div>
         <Link

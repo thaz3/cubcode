@@ -378,7 +378,7 @@ export default async function DashboardPage() {
           <ActionTile
             href="/dashboard/tasks/templates"
             label="Training Packs"
-            description="Reusable tasks and routines"
+            description="Themed learning — Get Some Sun, Know Your Roots, and more"
             accent="zinc"
             icon={<TemplateIcon className="h-5 w-5" />}
           />

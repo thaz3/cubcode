@@ -1,6 +1,6 @@
+import type { ReactNode } from "react";
 import { ActiveTaskList } from "@/components/active-task-list";
-import { TaskPoolCard } from "@/components/task-pool-card";
-import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
+import { CompactLibraryTaskCard } from "@/components/compact-library-task-card";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -13,11 +13,15 @@ import type { TaskWithCub } from "@/lib/task-groups";
 type TaskBoardWorkflowProps = {
   tasks: TaskWithCub[];
   pendingReviewCount: number;
+  libraryTasks?: TaskWithCub[];
+  routinesSection?: ReactNode;
 };
 
 export function TaskBoardWorkflow({
   tasks,
   pendingReviewCount,
+  libraryTasks = [],
+  routinesSection,
 }: TaskBoardWorkflowProps) {
   const { assigned, active, inReview, completed } =
     partitionTasksByBoardSection(tasks);
@@ -34,23 +38,44 @@ export function TaskBoardWorkflow({
       <section id="assigned" className="scroll-mt-36 space-y-4">
         <SectionHeader
           title="Assigned"
-          description="Task Created. Waiting for Assignment."
+          description="In your library waiting for a Cub, or assigned and waiting to start."
         />
-        {assigned.length === 0 ? (
+        {assigned.length === 0 && libraryTasks.length === 0 ? (
           <EmptyState
             title="Nothing assigned yet"
-            description="Assign from your task library or create a task or routine for a Cub."
+            description="Create a task or routine, then assign it from here."
             actionLabel="Create task or routine"
             actionHref="/dashboard/create"
           />
         ) : (
-          <ActiveTaskList items={groupActiveTasks(assigned)} />
+          <div className="space-y-4">
+            {assigned.length > 0 ? (
+              <ActiveTaskList items={groupActiveTasks(assigned)} />
+            ) : null}
+
+            {libraryTasks.length > 0 ? (
+              <div id="ready-to-assign" className="space-y-2 scroll-mt-36">
+                {assigned.length > 0 ? (
+                  <p className="text-sm font-medium text-zinc-400">In library</p>
+                ) : null}
+                <ul className="space-y-2">
+                  {libraryTasks.map((task) => (
+                    <li key={task.id}>
+                      <CompactLibraryTaskCard task={task} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
         )}
       </section>
 
+      {routinesSection}
+
       <section id="active" className="scroll-mt-36 space-y-4">
         <SectionHeader
-          title="Active"
+          title="Active Tasks"
           description="Work in progress — not submitted yet."
         />
         {active.length === 0 ? (
@@ -90,37 +115,6 @@ export function TaskBoardWorkflow({
           <ActiveTaskList items={groupActiveTasks(completed)} />
         )}
       </section>
-    </div>
-  );
-}
-
-export function TaskLibraryWorkflow({
-  tasks,
-  cubs,
-}: {
-  tasks: TaskWithCub[];
-  cubs: Array<{ id: string; displayName: string }>;
-}) {
-  return (
-    <div className="space-y-6">
-      <SectionHeader
-        title="Ready to assign"
-        description="Unassigned tasks in your household library. Assign one when you're ready."
-      />
-      {tasks.length === 0 ? (
-        <EmptyState
-          title="No tasks in the library"
-          description="Create a new task below or start from a template."
-          actionLabel="Browse templates"
-          actionHref="/dashboard/tasks/templates"
-        />
-      ) : (
-        <SwipeCardDeck>
-          {tasks.map((task) => (
-            <TaskPoolCard key={task.id} task={task} cubs={cubs} />
-          ))}
-        </SwipeCardDeck>
-      )}
     </div>
   );
 }

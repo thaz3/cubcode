@@ -1,12 +1,15 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { CreateTaskTemplateForm } from "@/components/task-template-form";
 import { Card } from "@/components/ui/card";
 import {
-  LEGACY_WEEKLY_LABEL,
+  GET_SOME_SUN_LABEL,
+  KNOW_YOUR_ROOTS_LABEL,
+} from "@/lib/themed-training-packs";
+import {
   getLegacyStarterDefaults,
 } from "@/lib/legacy-task-templates";
 import {
-  SUMMER_LITE_LABEL,
   getSummerStarterDefaults,
 } from "@/lib/summer-task-templates";
 
@@ -20,6 +23,11 @@ export default async function NewTaskTemplatePage({
   const { type } = await searchParams;
   const isLegacy = type === "legacy";
   const isSummer = type === "summer";
+
+  if (!isLegacy && !isSummer) {
+    redirect("/dashboard/tasks/templates");
+  }
+
   const legacyDefaults = isLegacy ? getLegacyStarterDefaults() : undefined;
   const summerDefaults = isSummer ? getSummerStarterDefaults() : undefined;
   const categoryDefaults = summerDefaults ?? legacyDefaults;
@@ -30,26 +38,22 @@ export default async function NewTaskTemplatePage({
         <Link
           href={
             isSummer
-              ? "/dashboard/tasks/summer"
-              : "/dashboard/tasks/templates"
+              ? "/dashboard/tasks/templates#get-some-sun"
+              : "/dashboard/tasks/templates#know-your-roots"
           }
           className="text-sm font-medium text-amber-700"
         >
-          ← {isSummer ? `${SUMMER_LITE_LABEL} board` : "Training Packs"}
+          ← {isSummer ? GET_SOME_SUN_LABEL : "Training Packs"}
         </Link>
         <h1 className="mt-2 text-3xl font-bold">
           {isLegacy
-            ? `New ${LEGACY_WEEKLY_LABEL} training pack`
-            : isSummer
-              ? `New ${SUMMER_LITE_LABEL} training pack`
-              : "New training pack"}
+            ? `New ${KNOW_YOUR_ROOTS_LABEL} pack`
+            : `New ${GET_SOME_SUN_LABEL} pack`}
         </h1>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
           {isLegacy
-            ? "Know Your Roots tasks build cultural memory and family identity. Parent approval is always required."
-            : isSummer
-              ? `${SUMMER_LITE_LABEL} outdoor tasks include location and supervision in the description. Parent approval is always required.`
-              : "Training packs are reusable titles and descriptions. Earned amounts come from each Cub's profile when assigned."}
+            ? "Black history awareness, family identity, and community pride. Parent approval is always required."
+            : `${GET_SOME_SUN_LABEL} outdoor summer learning includes location and supervision in the description. Parent approval is always required.`}
         </p>
       </div>
       <Card>

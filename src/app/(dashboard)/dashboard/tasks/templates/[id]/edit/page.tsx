@@ -70,7 +70,7 @@ export default async function EditTaskTemplatePage({ params }: EditTemplatePageP
         <Card className="border-red-200 dark:border-red-900">
           <h2 className="font-semibold text-red-700">Deactivate training pack</h2>
           <p className="mt-2 text-sm text-zinc-500">
-            Hides this pack from Training Packs. Existing tasks are not deleted.
+            Hides this pack from Training Packs. Assigned tasks are not deleted.
           </p>
           <form action={boundDeactivate} className="mt-4">
             <Button type="submit" variant="danger">

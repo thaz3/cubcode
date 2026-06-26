@@ -4,30 +4,50 @@ import type { TaskBoardSectionId } from "@/lib/task-board-sections";
 
 type TaskBoardNavProps = {
   counts: Record<TaskBoardSectionId, number>;
+  routinesCount?: number;
+  libraryCount?: number;
 };
 
-const LINKS: Array<{ id: TaskBoardSectionId; label: string }> = [
+const WORKFLOW_LINKS: Array<{ id: TaskBoardSectionId | "routines"; label: string }> = [
   { id: "assigned", label: "Assigned" },
-  { id: "active", label: "Active" },
+  { id: "routines", label: "Routines" },
+  { id: "active", label: "Active Tasks" },
   { id: "in-review", label: "In review" },
   { id: "completed", label: "Completed" },
 ];
 
-export function TaskBoardNav({ counts }: TaskBoardNavProps) {
+const MORE_LINKS = [{ href: "#ready-to-assign", label: "Library" }] as const;
+
+const linkClass =
+  "inline-flex min-h-10 shrink-0 items-center rounded-full border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 transition hover:border-amber-700 hover:bg-amber-950/30";
+
+export function TaskBoardNav({
+  counts,
+  routinesCount = 0,
+  libraryCount = 0,
+}: TaskBoardNavProps) {
   return (
     <nav className="flex gap-2 overflow-x-auto pb-1 pt-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      {LINKS.map((link) => (
+      {WORKFLOW_LINKS.map((link) => (
         <a
           key={link.id}
-          href={`#${link.id}`}
-          className={cn(
-            "inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 transition hover:border-amber-700 hover:bg-amber-950/30",
-          )}
+          href={link.id === "routines" ? "#routines" : `#${link.id}`}
+          className={cn(linkClass, "gap-2")}
         >
           {link.label}
           <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">
-            {counts[link.id]}
+            {link.id === "routines" ? routinesCount : counts[link.id]}
           </span>
+        </a>
+      ))}
+      {MORE_LINKS.map((link) => (
+        <a key={link.href} href={link.href} className={cn(linkClass, "gap-2")}>
+          {link.label}
+          {link.href === "#ready-to-assign" ? (
+            <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">
+              {libraryCount}
+            </span>
+          ) : null}
         </a>
       ))}
       <Link
