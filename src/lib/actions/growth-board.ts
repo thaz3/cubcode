@@ -169,7 +169,7 @@ export async function claimFocusBlockSessionAction(
 
   await syncGuardianNudgesForFamily(familyId);
   revalidateCubGrowthPaths(cub.id);
-  redirect(`/cub/${cub.id}/tasks`);
+  redirect(`/cub/${cub.id}/challenges#assignments`);
 }
 
 export async function claimFocusBlockTemplateAction(
@@ -242,7 +242,7 @@ export async function claimFocusBlockTemplateAction(
 
   await syncGuardianNudgesForFamily(familyId);
   revalidateCubGrowthPaths(cub.id);
-  redirect(`/cub/${cub.id}/tasks`);
+  redirect(`/cub/${cub.id}/challenges#assignments`);
 }
 
 export async function cancelFocusSessionAction(

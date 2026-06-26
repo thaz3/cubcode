@@ -22,8 +22,8 @@ function isUrgentMission(mission: ActiveMission): boolean {
   return (
     status.includes("due today") ||
     status.includes("ready to pick") ||
-    status === "claimed" ||
-    status.includes("sent back")
+    status.includes("sent back") ||
+    status === "in progress"
   );
 }
 
@@ -71,7 +71,7 @@ function ActiveMissionButton({
           </span>
           {urgent ? (
             <span className="rounded-full bg-cub-gold-muted px-1 py-0.5 text-[8px] font-bold uppercase text-cub-gold-light">
-              Hot
+              Go
             </span>
           ) : (
             <span className="text-sm leading-none opacity-80" aria-hidden>
@@ -171,7 +171,7 @@ export function CubTodaysMissionsSection({
             </span>
             {urgentCount > 0 ? (
               <span className="rounded-lg bg-cub-gold/15 px-1.5 py-0.5 text-[10px] font-bold text-cub-gold-light">
-                {urgentCount} hot
+                {urgentCount} to do
               </span>
             ) : null}
           </div>

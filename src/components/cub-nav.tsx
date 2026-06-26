@@ -1,16 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CubNavPracticeMenu } from "@/components/cub-nav-practice-menu";
 import { CubSwitcher } from "@/components/cub-switcher";
-import { CUB_NAV_ITEMS, isCubNavActive } from "@/lib/cub-nav-items";
+import { useCubNavLocation } from "@/components/use-cub-nav-hash";
+import {
+  CUB_NAV_ITEMS,
+  isCubNavActive,
+} from "@/lib/cub-nav-items";
 import { cubKidNavActive, cubKidNavInactive } from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
 const NAV_EMOJI: Record<string, string> = {
   "": "🏠",
-  "/tasks": "📋",
   "/progress": "📈",
   "/rewards": "🏆",
 };
@@ -22,8 +25,13 @@ type CubNavProps = {
 };
 
 export function CubNav({ cubId, cubs, currentDisplayName }: CubNavProps) {
-  const pathname = usePathname();
+  const { pathname } = useCubNavLocation();
   const base = `/cub/${cubId}`;
+  const [questsMenuOpen, setQuestsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setQuestsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <nav
@@ -40,6 +48,8 @@ export function CubNav({ cubId, cubs, currentDisplayName }: CubNavProps) {
                 cubId={cubId}
                 group={item}
                 layout="bottom"
+                menuOpen={questsMenuOpen}
+                onMenuOpenChange={setQuestsMenuOpen}
               />
             );
           }

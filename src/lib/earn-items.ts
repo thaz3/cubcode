@@ -101,7 +101,7 @@ export function taskToEarnItem(
       options?.href ??
       (earnType === "training_path"
         ? `/cub/${task.cubId}/training`
-        : `/cub/${task.cubId}/tasks`),
+        : `/cub/${task.cubId}/challenges#assignments`),
   };
 }
 

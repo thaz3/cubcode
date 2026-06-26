@@ -56,7 +56,7 @@ function buildWorkForTodayItems(
       href:
         earnType === "training_path"
           ? `/cub/${cubId}/training`
-          : `/cub/${cubId}/tasks`,
+          : `/cub/${cubId}/challenges#assignments`,
       status: task.status,
       earnType,
     };
@@ -76,7 +76,7 @@ export function CubWorkForTodaySection({
   const previewLimit = isCompact ? 4 : 6;
   const preview = items.slice(0, previewLimit);
   const remaining = items.length - preview.length;
-  const tasksHref = `/cub/${cubId}/tasks`;
+  const homeHref = `/cub/${cubId}#den`;
   const routinesHref = `/cub/${cubId}/challenges`;
 
   const content =
@@ -152,18 +152,18 @@ export function CubWorkForTodaySection({
           </div>
           {items.length > 0 ? (
             <Link
-              href={tasksHref}
+              href={homeHref}
               className="shrink-0 text-xs font-medium text-cub-gold hover:text-cub-gold-light"
             >
-              Overview →
+              Calendar →
             </Link>
           ) : null}
         </div>
         <div className="flex-1">{content}</div>
         {remaining > 0 ? (
           <div className="flex justify-center gap-3 text-xs font-medium">
-            <Link href={tasksHref} className="text-cub-muted hover:text-cub-off-white">
-              Overview
+            <Link href={homeHref} className="text-cub-muted hover:text-cub-off-white">
+              Calendar
             </Link>
             <Link href={routinesHref} className="text-cub-muted hover:text-cub-off-white">
               Routines
@@ -187,8 +187,8 @@ export function CubWorkForTodaySection({
         </div>
         {items.length > 0 ? (
           <div className="flex shrink-0 gap-3 text-sm font-medium">
-            <Link href={tasksHref} className="text-cub-gold hover:text-cub-gold-light">
-              Overview →
+            <Link href={homeHref} className="text-cub-gold hover:text-cub-gold-light">
+              Calendar →
             </Link>
             <Link href={routinesHref} className="text-cub-gold hover:text-cub-gold-light">
               Routines →

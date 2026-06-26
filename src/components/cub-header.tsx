@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { CubNavPracticeMenu } from "@/components/cub-nav-practice-menu";
 import { CubSwitcher } from "@/components/cub-switcher";
 import { Button } from "@/components/ui/button";
-import { CUB_NAV_ITEMS, isCubNavActive } from "@/lib/cub-nav-items";
+import { useCubNavLocation } from "@/components/use-cub-nav-hash";
+import {
+  CUB_NAV_ITEMS,
+  isCubNavActive,
+} from "@/lib/cub-nav-items";
 import { cubKidNavActive, cubKidNavInactive } from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
@@ -17,8 +21,13 @@ type CubHeaderProps = {
 };
 
 export function CubHeader({ cubId, displayName, focusTokens, cubs }: CubHeaderProps) {
-  const pathname = usePathname();
+  const { pathname } = useCubNavLocation();
   const base = `/cub/${cubId}`;
+  const [questsMenuOpen, setQuestsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setQuestsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-violet-500/20 bg-cub-deep-black/90 backdrop-blur-md">
@@ -58,6 +67,8 @@ export function CubHeader({ cubId, displayName, focusTokens, cubs }: CubHeaderPr
                   cubId={cubId}
                   group={item}
                   layout="header"
+                  menuOpen={questsMenuOpen}
+                  onMenuOpenChange={setQuestsMenuOpen}
                 />
               );
             }

@@ -393,7 +393,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                 {task.status === "IN_PROGRESS" && (
                   <p className="mt-3 text-xs text-zinc-500">
                     {cub.displayName} is working on this. They submit from{" "}
-                    <Link href={`/cub/${cub.id}/tasks`} className="font-medium text-cub-gold">
+                    <Link href={`/cub/${cub.id}#den`} className="font-medium text-cub-gold">
                       Cub view
                     </Link>
                     , or you can{" "}

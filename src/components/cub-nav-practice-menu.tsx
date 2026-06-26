@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { CubNavGroup } from "@/lib/cub-nav-items";
-import { isCubNavActive, isCubNavGroupActive } from "@/lib/cub-nav-items";
+import {
+  isCubNavChildActive,
+  isCubQuestsNavActive,
+} from "@/lib/cub-nav-items";
+import { useCubNavLocation } from "@/components/use-cub-nav-hash";
 import { cubKidNavActive, cubKidNavInactive } from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
@@ -12,19 +15,31 @@ type CubNavPracticeMenuProps = {
   cubId: string;
   group: CubNavGroup;
   layout: "header" | "bottom";
+  menuOpen?: boolean;
+  onMenuOpenChange?: (open: boolean) => void;
 };
 
 export function CubNavPracticeMenu({
   cubId,
   group,
   layout,
+  menuOpen: menuOpenProp,
+  onMenuOpenChange,
 }: CubNavPracticeMenuProps) {
-  const pathname = usePathname();
+  const { pathname, hash } = useCubNavLocation();
   const base = `/cub/${cubId}`;
-  const [open, setOpen] = useState(false);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const open = menuOpenProp ?? uncontrolledOpen;
   const rootRef = useRef<HTMLDivElement>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const active = isCubNavGroupActive(pathname, base, group);
+  const active = isCubQuestsNavActive(pathname, base, group, hash);
+
+  function setOpen(next: boolean) {
+    if (menuOpenProp === undefined) {
+      setUncontrolledOpen(next);
+    }
+    onMenuOpenChange?.(next);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -71,13 +86,17 @@ export function CubNavPracticeMenu({
     >
       <button
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => setOpen(!open)}
         className={cn(
           "transition",
           isBottom
             ? "flex min-h-14 w-full flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-1.5 text-[10px] font-bold"
             : "inline-flex min-h-10 items-center rounded-xl px-3 py-2 text-sm font-bold",
-          active ? cubKidNavActive : cubKidNavInactive,
+          active
+            ? cubKidNavActive
+            : open
+              ? "bg-violet-950/50 text-cub-off-white ring-1 ring-violet-400/25"
+              : cubKidNavInactive,
         )}
         aria-expanded={open}
         aria-haspopup="menu"
@@ -105,7 +124,12 @@ export function CubNavPracticeMenu({
           <ul className="space-y-1">
             {group.children.map((child) => {
               const href = `${base}${child.suffix}`;
-              const childActive = isCubNavActive(pathname, base, child.suffix);
+              const childActive = isCubNavChildActive(
+                pathname,
+                base,
+                child.suffix,
+                hash,
+              );
 
               return (
                 <li key={child.suffix}>

@@ -1,21 +1,21 @@
-import type {
-  CalendarEvent,
-  Task,
-} from "@/generated/prisma/client";
+import type { CalendarEvent, Task } from "@/generated/prisma/client";
 import { db } from "@/lib/db";
 import {
   eventDateToKey,
-  formatCalendarEventDate,
   formatEventTimeRange,
   isCalendarEventActive,
 } from "@/lib/calendar-events";
 import { getCubWeeklyFocusStack } from "@/lib/cub-focus-deck-week";
 import { getCubRoutinesView } from "@/lib/cub-routines";
-import {
-  getCubWeekEarnSummary,
-  type CubWeekEarnSummary,
-} from "@/lib/cub-week-earn-summary";
-import { getTaskEarnType, type EarnType } from "@/lib/earn-types";
+import { getCubWeekEarnSummary } from "@/lib/cub-week-earn-summary";
+import type {
+  DenAttentionItem,
+  DenItemState,
+  DenOverviewData,
+  DenOverviewItem,
+  DenWeekDay,
+} from "@/lib/den-overview-types";
+import { getTaskEarnType } from "@/lib/earn-types";
 import {
   calendarDayStartUtc,
   daysUntilDue,
@@ -24,52 +24,6 @@ import {
   type TaskScheduleInput,
 } from "@/lib/task-schedule";
 import { PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
-
-export type DenItemState =
-  | "pending"
-  | "in_progress"
-  | "submitted"
-  | "done"
-  | "overdue";
-
-export type DenOverviewItem = {
-  id: string;
-  kind: EarnType | "calendar_event";
-  title: string;
-  subtitle?: string;
-  dateKey: string;
-  timeLabel?: string;
-  cubName?: string;
-  href?: string;
-  state: DenItemState;
-  calendarEventType?: CalendarEvent["eventType"];
-  sortMinutes: number;
-};
-
-export type DenAttentionItem = {
-  id: string;
-  kind: EarnType | "calendar_event" | "growth_minimum";
-  title: string;
-  detail: string;
-  href?: string;
-};
-
-export type DenWeekDay = {
-  dateKey: string;
-  dayName: string;
-  dayNum: number;
-  itemCount: number;
-  isToday: boolean;
-};
-
-export type DenOverviewData = {
-  today: DenOverviewItem[];
-  weekDays: DenWeekDay[];
-  itemsByDay: Record<string, DenOverviewItem[]>;
-  upcoming: DenOverviewItem[];
-  needsAttention: DenAttentionItem[];
-  weekSummary: CubWeekEarnSummary;
-};
 
 type CubRef = { id: string; displayName: string };
 
@@ -143,7 +97,7 @@ function taskDenState(task: TaskScheduleInput): DenItemState {
 }
 
 function taskHref(cubId: string, taskId: string): string {
-  return `/cub/${cubId}/tasks#mission-${taskId}`;
+  return `/cub/${cubId}/challenges#mission-${taskId}`;
 }
 
 function taskToDenItem(
@@ -173,9 +127,7 @@ function taskToDenItem(
   };
 }
 
-function calendarEventState(
-  event: CalendarEventWithTask,
-): DenItemState {
+function calendarEventState(event: CalendarEventWithTask): DenItemState {
   if (event.status === "COMPLETED") return "done";
   if (event.status === "CANCELLED") return "done";
   if (event.linkedTask) {
@@ -197,7 +149,7 @@ function calendarEventToDenItem(event: CalendarEventWithTask): DenOverviewItem {
       ? linked.title !== event.title
         ? `Linked: ${linked.title}`
         : undefined
-      : event.description ?? undefined,
+      : (event.description ?? undefined),
     dateKey,
     timeLabel: formatEventTimeRange(event.startTime, event.endTime) ?? undefined,
     cubName: cubName ?? undefined,
@@ -432,7 +384,7 @@ export async function getDenOverviewData(
       kind: "task",
       title: `${submittedTasks} assignment${submittedTasks === 1 ? "" : "s"} awaiting review`,
       detail: "Waiting for parent review",
-      href: `/cub/${cub.id}/tasks`,
+      href: `/cub/${cub.id}/challenges#assignments`,
     });
   }
 
@@ -520,24 +472,4 @@ export async function getDenOverviewData(
     needsAttention,
     weekSummary,
   };
-}
-
-export function formatDenItemDateLabel(item: DenOverviewItem): string {
-  const date = new Date(`${item.dateKey}T00:00:00.000Z`);
-  return formatCalendarEventDate(date, item.timeLabel?.split(" – ")[0]);
-}
-
-export function denItemStateLabel(state: DenItemState): string {
-  switch (state) {
-    case "done":
-      return "Done";
-    case "overdue":
-      return "Overdue";
-    case "submitted":
-      return "Awaiting review";
-    case "in_progress":
-      return "In progress";
-    default:
-      return "Scheduled";
-  }
 }

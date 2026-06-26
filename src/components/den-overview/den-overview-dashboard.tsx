@@ -4,16 +4,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { AddCalendarEventForm } from "@/components/den-overview/add-calendar-event-form";
 import { DenItemBadge } from "@/components/den-overview/den-item-badge";
-import { CubThisWeekSummarySection } from "@/components/cub-this-week-summary-section";
 import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import { CubKidSectionHeader } from "@/components/cub-kid/cub-kid-section-header";
 import {
   denItemStateLabel,
-  formatDenItemDateLabel,
-  type DenAttentionItem,
   type DenOverviewData,
   type DenOverviewItem,
-} from "@/lib/den-overview";
+} from "@/lib/den-overview-types";
 import { cn } from "@/lib/utils";
 
 type DenOverviewDashboardProps = {
@@ -88,36 +85,6 @@ function DenItemRow({ item }: { item: DenOverviewItem }) {
   return content;
 }
 
-function AttentionRow({ item }: { item: DenAttentionItem }) {
-  const content = (
-    <div className="flex items-start justify-between gap-3 rounded-xl border border-red-500/20 bg-red-950/20 px-3 py-2.5">
-      <div className="min-w-0 space-y-1">
-        <div className="flex flex-wrap items-center gap-2">
-          {item.kind === "growth_minimum" ? (
-            <span className="inline-flex rounded-full bg-cub-green-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cub-green-light ring-1 ring-cub-green-bright/35">
-              Growth Pick
-            </span>
-          ) : (
-            <DenItemBadge kind={item.kind} />
-          )}
-        </div>
-        <p className="text-sm font-semibold text-cub-off-white">{item.title}</p>
-        <p className="text-xs text-cub-muted">{item.detail}</p>
-      </div>
-    </div>
-  );
-
-  if (item.href) {
-    return (
-      <Link href={item.href} className="block">
-        {content}
-      </Link>
-    );
-  }
-
-  return content;
-}
-
 export function DenOverviewDashboard({
   cubId,
   isParent,
@@ -144,41 +111,19 @@ export function DenOverviewDashboard({
   }, [data.weekDays, selectedDay]);
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <CubKidSectionHeader
-          eyebrow="🗓️ Den Dashboard"
-          title="Today in the Den"
-          subtitle="Assignments, routines, training, growth picks, and family plans for today."
-        />
-        {isParent ? (
-          <AddCalendarEventForm cubs={cubs} defaultCubId={cubId} />
-        ) : null}
-      </div>
+    <div className="space-y-3">
+      <CubKidSectionHeader
+        eyebrow="🗓️ Den Dashboard"
+        title="Family calendar"
+        subtitle="Tap a day to see assignments and family events."
+        trailing={
+          isParent ? (
+            <AddCalendarEventForm cubs={cubs} defaultCubId={cubId} />
+          ) : null
+        }
+      />
 
-      <CubKidPanel contentClassName="space-y-2">
-        {data.today.length === 0 ? (
-          <p className="py-2 text-sm text-cub-muted">
-            Nothing scheduled for today — enjoy the calm, or check This Week below.
-          </p>
-        ) : (
-          <ul className="space-y-2">
-            {data.today.map((item) => (
-              <li key={item.id}>
-                <DenItemRow item={item} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </CubKidPanel>
-
-      <section className="space-y-3">
-        <CubKidSectionHeader
-          eyebrow="📅 This Week"
-          title="Family week at a glance"
-          subtitle="Tap a day to see assignments and calendar events."
-        />
-        <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
+      <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
           {data.weekDays.map((day) => (
             <button
               key={day.dateKey}
@@ -226,59 +171,6 @@ export function DenOverviewDashboard({
             </ul>
           )}
         </CubKidPanel>
-      </section>
-
-      <section className="space-y-3">
-        <CubKidSectionHeader
-          eyebrow="🔭 Coming up"
-          title="Upcoming"
-          subtitle="Next deadlines and family events on the horizon."
-        />
-        <CubKidPanel contentClassName="space-y-2">
-          {data.upcoming.length === 0 ? (
-            <p className="text-sm text-cub-muted">No upcoming events in the next two weeks.</p>
-          ) : (
-            <ul className="space-y-2">
-              {data.upcoming.map((item) => (
-                <li key={item.id}>
-                  <DenItemRow
-                    item={{
-                      ...item,
-                      subtitle:
-                        item.subtitle ??
-                        formatDenItemDateLabel(item),
-                    }}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
-        </CubKidPanel>
-      </section>
-
-      {data.needsAttention.length > 0 ? (
-        <section className="space-y-3">
-          <CubKidSectionHeader
-            eyebrow="⚠️ Heads up"
-            title="Needs Attention"
-            subtitle="Overdue work, reviews waiting, and weekly minimums."
-          />
-          <ul className="space-y-2">
-            {data.needsAttention.map((item) => (
-              <li key={item.id}>
-                <AttentionRow item={item} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <CubThisWeekSummarySection
-        cubId={cubId}
-        summary={data.weekSummary}
-        sectionTitle="Weekly Progress"
-        sectionSubtitle="The five ways to earn — routines, tasks, growth picks, training path, and bonus."
-      />
     </div>
   );
 }

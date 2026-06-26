@@ -1,31 +1,29 @@
-import Link from "next/link";
+import { MissionHashScroll } from "@/components/mission-hash-scroll";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
+import { DenOverviewDashboard } from "@/components/den-overview/den-overview-dashboard";
 import {
   CubKidHero,
-  CubKidPanel,
   CubKidStatBar,
-  CubKidTipCard,
 } from "@/components/cub-kid";
 import { CubThisWeekSummarySection } from "@/components/cub-this-week-summary-section";
+import { CubNextStepSection } from "@/components/cub-next-step-section";
 import { CubTodaysMissionsSection } from "@/components/cub-todays-missions-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
-import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { getCubNextAction } from "@/lib/cub-next-action";
 import { getWeekStart } from "@/lib/council-day";
 import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
+import { getDenOverviewData } from "@/lib/den-overview-data";
 import {
   getCubActiveMissions,
   getCubWeekEarnSummary,
 } from "@/lib/cub-week-earn-summary";
 import { sumLedgerAmounts } from "@/lib/rewards";
+import { getFamilyForUser } from "@/lib/session";
 import { filterTasksForCubWeekView } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
-import {
-  nextActionButtonVariant,
-} from "@/lib/cub-theme";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
@@ -40,8 +38,22 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
 
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
+  const family = await getFamilyForUser(session.user.id);
+  const isParent = family?.ownerId === session.user.id;
+  const familyCubs =
+    family?.cubs.map((item) => ({
+      id: item.id,
+      displayName: item.displayName,
+    })) ?? [];
 
-  const [assignedTasks, growthSummary, missions, weekSummary, ledger] = await Promise.all([
+  const [
+    assignedTasks,
+    growthSummary,
+    missions,
+    weekSummary,
+    ledger,
+    denOverview,
+  ] = await Promise.all([
     db.task.findMany({
       where: {
         familyId,
@@ -63,6 +75,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     getCubActiveMissions(familyId, cub.id, weekStartsOn),
     getCubWeekEarnSummary(familyId, cub.id, weekStartsOn),
     sumLedgerAmounts(cub.id),
+    getDenOverviewData(familyId, cub, weekStartsOn),
   ]);
 
   const weekAssigned = filterTasksForCubWeekView(assignedTasks, weekStartsOn);
@@ -78,9 +91,10 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
 
   return (
     <div className="space-y-5">
+      <MissionHashScroll />
       <CubKidHero
         title={`Hey, ${cub.displayName}!`}
-        subtitle="Your quest board is ready — pick a mission and level up."
+        subtitle="Your Den at a glance — missions, deadlines, routines, and family plans."
         emoji={CUB_PAGE_EMOJI.today}
       />
 
@@ -101,6 +115,22 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
 
       <CubTodaysMissionsSection missions={missions} variant="compact" />
 
+      <CubNextStepSection action={nextAction} />
+
+      <section id="den" className="scroll-mt-24">
+        <DenOverviewDashboard
+          cubId={cubId}
+          isParent={isParent}
+          cubs={familyCubs}
+          data={denOverview}
+          initialSelectedDay={
+            denOverview.weekDays.find((day) => day.isToday)?.dateKey ??
+            denOverview.weekDays[0]?.dateKey ??
+            ""
+          }
+        />
+      </section>
+
       <CubThisWeekSummarySection
         cubId={cubId}
         summary={weekSummary}
@@ -113,28 +143,6 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         cubId={cubId}
         variant="mini"
       />
-
-      <CubKidPanel variant="gold" contentClassName="space-y-4">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
-            🎯 Next step
-          </p>
-          <h2 className="mt-1 text-xl font-black text-cub-off-white">
-            {nextAction.title}
-          </h2>
-          <p className="mt-2 text-sm text-cub-muted">{nextAction.description}</p>
-        </div>
-        <Link href={nextAction.href}>
-          <Button
-            fullWidth
-            size="lg"
-            variant={nextActionButtonVariant("normal", nextAction.buttonLabel)}
-            className="font-bold uppercase tracking-wide"
-          >
-            {nextAction.buttonLabel} ▶
-          </Button>
-        </Link>
-      </CubKidPanel>
 
       <ActiveFocusTimersBanner cubName={cub.displayName} tasks={activeFocus} />
     </div>

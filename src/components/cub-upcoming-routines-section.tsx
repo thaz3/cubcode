@@ -24,8 +24,7 @@ export function CubUpcomingRoutinesSection({
         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
           📅 Coming up
         </p>
-        <h2 className="mt-0.5 text-lg font-black text-cub-off-white">Upcoming routines</h2>
-        <p className="text-sm text-cub-muted">
+        <p className="mt-1 text-sm text-cub-muted">
           Not due today — your parent set these up to repeat on other days.
         </p>
       </div>

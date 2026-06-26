@@ -45,7 +45,7 @@ export function TrainingDeckCardCubRow({
     {} as ActionState,
   );
   const cta = getCardCta(status, taskId);
-  const taskHref = taskId ? `/cub/${cubId}/tasks` : null;
+  const taskHref = taskId ? `/cub/${cubId}/challenges#mission-${taskId}` : null;
 
   return (
     <div className="flex flex-col gap-2 rounded-lg border border-zinc-800/80 bg-zinc-950/40 p-3 sm:flex-row sm:items-center sm:justify-between">

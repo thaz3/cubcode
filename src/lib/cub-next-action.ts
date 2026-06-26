@@ -14,7 +14,7 @@ export function getCubNextAction(
   tasks: TaskSlice[],
   cubId: string,
 ): CubNextAction {
-  const baseTasks = `/cub/${cubId}/tasks`;
+  const assignmentsHref = `/cub/${cubId}/challenges#assignments`;
 
   const inProgressFocus = tasks.find(
     (t) => t.status === "IN_PROGRESS" && t.focusSessionStartedAt,
@@ -23,7 +23,7 @@ export function getCubNextAction(
     return {
       title: `Keep going: ${inProgressFocus.title}`,
       description: "Your request timer is running. Submit when you're done.",
-      href: baseTasks,
+      href: `/cub/${cubId}/challenges#mission-${inProgressFocus.id}`,
       buttonLabel: "Continue task",
       tone: "focus",
     };
@@ -34,7 +34,7 @@ export function getCubNextAction(
     return {
       title: `Try again: ${sentBack.title}`,
       description: "Your parent asked for changes. Read their note and resubmit.",
-      href: baseTasks,
+      href: `/cub/${cubId}/challenges#mission-${sentBack.id}`,
       buttonLabel: "Fix task",
       tone: "urgent",
     };
@@ -52,7 +52,7 @@ export function getCubNextAction(
         claimed.status === "IN_PROGRESS"
           ? "Finish your work and submit proof for parent review."
           : "Tap View instructions when you're ready — your parent will know you opened them.",
-      href: baseTasks,
+      href: `/cub/${cubId}/challenges#mission-${claimed.id}`,
       buttonLabel: label,
       tone: "focus",
     };
@@ -63,7 +63,7 @@ export function getCubNextAction(
     return {
       title: "Waiting for parent review",
       description: `"${waiting.title}" was submitted. Your parent will review it soon.`,
-      href: baseTasks,
+      href: `/cub/${cubId}/challenges#mission-${waiting.id}`,
       buttonLabel: "View tasks",
       tone: "wait",
     };
@@ -73,7 +73,7 @@ export function getCubNextAction(
     return {
       title: "No tasks yet",
       description: "Ask your parent to assign something for you to work on.",
-      href: baseTasks,
+      href: assignmentsHref,
       buttonLabel: "Check tasks",
       tone: "calm",
     };

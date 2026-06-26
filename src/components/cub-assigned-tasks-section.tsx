@@ -44,7 +44,7 @@ export function CubAssignedTasksSection({
         <ul className={isCompact ? "space-y-1.5" : "space-y-2"}>
           {preview.map((task) => (
             <li key={task.id}>
-              <Link href={`/cub/${cubId}/tasks`}>
+              <Link href={`/cub/${cubId}/challenges#assignments`}>
                 <Card
                   variant="interactive"
                   className={
@@ -82,7 +82,7 @@ export function CubAssignedTasksSection({
 
         {remaining > 0 && !isCompact ? (
           <Link
-            href={`/cub/${cubId}/tasks`}
+            href={`/cub/${cubId}/challenges#assignments`}
             className="block text-center text-sm font-medium text-zinc-400 hover:text-zinc-200"
           >
             + {remaining} more task{remaining === 1 ? "" : "s"}
@@ -105,7 +105,7 @@ export function CubAssignedTasksSection({
           </div>
           {tasks.length > 0 ? (
             <Link
-              href={`/cub/${cubId}/tasks`}
+              href={`/cub/${cubId}/challenges#assignments`}
               className="shrink-0 text-xs font-medium text-cub-gold hover:text-cub-gold-light"
             >
               All →
@@ -115,7 +115,7 @@ export function CubAssignedTasksSection({
         <div className="flex-1">{content}</div>
         {remaining > 0 ? (
           <Link
-            href={`/cub/${cubId}/tasks`}
+            href={`/cub/${cubId}/challenges#assignments`}
             className="text-center text-xs font-medium text-zinc-400 hover:text-zinc-200"
           >
             + {remaining} more
@@ -138,7 +138,7 @@ export function CubAssignedTasksSection({
         </div>
         {tasks.length > 0 ? (
           <Link
-            href={`/cub/${cubId}/tasks`}
+            href={`/cub/${cubId}/challenges#assignments`}
             className="shrink-0 text-sm font-medium text-cub-gold hover:text-cub-gold-light"
           >
             All tasks →

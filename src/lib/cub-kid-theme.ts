@@ -47,6 +47,7 @@ export const CUB_PAGE_EMOJI: Record<string, string> = {
   overview: "📋",
   training: "🗺️",
   routines: "🔄",
+  assignments: "🎯",
   growthPicks: "🌱",
   progress: "📈",
   rewards: "🏆",

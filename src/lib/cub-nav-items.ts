@@ -15,14 +15,13 @@ export type CubNavItem = CubNavLink | CubNavGroup;
 
 export const CUB_NAV_ITEMS: CubNavItem[] = [
   { type: "link", suffix: "", label: "Today" },
-  { type: "link", suffix: "/tasks", label: "Overview" },
   {
     type: "group",
     id: "practice",
     label: "Quests",
     children: [
+      { type: "link", suffix: "/challenges", label: "Assignments" },
       { type: "link", suffix: "/training", label: "Training Path" },
-      { type: "link", suffix: "/challenges", label: "Routines" },
       { type: "link", suffix: "/focus-deck", label: "Growth Picks" },
       { type: "link", suffix: "/ways-to-earn", label: "Ways to Earn" },
     ],
@@ -36,20 +35,57 @@ export function isCubNavActive(
   base: string,
   suffix: string,
 ): boolean {
-  if (suffix === "") {
+  const pathSuffix = suffix.split("#")[0];
+  if (pathSuffix === "") {
     return pathname === base;
   }
-  return pathname.startsWith(`${base}${suffix}`);
+  return pathname.startsWith(`${base}${pathSuffix}`);
 }
 
+export function isCubNavChildActive(
+  pathname: string,
+  base: string,
+  suffix: string,
+  hash = "",
+): boolean {
+  const [pathSuffix, hashSuffix] = suffix.split("#");
+  const onPath =
+    pathname === `${base}${pathSuffix}` ||
+    pathname.startsWith(`${base}${pathSuffix}/`);
+
+  if (hashSuffix) {
+    return onPath && hash === `#${hashSuffix}`;
+  }
+
+  return isCubNavActive(pathname, base, suffix);
+}
+
+export function getCubPracticeGroup(): CubNavGroup | undefined {
+  const item = CUB_NAV_ITEMS.find(
+    (entry) => entry.type === "group" && entry.id === "practice",
+  );
+  return item?.type === "group" ? item : undefined;
+}
+
+export function isCubQuestsNavActive(
+  pathname: string,
+  base: string,
+  group: CubNavGroup,
+  hash = "",
+): boolean {
+  return group.children.some((child) =>
+    isCubNavChildActive(pathname, base, child.suffix, hash),
+  );
+}
+
+/** @deprecated Use isCubQuestsNavActive */
 export function isCubNavGroupActive(
   pathname: string,
   base: string,
   group: CubNavGroup,
+  hash = "",
 ): boolean {
-  return group.children.some((child) =>
-    isCubNavActive(pathname, base, child.suffix),
-  );
+  return isCubQuestsNavActive(pathname, base, group, hash);
 }
 
 export function getCubSwitchHref(

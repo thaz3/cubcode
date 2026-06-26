@@ -60,7 +60,7 @@ export const EARN_TYPE_META: Record<EarnType, EarnTypeMeta> = {
     ctaLabel: "Assign a task",
     cubCtaLabel: "View tasks",
     parentCtaHref: "/dashboard/tasks?kind=task",
-    cubCtaHref: (cubId) => `/cub/${cubId}/tasks`,
+    cubCtaHref: (cubId) => `/cub/${cubId}/challenges#assignments`,
   },
   growth_pick: {
     id: "growth_pick",

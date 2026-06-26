@@ -43,7 +43,7 @@ export function getCubMissionHref(
       return `/cub/${cubId}/focus-deck#pick-${mission.sourceId}`;
     case "task":
     case "training_path":
-      return `/cub/${cubId}/tasks#mission-${mission.sourceId}`;
+      return `/cub/${cubId}/challenges#mission-${mission.sourceId}`;
   }
 }
 
@@ -179,6 +179,9 @@ export async function getCubActiveMissions(
   );
 
   for (const task of activeWeekTasks) {
+    // CLAIMED = parent assigned but kid hasn't opened instructions yet — Next Step handles that.
+    if (task.status === "CLAIMED") continue;
+
     const earnType = getTaskEarnType(task);
     missions.push({
       id: `task-${task.id}`,

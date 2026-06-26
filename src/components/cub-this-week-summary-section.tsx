@@ -36,7 +36,7 @@ export function CubThisWeekSummarySection({
       earnType: "task" as const,
       label: "Tasks completed",
       value: String(summary.tasksCompleted),
-      href: `/cub/${cubId}/tasks`,
+      href: `/cub/${cubId}/challenges#assignments`,
     },
     {
       earnType: "growth_pick" as const,
