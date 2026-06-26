@@ -112,3 +112,18 @@ export type Challenge = Prisma.ChallengeModel
  * 
  */
 export type ChallengeProgressLog = Prisma.ChallengeProgressLogModel
+/**
+ * Model FocusActivityCard
+ * 
+ */
+export type FocusActivityCard = Prisma.FocusActivityCardModel
+/**
+ * Model FocusDeckStackItem
+ * 
+ */
+export type FocusDeckStackItem = Prisma.FocusDeckStackItemModel
+/**
+ * Model FocusActivityCompletion
+ * 
+ */
+export type FocusActivityCompletion = Prisma.FocusActivityCompletionModel

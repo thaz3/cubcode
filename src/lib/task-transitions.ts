@@ -49,12 +49,16 @@ export const PARENT_CUB_COMPLETED_STATUSES: TaskStatus[] = [
   "REJECTED",
 ];
 
-/** Parent can edit task details before submission or after send-back. */
+/** Parent can edit assignment details in any workflow state. */
 export const EDITABLE_TASK_STATUSES: TaskStatus[] = [
   "AVAILABLE",
   "CLAIMED",
   "IN_PROGRESS",
   "SENT_BACK",
+  "SUBMITTED",
+  "APPROVED",
+  "REJECTED",
+  "COMPLETED",
 ];
 
 export function isTaskEditable(status: TaskStatus): boolean {

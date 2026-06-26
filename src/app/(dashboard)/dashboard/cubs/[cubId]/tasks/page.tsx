@@ -3,8 +3,10 @@ import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner
 import { AssignTaskToCubPanel } from "@/components/assign-task-to-cub-panel";
 import { CubColorBadge } from "@/components/cub-color-dot";
 import { RequestSessionTimer } from "@/components/request-session-timer";
+import { ParentFocusSessionControls } from "@/components/parent-focus-session-controls";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { FocusBlockForm, TaskSubmitForm } from "@/components/task-workflow-forms";
+import { AssignmentManageActions } from "@/components/assignment-manage-actions";
 import { StartTaskForm } from "@/components/start-task-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -33,7 +35,7 @@ import {
   isTaskUrgent,
   sortTasksByUrgency,
 } from "@/lib/task-schedule";
-import { isTaskEditable, ACTIVE_CUB_STATUSES, PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
+import { ACTIVE_CUB_STATUSES, PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
 import { formatTaskRecurrence } from "@/lib/task-recurrence";
 import { notFound, redirect } from "next/navigation";
 
@@ -267,6 +269,18 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                         />
                       </div>
                     ) : null}
+                    {task.category === "FOCUS_BLOCK" &&
+                    (task.status === "CLAIMED" || task.status === "IN_PROGRESS") ? (
+                      <ParentFocusSessionControls
+                        taskId={task.id}
+                        cubName={cub.displayName}
+                        focusSessionStartedAt={
+                          task.focusSessionStartedAt?.toISOString() ?? null
+                        }
+                        canEnd
+                        compact
+                      />
+                    ) : null}
                     {focusMinutes > 0 ? (
                       <p className="mt-1 text-xs text-zinc-500">
                         {focusMinutes} min focus logged total
@@ -299,11 +313,11 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
                       </p>
                     ) : null}
                   </div>
-                  {isTaskEditable(task.status) ? (
-                    <Link href={`/dashboard/tasks/${task.id}/edit`}>
-                      <Button variant="secondary">Edit</Button>
-                    </Link>
-                  ) : null}
+                  <AssignmentManageActions
+                    taskId={task.id}
+                    status={task.status}
+                    size="sm"
+                  />
                 </div>
 
                 {(task.status === "CLAIMED" || task.status === "SENT_BACK") && (

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AssignmentManageActions } from "@/components/assignment-manage-actions";
 import { AssignTaskForm } from "@/components/assign-task-form";
 import { CubLink } from "@/components/cub-link";
 import { TaskTemplateForm } from "@/components/task-template-form";
@@ -10,7 +11,6 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
 import { formatDueDateInputValue } from "@/lib/task-schedule";
-import { isTaskEditable } from "@/lib/task-transitions";
 import { notFound, redirect } from "next/navigation";
 
 type EditTaskPageProps = {
@@ -30,7 +30,7 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
     include: { cub: true },
   });
 
-  if (!task || !isTaskEditable(task.status)) {
+  if (!task) {
     notFound();
   }
 
@@ -60,7 +60,13 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
         <p className="mt-2 text-zinc-600 dark:text-zinc-400">
           {isAvailable
             ? "Update this task while it is still in the available pool."
-            : "Update category, proof, and instructions while this task is in progress or sent back for revision. Tasks waiting for review or already decided cannot be edited."}
+            : task.status === "SUBMITTED"
+              ? "Update instructions or rewards before you review. Deleting removes the submission."
+              : task.status === "APPROVED" ||
+                  task.status === "COMPLETED" ||
+                  task.status === "REJECTED"
+                ? "Update the record for your household. Earned rewards are not changed automatically."
+                : "Update category, proof, and instructions for this assignment."}
         </p>
       </div>
 
@@ -115,6 +121,19 @@ export default async function EditTaskPage({ params }: EditTaskPageProps) {
           </div>
         </Card>
       ) : null}
+
+      <Card className="space-y-4">
+        <h2 className="text-lg font-semibold">Remove assignment</h2>
+        <p className="text-sm text-zinc-500">
+          Permanently delete this assignment from your household board.
+        </p>
+        <AssignmentManageActions
+          taskId={task.id}
+          status={task.status}
+          showEdit={false}
+          fullWidth
+        />
+      </Card>
     </div>
   );
 }

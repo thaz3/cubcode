@@ -31,7 +31,7 @@ export default async function TaskBoardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Tasks"
+        title="Tasks & Routines"
         subtitle="What you assigned, what's in progress, submitted, and completed."
         action={
           <div className="flex flex-wrap gap-2">

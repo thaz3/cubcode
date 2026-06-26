@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AssignmentManageActions } from "@/components/assignment-manage-actions";
 import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,6 @@ import { cubAccentClassNames } from "@/lib/cub-colors";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
 import type { TaskWithCub } from "@/lib/task-groups";
 import type { TaskStatus } from "@/generated/prisma/client";
-import { isTaskEditable } from "@/lib/task-transitions";
 
 type TaskCardProps = {
   task: TaskWithCub;
@@ -74,15 +74,13 @@ export function TaskCard({
           ) : null}
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col gap-2">
           {primary}
-          {isTaskEditable(task.status) ? (
-            <Link href={`/dashboard/tasks/${task.id}/edit`} className="sm:flex-1">
-              <Button variant="secondary" fullWidth size="lg">
-                Edit
-              </Button>
-            </Link>
-          ) : null}
+          <AssignmentManageActions
+            taskId={task.id}
+            status={task.status}
+            fullWidth
+          />
         </div>
 
         {startAction}

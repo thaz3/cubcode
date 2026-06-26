@@ -72,8 +72,8 @@ Do not implement:
 - Citywide map mechanics
 - Advanced analytics
 - Complex fraud detection
-- Core Challenges / repeatable challenge programs (Phase C2)
-- Focus Deck / multi-area activity cards (Phase C2B)
+- Core Challenges / repeatable challenge programs (Phase C2) — **BINARY_ROUTINE implemented**
+- Focus Deck / multi-area activity cards (Phase C2B) — **in progress; see `/docs/PHASE_C2B_FOCUS_DECK.md`**
 - Child-facing reminders or notifications
 - Parent email, SMS, or push Guardian Nudge delivery (beyond C1 in-app)
 - Automatic punishment or consequence flows triggered by reminders

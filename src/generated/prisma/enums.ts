@@ -89,6 +89,7 @@ export type GrowthCategory = (typeof GrowthCategory)[keyof typeof GrowthCategory
 export const LedgerReason = {
   TASK_APPROVAL: 'TASK_APPROVAL',
   CHALLENGE_APPROVAL: 'CHALLENGE_APPROVAL',
+  FOCUS_DECK_APPROVAL: 'FOCUS_DECK_APPROVAL',
   REWARD_REDEMPTION: 'REWARD_REDEMPTION',
   PARENT_ADJUSTMENT: 'PARENT_ADJUSTMENT',
   DAILY_CAP_OVERFLOW: 'DAILY_CAP_OVERFLOW',
@@ -97,6 +98,56 @@ export const LedgerReason = {
 } as const
 
 export type LedgerReason = (typeof LedgerReason)[keyof typeof LedgerReason]
+
+
+export const FocusDeckCategory = {
+  CHARACTER: 'CHARACTER',
+  WELLNESS: 'WELLNESS',
+  CREATIVITY: 'CREATIVITY',
+  RESPONSIBILITY: 'RESPONSIBILITY',
+  COMMUNITY: 'COMMUNITY'
+} as const
+
+export type FocusDeckCategory = (typeof FocusDeckCategory)[keyof typeof FocusDeckCategory]
+
+
+export const FocusActivityCardStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type FocusActivityCardStatus = (typeof FocusActivityCardStatus)[keyof typeof FocusActivityCardStatus]
+
+
+export const FocusActivityCompletionStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  SUBMITTED: 'SUBMITTED',
+  SENT_BACK: 'SENT_BACK',
+  REJECTED: 'REJECTED',
+  REWARDED: 'REWARDED'
+} as const
+
+export type FocusActivityCompletionStatus = (typeof FocusActivityCompletionStatus)[keyof typeof FocusActivityCompletionStatus]
+
+
+export const FocusDeckLocationType = {
+  HOME: 'HOME',
+  OUTDOOR: 'OUTDOOR',
+  COMMUNITY: 'COMMUNITY',
+  ANY: 'ANY'
+} as const
+
+export type FocusDeckLocationType = (typeof FocusDeckLocationType)[keyof typeof FocusDeckLocationType]
+
+
+export const FocusDeckDifficulty = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  CHALLENGING: 'CHALLENGING'
+} as const
+
+export type FocusDeckDifficulty = (typeof FocusDeckDifficulty)[keyof typeof FocusDeckDifficulty]
 
 
 export const ChallengeType = {

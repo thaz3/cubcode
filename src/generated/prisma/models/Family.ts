@@ -279,6 +279,9 @@ export type FamilyWhereInput = {
   guardianNudges?: Prisma.GuardianNudgeListRelationFilter
   challenges?: Prisma.ChallengeListRelationFilter
   challengeProgressLogs?: Prisma.ChallengeProgressLogListRelationFilter
+  focusActivityCards?: Prisma.FocusActivityCardListRelationFilter
+  focusDeckStackItems?: Prisma.FocusDeckStackItemListRelationFilter
+  focusActivityCompletions?: Prisma.FocusActivityCompletionListRelationFilter
 }
 
 export type FamilyOrderByWithRelationInput = {
@@ -303,6 +306,9 @@ export type FamilyOrderByWithRelationInput = {
   guardianNudges?: Prisma.GuardianNudgeOrderByRelationAggregateInput
   challenges?: Prisma.ChallengeOrderByRelationAggregateInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogOrderByRelationAggregateInput
+  focusActivityCards?: Prisma.FocusActivityCardOrderByRelationAggregateInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemOrderByRelationAggregateInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionOrderByRelationAggregateInput
 }
 
 export type FamilyWhereUniqueInput = Prisma.AtLeast<{
@@ -330,6 +336,9 @@ export type FamilyWhereUniqueInput = Prisma.AtLeast<{
   guardianNudges?: Prisma.GuardianNudgeListRelationFilter
   challenges?: Prisma.ChallengeListRelationFilter
   challengeProgressLogs?: Prisma.ChallengeProgressLogListRelationFilter
+  focusActivityCards?: Prisma.FocusActivityCardListRelationFilter
+  focusDeckStackItems?: Prisma.FocusDeckStackItemListRelationFilter
+  focusActivityCompletions?: Prisma.FocusActivityCompletionListRelationFilter
 }, "id" | "ownerId">
 
 export type FamilyOrderByWithAggregationInput = {
@@ -387,6 +396,9 @@ export type FamilyCreateInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateInput = {
@@ -410,6 +422,9 @@ export type FamilyUncheckedCreateInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUpdateInput = {
@@ -433,6 +448,9 @@ export type FamilyUpdateInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateInput = {
@@ -456,6 +474,9 @@ export type FamilyUncheckedUpdateInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateManyInput = {
@@ -739,6 +760,48 @@ export type FamilyUpdateOneRequiredWithoutChallengeProgressLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutChallengeProgressLogsInput, Prisma.FamilyUpdateWithoutChallengeProgressLogsInput>, Prisma.FamilyUncheckedUpdateWithoutChallengeProgressLogsInput>
 }
 
+export type FamilyCreateNestedOneWithoutFocusActivityCardsInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCardsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCardsInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutFocusActivityCardsInput
+  connect?: Prisma.FamilyWhereUniqueInput
+}
+
+export type FamilyUpdateOneRequiredWithoutFocusActivityCardsNestedInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCardsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCardsInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutFocusActivityCardsInput
+  upsert?: Prisma.FamilyUpsertWithoutFocusActivityCardsInput
+  connect?: Prisma.FamilyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutFocusActivityCardsInput, Prisma.FamilyUpdateWithoutFocusActivityCardsInput>, Prisma.FamilyUncheckedUpdateWithoutFocusActivityCardsInput>
+}
+
+export type FamilyCreateNestedOneWithoutFocusDeckStackItemsInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutFocusDeckStackItemsInput, Prisma.FamilyUncheckedCreateWithoutFocusDeckStackItemsInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutFocusDeckStackItemsInput
+  connect?: Prisma.FamilyWhereUniqueInput
+}
+
+export type FamilyUpdateOneRequiredWithoutFocusDeckStackItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutFocusDeckStackItemsInput, Prisma.FamilyUncheckedCreateWithoutFocusDeckStackItemsInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutFocusDeckStackItemsInput
+  upsert?: Prisma.FamilyUpsertWithoutFocusDeckStackItemsInput
+  connect?: Prisma.FamilyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutFocusDeckStackItemsInput, Prisma.FamilyUpdateWithoutFocusDeckStackItemsInput>, Prisma.FamilyUncheckedUpdateWithoutFocusDeckStackItemsInput>
+}
+
+export type FamilyCreateNestedOneWithoutFocusActivityCompletionsInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCompletionsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCompletionsInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutFocusActivityCompletionsInput
+  connect?: Prisma.FamilyWhereUniqueInput
+}
+
+export type FamilyUpdateOneRequiredWithoutFocusActivityCompletionsNestedInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCompletionsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCompletionsInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutFocusActivityCompletionsInput
+  upsert?: Prisma.FamilyUpsertWithoutFocusActivityCompletionsInput
+  connect?: Prisma.FamilyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutFocusActivityCompletionsInput, Prisma.FamilyUpdateWithoutFocusActivityCompletionsInput>, Prisma.FamilyUncheckedUpdateWithoutFocusActivityCompletionsInput>
+}
+
 export type FamilyCreateWithoutOwnerInput = {
   id?: string
   name?: string | null
@@ -759,6 +822,9 @@ export type FamilyCreateWithoutOwnerInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutOwnerInput = {
@@ -781,6 +847,9 @@ export type FamilyUncheckedCreateWithoutOwnerInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutOwnerInput = {
@@ -819,6 +888,9 @@ export type FamilyUpdateWithoutOwnerInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutOwnerInput = {
@@ -841,6 +913,9 @@ export type FamilyUncheckedUpdateWithoutOwnerInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutCubsInput = {
@@ -863,6 +938,9 @@ export type FamilyCreateWithoutCubsInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutCubsInput = {
@@ -885,6 +963,9 @@ export type FamilyUncheckedCreateWithoutCubsInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutCubsInput = {
@@ -923,6 +1004,9 @@ export type FamilyUpdateWithoutCubsInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutCubsInput = {
@@ -945,6 +1029,9 @@ export type FamilyUncheckedUpdateWithoutCubsInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutCouncilDaySessionsInput = {
@@ -967,6 +1054,9 @@ export type FamilyCreateWithoutCouncilDaySessionsInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutCouncilDaySessionsInput = {
@@ -989,6 +1079,9 @@ export type FamilyUncheckedCreateWithoutCouncilDaySessionsInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutCouncilDaySessionsInput = {
@@ -1027,6 +1120,9 @@ export type FamilyUpdateWithoutCouncilDaySessionsInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutCouncilDaySessionsInput = {
@@ -1049,6 +1145,9 @@ export type FamilyUncheckedUpdateWithoutCouncilDaySessionsInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutTaskTemplatesInput = {
@@ -1071,6 +1170,9 @@ export type FamilyCreateWithoutTaskTemplatesInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutTaskTemplatesInput = {
@@ -1093,6 +1195,9 @@ export type FamilyUncheckedCreateWithoutTaskTemplatesInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutTaskTemplatesInput = {
@@ -1131,6 +1236,9 @@ export type FamilyUpdateWithoutTaskTemplatesInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutTaskTemplatesInput = {
@@ -1153,6 +1261,9 @@ export type FamilyUncheckedUpdateWithoutTaskTemplatesInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutTasksInput = {
@@ -1175,6 +1286,9 @@ export type FamilyCreateWithoutTasksInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutTasksInput = {
@@ -1197,6 +1311,9 @@ export type FamilyUncheckedCreateWithoutTasksInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutTasksInput = {
@@ -1235,6 +1352,9 @@ export type FamilyUpdateWithoutTasksInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutTasksInput = {
@@ -1257,6 +1377,9 @@ export type FamilyUncheckedUpdateWithoutTasksInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutRewardStoreItemsInput = {
@@ -1279,6 +1402,9 @@ export type FamilyCreateWithoutRewardStoreItemsInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutRewardStoreItemsInput = {
@@ -1301,6 +1427,9 @@ export type FamilyUncheckedCreateWithoutRewardStoreItemsInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutRewardStoreItemsInput = {
@@ -1339,6 +1468,9 @@ export type FamilyUpdateWithoutRewardStoreItemsInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutRewardStoreItemsInput = {
@@ -1361,6 +1493,9 @@ export type FamilyUncheckedUpdateWithoutRewardStoreItemsInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutGuardianNudgePreferencesInput = {
@@ -1383,6 +1518,9 @@ export type FamilyCreateWithoutGuardianNudgePreferencesInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput = {
@@ -1405,6 +1543,9 @@ export type FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutGuardianNudgePreferencesInput = {
@@ -1443,6 +1584,9 @@ export type FamilyUpdateWithoutGuardianNudgePreferencesInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput = {
@@ -1465,6 +1609,9 @@ export type FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutGuardianNudgeRulesInput = {
@@ -1487,6 +1634,9 @@ export type FamilyCreateWithoutGuardianNudgeRulesInput = {
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutGuardianNudgeRulesInput = {
@@ -1509,6 +1659,9 @@ export type FamilyUncheckedCreateWithoutGuardianNudgeRulesInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutGuardianNudgeRulesInput = {
@@ -1547,6 +1700,9 @@ export type FamilyUpdateWithoutGuardianNudgeRulesInput = {
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput = {
@@ -1569,6 +1725,9 @@ export type FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput = {
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutGuardianNudgesInput = {
@@ -1591,6 +1750,9 @@ export type FamilyCreateWithoutGuardianNudgesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutGuardianNudgesInput = {
@@ -1613,6 +1775,9 @@ export type FamilyUncheckedCreateWithoutGuardianNudgesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutGuardianNudgesInput = {
@@ -1651,6 +1816,9 @@ export type FamilyUpdateWithoutGuardianNudgesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutGuardianNudgesInput = {
@@ -1673,6 +1841,9 @@ export type FamilyUncheckedUpdateWithoutGuardianNudgesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutChallengesInput = {
@@ -1695,6 +1866,9 @@ export type FamilyCreateWithoutChallengesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutChallengesInput = {
@@ -1717,6 +1891,9 @@ export type FamilyUncheckedCreateWithoutChallengesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutChallengesInput = {
@@ -1755,6 +1932,9 @@ export type FamilyUpdateWithoutChallengesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutChallengesInput = {
@@ -1777,6 +1957,9 @@ export type FamilyUncheckedUpdateWithoutChallengesInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutChallengeProgressLogsInput = {
@@ -1799,6 +1982,9 @@ export type FamilyCreateWithoutChallengeProgressLogsInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutChallengeProgressLogsInput = {
@@ -1821,6 +2007,9 @@ export type FamilyUncheckedCreateWithoutChallengeProgressLogsInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutChallengeProgressLogsInput = {
@@ -1859,6 +2048,9 @@ export type FamilyUpdateWithoutChallengeProgressLogsInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutChallengeProgressLogsInput = {
@@ -1881,6 +2073,357 @@ export type FamilyUncheckedUpdateWithoutChallengeProgressLogsInput = {
   guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyCreateWithoutFocusActivityCardsInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutFamilyInput
+  cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyUncheckedCreateWithoutFocusActivityCardsInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyCreateOrConnectWithoutFocusActivityCardsInput = {
+  where: Prisma.FamilyWhereUniqueInput
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCardsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCardsInput>
+}
+
+export type FamilyUpsertWithoutFocusActivityCardsInput = {
+  update: Prisma.XOR<Prisma.FamilyUpdateWithoutFocusActivityCardsInput, Prisma.FamilyUncheckedUpdateWithoutFocusActivityCardsInput>
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCardsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCardsInput>
+  where?: Prisma.FamilyWhereInput
+}
+
+export type FamilyUpdateToOneWithWhereWithoutFocusActivityCardsInput = {
+  where?: Prisma.FamilyWhereInput
+  data: Prisma.XOR<Prisma.FamilyUpdateWithoutFocusActivityCardsInput, Prisma.FamilyUncheckedUpdateWithoutFocusActivityCardsInput>
+}
+
+export type FamilyUpdateWithoutFocusActivityCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
+  cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyUncheckedUpdateWithoutFocusActivityCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyCreateWithoutFocusDeckStackItemsInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutFamilyInput
+  cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyUncheckedCreateWithoutFocusDeckStackItemsInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyCreateOrConnectWithoutFocusDeckStackItemsInput = {
+  where: Prisma.FamilyWhereUniqueInput
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutFocusDeckStackItemsInput, Prisma.FamilyUncheckedCreateWithoutFocusDeckStackItemsInput>
+}
+
+export type FamilyUpsertWithoutFocusDeckStackItemsInput = {
+  update: Prisma.XOR<Prisma.FamilyUpdateWithoutFocusDeckStackItemsInput, Prisma.FamilyUncheckedUpdateWithoutFocusDeckStackItemsInput>
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutFocusDeckStackItemsInput, Prisma.FamilyUncheckedCreateWithoutFocusDeckStackItemsInput>
+  where?: Prisma.FamilyWhereInput
+}
+
+export type FamilyUpdateToOneWithWhereWithoutFocusDeckStackItemsInput = {
+  where?: Prisma.FamilyWhereInput
+  data: Prisma.XOR<Prisma.FamilyUpdateWithoutFocusDeckStackItemsInput, Prisma.FamilyUncheckedUpdateWithoutFocusDeckStackItemsInput>
+}
+
+export type FamilyUpdateWithoutFocusDeckStackItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
+  cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyUncheckedUpdateWithoutFocusDeckStackItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyCreateWithoutFocusActivityCompletionsInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutFamilyInput
+  cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyUncheckedCreateWithoutFocusActivityCompletionsInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyCreateOrConnectWithoutFocusActivityCompletionsInput = {
+  where: Prisma.FamilyWhereUniqueInput
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCompletionsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCompletionsInput>
+}
+
+export type FamilyUpsertWithoutFocusActivityCompletionsInput = {
+  update: Prisma.XOR<Prisma.FamilyUpdateWithoutFocusActivityCompletionsInput, Prisma.FamilyUncheckedUpdateWithoutFocusActivityCompletionsInput>
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutFocusActivityCompletionsInput, Prisma.FamilyUncheckedCreateWithoutFocusActivityCompletionsInput>
+  where?: Prisma.FamilyWhereInput
+}
+
+export type FamilyUpdateToOneWithWhereWithoutFocusActivityCompletionsInput = {
+  where?: Prisma.FamilyWhereInput
+  data: Prisma.XOR<Prisma.FamilyUpdateWithoutFocusActivityCompletionsInput, Prisma.FamilyUncheckedUpdateWithoutFocusActivityCompletionsInput>
+}
+
+export type FamilyUpdateWithoutFocusActivityCompletionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
+  cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyUncheckedUpdateWithoutFocusActivityCompletionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 
@@ -1898,6 +2441,9 @@ export type FamilyCountOutputType = {
   guardianNudges: number
   challenges: number
   challengeProgressLogs: number
+  focusActivityCards: number
+  focusDeckStackItems: number
+  focusActivityCompletions: number
 }
 
 export type FamilyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1910,6 +2456,9 @@ export type FamilyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   guardianNudges?: boolean | FamilyCountOutputTypeCountGuardianNudgesArgs
   challenges?: boolean | FamilyCountOutputTypeCountChallengesArgs
   challengeProgressLogs?: boolean | FamilyCountOutputTypeCountChallengeProgressLogsArgs
+  focusActivityCards?: boolean | FamilyCountOutputTypeCountFocusActivityCardsArgs
+  focusDeckStackItems?: boolean | FamilyCountOutputTypeCountFocusDeckStackItemsArgs
+  focusActivityCompletions?: boolean | FamilyCountOutputTypeCountFocusActivityCompletionsArgs
 }
 
 /**
@@ -1985,6 +2534,27 @@ export type FamilyCountOutputTypeCountChallengeProgressLogsArgs<ExtArgs extends 
   where?: Prisma.ChallengeProgressLogWhereInput
 }
 
+/**
+ * FamilyCountOutputType without action
+ */
+export type FamilyCountOutputTypeCountFocusActivityCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FocusActivityCardWhereInput
+}
+
+/**
+ * FamilyCountOutputType without action
+ */
+export type FamilyCountOutputTypeCountFocusDeckStackItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FocusDeckStackItemWhereInput
+}
+
+/**
+ * FamilyCountOutputType without action
+ */
+export type FamilyCountOutputTypeCountFocusActivityCompletionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FocusActivityCompletionWhereInput
+}
+
 
 export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2008,6 +2578,9 @@ export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   guardianNudges?: boolean | Prisma.Family$guardianNudgesArgs<ExtArgs>
   challenges?: boolean | Prisma.Family$challengesArgs<ExtArgs>
   challengeProgressLogs?: boolean | Prisma.Family$challengeProgressLogsArgs<ExtArgs>
+  focusActivityCards?: boolean | Prisma.Family$focusActivityCardsArgs<ExtArgs>
+  focusDeckStackItems?: boolean | Prisma.Family$focusDeckStackItemsArgs<ExtArgs>
+  focusActivityCompletions?: boolean | Prisma.Family$focusActivityCompletionsArgs<ExtArgs>
   _count?: boolean | Prisma.FamilyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["family"]>
 
@@ -2065,6 +2638,9 @@ export type FamilyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   guardianNudges?: boolean | Prisma.Family$guardianNudgesArgs<ExtArgs>
   challenges?: boolean | Prisma.Family$challengesArgs<ExtArgs>
   challengeProgressLogs?: boolean | Prisma.Family$challengeProgressLogsArgs<ExtArgs>
+  focusActivityCards?: boolean | Prisma.Family$focusActivityCardsArgs<ExtArgs>
+  focusDeckStackItems?: boolean | Prisma.Family$focusDeckStackItemsArgs<ExtArgs>
+  focusActivityCompletions?: boolean | Prisma.Family$focusActivityCompletionsArgs<ExtArgs>
   _count?: boolean | Prisma.FamilyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FamilyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2088,6 +2664,9 @@ export type $FamilyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     guardianNudges: Prisma.$GuardianNudgePayload<ExtArgs>[]
     challenges: Prisma.$ChallengePayload<ExtArgs>[]
     challengeProgressLogs: Prisma.$ChallengeProgressLogPayload<ExtArgs>[]
+    focusActivityCards: Prisma.$FocusActivityCardPayload<ExtArgs>[]
+    focusDeckStackItems: Prisma.$FocusDeckStackItemPayload<ExtArgs>[]
+    focusActivityCompletions: Prisma.$FocusActivityCompletionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2505,6 +3084,9 @@ export interface Prisma__FamilyClient<T, Null = never, ExtArgs extends runtime.T
   guardianNudges<T extends Prisma.Family$guardianNudgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$guardianNudgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GuardianNudgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   challenges<T extends Prisma.Family$challengesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$challengesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   challengeProgressLogs<T extends Prisma.Family$challengeProgressLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$challengeProgressLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChallengeProgressLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  focusActivityCards<T extends Prisma.Family$focusActivityCardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$focusActivityCardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FocusActivityCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  focusDeckStackItems<T extends Prisma.Family$focusDeckStackItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$focusDeckStackItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FocusDeckStackItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  focusActivityCompletions<T extends Prisma.Family$focusActivityCompletionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$focusActivityCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FocusActivityCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3177,6 +3759,78 @@ export type Family$challengeProgressLogsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.ChallengeProgressLogScalarFieldEnum | Prisma.ChallengeProgressLogScalarFieldEnum[]
+}
+
+/**
+ * Family.focusActivityCards
+ */
+export type Family$focusActivityCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FocusActivityCard
+   */
+  select?: Prisma.FocusActivityCardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FocusActivityCard
+   */
+  omit?: Prisma.FocusActivityCardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FocusActivityCardInclude<ExtArgs> | null
+  where?: Prisma.FocusActivityCardWhereInput
+  orderBy?: Prisma.FocusActivityCardOrderByWithRelationInput | Prisma.FocusActivityCardOrderByWithRelationInput[]
+  cursor?: Prisma.FocusActivityCardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FocusActivityCardScalarFieldEnum | Prisma.FocusActivityCardScalarFieldEnum[]
+}
+
+/**
+ * Family.focusDeckStackItems
+ */
+export type Family$focusDeckStackItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FocusDeckStackItem
+   */
+  select?: Prisma.FocusDeckStackItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FocusDeckStackItem
+   */
+  omit?: Prisma.FocusDeckStackItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FocusDeckStackItemInclude<ExtArgs> | null
+  where?: Prisma.FocusDeckStackItemWhereInput
+  orderBy?: Prisma.FocusDeckStackItemOrderByWithRelationInput | Prisma.FocusDeckStackItemOrderByWithRelationInput[]
+  cursor?: Prisma.FocusDeckStackItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FocusDeckStackItemScalarFieldEnum | Prisma.FocusDeckStackItemScalarFieldEnum[]
+}
+
+/**
+ * Family.focusActivityCompletions
+ */
+export type Family$focusActivityCompletionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FocusActivityCompletion
+   */
+  select?: Prisma.FocusActivityCompletionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FocusActivityCompletion
+   */
+  omit?: Prisma.FocusActivityCompletionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FocusActivityCompletionInclude<ExtArgs> | null
+  where?: Prisma.FocusActivityCompletionWhereInput
+  orderBy?: Prisma.FocusActivityCompletionOrderByWithRelationInput | Prisma.FocusActivityCompletionOrderByWithRelationInput[]
+  cursor?: Prisma.FocusActivityCompletionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FocusActivityCompletionScalarFieldEnum | Prisma.FocusActivityCompletionScalarFieldEnum[]
 }
 
 /**

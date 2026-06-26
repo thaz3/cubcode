@@ -16,7 +16,7 @@ export const TASK_BOARD_SECTIONS: Array<{
   {
     id: "assigned",
     title: "Assigned",
-    description: "Tasks you assigned — waiting for your Cub to start.",
+    description: "Task Created. Waiting for Assignment.",
     statuses: ["CLAIMED"],
   },
   {

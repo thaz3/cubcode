@@ -1,8 +1,10 @@
 import { GrowthAreasCard } from "@/components/growth-areas-card";
+import { FocusDeckGrowthCard } from "@/components/focus-deck-growth-card";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { getWeekStart } from "@/lib/council-day";
+import { getCubFocusDeckGrowthSummary } from "@/lib/focus-deck-growth";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { redirect } from "next/navigation";
 
@@ -19,16 +21,22 @@ export default async function CubModeProgressPage({
 
   const { cub } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
-  const growthSummary = await getCubGrowthAreaSummary(cub, weekStartsOn);
+  const [growthSummary, focusDeckGrowth] = await Promise.all([
+    getCubGrowthAreaSummary(cub, weekStartsOn),
+    getCubFocusDeckGrowthSummary(cub.id, weekStartsOn),
+  ]);
 
   return (
     <>
       <PageHeader
         title="My progress"
-        subtitle="Your growth areas this week — tasks, focus, and tagged routines."
+        subtitle="Your growth areas this week — tasks, routines, and Focus Deck cards."
       />
 
-      <GrowthAreasCard summary={growthSummary} audience="cub" cubId={cubId} />
+      <div className="space-y-6">
+        <GrowthAreasCard summary={growthSummary} audience="cub" cubId={cubId} />
+        <FocusDeckGrowthCard summary={focusDeckGrowth} />
+      </div>
     </>
   );
 }

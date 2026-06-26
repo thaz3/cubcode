@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TaskUrgentBadge } from "@/components/task-urgent-badge";
+import { AssignmentManageActions } from "@/components/assignment-manage-actions";
 import { TaskCard } from "@/components/task-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
@@ -11,7 +12,6 @@ import { formatTaskCategory } from "@/lib/task-categories";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { formatProofType } from "@/lib/task-labels";
 import type { ActiveTaskListItem, TaskWithCub } from "@/lib/task-groups";
-import { isTaskEditable } from "@/lib/task-transitions";
 
 type ActiveTaskListProps = {
   items: ActiveTaskListItem[];
@@ -110,19 +110,13 @@ function TaskInstanceActions({ task }: { task: TaskWithCub }) {
           : "View";
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row">
+    <div className="flex min-w-0 flex-col gap-2">
       <Link href={primaryHref} className="sm:min-w-28">
         <Button fullWidth size="lg">
           {primaryLabel}
         </Button>
       </Link>
-      {isTaskEditable(task.status) ? (
-        <Link href={`/dashboard/tasks/${task.id}/edit`}>
-          <Button variant="secondary" size="lg">
-            Edit
-          </Button>
-        </Link>
-      ) : null}
+      <AssignmentManageActions taskId={task.id} status={task.status} size="lg" />
     </div>
   );
 }

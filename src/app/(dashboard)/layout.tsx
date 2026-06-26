@@ -31,9 +31,17 @@ export default async function DashboardLayout({
     if (family) {
       await syncGuardianNudgesForFamily(family.id);
       [pendingReviewCount, guardianNudgeCount] = await Promise.all([
-        db.task.count({
-          where: { familyId: family.id, status: "SUBMITTED" },
-        }),
+        Promise.all([
+          db.task.count({
+            where: { familyId: family.id, status: "SUBMITTED" },
+          }),
+          db.challengeProgressLog.count({
+            where: { familyId: family.id, status: "SUBMITTED" },
+          }),
+          db.focusActivityCompletion.count({
+            where: { familyId: family.id, status: "SUBMITTED" },
+          }),
+        ]).then((counts) => counts.reduce((sum, n) => sum + n, 0)),
         countUnseenGuardianNudges(family.id),
       ]);
     }

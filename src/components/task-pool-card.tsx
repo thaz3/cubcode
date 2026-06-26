@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { AssignmentManageActions } from "@/components/assignment-manage-actions";
 import { AssignTaskForm } from "@/components/assign-task-form";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { deleteAvailableTaskAction } from "@/lib/actions/tasks";
 import { formatTaskCategory } from "@/lib/task-categories";
 import { formatProofType } from "@/lib/task-labels";
 import type { TaskWithCub } from "@/lib/task-groups";
@@ -46,29 +46,17 @@ export function TaskPoolCard({ task, cubs }: TaskPoolCardProps) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Link href={`/dashboard/tasks/${task.id}`} className="flex-1">
-            <Button variant="secondary" fullWidth size="lg">
-              View details
-            </Button>
-          </Link>
-          <Link href={`/dashboard/tasks/${task.id}/edit`} className="flex-1">
-            <Button variant="secondary" fullWidth size="lg">
-              Edit
-            </Button>
-          </Link>
-        </div>
-
-        <form
-          action={async () => {
-            "use server";
-            await deleteAvailableTaskAction(task.id);
-          }}
-        >
-          <Button type="submit" variant="danger" fullWidth size="lg">
-            Delete from library
+        <Link href={`/dashboard/tasks/${task.id}`}>
+          <Button variant="secondary" fullWidth size="lg">
+            View details
           </Button>
-        </form>
+        </Link>
+
+        <AssignmentManageActions
+          taskId={task.id}
+          status={task.status}
+          fullWidth
+        />
       </div>
     </Card>
   );

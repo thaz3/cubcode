@@ -69,7 +69,10 @@ export const ModelName = {
   GuardianNudgeRule: 'GuardianNudgeRule',
   GuardianNudge: 'GuardianNudge',
   Challenge: 'Challenge',
-  ChallengeProgressLog: 'ChallengeProgressLog'
+  ChallengeProgressLog: 'ChallengeProgressLog',
+  FocusActivityCard: 'FocusActivityCard',
+  FocusDeckStackItem: 'FocusDeckStackItem',
+  FocusActivityCompletion: 'FocusActivityCompletion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -255,6 +258,7 @@ export const XpLedgerEntryScalarFieldEnum = {
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
   sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
+  sourceFocusActivityCompletionId: 'sourceFocusActivityCompletionId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -271,6 +275,7 @@ export const FocusTokenLedgerEntryScalarFieldEnum = {
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
   sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
+  sourceFocusActivityCompletionId: 'sourceFocusActivityCompletionId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -287,6 +292,7 @@ export const PhoneTimeLedgerEntryScalarFieldEnum = {
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
   sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
+  sourceFocusActivityCompletionId: 'sourceFocusActivityCompletionId',
   createdByUserId: 'createdByUserId'
 } as const
 
@@ -431,6 +437,67 @@ export const ChallengeProgressLogScalarFieldEnum = {
 } as const
 
 export type ChallengeProgressLogScalarFieldEnum = (typeof ChallengeProgressLogScalarFieldEnum)[keyof typeof ChallengeProgressLogScalarFieldEnum]
+
+
+export const FocusActivityCardScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  instructions: 'instructions',
+  estimatedMinutes: 'estimatedMinutes',
+  locationType: 'locationType',
+  difficulty: 'difficulty',
+  categoryPoints: 'categoryPoints',
+  proofType: 'proofType',
+  proofPrompt: 'proofPrompt',
+  proofChecklistItems: 'proofChecklistItems',
+  focusMinutesEarned: 'focusMinutesEarned',
+  phoneMinutesEarned: 'phoneMinutesEarned',
+  xpEarned: 'xpEarned',
+  focusTokensEarned: 'focusTokensEarned',
+  status: 'status',
+  starterKey: 'starterKey',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  createdByUserId: 'createdByUserId'
+} as const
+
+export type FocusActivityCardScalarFieldEnum = (typeof FocusActivityCardScalarFieldEnum)[keyof typeof FocusActivityCardScalarFieldEnum]
+
+
+export const FocusDeckStackItemScalarFieldEnum = {
+  id: 'id',
+  weekStartsOn: 'weekStartsOn',
+  createdAt: 'createdAt',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  cardId: 'cardId'
+} as const
+
+export type FocusDeckStackItemScalarFieldEnum = (typeof FocusDeckStackItemScalarFieldEnum)[keyof typeof FocusDeckStackItemScalarFieldEnum]
+
+
+export const FocusActivityCompletionScalarFieldEnum = {
+  id: 'id',
+  weekStartsOn: 'weekStartsOn',
+  status: 'status',
+  reflection: 'reflection',
+  proofLink: 'proofLink',
+  checklistData: 'checklistData',
+  reviewNote: 'reviewNote',
+  startedAt: 'startedAt',
+  submittedAt: 'submittedAt',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  cardId: 'cardId',
+  reviewedByUserId: 'reviewedByUserId'
+} as const
+
+export type FocusActivityCompletionScalarFieldEnum = (typeof FocusActivityCompletionScalarFieldEnum)[keyof typeof FocusActivityCompletionScalarFieldEnum]
 
 
 export const SortOrder = {

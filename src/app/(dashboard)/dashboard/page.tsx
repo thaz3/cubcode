@@ -20,7 +20,6 @@ import { TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
-import { formatMinutes } from "@/lib/ledger-labels";
 import { getCubRewardSummary } from "@/lib/rewards";
 import {
   formatWeekLabel,
@@ -28,6 +27,7 @@ import {
   getWeekStart,
 } from "@/lib/council-day";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
+import { SMALL_REMINDERS_LABEL } from "@/lib/small-reminders-labels";
 import { sortTasksByUrgency } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getHouseholdWeeklyProgress } from "@/lib/weekly-progress";
@@ -144,10 +144,6 @@ export default async function DashboardPage() {
         )
       : null;
 
-  const totalPhoneToday = cubRewardSummaries.reduce(
-    (sum, row) => sum + row.summary.phoneMinutesAvailableToday,
-    0,
-  );
   const totalFocusThisWeek = weeklyProgress?.householdTotals.focusMinutes ?? 0;
 
   const cubGrowthSummaries = await Promise.all(
@@ -171,6 +167,16 @@ export default async function DashboardPage() {
     ? `Welcome back, ${session.user.name.split(" ")[0]}`
     : "Welcome back";
   const quietHoursActive = isWithinQuietHours(guardianNudgePrefs);
+
+  const activeSmallRemindersCount =
+    guardianNudges.filter((nudge) => nudge.status === "ACTIVE").length +
+    focusSessionReminders.length;
+  const smallRemindersDetail =
+    activeSmallRemindersCount > 0
+      ? quietHoursActive
+        ? "Some hidden during quiet hours"
+        : "Worth a look below"
+      : "All caught up";
 
   return (
     <div className="space-y-6">
@@ -247,10 +253,10 @@ export default async function DashboardPage() {
             highlight="green"
           />
           <StatCard
-            label="Phone time today"
-            value={formatMinutes(totalPhoneToday)}
-            detail="Available across Cubs"
-            highlight="gold"
+            label={SMALL_REMINDERS_LABEL}
+            value={String(activeSmallRemindersCount)}
+            detail={smallRemindersDetail}
+            highlight={activeSmallRemindersCount > 0 ? "red" : "gold"}
           />
           <StatCard
             label="Focus this week"

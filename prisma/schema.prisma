@@ -66,11 +66,47 @@ enum GrowthCategory {
 enum LedgerReason {
   TASK_APPROVAL
   CHALLENGE_APPROVAL
+  FOCUS_DECK_APPROVAL
   REWARD_REDEMPTION
   PARENT_ADJUSTMENT
   DAILY_CAP_OVERFLOW
   WEEKEND_BANK_USE
   COUNCIL_DAY
+}
+
+enum FocusDeckCategory {
+  CHARACTER
+  WELLNESS
+  CREATIVITY
+  RESPONSIBILITY
+  COMMUNITY
+}
+
+enum FocusActivityCardStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum FocusActivityCompletionStatus {
+  IN_PROGRESS
+  SUBMITTED
+  SENT_BACK
+  REJECTED
+  REWARDED
+}
+
+enum FocusDeckLocationType {
+  HOME
+  OUTDOOR
+  COMMUNITY
+  ANY
+}
+
+enum FocusDeckDifficulty {
+  EASY
+  MEDIUM
+  CHALLENGING
 }
 
 enum ChallengeType {
@@ -137,6 +173,7 @@ model User {
   family        Family?
   reviewedTasks Task[]  @relation("ReviewedTasks")
   reviewedChallengeProgressLogs ChallengeProgressLog[] @relation("ReviewedChallengeProgress")
+  reviewedFocusActivityCompletions FocusActivityCompletion[] @relation("ReviewedFocusActivityCompletions")
   councilDaySessions CouncilDaySession[] @relation("ConductedCouncilDays")
 }
 
@@ -163,6 +200,9 @@ model Family {
   guardianNudges GuardianNudge[]
   challenges Challenge[]
   challengeProgressLogs ChallengeProgressLog[]
+  focusActivityCards FocusActivityCard[]
+  focusDeckStackItems FocusDeckStackItem[]
+  focusActivityCompletions FocusActivityCompletion[]
 }
 
 model Cub {
@@ -194,6 +234,8 @@ model Cub {
   guardianNudges           GuardianNudge[]
   challenges               Challenge[]
   challengeProgressLogs    ChallengeProgressLog[]
+  focusDeckStackItems      FocusDeckStackItem[]
+  focusActivityCompletions FocusActivityCompletion[]
 
   @@index([familyId])
 }
@@ -347,17 +389,20 @@ model XpLedgerEntry {
   cubId           String
   sourceTaskId    String?
   sourceChallengeProgressLogId String?
+  sourceFocusActivityCompletionId String?
   councilDayCubEntryId String?
   createdByUserId String?
 
   cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
   sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
   sourceChallengeProgressLog ChallengeProgressLog? @relation(fields: [sourceChallengeProgressLogId], references: [id], onDelete: SetNull)
+  sourceFocusActivityCompletion FocusActivityCompletion? @relation(fields: [sourceFocusActivityCompletionId], references: [id], onDelete: SetNull)
   councilDayCubEntry CouncilDayCubEntry? @relation(fields: [councilDayCubEntryId], references: [id], onDelete: SetNull)
 
   @@index([cubId])
   @@index([sourceTaskId])
   @@index([sourceChallengeProgressLogId])
+  @@index([sourceFocusActivityCompletionId])
   @@index([councilDayCubEntryId])
   @@index([createdAt])
 }
@@ -372,17 +417,20 @@ model FocusTokenLedgerEntry {
   cubId           String
   sourceTaskId    String?
   sourceChallengeProgressLogId String?
+  sourceFocusActivityCompletionId String?
   councilDayCubEntryId String?
   createdByUserId String?
 
   cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
   sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
   sourceChallengeProgressLog ChallengeProgressLog? @relation(fields: [sourceChallengeProgressLogId], references: [id], onDelete: SetNull)
+  sourceFocusActivityCompletion FocusActivityCompletion? @relation(fields: [sourceFocusActivityCompletionId], references: [id], onDelete: SetNull)
   councilDayCubEntry CouncilDayCubEntry? @relation(fields: [councilDayCubEntryId], references: [id], onDelete: SetNull)
 
   @@index([cubId])
   @@index([sourceTaskId])
   @@index([sourceChallengeProgressLogId])
+  @@index([sourceFocusActivityCompletionId])
   @@index([councilDayCubEntryId])
   @@index([createdAt])
 }
@@ -397,15 +445,18 @@ model PhoneTimeLedgerEntry {
   cubId           String
   sourceTaskId    String?
   sourceChallengeProgressLogId String?
+  sourceFocusActivityCompletionId String?
   createdByUserId String?
 
   cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
   sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
   sourceChallengeProgressLog ChallengeProgressLog? @relation(fields: [sourceChallengeProgressLogId], references: [id], onDelete: SetNull)
+  sourceFocusActivityCompletion FocusActivityCompletion? @relation(fields: [sourceFocusActivityCompletionId], references: [id], onDelete: SetNull)
 
   @@index([cubId])
   @@index([sourceTaskId])
   @@index([sourceChallengeProgressLogId])
+  @@index([sourceFocusActivityCompletionId])
   @@index([createdAt])
 }
 
@@ -584,4 +635,90 @@ model ChallengeProgressLog {
   @@index([cubId])
   @@index([status])
   @@index([challengeId])
+}
+
+model FocusActivityCard {
+  id                  String                  @id @default(cuid())
+  title               String
+  description         String?
+  instructions        String?
+  estimatedMinutes    Int?
+  locationType        FocusDeckLocationType?
+  difficulty          FocusDeckDifficulty?
+  categoryPoints      Json
+  proofType           TaskProofType
+  proofPrompt         String?
+  proofChecklistItems Json?
+  focusMinutesEarned  Int                     @default(30)
+  phoneMinutesEarned  Int                     @default(15)
+  xpEarned            Int                     @default(10)
+  focusTokensEarned   Int                     @default(1)
+  status              FocusActivityCardStatus   @default(DRAFT)
+  starterKey          String?
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+
+  familyId        String
+  createdByUserId String?
+
+  family       Family                  @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  stackItems   FocusDeckStackItem[]
+  completions  FocusActivityCompletion[]
+
+  @@unique([familyId, starterKey])
+  @@index([familyId])
+  @@index([status])
+}
+
+model FocusDeckStackItem {
+  id           String   @id @default(cuid())
+  weekStartsOn DateTime
+  createdAt    DateTime @default(now())
+
+  familyId String
+  cubId    String
+  cardId   String
+
+  family Family            @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  cub    Cub               @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  card   FocusActivityCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@unique([cubId, cardId, weekStartsOn])
+  @@index([familyId])
+  @@index([cubId])
+  @@index([weekStartsOn])
+}
+
+model FocusActivityCompletion {
+  id            String                        @id @default(cuid())
+  weekStartsOn  DateTime
+  status        FocusActivityCompletionStatus @default(IN_PROGRESS)
+  reflection    String?
+  proofLink     String?
+  checklistData Json?
+  reviewNote    String?
+  startedAt     DateTime                      @default(now())
+  submittedAt   DateTime?
+  reviewedAt    DateTime?
+  createdAt     DateTime                      @default(now())
+  updatedAt     DateTime                      @updatedAt
+
+  familyId         String
+  cubId            String
+  cardId           String
+  reviewedByUserId String?
+
+  family       Family            @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  cub          Cub               @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  card         FocusActivityCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  reviewedBy   User?             @relation("ReviewedFocusActivityCompletions", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  xpLedgerEntries         XpLedgerEntry[]
+  focusTokenLedgerEntries FocusTokenLedgerEntry[]
+  phoneTimeLedgerEntries  PhoneTimeLedgerEntry[]
+
+  @@index([familyId])
+  @@index([cubId])
+  @@index([cardId])
+  @@index([status])
+  @@index([weekStartsOn])
 }

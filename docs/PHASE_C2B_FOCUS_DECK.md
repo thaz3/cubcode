@@ -1,14 +1,21 @@
 # Focus Deck — Multi-Area Activity Cards
 
 ## Version
-0.1 — Roadmap Concept (Not Approved for Implementation)
+0.3 — Approved for Implementation (C2B in progress)
 
 ## Status
-**Documentation only.** Do not implement application code until this document is explicitly approved and scheduled after Phase C2 `BINARY_ROUTINE` challenges are stable.
+**Implementation in progress.** Phase C2 `BINARY_ROUTINE` exit criteria are met. Focus Deck (C2B) application code is being added per this document.
 
 Phase C2B is a **separate roadmap item** from Phase C2 (Core Challenges). Ship `BINARY_ROUTINE` end-to-end before starting Focus Deck.
 
 **Naming note:** Phase C2B is not the same as Guardian Nudge delivery stage “C2” (parent email) inside `/docs/PHASE_C_GUARDIAN_NUDGES.md`.
+
+Referenced in:
+
+- `/docs/MVP_SCOPE.CONTRACT.md` (MVP Excludes / Post-MVP Roadmap)
+- `/docs/CURSOR_PROJECT_RULES.md` (Do Not Implement / Focus Deck section)
+- `/docs/PHASE_C2_CORE_CHALLENGES.md` (Relationship to Focus Deck)
+- `/docs/PHASE_C_GUARDIAN_NUDGES.md` (Relationship to Phase C2B)
 
 ## Purpose
 
@@ -19,8 +26,6 @@ This helps C.U.B. Code move beyond chores and simple tasks into a youth developm
 Core idea:
 
 **One activity can grow more than one part of the child.**
-
-Focus sessions are not bare timers. They are **focused practice or study** — real-world activities a Cub picks from a parent-approved deck. Each card can award weighted points across multiple growth areas.
 
 ## Product Philosophy
 
@@ -63,19 +68,11 @@ Focus Cards add **multi-area youth development activities** with the same approv
 
 ### Cub side
 
-- View available Focus Cards (stack / deck)
+- View available Focus Cards
 - Pick a card
 - Complete the real-world activity
 - Submit proof / reflection / checklist
 - See earned rewards and growth points after approval
-
-### Related Today view UX (when implemented)
-
-These UX expectations apply to the Cub **Today** view and growth summary, not to Focus Deck backend alone:
-
-- **Growth area tooltips:** Hover (or long-press on touch) over each growth area icon in **Growth this week** to explain what is expected in that area.
-- **Clickable growth card:** The entire **Growth this week** section card navigates to the full growth chart (Progress).
-- **Focus Deck selection:** Replace or supplement per-area “Start Focus” timers with a **stack of Focus Block cards** the Cub can browse and choose from.
 
 ## Focus Activity Card Fields
 
@@ -113,7 +110,7 @@ Most cards should touch 1–3 categories.
 
 Special cards may touch 4–5 categories, but not every card should do this.
 
-**Note:** Current MVP growth boards may still use Control / Use / Build / Character / Wellness. Focus Deck introduces the five-area model above as the target taxonomy when this phase is approved. Migration or mapping from legacy area labels should be planned during implementation approval, not in this document.
+**Implementation note:** Current production growth boards may still use Control / Use / Build / Character / Wellness. Focus Deck introduces the five-area model above as the target taxonomy when this phase is approved. Migration or mapping from legacy area labels should be planned during schema approval, not assumed in this document.
 
 ## Example Cards
 
@@ -199,7 +196,7 @@ The graph should eventually reflect approved work from:
 - Challenges
 - Focus Activity Cards
 
-Tasks remain valid for one-off chores and assignments. Challenges remain valid for repeatable agreements. Focus Deck is for **rich, multi-area development activities** the Cub chooses from a parent-curated deck.
+Tasks remain valid for one-off chores and assignments. Challenges remain valid for repeatable agreements (`/docs/PHASE_C2_CORE_CHALLENGES.md`). Focus Deck is for **rich, multi-area development activities** the Cub chooses from a parent-curated deck.
 
 ## Possible Data Model Direction
 
@@ -260,7 +257,7 @@ Do **not** add:
 - Automatic punishment
 - School portal sync
 - Organization dashboards
-- SMS / email / push reminders (beyond existing Phase C1 in-app Guardian Nudges scope)
+- SMS / email / push reminders
 
 ## Relationship to Guardian Nudges (Phase C1)
 
@@ -270,32 +267,11 @@ Guardian Nudges remain parent-first:
 
 **C.U.B. Code informs the guardian. The guardian decides the response.**
 
-## Relationship to Core Challenges (Phase C2)
+## Future Implementation Suggestion
 
-Core Challenges (`/docs/PHASE_C2_CORE_CHALLENGES.md`) cover repeatable numeric, parent-verified, and binary routine programs.
+Treat Focus Deck as a **future C2B or C3 feature** after Binary Routine Challenges are stable.
 
-Focus Deck covers **multi-area activity cards** with weighted category points — a different product shape.
-
-Do not merge Focus Deck into `Challenge` without an approved schema plan. Both may feed the same weekly growth graph and ledger system.
-
-## Prerequisites
-
-Build in order:
-
-1. **Phase B complete** — stable task loop, approval flow, ledgers, parent dashboard, Cub Today view
-2. **Phase C2 `BINARY_ROUTINE` stable** — simplest repeatable challenge path proven end-to-end
-3. **Phase C2B schema approval** — explicit sign-off on models, growth area enum/constants, and graph integration before migrations
-4. **Growth area enum/constants** — five-area taxonomy (Character, Wellness, Creativity, Responsibility, Community)
-5. **Card templates** — admin or starter library definitions
-6. **Parent-created cards** — family-scoped CRUD
-7. **Cub card selection** — deck/stack UX on Today
-8. **Proof / submission / review** — reuse approval patterns
-9. **Category points → weekly growth graph** — approved completions update balance
-10. **Starter card library** — seed examples (Walk + Witness, Elder Performance, etc.)
-
-Phase C2B does not require Phase C1 Guardian Nudges to ship first, but nudge-on-focus-card is a later enhancement.
-
-## Recommended Build Order (Summary)
+Recommended build order:
 
 1. Document Focus Deck *(this document)*
 2. Add growth area enum/constants
@@ -305,6 +281,14 @@ Phase C2B does not require Phase C1 Guardian Nudges to ship first, but nudge-on-
 6. Add proof / submission / review
 7. Add category points to weekly growth graph
 8. Add starter card library
+
+### Prerequisites (summary)
+
+1. **Phase B complete** — stable task loop, approval flow, ledgers, parent dashboard
+2. **Phase C2 `BINARY_ROUTINE` stable** — simplest repeatable challenge path proven end-to-end
+3. **Phase C2B schema approval** — explicit sign-off on models, growth area enum/constants, and graph integration before migrations
+
+Phase C2B does not require Phase C1 Guardian Nudges to ship first, but nudge-on-focus-card is a later enhancement.
 
 ## Out of Scope (Phase C2B and beyond unless separately approved)
 

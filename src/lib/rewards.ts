@@ -145,6 +145,7 @@ export async function creditPhoneMinutesForCub(
     createdByUserId: string;
     sourceTaskId?: string | null;
     sourceChallengeProgressLogId?: string | null;
+    sourceFocusActivityCompletionId?: string | null;
     client?: LedgerClient;
   },
 ): Promise<{ phoneMinutes: number; weekendBankMinutes: number }> {
@@ -162,6 +163,7 @@ export async function creditPhoneMinutesForCub(
     cubId: cub.id,
     sourceTaskId: options.sourceTaskId ?? null,
     sourceChallengeProgressLogId: options.sourceChallengeProgressLogId ?? null,
+    sourceFocusActivityCompletionId: options.sourceFocusActivityCompletionId ?? null,
     createdByUserId: options.createdByUserId,
     reason: options.reason,
     note: options.note,

@@ -402,7 +402,10 @@ export const ModelName = {
   GuardianNudgeRule: 'GuardianNudgeRule',
   GuardianNudge: 'GuardianNudge',
   Challenge: 'Challenge',
-  ChallengeProgressLog: 'ChallengeProgressLog'
+  ChallengeProgressLog: 'ChallengeProgressLog',
+  FocusActivityCard: 'FocusActivityCard',
+  FocusDeckStackItem: 'FocusDeckStackItem',
+  FocusActivityCompletion: 'FocusActivityCompletion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog"
+    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog" | "focusActivityCard" | "focusDeckStackItem" | "focusActivityCompletion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1828,6 +1831,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FocusActivityCard: {
+      payload: Prisma.$FocusActivityCardPayload<ExtArgs>
+      fields: Prisma.FocusActivityCardFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FocusActivityCardFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FocusActivityCardFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>
+        }
+        findFirst: {
+          args: Prisma.FocusActivityCardFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FocusActivityCardFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>
+        }
+        findMany: {
+          args: Prisma.FocusActivityCardFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>[]
+        }
+        create: {
+          args: Prisma.FocusActivityCardCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>
+        }
+        createMany: {
+          args: Prisma.FocusActivityCardCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FocusActivityCardCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>[]
+        }
+        delete: {
+          args: Prisma.FocusActivityCardDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>
+        }
+        update: {
+          args: Prisma.FocusActivityCardUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>
+        }
+        deleteMany: {
+          args: Prisma.FocusActivityCardDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FocusActivityCardUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FocusActivityCardUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>[]
+        }
+        upsert: {
+          args: Prisma.FocusActivityCardUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCardPayload>
+        }
+        aggregate: {
+          args: Prisma.FocusActivityCardAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFocusActivityCard>
+        }
+        groupBy: {
+          args: Prisma.FocusActivityCardGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FocusActivityCardGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FocusActivityCardCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FocusActivityCardCountAggregateOutputType> | number
+        }
+      }
+    }
+    FocusDeckStackItem: {
+      payload: Prisma.$FocusDeckStackItemPayload<ExtArgs>
+      fields: Prisma.FocusDeckStackItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FocusDeckStackItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FocusDeckStackItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>
+        }
+        findFirst: {
+          args: Prisma.FocusDeckStackItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FocusDeckStackItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>
+        }
+        findMany: {
+          args: Prisma.FocusDeckStackItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>[]
+        }
+        create: {
+          args: Prisma.FocusDeckStackItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>
+        }
+        createMany: {
+          args: Prisma.FocusDeckStackItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FocusDeckStackItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>[]
+        }
+        delete: {
+          args: Prisma.FocusDeckStackItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>
+        }
+        update: {
+          args: Prisma.FocusDeckStackItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.FocusDeckStackItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FocusDeckStackItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FocusDeckStackItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.FocusDeckStackItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusDeckStackItemPayload>
+        }
+        aggregate: {
+          args: Prisma.FocusDeckStackItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFocusDeckStackItem>
+        }
+        groupBy: {
+          args: Prisma.FocusDeckStackItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FocusDeckStackItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FocusDeckStackItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FocusDeckStackItemCountAggregateOutputType> | number
+        }
+      }
+    }
+    FocusActivityCompletion: {
+      payload: Prisma.$FocusActivityCompletionPayload<ExtArgs>
+      fields: Prisma.FocusActivityCompletionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FocusActivityCompletionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FocusActivityCompletionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>
+        }
+        findFirst: {
+          args: Prisma.FocusActivityCompletionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FocusActivityCompletionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>
+        }
+        findMany: {
+          args: Prisma.FocusActivityCompletionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>[]
+        }
+        create: {
+          args: Prisma.FocusActivityCompletionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>
+        }
+        createMany: {
+          args: Prisma.FocusActivityCompletionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FocusActivityCompletionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>[]
+        }
+        delete: {
+          args: Prisma.FocusActivityCompletionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>
+        }
+        update: {
+          args: Prisma.FocusActivityCompletionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>
+        }
+        deleteMany: {
+          args: Prisma.FocusActivityCompletionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FocusActivityCompletionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FocusActivityCompletionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>[]
+        }
+        upsert: {
+          args: Prisma.FocusActivityCompletionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FocusActivityCompletionPayload>
+        }
+        aggregate: {
+          args: Prisma.FocusActivityCompletionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFocusActivityCompletion>
+        }
+        groupBy: {
+          args: Prisma.FocusActivityCompletionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FocusActivityCompletionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FocusActivityCompletionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FocusActivityCompletionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2034,6 +2259,7 @@ export const XpLedgerEntryScalarFieldEnum = {
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
   sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
+  sourceFocusActivityCompletionId: 'sourceFocusActivityCompletionId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -2050,6 +2276,7 @@ export const FocusTokenLedgerEntryScalarFieldEnum = {
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
   sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
+  sourceFocusActivityCompletionId: 'sourceFocusActivityCompletionId',
   councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
@@ -2066,6 +2293,7 @@ export const PhoneTimeLedgerEntryScalarFieldEnum = {
   cubId: 'cubId',
   sourceTaskId: 'sourceTaskId',
   sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
+  sourceFocusActivityCompletionId: 'sourceFocusActivityCompletionId',
   createdByUserId: 'createdByUserId'
 } as const
 
@@ -2210,6 +2438,67 @@ export const ChallengeProgressLogScalarFieldEnum = {
 } as const
 
 export type ChallengeProgressLogScalarFieldEnum = (typeof ChallengeProgressLogScalarFieldEnum)[keyof typeof ChallengeProgressLogScalarFieldEnum]
+
+
+export const FocusActivityCardScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  instructions: 'instructions',
+  estimatedMinutes: 'estimatedMinutes',
+  locationType: 'locationType',
+  difficulty: 'difficulty',
+  categoryPoints: 'categoryPoints',
+  proofType: 'proofType',
+  proofPrompt: 'proofPrompt',
+  proofChecklistItems: 'proofChecklistItems',
+  focusMinutesEarned: 'focusMinutesEarned',
+  phoneMinutesEarned: 'phoneMinutesEarned',
+  xpEarned: 'xpEarned',
+  focusTokensEarned: 'focusTokensEarned',
+  status: 'status',
+  starterKey: 'starterKey',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  createdByUserId: 'createdByUserId'
+} as const
+
+export type FocusActivityCardScalarFieldEnum = (typeof FocusActivityCardScalarFieldEnum)[keyof typeof FocusActivityCardScalarFieldEnum]
+
+
+export const FocusDeckStackItemScalarFieldEnum = {
+  id: 'id',
+  weekStartsOn: 'weekStartsOn',
+  createdAt: 'createdAt',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  cardId: 'cardId'
+} as const
+
+export type FocusDeckStackItemScalarFieldEnum = (typeof FocusDeckStackItemScalarFieldEnum)[keyof typeof FocusDeckStackItemScalarFieldEnum]
+
+
+export const FocusActivityCompletionScalarFieldEnum = {
+  id: 'id',
+  weekStartsOn: 'weekStartsOn',
+  status: 'status',
+  reflection: 'reflection',
+  proofLink: 'proofLink',
+  checklistData: 'checklistData',
+  reviewNote: 'reviewNote',
+  startedAt: 'startedAt',
+  submittedAt: 'submittedAt',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  cardId: 'cardId',
+  reviewedByUserId: 'reviewedByUserId'
+} as const
+
+export type FocusActivityCompletionScalarFieldEnum = (typeof FocusActivityCompletionScalarFieldEnum)[keyof typeof FocusActivityCompletionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2540,6 +2829,62 @@ export type ListEnumChallengeProgressStatusFieldRefInput<$PrismaModel> = FieldRe
 
 
 /**
+ * Reference to a field of type 'FocusDeckLocationType'
+ */
+export type EnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusDeckLocationType'>
+    
+
+
+/**
+ * Reference to a field of type 'FocusDeckLocationType[]'
+ */
+export type ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusDeckLocationType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FocusDeckDifficulty'
+ */
+export type EnumFocusDeckDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusDeckDifficulty'>
+    
+
+
+/**
+ * Reference to a field of type 'FocusDeckDifficulty[]'
+ */
+export type ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusDeckDifficulty[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FocusActivityCardStatus'
+ */
+export type EnumFocusActivityCardStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusActivityCardStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FocusActivityCardStatus[]'
+ */
+export type ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusActivityCardStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FocusActivityCompletionStatus'
+ */
+export type EnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusActivityCompletionStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FocusActivityCompletionStatus[]'
+ */
+export type ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FocusActivityCompletionStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2681,6 +3026,9 @@ export type GlobalOmitConfig = {
   guardianNudge?: Prisma.GuardianNudgeOmit
   challenge?: Prisma.ChallengeOmit
   challengeProgressLog?: Prisma.ChallengeProgressLogOmit
+  focusActivityCard?: Prisma.FocusActivityCardOmit
+  focusDeckStackItem?: Prisma.FocusDeckStackItemOmit
+  focusActivityCompletion?: Prisma.FocusActivityCompletionOmit
 }
 
 /* Types for Logging */

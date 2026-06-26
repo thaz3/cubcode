@@ -34,7 +34,7 @@ export function TaskBoardWorkflow({
       <section id="assigned" className="scroll-mt-36 space-y-4">
         <SectionHeader
           title="Assigned"
-          description="Tasks you assigned — waiting for your Cub to start."
+          description="Task Created. Waiting for Assignment."
         />
         {assigned.length === 0 ? (
           <EmptyState

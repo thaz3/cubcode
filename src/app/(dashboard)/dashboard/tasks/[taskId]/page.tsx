@@ -1,3 +1,5 @@
+import { AssignmentManageActions } from "@/components/assignment-manage-actions";
+import { ParentFocusSessionControls } from "@/components/parent-focus-session-controls";
 import { WaitingForReviewNotice } from "@/components/waiting-for-review-notice";
 import { AssignTaskForm } from "@/components/assign-task-form";
 import { ChecklistDisplay } from "@/components/checklist-display";
@@ -17,7 +19,6 @@ import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { formatDueScheduleDate, formatScheduleDate } from "@/lib/task-schedule";
-import { isTaskEditable } from "@/lib/task-transitions";
 import { notFound, redirect } from "next/navigation";
 
 type TaskDetailPageProps = {
@@ -62,6 +63,12 @@ export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
     growthCategory: task.growthCategory,
   });
 
+  const isFocusBlock = task.category === "FOCUS_BLOCK";
+  const canManageFocusSession =
+    isFocusBlock &&
+    task.cub &&
+    (task.status === "CLAIMED" || task.status === "IN_PROGRESS");
+
   return (
     <div className="space-y-6">
       {task.status === "SUBMITTED" ? (
@@ -96,11 +103,7 @@ export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
           ) : null}
         </div>
         <div className="flex flex-wrap gap-2">
-          {isTaskEditable(task.status) ? (
-            <Link href={`/dashboard/tasks/${task.id}/edit`}>
-              <Button variant="secondary">Edit</Button>
-            </Link>
-          ) : null}
+          <AssignmentManageActions taskId={task.id} status={task.status} size="sm" />
           {task.status === "SUBMITTED" ? (
             <Link href={`/dashboard/tasks/review/${task.id}`}>
               <Button>Review</Button>
@@ -188,6 +191,17 @@ export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
         </Card>
 
         <div className="space-y-6">
+          {canManageFocusSession ? (
+            <ParentFocusSessionControls
+              taskId={task.id}
+              cubName={task.cub!.displayName}
+              focusSessionStartedAt={
+                task.focusSessionStartedAt?.toISOString() ?? null
+              }
+              canEnd
+            />
+          ) : null}
+
           {isAvailable ? (
             <Card className="space-y-4">
               <h2 className="text-lg font-semibold">Assign to child</h2>

@@ -2,7 +2,7 @@ import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
 
 export const DASHBOARD_CORE_NAV_ITEMS = [
   { href: "/dashboard", label: "Home" },
-  { href: "/dashboard/tasks", label: "Tasks" },
+  { href: "/dashboard/tasks", label: "Assignments" },
   { href: "/dashboard/tasks/review", label: "Review" },
   { href: "/dashboard/cubs", label: "Cubs" },
 ] as const;
@@ -24,6 +24,7 @@ export const DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS = DASHBOARD_CORE_NAV_ITEMS;
 export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [
   { href: "/dashboard/create", label: "Create" },
   { href: "/dashboard/challenges", label: "Challenges" },
+  { href: "/dashboard/focus-deck", label: "Focus Deck" },
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
   { href: "/dashboard/family/settings", label: "Settings" },
   { href: "/dashboard/tasks/summer", label: "Get Some Sun" },
@@ -52,6 +53,9 @@ export function isDashboardNavActive(pathname: string, href: string): boolean {
   }
   if (href === "/dashboard/challenges") {
     return pathname.startsWith("/dashboard/challenges");
+  }
+  if (href === "/dashboard/focus-deck") {
+    return pathname.startsWith("/dashboard/focus-deck");
   }
   if (href === "/dashboard/family-day") {
     return (

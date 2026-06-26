@@ -1,5 +1,6 @@
 import { ReviewCard } from "@/components/review-card";
 import { ChallengeReviewCard } from "@/components/challenge-review-card";
+import { FocusDeckReviewCard } from "@/components/focus-deck-review-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
@@ -14,7 +15,7 @@ export default async function TaskReviewQueuePage() {
   const family = await getFamilyForUser(session.user.id);
   if (!family) redirect("/signup");
 
-  const [tasks, challengeLogs] = await Promise.all([
+  const [tasks, challengeLogs, focusCompletions] = await Promise.all([
     db.task.findMany({
       where: { familyId: family.id, status: "SUBMITTED" },
       include: { cub: true },
@@ -34,9 +35,17 @@ export default async function TaskReviewQueuePage() {
       },
       orderBy: { submittedAt: "asc" },
     }),
+    db.focusActivityCompletion.findMany({
+      where: { familyId: family.id, status: "SUBMITTED" },
+      include: {
+        cub: true,
+        card: { select: { title: true, categoryPoints: true } },
+      },
+      orderBy: { submittedAt: "asc" },
+    }),
   ]);
 
-  const totalPending = tasks.length + challengeLogs.length;
+  const totalPending = tasks.length + challengeLogs.length + focusCompletions.length;
 
   return (
     <div className="space-y-6">
@@ -89,6 +98,22 @@ export default async function TaskReviewQueuePage() {
               <div className="grid gap-4 md:grid-cols-2">
                 {challengeLogs.map((log) => (
                   <ChallengeReviewCard key={log.id} log={log} />
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {focusCompletions.length > 0 ? (
+            <section className="space-y-4">
+              <div>
+                <h2 className="text-lg font-semibold text-zinc-100">Focus cards</h2>
+                <p className="text-sm text-zinc-500">
+                  Focus Deck activity submissions waiting for approval.
+                </p>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                {focusCompletions.map((completion) => (
+                  <FocusDeckReviewCard key={completion.id} completion={completion} />
                 ))}
               </div>
             </section>

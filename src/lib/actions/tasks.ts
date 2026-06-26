@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 import { assertTransition, isTaskEditable } from "@/lib/task-transitions";
@@ -698,25 +699,54 @@ export async function sendBackTaskAction(
   return { success: "Task sent back for revision." };
 }
 
-export async function deleteAvailableTaskAction(
-  taskId: string,
+export async function deleteAssignmentAction(
+  _prev: ActionState,
+  formData: FormData,
 ): Promise<ActionState> {
+  const taskId = formData.get("taskId")?.toString();
+  if (!taskId) {
+    return { error: "Invalid assignment request." };
+  }
+
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
 
-  const task = await getFamilyTask(taskId, family.id);
+  const task = await db.task.findFirst({
+    where: { id: taskId, familyId: family.id },
+    select: {
+      id: true,
+      cubId: true,
+      status: true,
+      title: true,
+      focusSessionStartedAt: true,
+      growthCategory: true,
+    },
+  });
+
   if (!task) {
-    return { error: "Task not found." };
+    return { error: "Assignment not found." };
   }
 
-  if (task.status !== "AVAILABLE") {
-    return { error: "Only available pool tasks can be deleted." };
+  if (task.focusSessionStartedAt) {
+    await logTaskFocusSession(task, { attemptLabel: "Assignment removed (parent)" });
   }
 
+  await resolveGuardianNudgesForTask(family.id, task.id);
   await db.task.delete({ where: { id: task.id } });
 
-  revalidateTaskPaths();
-  return { success: "Task removed from the board." };
+  await syncGuardianNudgesForFamily(family.id);
+  revalidateTaskPaths(task.cubId);
+  revalidatePath(`/dashboard/tasks/${task.id}`);
+  revalidatePath(`/dashboard/tasks/${task.id}/edit`);
+  redirect("/dashboard/tasks");
+}
+
+export async function deleteAvailableTaskAction(
+  taskId: string,
+): Promise<ActionState> {
+  const formData = new FormData();
+  formData.set("taskId", taskId);
+  return deleteAssignmentAction({} as ActionState, formData);
 }
 
 export async function updateTaskAction(
@@ -733,10 +763,7 @@ export async function updateTaskAction(
   }
 
   if (!isTaskEditable(task.status)) {
-    return {
-      error:
-        "This task can no longer be edited. Sent-back tasks can be edited until resubmitted.",
-    };
+    return { error: "This assignment cannot be edited." };
   }
 
   const parsed = availableTaskSchema.safeParse({

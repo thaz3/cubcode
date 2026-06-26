@@ -572,6 +572,74 @@ export type EnumChallengeProgressStatusWithAggregatesFilter<$PrismaModel = never
   _max?: Prisma.NestedEnumChallengeProgressStatusFilter<$PrismaModel>
 }
 
+export type EnumFocusDeckLocationTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckLocationType | Prisma.EnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckLocationTypeNullableFilter<$PrismaModel> | $Enums.FocusDeckLocationType | null
+}
+
+export type EnumFocusDeckDifficultyNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckDifficulty | Prisma.EnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckDifficultyNullableFilter<$PrismaModel> | $Enums.FocusDeckDifficulty | null
+}
+
+export type EnumFocusActivityCardStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCardStatus | Prisma.EnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCardStatusFilter<$PrismaModel> | $Enums.FocusActivityCardStatus
+}
+
+export type EnumFocusDeckLocationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckLocationType | Prisma.EnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckLocationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.FocusDeckLocationType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusDeckLocationTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusDeckLocationTypeNullableFilter<$PrismaModel>
+}
+
+export type EnumFocusDeckDifficultyNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckDifficulty | Prisma.EnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckDifficultyNullableWithAggregatesFilter<$PrismaModel> | $Enums.FocusDeckDifficulty | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusDeckDifficultyNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusDeckDifficultyNullableFilter<$PrismaModel>
+}
+
+export type EnumFocusActivityCardStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCardStatus | Prisma.EnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCardStatusWithAggregatesFilter<$PrismaModel> | $Enums.FocusActivityCardStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusActivityCardStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusActivityCardStatusFilter<$PrismaModel>
+}
+
+export type EnumFocusActivityCompletionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCompletionStatus | Prisma.EnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCompletionStatusFilter<$PrismaModel> | $Enums.FocusActivityCompletionStatus
+}
+
+export type EnumFocusActivityCompletionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCompletionStatus | Prisma.EnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCompletionStatusWithAggregatesFilter<$PrismaModel> | $Enums.FocusActivityCompletionStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusActivityCompletionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusActivityCompletionStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -1087,6 +1155,74 @@ export type NestedEnumChallengeProgressStatusWithAggregatesFilter<$PrismaModel =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumChallengeProgressStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumChallengeProgressStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumFocusDeckLocationTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckLocationType | Prisma.EnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckLocationTypeNullableFilter<$PrismaModel> | $Enums.FocusDeckLocationType | null
+}
+
+export type NestedEnumFocusDeckDifficultyNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckDifficulty | Prisma.EnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckDifficultyNullableFilter<$PrismaModel> | $Enums.FocusDeckDifficulty | null
+}
+
+export type NestedEnumFocusActivityCardStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCardStatus | Prisma.EnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCardStatusFilter<$PrismaModel> | $Enums.FocusActivityCardStatus
+}
+
+export type NestedEnumFocusDeckLocationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckLocationType | Prisma.EnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckLocationType[] | Prisma.ListEnumFocusDeckLocationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckLocationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.FocusDeckLocationType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusDeckLocationTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusDeckLocationTypeNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumFocusDeckDifficultyNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusDeckDifficulty | Prisma.EnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FocusDeckDifficulty[] | Prisma.ListEnumFocusDeckDifficultyFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFocusDeckDifficultyNullableWithAggregatesFilter<$PrismaModel> | $Enums.FocusDeckDifficulty | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusDeckDifficultyNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusDeckDifficultyNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumFocusActivityCardStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCardStatus | Prisma.EnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCardStatus[] | Prisma.ListEnumFocusActivityCardStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCardStatusWithAggregatesFilter<$PrismaModel> | $Enums.FocusActivityCardStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusActivityCardStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusActivityCardStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumFocusActivityCompletionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCompletionStatus | Prisma.EnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCompletionStatusFilter<$PrismaModel> | $Enums.FocusActivityCompletionStatus
+}
+
+export type NestedEnumFocusActivityCompletionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FocusActivityCompletionStatus | Prisma.EnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FocusActivityCompletionStatus[] | Prisma.ListEnumFocusActivityCompletionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFocusActivityCompletionStatusWithAggregatesFilter<$PrismaModel> | $Enums.FocusActivityCompletionStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFocusActivityCompletionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFocusActivityCompletionStatusFilter<$PrismaModel>
 }
 
 
