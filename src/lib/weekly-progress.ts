@@ -13,6 +13,7 @@ export type CubWeeklyProgressRow = {
   cubId: string;
   displayName: string;
   completedTasks: number;
+  completedFocusTasks: number;
   focusMinutes: number;
   tasksSubmitted: number;
   submittedAwaitingReview: number;
@@ -28,6 +29,7 @@ export type HouseholdWeeklyProgress = {
   weekLabel: string;
   householdTotals: {
     completedTasks: number;
+    completedFocusTasks: number;
     focusMinutes: number;
     tasksSubmitted: number;
     xpEarned: number;
@@ -135,6 +137,7 @@ export async function getHouseholdWeeklyProgress(
         cubId: cub.id,
         displayName: cub.displayName,
         completedTasks: weekStats.completedTasks,
+        completedFocusTasks: weekStats.completedFocusTasks,
         focusMinutes: weekStats.focusMinutes,
         tasksSubmitted,
         submittedAwaitingReview: weekStats.submittedAwaitingReview,
@@ -148,6 +151,7 @@ export async function getHouseholdWeeklyProgress(
 
   const householdTotals = {
     completedTasks: 0,
+    completedFocusTasks: 0,
     focusMinutes: 0,
     tasksSubmitted: 0,
     xpEarned: 0,
@@ -158,6 +162,7 @@ export async function getHouseholdWeeklyProgress(
 
   for (const row of cubRows) {
     householdTotals.completedTasks += row.completedTasks;
+    householdTotals.completedFocusTasks += row.completedFocusTasks;
     householdTotals.focusMinutes += row.focusMinutes;
     householdTotals.tasksSubmitted += row.tasksSubmitted;
     householdTotals.xpEarned += row.xpEarned;

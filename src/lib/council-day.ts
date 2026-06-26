@@ -130,11 +130,14 @@ const COUNCIL_DAY_PROMPTS: Record<AgeBand, CouncilDayPrompt[]> = {
   ],
 };
 
-const COUNCIL_DAY_BONUSES: Record<AgeBand, { xp: number; focusTokens: number }> = {
-  LITTLE_CUBS: { xp: 5, focusTokens: 0 },
-  CORE_CUBS: { xp: 10, focusTokens: 1 },
-  TRAIL_CUBS: { xp: 15, focusTokens: 1 },
-  LEGACY_BUILDERS: { xp: 20, focusTokens: 1 },
+const COUNCIL_DAY_BONUSES: Record<
+  AgeBand,
+  { xp: number; focusTokens: number; phoneMinutes: number }
+> = {
+  LITTLE_CUBS: { xp: 5, focusTokens: 0, phoneMinutes: 5 },
+  CORE_CUBS: { xp: 10, focusTokens: 1, phoneMinutes: 10 },
+  TRAIL_CUBS: { xp: 15, focusTokens: 1, phoneMinutes: 15 },
+  LEGACY_BUILDERS: { xp: 20, focusTokens: 1, phoneMinutes: 15 },
 };
 
 export function getCouncilDayPrompts(ageBand: AgeBand): CouncilDayPrompt[] {
@@ -212,6 +215,7 @@ export function shiftWeek(weekStart: Date, weeks: number): Date {
 
 export type CubWeekStats = {
   completedTasks: number;
+  completedFocusTasks: number;
   focusMinutes: number;
   submittedAwaitingReview: number;
 };

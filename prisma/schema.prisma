@@ -269,6 +269,7 @@ model CouncilDayCubEntry {
   valueRatings        Json?
   bonusXpGranted     Int       @default(0)
   bonusTokensGranted Int       @default(0)
+  bonusPhoneMinutesGranted Int @default(0)
   bonusGrantedAt     DateTime?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -280,6 +281,7 @@ model CouncilDayCubEntry {
   cub                   Cub                       @relation(fields: [cubId], references: [id], onDelete: Cascade)
   xpLedgerEntries       XpLedgerEntry[]
   focusTokenLedgerEntries FocusTokenLedgerEntry[]
+  phoneTimeLedgerEntries PhoneTimeLedgerEntry[]
 
   @@unique([sessionId, cubId])
   @@index([cubId])
@@ -454,17 +456,20 @@ model PhoneTimeLedgerEntry {
   sourceTaskId    String?
   sourceChallengeProgressLogId String?
   sourceFocusActivityCompletionId String?
+  councilDayCubEntryId String?
   createdByUserId String?
 
   cub        Cub   @relation(fields: [cubId], references: [id], onDelete: Cascade)
   sourceTask Task? @relation(fields: [sourceTaskId], references: [id], onDelete: SetNull)
   sourceChallengeProgressLog ChallengeProgressLog? @relation(fields: [sourceChallengeProgressLogId], references: [id], onDelete: SetNull)
   sourceFocusActivityCompletion FocusActivityCompletion? @relation(fields: [sourceFocusActivityCompletionId], references: [id], onDelete: SetNull)
+  councilDayCubEntry CouncilDayCubEntry? @relation(fields: [councilDayCubEntryId], references: [id], onDelete: SetNull)
 
   @@index([cubId])
   @@index([sourceTaskId])
   @@index([sourceChallengeProgressLogId])
   @@index([sourceFocusActivityCompletionId])
+  @@index([councilDayCubEntryId])
   @@index([createdAt])
 }
 

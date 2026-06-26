@@ -2,7 +2,6 @@ import { CubHeader } from "@/components/cub-header";
 import { CubNav } from "@/components/cub-nav";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
-import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 type CubScopedLayoutProps = {
@@ -21,20 +20,17 @@ export default async function CubScopedLayout({
   }
 
   const { cub } = await requireCubForUser(cubId, session.user.id);
-  const family = await getFamilyForUser(session.user.id);
-  const showCubSwitcher = (family?.cubs.length ?? 0) > 1;
 
   return (
     <>
       <CubHeader
         cubId={cubId}
         displayName={cub.displayName}
-        showCubSwitcher={showCubSwitcher}
       />
       <main className="mx-auto max-w-4xl px-4 py-6 pb-nav-safe lg:py-8">
         {children}
       </main>
-      <CubNav cubId={cubId} showCubSwitcher={showCubSwitcher} />
+      <CubNav cubId={cubId} />
     </>
   );
 }

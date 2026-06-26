@@ -146,6 +146,7 @@ export async function creditPhoneMinutesForCub(
     sourceTaskId?: string | null;
     sourceChallengeProgressLogId?: string | null;
     sourceFocusActivityCompletionId?: string | null;
+    councilDayCubEntryId?: string | null;
     client?: LedgerClient;
   },
 ): Promise<{ phoneMinutes: number; weekendBankMinutes: number }> {
@@ -164,6 +165,7 @@ export async function creditPhoneMinutesForCub(
     sourceTaskId: options.sourceTaskId ?? null,
     sourceChallengeProgressLogId: options.sourceChallengeProgressLogId ?? null,
     sourceFocusActivityCompletionId: options.sourceFocusActivityCompletionId ?? null,
+    councilDayCubEntryId: options.councilDayCubEntryId ?? null,
     createdByUserId: options.createdByUserId,
     reason: options.reason,
     note: options.note,
@@ -391,6 +393,7 @@ export async function creditCouncilDayBonus(
     cubId: string;
     bonusXpGranted: number;
     bonusTokensGranted: number;
+    bonusPhoneMinutesGranted: number;
     bonusGrantedAt: Date | null;
   },
   cub: Cub,
@@ -428,6 +431,16 @@ export async function creditCouncilDayBonus(
   if (entry.bonusTokensGranted > 0) {
     await client.focusTokenLedgerEntry.create({
       data: { ...baseEntry, amount: entry.bonusTokensGranted },
+    });
+  }
+
+  if (entry.bonusPhoneMinutesGranted > 0) {
+    await creditPhoneMinutesForCub(cub, entry.bonusPhoneMinutesGranted, {
+      reason: "COUNCIL_DAY",
+      note: `${FAMILY_DAY_LABEL} · ${weekLabel}`,
+      createdByUserId,
+      councilDayCubEntryId: entry.id,
+      client,
     });
   }
 

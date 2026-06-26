@@ -45,7 +45,7 @@ export function TaskBoardWorkflow({
             title="Nothing assigned yet"
             description="Create a task or routine, then assign it from here."
             actionLabel="Create task or routine"
-            actionHref="/dashboard/create"
+            actionHref="#create"
           />
         ) : (
           <div className="space-y-4">

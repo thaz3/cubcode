@@ -120,7 +120,6 @@ export async function saveCouncilDayCubEntryAction(
   }
 
   const bonus = getCouncilDayBonus(cub.ageBand);
-  const valueRatings = parseCouncilDayValueRatingsFromFormData(formData);
 
   await db.councilDayCubEntry.upsert({
     where: {
@@ -133,16 +132,15 @@ export async function saveCouncilDayCubEntryAction(
       growNote: parsed.data.growNote || null,
       familyGoalNote: parsed.data.familyGoalNote || null,
       reflection: parsed.data.reflection || null,
-      valueRatings,
       bonusXpGranted: bonus.xp,
       bonusTokensGranted: bonus.focusTokens,
+      bonusPhoneMinutesGranted: bonus.phoneMinutes,
     },
     update: {
       winNote: parsed.data.winNote || null,
       growNote: parsed.data.growNote || null,
       familyGoalNote: parsed.data.familyGoalNote || null,
       reflection: parsed.data.reflection || null,
-      valueRatings,
     },
   });
 
@@ -192,6 +190,52 @@ export async function saveCouncilDayFamilyNotesAction(
   };
 }
 
+export async function saveFamilyDayValueRatingsAction(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const userId = await requireUserId();
+  const family = await requireFamilyForUser(userId);
+
+  const sessionId = formData.get("sessionId")?.toString();
+  if (!sessionId) {
+    return { error: `Missing ${FAMILY_DAY_LABEL} session.` };
+  }
+
+  const session = await getFamilySession(sessionId, family.id);
+  if (!session) {
+    return { error: `${FAMILY_DAY_LABEL} session not found.` };
+  }
+
+  if (session.conductedAt) {
+    return { error: `This ${FAMILY_DAY_LABEL} is already complete.` };
+  }
+
+  for (const cub of family.cubs) {
+    const valueRatings = parseCouncilDayValueRatingsFromFormData(formData, cub.id);
+    const bonus = getCouncilDayBonus(cub.ageBand);
+    await db.councilDayCubEntry.upsert({
+      where: {
+        sessionId_cubId: { sessionId: session.id, cubId: cub.id },
+      },
+      create: {
+        sessionId: session.id,
+        cubId: cub.id,
+        valueRatings,
+        bonusXpGranted: bonus.xp,
+        bonusTokensGranted: bonus.focusTokens,
+        bonusPhoneMinutesGranted: bonus.phoneMinutes,
+      },
+      update: {
+        valueRatings,
+      },
+    });
+  }
+
+  revalidateFamilyDayPaths();
+  return { success: "Values & expectations saved for all Cubs." };
+}
+
 export async function saveFamilyDayBonusesAction(
   _prevState: ActionState,
   formData: FormData,
@@ -226,6 +270,11 @@ export async function saveFamilyDayBonusesAction(
       `bonusTokens_${cub.id}`,
       existing?.bonusTokensGranted ?? suggested.focusTokens,
     );
+    const bonusPhoneMinutesGranted = parseFamilyDayBonusField(
+      formData,
+      `bonusPhone_${cub.id}`,
+      existing?.bonusPhoneMinutesGranted ?? suggested.phoneMinutes,
+    );
 
     await db.councilDayCubEntry.upsert({
       where: {
@@ -236,10 +285,12 @@ export async function saveFamilyDayBonusesAction(
         cubId: cub.id,
         bonusXpGranted,
         bonusTokensGranted,
+        bonusPhoneMinutesGranted,
       },
       update: {
         bonusXpGranted,
         bonusTokensGranted,
+        bonusPhoneMinutesGranted,
       },
     });
   }
@@ -317,6 +368,8 @@ export async function completeCouncilDayAction(
         ...entry,
         bonusXpGranted: entry.bonusXpGranted ?? suggested.xp,
         bonusTokensGranted: entry.bonusTokensGranted ?? suggested.focusTokens,
+        bonusPhoneMinutesGranted:
+          entry.bonusPhoneMinutesGranted ?? suggested.phoneMinutes,
       };
 
       await creditCouncilDayBonus(
@@ -371,6 +424,9 @@ export async function resetFamilyDaySessionAction(
         where: { councilDayCubEntryId: { in: entryIds } },
       });
       await tx.focusTokenLedgerEntry.deleteMany({
+        where: { councilDayCubEntryId: { in: entryIds } },
+      });
+      await tx.phoneTimeLedgerEntry.deleteMany({
         where: { councilDayCubEntryId: { in: entryIds } },
       });
     }

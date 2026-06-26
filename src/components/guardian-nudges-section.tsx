@@ -66,30 +66,44 @@ type FocusSessionReminder = {
   href: string;
 };
 
+type FocusDeckReminder = {
+  id: string;
+  title: string;
+  cubName: string;
+  href: string;
+};
+
 type GuardianNudgesSectionProps = {
   nudges: NudgeWithRelations[];
   focusSessions?: FocusSessionReminder[];
+  focusDeckCards?: FocusDeckReminder[];
   hiddenByQuietHours?: boolean;
 };
 
 const FOCUS_BADGE =
   "bg-cub-green-muted text-cub-green-light ring-cub-green-bright/45";
 
+const FOCUS_DECK_BADGE =
+  "bg-cub-gold-muted text-cub-gold-light ring-cub-gold/45";
+
 export function GuardianNudgesSection({
   nudges,
   focusSessions = [],
+  focusDeckCards = [],
   hiddenByQuietHours = false,
 }: GuardianNudgesSectionProps) {
   const hasFocus = focusSessions.length > 0;
+  const hasFocusDeck = focusDeckCards.length > 0;
   const hasNudges = nudges.length > 0;
 
-  if (!hasFocus && !hasNudges) {
+  if (!hasFocus && !hasFocusDeck && !hasNudges) {
     return null;
   }
 
   const unseenCount =
     nudges.filter((nudge) => nudge.status === "ACTIVE").length +
-    focusSessions.length;
+    focusSessions.length +
+    focusDeckCards.length;
 
   return (
     <section id="small-reminders" className="scroll-mt-4 space-y-3">
@@ -177,6 +191,42 @@ export function GuardianNudgesSection({
                     <Link href={session.href}>
                       <Button size="sm" variant="constructive">
                         Continue task
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </li>
+            ))}
+
+            {focusDeckCards.map((card) => (
+              <li key={`focus-deck-${card.id}`}>
+                <div
+                  className={cn(
+                    "rounded-xl border-l-4 border-l-cub-gold p-4 shadow-sm",
+                    "border border-cub-gold/30 bg-cub-gold-muted/15 ring-1 ring-cub-gold/20",
+                  )}
+                >
+                  <div className="space-y-2">
+                    <span
+                      className={cn(
+                        "inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ring-1",
+                        FOCUS_DECK_BADGE,
+                      )}
+                    >
+                      Focus Decks
+                    </span>
+                    <p className="text-base font-medium leading-snug text-cub-off-white">
+                      {card.title}
+                    </p>
+                    <p className="text-sm text-cub-muted">{card.cubName}</p>
+                    <p className="text-sm text-cub-gold-light">
+                      Started a new Focus Deck card this week.
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <Link href={card.href}>
+                      <Button size="sm" variant="reward">
+                        View Focus Decks
                       </Button>
                     </Link>
                   </div>

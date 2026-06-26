@@ -35,7 +35,7 @@ export function AssignmentsRoutinesSection({
           </p>
         </div>
         <Link
-          href="/dashboard/create?kind=challenge"
+          href="/dashboard/tasks?kind=challenge#create"
           className="text-sm font-medium text-cub-gold hover:text-cub-gold-light"
         >
           New routine →

@@ -64,6 +64,7 @@ export default async function DashboardPage() {
     pendingReviewItems,
     activeTasks,
     focusInProgressTasks,
+    focusDeckInProgress,
     councilDaySession,
     guardianNudgePrefs,
     guardianNudges,
@@ -92,6 +93,19 @@ export default async function DashboardPage() {
         cub: { select: { displayName: true } },
       },
       orderBy: { focusSessionStartedAt: "desc" },
+    }),
+    db.focusActivityCompletion.findMany({
+      where: {
+        familyId: family.id,
+        weekStartsOn,
+        status: "IN_PROGRESS",
+      },
+      select: {
+        id: true,
+        cub: { select: { id: true, displayName: true } },
+        card: { select: { title: true } },
+      },
+      orderBy: { startedAt: "desc" },
     }),
     family.cubs.length > 0
       ? db.councilDaySession.findUnique({
@@ -143,7 +157,8 @@ export default async function DashboardPage() {
         )
       : null;
 
-  const totalFocusThisWeek = weeklyProgress?.householdTotals.focusMinutes ?? 0;
+  const totalFocusTasksThisWeek =
+    weeklyProgress?.householdTotals.completedFocusTasks ?? 0;
 
   const cubGrowthSummaries = await Promise.all(
     family.cubs.map(async (cub) => ({
@@ -162,6 +177,13 @@ export default async function DashboardPage() {
       : `/dashboard/tasks/${task.id}`,
   }));
 
+  const focusDeckReminders = focusDeckInProgress.map((completion) => ({
+    id: completion.id,
+    title: completion.card.title,
+    cubName: completion.cub.displayName,
+    href: "/dashboard/focus-deck",
+  }));
+
   const greeting = session.user.name
     ? `Welcome back, ${session.user.name.split(" ")[0]}`
     : "Welcome back";
@@ -169,7 +191,8 @@ export default async function DashboardPage() {
 
   const activeSmallRemindersCount =
     guardianNudges.filter((nudge) => nudge.status === "ACTIVE").length +
-    focusSessionReminders.length;
+    focusSessionReminders.length +
+    focusDeckReminders.length;
   const smallRemindersDetail =
     activeSmallRemindersCount > 0
       ? quietHoursActive
@@ -265,8 +288,8 @@ export default async function DashboardPage() {
           />
           <StatCard
             label="Focus this week"
-            value={`${totalFocusThisWeek} min`}
-            detail="Logged focus blocks"
+            value={String(totalFocusTasksThisWeek)}
+            detail="Focus tasks completed so far"
             highlight="green"
           />
         </div>
@@ -323,6 +346,7 @@ export default async function DashboardPage() {
       <GuardianNudgesSection
         nudges={guardianNudges}
         focusSessions={focusSessionReminders}
+        focusDeckCards={focusDeckReminders}
         hiddenByQuietHours={quietHoursActive}
       />
 

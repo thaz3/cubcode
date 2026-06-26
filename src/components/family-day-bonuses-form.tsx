@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import type { ActionState } from "@/lib/actions/auth";
 import { saveFamilyDayBonusesAction } from "@/lib/actions/council-day";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
+import { formatMinutes } from "@/lib/ledger-labels";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 
@@ -17,8 +18,10 @@ type FamilyDayBonusesFormProps = {
     displayName: string;
     suggestedXp: number;
     suggestedTokens: number;
+    suggestedPhoneMinutes: number;
     bonusXpGranted: number;
     bonusTokensGranted: number;
+    bonusPhoneMinutesGranted: number;
   }>;
   readOnly?: boolean;
 };
@@ -51,6 +54,9 @@ export function FamilyDayBonusesForm({
               {cub.bonusTokensGranted > 0
                 ? ` · +${cub.bonusTokensGranted} Focus Token`
                 : ""}
+              {cub.bonusPhoneMinutesGranted > 0
+                ? ` · +${formatMinutes(cub.bonusPhoneMinutesGranted)}`
+                : ""}
             </span>
           </li>
         ))}
@@ -77,8 +83,11 @@ export function FamilyDayBonusesForm({
               {cub.suggestedTokens > 0
                 ? ` · +${cub.suggestedTokens} token`
                 : ""}
+              {cub.suggestedPhoneMinutes > 0
+                ? ` · +${formatMinutes(cub.suggestedPhoneMinutes)}`
+                : ""}
             </p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-3">
               <div>
                 <Label htmlFor={`bonus-xp-${cub.id}`}>XP bonus</Label>
                 <Input
@@ -100,6 +109,18 @@ export function FamilyDayBonusesForm({
                   min={0}
                   max={99}
                   defaultValue={cub.bonusTokensGranted}
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor={`bonus-phone-${cub.id}`}>Phone time (min)</Label>
+                <Input
+                  id={`bonus-phone-${cub.id}`}
+                  name={`bonusPhone_${cub.id}`}
+                  type="number"
+                  min={0}
+                  max={240}
+                  defaultValue={cub.bonusPhoneMinutesGranted}
                   className="mt-1"
                 />
               </div>

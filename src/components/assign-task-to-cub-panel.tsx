@@ -63,12 +63,8 @@ export function AssignTaskToCubPanel({
           </div>
         ) : (
           <p className="text-sm text-zinc-500">
-            Save tasks to your household library from{" "}
-            <Link href="/dashboard/create" className="text-cub-gold">
-              Create
-            </Link>{" "}
-            or the{" "}
-            <Link href="/dashboard/tasks#ready-to-assign" className="text-cub-gold">
+            Save tasks to your household library on the{" "}
+            <Link href="/dashboard/tasks#create" className="text-cub-gold">
               Assignments board
             </Link>
             , then assign them here.

@@ -98,14 +98,19 @@ export function parseCouncilDayValueRatings(
 
 export function parseCouncilDayValueRatingsFromFormData(
   formData: FormData,
+  cubId?: string,
 ): CouncilDayValueRatings {
   const ratings = emptyCouncilDayValueRatings();
+  const suffix = cubId ? `_${cubId}` : "";
 
   for (const dimension of COUNCIL_DAY_VALUE_DIMENSIONS) {
-    const parent = Number(formData.get(`rating_parent_${dimension.id}`));
-    const cub = Number(formData.get(`rating_cub_${dimension.id}`));
+    const parent = Number(
+      formData.get(`rating_parent_${dimension.id}${suffix}`),
+    );
+    const cub = Number(formData.get(`rating_cub_${dimension.id}${suffix}`));
     const comment =
-      formData.get(`rating_comment_${dimension.id}`)?.toString().trim() ?? "";
+      formData.get(`rating_comment_${dimension.id}${suffix}`)?.toString().trim() ??
+      "";
 
     ratings[dimension.id] = {
       parent: isValidRating(parent) ? parent : 0,

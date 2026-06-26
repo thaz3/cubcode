@@ -29,11 +29,13 @@ export type AggregateCouncilDayCubEntry = {
 export type CouncilDayCubEntryAvgAggregateOutputType = {
   bonusXpGranted: number | null
   bonusTokensGranted: number | null
+  bonusPhoneMinutesGranted: number | null
 }
 
 export type CouncilDayCubEntrySumAggregateOutputType = {
   bonusXpGranted: number | null
   bonusTokensGranted: number | null
+  bonusPhoneMinutesGranted: number | null
 }
 
 export type CouncilDayCubEntryMinAggregateOutputType = {
@@ -44,6 +46,7 @@ export type CouncilDayCubEntryMinAggregateOutputType = {
   reflection: string | null
   bonusXpGranted: number | null
   bonusTokensGranted: number | null
+  bonusPhoneMinutesGranted: number | null
   bonusGrantedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,6 +62,7 @@ export type CouncilDayCubEntryMaxAggregateOutputType = {
   reflection: string | null
   bonusXpGranted: number | null
   bonusTokensGranted: number | null
+  bonusPhoneMinutesGranted: number | null
   bonusGrantedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -75,6 +79,7 @@ export type CouncilDayCubEntryCountAggregateOutputType = {
   valueRatings: number
   bonusXpGranted: number
   bonusTokensGranted: number
+  bonusPhoneMinutesGranted: number
   bonusGrantedAt: number
   createdAt: number
   updatedAt: number
@@ -87,11 +92,13 @@ export type CouncilDayCubEntryCountAggregateOutputType = {
 export type CouncilDayCubEntryAvgAggregateInputType = {
   bonusXpGranted?: true
   bonusTokensGranted?: true
+  bonusPhoneMinutesGranted?: true
 }
 
 export type CouncilDayCubEntrySumAggregateInputType = {
   bonusXpGranted?: true
   bonusTokensGranted?: true
+  bonusPhoneMinutesGranted?: true
 }
 
 export type CouncilDayCubEntryMinAggregateInputType = {
@@ -102,6 +109,7 @@ export type CouncilDayCubEntryMinAggregateInputType = {
   reflection?: true
   bonusXpGranted?: true
   bonusTokensGranted?: true
+  bonusPhoneMinutesGranted?: true
   bonusGrantedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -117,6 +125,7 @@ export type CouncilDayCubEntryMaxAggregateInputType = {
   reflection?: true
   bonusXpGranted?: true
   bonusTokensGranted?: true
+  bonusPhoneMinutesGranted?: true
   bonusGrantedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -133,6 +142,7 @@ export type CouncilDayCubEntryCountAggregateInputType = {
   valueRatings?: true
   bonusXpGranted?: true
   bonusTokensGranted?: true
+  bonusPhoneMinutesGranted?: true
   bonusGrantedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -236,6 +246,7 @@ export type CouncilDayCubEntryGroupByOutputType = {
   valueRatings: runtime.JsonValue | null
   bonusXpGranted: number
   bonusTokensGranted: number
+  bonusPhoneMinutesGranted: number
   bonusGrantedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -275,6 +286,7 @@ export type CouncilDayCubEntryWhereInput = {
   valueRatings?: Prisma.JsonNullableFilter<"CouncilDayCubEntry">
   bonusXpGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
   bonusTokensGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
+  bonusPhoneMinutesGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
   bonusGrantedAt?: Prisma.DateTimeNullableFilter<"CouncilDayCubEntry"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CouncilDayCubEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CouncilDayCubEntry"> | Date | string
@@ -284,6 +296,7 @@ export type CouncilDayCubEntryWhereInput = {
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   xpLedgerEntries?: Prisma.XpLedgerEntryListRelationFilter
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryListRelationFilter
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryListRelationFilter
 }
 
 export type CouncilDayCubEntryOrderByWithRelationInput = {
@@ -295,6 +308,7 @@ export type CouncilDayCubEntryOrderByWithRelationInput = {
   valueRatings?: Prisma.SortOrderInput | Prisma.SortOrder
   bonusXpGranted?: Prisma.SortOrder
   bonusTokensGranted?: Prisma.SortOrder
+  bonusPhoneMinutesGranted?: Prisma.SortOrder
   bonusGrantedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -304,6 +318,7 @@ export type CouncilDayCubEntryOrderByWithRelationInput = {
   cub?: Prisma.CubOrderByWithRelationInput
   xpLedgerEntries?: Prisma.XpLedgerEntryOrderByRelationAggregateInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryOrderByRelationAggregateInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryOrderByRelationAggregateInput
 }
 
 export type CouncilDayCubEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -319,6 +334,7 @@ export type CouncilDayCubEntryWhereUniqueInput = Prisma.AtLeast<{
   valueRatings?: Prisma.JsonNullableFilter<"CouncilDayCubEntry">
   bonusXpGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
   bonusTokensGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
+  bonusPhoneMinutesGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
   bonusGrantedAt?: Prisma.DateTimeNullableFilter<"CouncilDayCubEntry"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CouncilDayCubEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CouncilDayCubEntry"> | Date | string
@@ -328,6 +344,7 @@ export type CouncilDayCubEntryWhereUniqueInput = Prisma.AtLeast<{
   cub?: Prisma.XOR<Prisma.CubScalarRelationFilter, Prisma.CubWhereInput>
   xpLedgerEntries?: Prisma.XpLedgerEntryListRelationFilter
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryListRelationFilter
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryListRelationFilter
 }, "id" | "sessionId_cubId">
 
 export type CouncilDayCubEntryOrderByWithAggregationInput = {
@@ -339,6 +356,7 @@ export type CouncilDayCubEntryOrderByWithAggregationInput = {
   valueRatings?: Prisma.SortOrderInput | Prisma.SortOrder
   bonusXpGranted?: Prisma.SortOrder
   bonusTokensGranted?: Prisma.SortOrder
+  bonusPhoneMinutesGranted?: Prisma.SortOrder
   bonusGrantedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -363,6 +381,7 @@ export type CouncilDayCubEntryScalarWhereWithAggregatesInput = {
   valueRatings?: Prisma.JsonNullableWithAggregatesFilter<"CouncilDayCubEntry">
   bonusXpGranted?: Prisma.IntWithAggregatesFilter<"CouncilDayCubEntry"> | number
   bonusTokensGranted?: Prisma.IntWithAggregatesFilter<"CouncilDayCubEntry"> | number
+  bonusPhoneMinutesGranted?: Prisma.IntWithAggregatesFilter<"CouncilDayCubEntry"> | number
   bonusGrantedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CouncilDayCubEntry"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CouncilDayCubEntry"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CouncilDayCubEntry"> | Date | string
@@ -379,6 +398,7 @@ export type CouncilDayCubEntryCreateInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -386,6 +406,7 @@ export type CouncilDayCubEntryCreateInput = {
   cub: Prisma.CubCreateNestedOneWithoutCouncilDayEntriesInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryUncheckedCreateInput = {
@@ -397,6 +418,7 @@ export type CouncilDayCubEntryUncheckedCreateInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -404,6 +426,7 @@ export type CouncilDayCubEntryUncheckedCreateInput = {
   cubId: string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryUpdateInput = {
@@ -415,6 +438,7 @@ export type CouncilDayCubEntryUpdateInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -422,6 +446,7 @@ export type CouncilDayCubEntryUpdateInput = {
   cub?: Prisma.CubUpdateOneRequiredWithoutCouncilDayEntriesNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryUncheckedUpdateInput = {
@@ -433,6 +458,7 @@ export type CouncilDayCubEntryUncheckedUpdateInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -440,6 +466,7 @@ export type CouncilDayCubEntryUncheckedUpdateInput = {
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryCreateManyInput = {
@@ -451,6 +478,7 @@ export type CouncilDayCubEntryCreateManyInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -467,6 +495,7 @@ export type CouncilDayCubEntryUpdateManyMutationInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -481,6 +510,7 @@ export type CouncilDayCubEntryUncheckedUpdateManyInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -512,6 +542,7 @@ export type CouncilDayCubEntryCountOrderByAggregateInput = {
   valueRatings?: Prisma.SortOrder
   bonusXpGranted?: Prisma.SortOrder
   bonusTokensGranted?: Prisma.SortOrder
+  bonusPhoneMinutesGranted?: Prisma.SortOrder
   bonusGrantedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -522,6 +553,7 @@ export type CouncilDayCubEntryCountOrderByAggregateInput = {
 export type CouncilDayCubEntryAvgOrderByAggregateInput = {
   bonusXpGranted?: Prisma.SortOrder
   bonusTokensGranted?: Prisma.SortOrder
+  bonusPhoneMinutesGranted?: Prisma.SortOrder
 }
 
 export type CouncilDayCubEntryMaxOrderByAggregateInput = {
@@ -532,6 +564,7 @@ export type CouncilDayCubEntryMaxOrderByAggregateInput = {
   reflection?: Prisma.SortOrder
   bonusXpGranted?: Prisma.SortOrder
   bonusTokensGranted?: Prisma.SortOrder
+  bonusPhoneMinutesGranted?: Prisma.SortOrder
   bonusGrantedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -547,6 +580,7 @@ export type CouncilDayCubEntryMinOrderByAggregateInput = {
   reflection?: Prisma.SortOrder
   bonusXpGranted?: Prisma.SortOrder
   bonusTokensGranted?: Prisma.SortOrder
+  bonusPhoneMinutesGranted?: Prisma.SortOrder
   bonusGrantedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -557,6 +591,7 @@ export type CouncilDayCubEntryMinOrderByAggregateInput = {
 export type CouncilDayCubEntrySumOrderByAggregateInput = {
   bonusXpGranted?: Prisma.SortOrder
   bonusTokensGranted?: Prisma.SortOrder
+  bonusPhoneMinutesGranted?: Prisma.SortOrder
 }
 
 export type CouncilDayCubEntryNullableScalarRelationFilter = {
@@ -680,6 +715,22 @@ export type CouncilDayCubEntryUpdateOneWithoutFocusTokenLedgerEntriesNestedInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CouncilDayCubEntryUpdateToOneWithWhereWithoutFocusTokenLedgerEntriesInput, Prisma.CouncilDayCubEntryUpdateWithoutFocusTokenLedgerEntriesInput>, Prisma.CouncilDayCubEntryUncheckedUpdateWithoutFocusTokenLedgerEntriesInput>
 }
 
+export type CouncilDayCubEntryCreateNestedOneWithoutPhoneTimeLedgerEntriesInput = {
+  create?: Prisma.XOR<Prisma.CouncilDayCubEntryCreateWithoutPhoneTimeLedgerEntriesInput, Prisma.CouncilDayCubEntryUncheckedCreateWithoutPhoneTimeLedgerEntriesInput>
+  connectOrCreate?: Prisma.CouncilDayCubEntryCreateOrConnectWithoutPhoneTimeLedgerEntriesInput
+  connect?: Prisma.CouncilDayCubEntryWhereUniqueInput
+}
+
+export type CouncilDayCubEntryUpdateOneWithoutPhoneTimeLedgerEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.CouncilDayCubEntryCreateWithoutPhoneTimeLedgerEntriesInput, Prisma.CouncilDayCubEntryUncheckedCreateWithoutPhoneTimeLedgerEntriesInput>
+  connectOrCreate?: Prisma.CouncilDayCubEntryCreateOrConnectWithoutPhoneTimeLedgerEntriesInput
+  upsert?: Prisma.CouncilDayCubEntryUpsertWithoutPhoneTimeLedgerEntriesInput
+  disconnect?: Prisma.CouncilDayCubEntryWhereInput | boolean
+  delete?: Prisma.CouncilDayCubEntryWhereInput | boolean
+  connect?: Prisma.CouncilDayCubEntryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CouncilDayCubEntryUpdateToOneWithWhereWithoutPhoneTimeLedgerEntriesInput, Prisma.CouncilDayCubEntryUpdateWithoutPhoneTimeLedgerEntriesInput>, Prisma.CouncilDayCubEntryUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput>
+}
+
 export type CouncilDayCubEntryCreateWithoutCubInput = {
   id?: string
   winNote?: string | null
@@ -689,12 +740,14 @@ export type CouncilDayCubEntryCreateWithoutCubInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   session: Prisma.CouncilDaySessionCreateNestedOneWithoutCubEntriesInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryUncheckedCreateWithoutCubInput = {
@@ -706,12 +759,14 @@ export type CouncilDayCubEntryUncheckedCreateWithoutCubInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessionId: string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryCreateOrConnectWithoutCubInput = {
@@ -752,6 +807,7 @@ export type CouncilDayCubEntryScalarWhereInput = {
   valueRatings?: Prisma.JsonNullableFilter<"CouncilDayCubEntry">
   bonusXpGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
   bonusTokensGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
+  bonusPhoneMinutesGranted?: Prisma.IntFilter<"CouncilDayCubEntry"> | number
   bonusGrantedAt?: Prisma.DateTimeNullableFilter<"CouncilDayCubEntry"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CouncilDayCubEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CouncilDayCubEntry"> | Date | string
@@ -768,12 +824,14 @@ export type CouncilDayCubEntryCreateWithoutSessionInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   cub: Prisma.CubCreateNestedOneWithoutCouncilDayEntriesInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryUncheckedCreateWithoutSessionInput = {
@@ -785,12 +843,14 @@ export type CouncilDayCubEntryUncheckedCreateWithoutSessionInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   cubId: string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryCreateOrConnectWithoutSessionInput = {
@@ -828,12 +888,14 @@ export type CouncilDayCubEntryCreateWithoutXpLedgerEntriesInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   session: Prisma.CouncilDaySessionCreateNestedOneWithoutCubEntriesInput
   cub: Prisma.CubCreateNestedOneWithoutCouncilDayEntriesInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryUncheckedCreateWithoutXpLedgerEntriesInput = {
@@ -845,12 +907,14 @@ export type CouncilDayCubEntryUncheckedCreateWithoutXpLedgerEntriesInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessionId: string
   cubId: string
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryCreateOrConnectWithoutXpLedgerEntriesInput = {
@@ -878,12 +942,14 @@ export type CouncilDayCubEntryUpdateWithoutXpLedgerEntriesInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   session?: Prisma.CouncilDaySessionUpdateOneRequiredWithoutCubEntriesNestedInput
   cub?: Prisma.CubUpdateOneRequiredWithoutCouncilDayEntriesNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryUncheckedUpdateWithoutXpLedgerEntriesInput = {
@@ -895,12 +961,14 @@ export type CouncilDayCubEntryUncheckedUpdateWithoutXpLedgerEntriesInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -912,12 +980,14 @@ export type CouncilDayCubEntryCreateWithoutFocusTokenLedgerEntriesInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   session: Prisma.CouncilDaySessionCreateNestedOneWithoutCubEntriesInput
   cub: Prisma.CubCreateNestedOneWithoutCouncilDayEntriesInput
   xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -929,12 +999,14 @@ export type CouncilDayCubEntryUncheckedCreateWithoutFocusTokenLedgerEntriesInput
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessionId: string
   cubId: string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
 }
 
 export type CouncilDayCubEntryCreateOrConnectWithoutFocusTokenLedgerEntriesInput = {
@@ -962,12 +1034,14 @@ export type CouncilDayCubEntryUpdateWithoutFocusTokenLedgerEntriesInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   session?: Prisma.CouncilDaySessionUpdateOneRequiredWithoutCubEntriesNestedInput
   cub?: Prisma.CubUpdateOneRequiredWithoutCouncilDayEntriesNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
@@ -979,12 +1053,106 @@ export type CouncilDayCubEntryUncheckedUpdateWithoutFocusTokenLedgerEntriesInput
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
+}
+
+export type CouncilDayCubEntryCreateWithoutPhoneTimeLedgerEntriesInput = {
+  id?: string
+  winNote?: string | null
+  growNote?: string | null
+  familyGoalNote?: string | null
+  reflection?: string | null
+  valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  bonusXpGranted?: number
+  bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
+  bonusGrantedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  session: Prisma.CouncilDaySessionCreateNestedOneWithoutCubEntriesInput
+  cub: Prisma.CubCreateNestedOneWithoutCouncilDayEntriesInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutCouncilDayCubEntryInput
+}
+
+export type CouncilDayCubEntryUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
+  id?: string
+  winNote?: string | null
+  growNote?: string | null
+  familyGoalNote?: string | null
+  reflection?: string | null
+  valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  bonusXpGranted?: number
+  bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
+  bonusGrantedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessionId: string
+  cubId: string
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutCouncilDayCubEntryInput
+}
+
+export type CouncilDayCubEntryCreateOrConnectWithoutPhoneTimeLedgerEntriesInput = {
+  where: Prisma.CouncilDayCubEntryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CouncilDayCubEntryCreateWithoutPhoneTimeLedgerEntriesInput, Prisma.CouncilDayCubEntryUncheckedCreateWithoutPhoneTimeLedgerEntriesInput>
+}
+
+export type CouncilDayCubEntryUpsertWithoutPhoneTimeLedgerEntriesInput = {
+  update: Prisma.XOR<Prisma.CouncilDayCubEntryUpdateWithoutPhoneTimeLedgerEntriesInput, Prisma.CouncilDayCubEntryUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput>
+  create: Prisma.XOR<Prisma.CouncilDayCubEntryCreateWithoutPhoneTimeLedgerEntriesInput, Prisma.CouncilDayCubEntryUncheckedCreateWithoutPhoneTimeLedgerEntriesInput>
+  where?: Prisma.CouncilDayCubEntryWhereInput
+}
+
+export type CouncilDayCubEntryUpdateToOneWithWhereWithoutPhoneTimeLedgerEntriesInput = {
+  where?: Prisma.CouncilDayCubEntryWhereInput
+  data: Prisma.XOR<Prisma.CouncilDayCubEntryUpdateWithoutPhoneTimeLedgerEntriesInput, Prisma.CouncilDayCubEntryUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput>
+}
+
+export type CouncilDayCubEntryUpdateWithoutPhoneTimeLedgerEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  winNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  familyGoalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  session?: Prisma.CouncilDaySessionUpdateOneRequiredWithoutCubEntriesNestedInput
+  cub?: Prisma.CubUpdateOneRequiredWithoutCouncilDayEntriesNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
+}
+
+export type CouncilDayCubEntryUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  winNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  familyGoalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubId?: Prisma.StringFieldUpdateOperationsInput | string
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryCreateManyCubInput = {
@@ -996,6 +1164,7 @@ export type CouncilDayCubEntryCreateManyCubInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1011,12 +1180,14 @@ export type CouncilDayCubEntryUpdateWithoutCubInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   session?: Prisma.CouncilDaySessionUpdateOneRequiredWithoutCubEntriesNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryUncheckedUpdateWithoutCubInput = {
@@ -1028,12 +1199,14 @@ export type CouncilDayCubEntryUncheckedUpdateWithoutCubInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryUncheckedUpdateManyWithoutCubInput = {
@@ -1045,6 +1218,7 @@ export type CouncilDayCubEntryUncheckedUpdateManyWithoutCubInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1060,6 +1234,7 @@ export type CouncilDayCubEntryCreateManySessionInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: number
   bonusTokensGranted?: number
+  bonusPhoneMinutesGranted?: number
   bonusGrantedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1075,12 +1250,14 @@ export type CouncilDayCubEntryUpdateWithoutSessionInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cub?: Prisma.CubUpdateOneRequiredWithoutCouncilDayEntriesNestedInput
   xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryUncheckedUpdateWithoutSessionInput = {
@@ -1092,12 +1269,14 @@ export type CouncilDayCubEntryUncheckedUpdateWithoutSessionInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cubId?: Prisma.StringFieldUpdateOperationsInput | string
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCouncilDayCubEntryNestedInput
 }
 
 export type CouncilDayCubEntryUncheckedUpdateManyWithoutSessionInput = {
@@ -1109,6 +1288,7 @@ export type CouncilDayCubEntryUncheckedUpdateManyWithoutSessionInput = {
   valueRatings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   bonusXpGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusTokensGranted?: Prisma.IntFieldUpdateOperationsInput | number
+  bonusPhoneMinutesGranted?: Prisma.IntFieldUpdateOperationsInput | number
   bonusGrantedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1123,11 +1303,13 @@ export type CouncilDayCubEntryUncheckedUpdateManyWithoutSessionInput = {
 export type CouncilDayCubEntryCountOutputType = {
   xpLedgerEntries: number
   focusTokenLedgerEntries: number
+  phoneTimeLedgerEntries: number
 }
 
 export type CouncilDayCubEntryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   xpLedgerEntries?: boolean | CouncilDayCubEntryCountOutputTypeCountXpLedgerEntriesArgs
   focusTokenLedgerEntries?: boolean | CouncilDayCubEntryCountOutputTypeCountFocusTokenLedgerEntriesArgs
+  phoneTimeLedgerEntries?: boolean | CouncilDayCubEntryCountOutputTypeCountPhoneTimeLedgerEntriesArgs
 }
 
 /**
@@ -1154,6 +1336,13 @@ export type CouncilDayCubEntryCountOutputTypeCountFocusTokenLedgerEntriesArgs<Ex
   where?: Prisma.FocusTokenLedgerEntryWhereInput
 }
 
+/**
+ * CouncilDayCubEntryCountOutputType without action
+ */
+export type CouncilDayCubEntryCountOutputTypeCountPhoneTimeLedgerEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PhoneTimeLedgerEntryWhereInput
+}
+
 
 export type CouncilDayCubEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1164,6 +1353,7 @@ export type CouncilDayCubEntrySelect<ExtArgs extends runtime.Types.Extensions.In
   valueRatings?: boolean
   bonusXpGranted?: boolean
   bonusTokensGranted?: boolean
+  bonusPhoneMinutesGranted?: boolean
   bonusGrantedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1173,6 +1363,7 @@ export type CouncilDayCubEntrySelect<ExtArgs extends runtime.Types.Extensions.In
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   xpLedgerEntries?: boolean | Prisma.CouncilDayCubEntry$xpLedgerEntriesArgs<ExtArgs>
   focusTokenLedgerEntries?: boolean | Prisma.CouncilDayCubEntry$focusTokenLedgerEntriesArgs<ExtArgs>
+  phoneTimeLedgerEntries?: boolean | Prisma.CouncilDayCubEntry$phoneTimeLedgerEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.CouncilDayCubEntryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["councilDayCubEntry"]>
 
@@ -1185,6 +1376,7 @@ export type CouncilDayCubEntrySelectCreateManyAndReturn<ExtArgs extends runtime.
   valueRatings?: boolean
   bonusXpGranted?: boolean
   bonusTokensGranted?: boolean
+  bonusPhoneMinutesGranted?: boolean
   bonusGrantedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1203,6 +1395,7 @@ export type CouncilDayCubEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.
   valueRatings?: boolean
   bonusXpGranted?: boolean
   bonusTokensGranted?: boolean
+  bonusPhoneMinutesGranted?: boolean
   bonusGrantedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1221,6 +1414,7 @@ export type CouncilDayCubEntrySelectScalar = {
   valueRatings?: boolean
   bonusXpGranted?: boolean
   bonusTokensGranted?: boolean
+  bonusPhoneMinutesGranted?: boolean
   bonusGrantedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1228,12 +1422,13 @@ export type CouncilDayCubEntrySelectScalar = {
   cubId?: boolean
 }
 
-export type CouncilDayCubEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "winNote" | "growNote" | "familyGoalNote" | "reflection" | "valueRatings" | "bonusXpGranted" | "bonusTokensGranted" | "bonusGrantedAt" | "createdAt" | "updatedAt" | "sessionId" | "cubId", ExtArgs["result"]["councilDayCubEntry"]>
+export type CouncilDayCubEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "winNote" | "growNote" | "familyGoalNote" | "reflection" | "valueRatings" | "bonusXpGranted" | "bonusTokensGranted" | "bonusPhoneMinutesGranted" | "bonusGrantedAt" | "createdAt" | "updatedAt" | "sessionId" | "cubId", ExtArgs["result"]["councilDayCubEntry"]>
 export type CouncilDayCubEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   session?: boolean | Prisma.CouncilDaySessionDefaultArgs<ExtArgs>
   cub?: boolean | Prisma.CubDefaultArgs<ExtArgs>
   xpLedgerEntries?: boolean | Prisma.CouncilDayCubEntry$xpLedgerEntriesArgs<ExtArgs>
   focusTokenLedgerEntries?: boolean | Prisma.CouncilDayCubEntry$focusTokenLedgerEntriesArgs<ExtArgs>
+  phoneTimeLedgerEntries?: boolean | Prisma.CouncilDayCubEntry$phoneTimeLedgerEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.CouncilDayCubEntryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CouncilDayCubEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1252,6 +1447,7 @@ export type $CouncilDayCubEntryPayload<ExtArgs extends runtime.Types.Extensions.
     cub: Prisma.$CubPayload<ExtArgs>
     xpLedgerEntries: Prisma.$XpLedgerEntryPayload<ExtArgs>[]
     focusTokenLedgerEntries: Prisma.$FocusTokenLedgerEntryPayload<ExtArgs>[]
+    phoneTimeLedgerEntries: Prisma.$PhoneTimeLedgerEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1262,6 +1458,7 @@ export type $CouncilDayCubEntryPayload<ExtArgs extends runtime.Types.Extensions.
     valueRatings: runtime.JsonValue | null
     bonusXpGranted: number
     bonusTokensGranted: number
+    bonusPhoneMinutesGranted: number
     bonusGrantedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1665,6 +1862,7 @@ export interface Prisma__CouncilDayCubEntryClient<T, Null = never, ExtArgs exten
   cub<T extends Prisma.CubDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CubDefaultArgs<ExtArgs>>): Prisma.Prisma__CubClient<runtime.Types.Result.GetResult<Prisma.$CubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   xpLedgerEntries<T extends Prisma.CouncilDayCubEntry$xpLedgerEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CouncilDayCubEntry$xpLedgerEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$XpLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   focusTokenLedgerEntries<T extends Prisma.CouncilDayCubEntry$focusTokenLedgerEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CouncilDayCubEntry$focusTokenLedgerEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FocusTokenLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  phoneTimeLedgerEntries<T extends Prisma.CouncilDayCubEntry$phoneTimeLedgerEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CouncilDayCubEntry$phoneTimeLedgerEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PhoneTimeLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1702,6 +1900,7 @@ export interface CouncilDayCubEntryFieldRefs {
   readonly valueRatings: Prisma.FieldRef<"CouncilDayCubEntry", 'Json'>
   readonly bonusXpGranted: Prisma.FieldRef<"CouncilDayCubEntry", 'Int'>
   readonly bonusTokensGranted: Prisma.FieldRef<"CouncilDayCubEntry", 'Int'>
+  readonly bonusPhoneMinutesGranted: Prisma.FieldRef<"CouncilDayCubEntry", 'Int'>
   readonly bonusGrantedAt: Prisma.FieldRef<"CouncilDayCubEntry", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"CouncilDayCubEntry", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CouncilDayCubEntry", 'DateTime'>
@@ -2153,6 +2352,30 @@ export type CouncilDayCubEntry$focusTokenLedgerEntriesArgs<ExtArgs extends runti
   take?: number
   skip?: number
   distinct?: Prisma.FocusTokenLedgerEntryScalarFieldEnum | Prisma.FocusTokenLedgerEntryScalarFieldEnum[]
+}
+
+/**
+ * CouncilDayCubEntry.phoneTimeLedgerEntries
+ */
+export type CouncilDayCubEntry$phoneTimeLedgerEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PhoneTimeLedgerEntry
+   */
+  select?: Prisma.PhoneTimeLedgerEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PhoneTimeLedgerEntry
+   */
+  omit?: Prisma.PhoneTimeLedgerEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PhoneTimeLedgerEntryInclude<ExtArgs> | null
+  where?: Prisma.PhoneTimeLedgerEntryWhereInput
+  orderBy?: Prisma.PhoneTimeLedgerEntryOrderByWithRelationInput | Prisma.PhoneTimeLedgerEntryOrderByWithRelationInput[]
+  cursor?: Prisma.PhoneTimeLedgerEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PhoneTimeLedgerEntryScalarFieldEnum | Prisma.PhoneTimeLedgerEntryScalarFieldEnum[]
 }
 
 /**

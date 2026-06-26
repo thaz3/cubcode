@@ -22,7 +22,6 @@ export const DASHBOARD_PRIMARY_NAV_ITEMS = [
 export const DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS = DASHBOARD_CORE_NAV_ITEMS;
 
 export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [
-  { href: "/dashboard/create", label: "Create" },
   { href: "/dashboard/focus-deck", label: "Focus Decks" },
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
   { href: "/dashboard/family/settings", label: "Settings" },
@@ -44,9 +43,6 @@ export function isDashboardNavActive(pathname: string, href: string): boolean {
       !pathname.startsWith("/dashboard/tasks/review") &&
       !pathname.startsWith("/dashboard/tasks/templates")
     );
-  }
-  if (href === "/dashboard/create") {
-    return pathname === "/dashboard/create";
   }
   if (href === "/dashboard/focus-deck") {
     return pathname.startsWith("/dashboard/focus-deck");

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { AssignmentsRoutinesSection } from "@/components/assignments-routines-section";
+import { ParentCreateWorkPanel } from "@/components/parent-create-work-panel";
+import type { ParentCreateKind } from "@/components/parent-create-work-panel";
 import { TaskBoardNav } from "@/components/task-board-nav";
 import { TaskBoardWorkflow } from "@/components/task-board-workflow";
 import { TaskTemplateCard } from "@/components/task-template-card";
@@ -14,12 +16,23 @@ import { isThemedPackCategory } from "@/lib/themed-training-packs";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
-export default async function TaskBoardPage() {
+type TaskBoardPageProps = {
+  searchParams: Promise<{ kind?: string }>;
+};
+
+function parseCreateKind(value: string | undefined): ParentCreateKind {
+  return value === "challenge" ? "challenge" : "task";
+}
+
+export default async function TaskBoardPage({ searchParams }: TaskBoardPageProps) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
   const family = await getFamilyForUser(session.user.id);
   if (!family) redirect("/signup");
+
+  const params = await searchParams;
+  const defaultCreateKind = parseCreateKind(params.kind);
 
   const [tasks, libraryTasks, routines, savedTemplates] = await Promise.all([
     db.task.findMany({
@@ -65,7 +78,7 @@ export default async function TaskBoardPage() {
                 <Button size="lg">Review ({pendingReviewCount})</Button>
               </Link>
             ) : null}
-            <Link href="/dashboard/create">
+            <Link href="#create">
               <Button size="lg">Create task or routine</Button>
             </Link>
             <Link href="/dashboard/tasks/templates">
@@ -84,6 +97,22 @@ export default async function TaskBoardPage() {
           libraryCount={readyToAssign.length}
         />
       </div>
+
+      <section id="create" className="scroll-mt-36">
+        <Card className="p-4 sm:p-6">
+          <h2 className="text-lg font-semibold">Create task or routine</h2>
+          <p className="mt-1 text-sm text-zinc-500">
+            Add one-time work or a repeating habit to your household library.
+          </p>
+          <div className="mt-4">
+            <ParentCreateWorkPanel
+              key={defaultCreateKind}
+              cubs={family.cubs}
+              defaultKind={defaultCreateKind}
+            />
+          </div>
+        </Card>
+      </section>
 
       <TaskBoardWorkflow
         tasks={tasks}

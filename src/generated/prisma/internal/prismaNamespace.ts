@@ -2239,6 +2239,7 @@ export const CouncilDayCubEntryScalarFieldEnum = {
   valueRatings: 'valueRatings',
   bonusXpGranted: 'bonusXpGranted',
   bonusTokensGranted: 'bonusTokensGranted',
+  bonusPhoneMinutesGranted: 'bonusPhoneMinutesGranted',
   bonusGrantedAt: 'bonusGrantedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -2372,6 +2373,7 @@ export const PhoneTimeLedgerEntryScalarFieldEnum = {
   sourceTaskId: 'sourceTaskId',
   sourceChallengeProgressLogId: 'sourceChallengeProgressLogId',
   sourceFocusActivityCompletionId: 'sourceFocusActivityCompletionId',
+  councilDayCubEntryId: 'councilDayCubEntryId',
   createdByUserId: 'createdByUserId'
 } as const
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { CouncilDayValueRatingsFields } from "@/components/council-day-value-ratings";
 import { CubColorBadge } from "@/components/cub-color-dot";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -12,7 +11,6 @@ import {
   isCouncilDayEntryComplete,
 } from "@/lib/council-day";
 import type { CouncilDayValueRatings } from "@/lib/council-day-values";
-import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
 import type { AgeBand } from "@/generated/prisma/client";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { useRouter } from "next/navigation";
@@ -61,12 +59,13 @@ export function CouncilDayCubForm({
   const entryComplete = isCouncilDayEntryComplete(
     { ageBand },
     {
-    winNote: initialValues.winNote,
-    growNote: initialValues.growNote,
-    familyGoalNote: initialValues.familyGoalNote,
-    reflection: initialValues.reflection,
-    valueRatings,
-  });
+      winNote: initialValues.winNote,
+      growNote: initialValues.growNote,
+      familyGoalNote: initialValues.familyGoalNote,
+      reflection: initialValues.reflection,
+      valueRatings,
+    },
+  );
 
   return (
     <section
@@ -100,13 +99,7 @@ export function CouncilDayCubForm({
       </dl>
 
       {isComplete ? (
-        <div className="mt-4 space-y-4">
-          <CouncilDayValueRatingsFields
-            cubId={cubId}
-            initialRatings={valueRatings}
-            readOnly
-          />
-          <div className="space-y-3 text-sm">
+        <div className="mt-4 space-y-3 text-sm">
           {prompts.map((prompt) => {
             const value = initialValues[prompt.field];
             if (!value) {
@@ -124,17 +117,11 @@ export function CouncilDayCubForm({
               </div>
             );
           })}
-          </div>
         </div>
       ) : (
         <form action={formAction} className="mt-4 space-y-4">
           <input type="hidden" name="sessionId" value={sessionId} />
           <input type="hidden" name="cubId" value={cubId} />
-
-          <CouncilDayValueRatingsFields
-            cubId={cubId}
-            initialRatings={valueRatings}
-          />
 
           {prompts.map((prompt) => (
             <div key={prompt.id}>
@@ -160,11 +147,11 @@ export function CouncilDayCubForm({
           ) : null}
 
           <Button type="submit" variant="secondary" disabled={isPending}>
-            {isPending ? "Saving..." : `Save progress for ${displayName}`}
+            {isPending ? "Saving..." : `Save reflection notes for ${displayName}`}
           </Button>
           <p className="text-xs text-zinc-500">
-            You can leave and come back this week — nothing is final until you
-            complete {FAMILY_DAY_LABEL} below.
+            Save values & expectations above first, then capture each Cub&apos;s
+            reflection notes here.
           </p>
         </form>
       )}

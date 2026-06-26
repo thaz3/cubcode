@@ -10,13 +10,11 @@ import { cn } from "@/lib/utils";
 type CubHeaderProps = {
   cubId: string;
   displayName: string;
-  showCubSwitcher?: boolean;
 };
 
 export function CubHeader({
   cubId,
   displayName,
-  showCubSwitcher = false,
 }: CubHeaderProps) {
   const pathname = usePathname();
   const base = `/cub/${cubId}`;
@@ -57,13 +55,6 @@ export function CubHeader({
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          {showCubSwitcher ? (
-            <Link href="/cub">
-              <Button variant="warning" size="sm">
-                Switch Cub
-              </Button>
-            </Link>
-          ) : null}
           <Link
             href="/parent/unlock?returnTo=%2Fdashboard"
             className="shrink-0"

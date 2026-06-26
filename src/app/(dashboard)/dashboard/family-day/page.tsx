@@ -5,6 +5,7 @@ import { CouncilDayCubForm } from "@/components/council-day-cub-form";
 import { CouncilDayFamilyNotesForm } from "@/components/council-day-family-notes-form";
 import { FamilyDayBonusesForm } from "@/components/family-day-bonuses-form";
 import { FamilyDayResetButton } from "@/components/family-day-reset-button";
+import { FamilyDayValuesInterview } from "@/components/family-day-values-interview";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { startCouncilDayAction } from "@/lib/actions/council-day";
@@ -65,6 +66,8 @@ export default async function FamilyDayPage({ searchParams }: FamilyDayPageProps
         bonus,
         bonusXpGranted: entry?.bonusXpGranted ?? bonus.xp,
         bonusTokensGranted: entry?.bonusTokensGranted ?? bonus.focusTokens,
+        bonusPhoneMinutesGranted:
+          entry?.bonusPhoneMinutesGranted ?? bonus.phoneMinutes,
         prompts: getCouncilDayPrompts(cub.ageBand),
         initialValues: {
           winNote: entry?.winNote ?? "",
@@ -188,8 +191,24 @@ export default async function FamilyDayPage({ searchParams }: FamilyDayPageProps
             </Card>
           ) : null}
 
+          <FamilyDayValuesInterview
+            sessionId={familyDaySession.id}
+            readOnly={isComplete}
+            cubs={cubPanels.map(({ cub, valueRatings }) => ({
+              id: cub.id,
+              displayName: cub.displayName,
+              valueRatings,
+            }))}
+          />
+
           <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Each Cub</h2>
+            <div>
+              <h2 className="text-lg font-semibold">Reflection notes</h2>
+              <p className="mt-1 text-sm text-zinc-500">
+                Age-appropriate prompts for each Cub — save separately after the
+                values interview above.
+              </p>
+            </div>
             {cubPanels.map(({ cub, weekStats, prompts, initialValues, valueRatings }) => (
               <CouncilDayCubForm
                 key={cub.id}
@@ -211,14 +230,24 @@ export default async function FamilyDayPage({ searchParams }: FamilyDayPageProps
             <FamilyDayBonusesForm
               sessionId={familyDaySession.id}
               readOnly={isComplete}
-              cubs={cubPanels.map(({ cub, bonus, bonusXpGranted, bonusTokensGranted }) => ({
-                id: cub.id,
-                displayName: cub.displayName,
-                suggestedXp: bonus.xp,
-                suggestedTokens: bonus.focusTokens,
-                bonusXpGranted,
-                bonusTokensGranted,
-              }))}
+              cubs={cubPanels.map(
+                ({
+                  cub,
+                  bonus,
+                  bonusXpGranted,
+                  bonusTokensGranted,
+                  bonusPhoneMinutesGranted,
+                }) => ({
+                  id: cub.id,
+                  displayName: cub.displayName,
+                  suggestedXp: bonus.xp,
+                  suggestedTokens: bonus.focusTokens,
+                  suggestedPhoneMinutes: bonus.phoneMinutes,
+                  bonusXpGranted,
+                  bonusTokensGranted,
+                  bonusPhoneMinutesGranted,
+                }),
+              )}
             />
           </Card>
 
