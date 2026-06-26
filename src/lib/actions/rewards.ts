@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import type { ActionState } from "@/lib/actions/auth";
+import type { Cub, Prisma, RewardStoreItem } from "@/generated/prisma/client";
+import { requireCubForUser } from "@/lib/cub-access";
 import { db } from "@/lib/db";
 import {
   applyStoreRewardGrant,
@@ -10,6 +12,8 @@ import {
 } from "@/lib/rewards";
 import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
+
+type LedgerClient = Prisma.TransactionClient | typeof db;
 
 const rewardItemSchema = z
   .object({
@@ -38,6 +42,10 @@ const redeemSchema = z.object({
   rewardStoreItemId: z.string().min(1),
 });
 
+const requestIdSchema = z.object({
+  requestId: z.string().min(1),
+});
+
 function revalidateRewardPaths(cubId: string) {
   revalidatePath("/dashboard/rewards");
   revalidatePath(`/dashboard/cubs/${cubId}/progress`);
@@ -45,6 +53,86 @@ function revalidateRewardPaths(cubId: string) {
   revalidatePath(`/cub/${cubId}/rewards`);
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/cubs");
+}
+
+async function getCubFocusTokenBalance(cubId: string, client: LedgerClient = db) {
+  const balance = await client.focusTokenLedgerEntry.aggregate({
+    where: { cubId },
+    _sum: { amount: true },
+  });
+  return balance._sum.amount ?? 0;
+}
+
+function formatGrantMessage(
+  cub: Cub,
+  granted: {
+    phoneMinutes: number;
+    weekendBankMinutes: number;
+    focusAreaSwaps: number;
+  },
+): string {
+  if (granted.phoneMinutes > 0) {
+    return ` ${granted.phoneMinutes} min added to phone time today.`;
+  }
+  if (granted.weekendBankMinutes > 0) {
+    return ` ${granted.weekendBankMinutes} min added to Weekend Bank.`;
+  }
+  if (granted.focusAreaSwaps > 0) {
+    return ` +1 Focus area swap added (${(cub.focusAreaSwapCredits ?? 0) + 1} total).`;
+  }
+  return "";
+}
+
+async function executeRewardRedemption(
+  cub: Cub,
+  item: Pick<
+    RewardStoreItem,
+    "id" | "title" | "costFocusTokens" | "grantType" | "minutesGranted"
+  >,
+  userId: string,
+  client: LedgerClient,
+) {
+  const available = await getCubFocusTokenBalance(cub.id, client);
+
+  if (available < item.costFocusTokens) {
+    throw new Error(
+      `${cub.displayName} needs ${item.costFocusTokens} Focus Token${item.costFocusTokens === 1 ? "" : "s"} (has ${available}).`,
+    );
+  }
+
+  await client.focusTokenLedgerEntry.create({
+    data: {
+      cubId: cub.id,
+      amount: -item.costFocusTokens,
+      reason: "REWARD_REDEMPTION",
+      note: `Redeemed: ${item.title}`,
+      createdByUserId: userId,
+    },
+  });
+
+  const granted = await applyStoreRewardGrant(
+    cub,
+    {
+      title: item.title,
+      grantType: item.grantType,
+      minutesGranted: item.minutesGranted,
+    },
+    userId,
+    client,
+  );
+
+  await client.rewardRedemption.create({
+    data: {
+      cubId: cub.id,
+      rewardStoreItemId: item.id,
+      createdByUserId: userId,
+      focusTokensSpent: item.costFocusTokens,
+      phoneMinutesGranted: granted.phoneMinutes,
+      weekendBankMinutesGranted: granted.weekendBankMinutes,
+    },
+  });
+
+  return formatGrantMessage(cub, granted);
 }
 
 export async function createRewardStoreItemAction(
@@ -82,6 +170,188 @@ export async function createRewardStoreItemAction(
   return { success: "Reward added to the store." };
 }
 
+export async function requestRewardRedemptionAction(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const userId = await requireUserId();
+
+  const parsed = redeemSchema.safeParse({
+    cubId: formData.get("cubId"),
+    rewardStoreItemId: formData.get("rewardStoreItemId"),
+  });
+
+  if (!parsed.success) {
+    return { error: "Invalid redemption request." };
+  }
+
+  const { familyId } = await requireCubForUser(parsed.data.cubId, userId);
+
+  const item = await db.rewardStoreItem.findFirst({
+    where: {
+      id: parsed.data.rewardStoreItemId,
+      familyId,
+      isActive: true,
+    },
+  });
+
+  if (!item) {
+    return { error: "Reward not found." };
+  }
+
+  const available = await getCubFocusTokenBalance(parsed.data.cubId);
+  if (available < item.costFocusTokens) {
+    return {
+      error: `You need ${item.costFocusTokens} Focus Token${item.costFocusTokens === 1 ? "" : "s"} to ask for this reward.`,
+    };
+  }
+
+  const existingPending = await db.rewardRedemptionRequest.findFirst({
+    where: {
+      cubId: parsed.data.cubId,
+      rewardStoreItemId: item.id,
+      status: "PENDING",
+    },
+    select: { id: true },
+  });
+
+  if (existingPending) {
+    return { error: "You already asked your parent for this reward." };
+  }
+
+  await db.rewardRedemptionRequest.create({
+    data: {
+      familyId,
+      cubId: parsed.data.cubId,
+      rewardStoreItemId: item.id,
+      requestedByUserId: userId,
+    },
+  });
+
+  revalidateRewardPaths(parsed.data.cubId);
+  return {
+    success: `Asked your parent for “${item.title}”! They’ll approve it from Parent’s Room.`,
+  };
+}
+
+export async function approveRewardRedemptionRequestAction(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const userId = await requireUserId();
+  const family = await requireFamilyForUser(userId);
+
+  const parsed = requestIdSchema.safeParse({
+    requestId: formData.get("requestId"),
+  });
+
+  if (!parsed.success) {
+    return { error: "Invalid approval request." };
+  }
+
+  const request = await db.rewardRedemptionRequest.findFirst({
+    where: {
+      id: parsed.data.requestId,
+      familyId: family.id,
+      status: "PENDING",
+    },
+    include: {
+      cub: true,
+      rewardStoreItem: true,
+    },
+  });
+
+  if (!request) {
+    return { error: "Redemption request not found." };
+  }
+
+  if (!request.rewardStoreItem.isActive) {
+    return { error: "That reward is no longer in the store." };
+  }
+
+  let grantMessage = "";
+
+  try {
+    await db.$transaction(async (tx) => {
+      grantMessage = await executeRewardRedemption(
+        request.cub,
+        request.rewardStoreItem,
+        userId,
+        tx,
+      );
+
+      await tx.rewardRedemptionRequest.update({
+        where: { id: request.id },
+        data: {
+          status: "APPROVED",
+          reviewedAt: new Date(),
+          reviewedByUserId: userId,
+        },
+      });
+    });
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error
+          ? error.message
+          : "Could not approve this redemption.",
+    };
+  }
+
+  revalidateRewardPaths(request.cubId);
+  return {
+    success: `Approved “${request.rewardStoreItem.title}” for ${request.cub.displayName}.${grantMessage}`,
+  };
+}
+
+export async function rejectRewardRedemptionRequestAction(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const userId = await requireUserId();
+  const family = await requireFamilyForUser(userId);
+
+  const parsed = requestIdSchema.safeParse({
+    requestId: formData.get("requestId"),
+  });
+
+  if (!parsed.success) {
+    return { error: "Invalid rejection request." };
+  }
+
+  const request = await db.rewardRedemptionRequest.findFirst({
+    where: {
+      id: parsed.data.requestId,
+      familyId: family.id,
+      status: "PENDING",
+    },
+    include: {
+      cub: { select: { displayName: true } },
+      rewardStoreItem: { select: { title: true } },
+    },
+  });
+
+  if (!request) {
+    return { error: "Redemption request not found." };
+  }
+
+  await db.rewardRedemptionRequest.update({
+    where: { id: request.id },
+    data: {
+      status: "REJECTED",
+      reviewedAt: new Date(),
+      reviewedByUserId: userId,
+      reviewNote:
+        formData.get("reviewNote")?.toString().trim().slice(0, 500) || null,
+    },
+  });
+
+  revalidateRewardPaths(request.cubId);
+  return {
+    success: `Declined “${request.rewardStoreItem.title}” for ${request.cub.displayName}.`,
+  };
+}
+
 export async function redeemRewardAction(
   _prevState: ActionState,
   formData: FormData,
@@ -115,61 +385,18 @@ export async function redeemRewardAction(
     return { error: "Reward not found." };
   }
 
-  const balance = await db.focusTokenLedgerEntry.aggregate({
-    where: { cubId: cub.id },
-    _sum: { amount: true },
-  });
-  const available = balance._sum.amount ?? 0;
-
-  if (available < item.costFocusTokens) {
-    return {
-      error: `${cub.displayName} needs ${item.costFocusTokens} Focus Token${item.costFocusTokens === 1 ? "" : "s"} (has ${available}).`,
-    };
-  }
-
   let grantMessage = "";
 
-  await db.$transaction(async (tx) => {
-    await tx.focusTokenLedgerEntry.create({
-      data: {
-        cubId: cub.id,
-        amount: -item.costFocusTokens,
-        reason: "REWARD_REDEMPTION",
-        note: `Redeemed: ${item.title}`,
-        createdByUserId: userId,
-      },
+  try {
+    await db.$transaction(async (tx) => {
+      grantMessage = await executeRewardRedemption(cub, item, userId, tx);
     });
-
-    const granted = await applyStoreRewardGrant(
-      cub,
-      {
-        title: item.title,
-        grantType: item.grantType,
-        minutesGranted: item.minutesGranted,
-      },
-      userId,
-      tx,
-    );
-
-    await tx.rewardRedemption.create({
-      data: {
-        cubId: cub.id,
-        rewardStoreItemId: item.id,
-        createdByUserId: userId,
-        focusTokensSpent: item.costFocusTokens,
-        phoneMinutesGranted: granted.phoneMinutes,
-        weekendBankMinutesGranted: granted.weekendBankMinutes,
-      },
-    });
-
-    if (granted.phoneMinutes > 0) {
-      grantMessage = ` ${granted.phoneMinutes} min added to phone time today.`;
-    } else if (granted.weekendBankMinutes > 0) {
-      grantMessage = ` ${granted.weekendBankMinutes} min added to Weekend Bank.`;
-    } else if (granted.focusAreaSwaps > 0) {
-      grantMessage = ` +1 Focus area swap added (${(cub.focusAreaSwapCredits ?? 0) + 1} total).`;
-    }
-  });
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error ? error.message : "Could not redeem this reward.",
+    };
+  }
 
   revalidateRewardPaths(cub.id);
   return {

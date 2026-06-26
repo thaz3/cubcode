@@ -83,6 +83,11 @@ export type WeekendBankLedgerEntry = Prisma.WeekendBankLedgerEntryModel
  */
 export type RewardStoreItem = Prisma.RewardStoreItemModel
 /**
+ * Model RewardRedemptionRequest
+ * 
+ */
+export type RewardRedemptionRequest = Prisma.RewardRedemptionRequestModel
+/**
  * Model RewardRedemption
  * 
  */

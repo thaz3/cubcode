@@ -141,6 +141,12 @@ enum RewardGrantType {
   FOCUS_AREA_SWAP
 }
 
+enum RewardRedemptionRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum TaskRecurrence {
   NONE
   DAILY
@@ -175,6 +181,8 @@ model User {
   reviewedChallengeProgressLogs ChallengeProgressLog[] @relation("ReviewedChallengeProgress")
   reviewedFocusActivityCompletions FocusActivityCompletion[] @relation("ReviewedFocusActivityCompletions")
   councilDaySessions CouncilDaySession[] @relation("ConductedCouncilDays")
+  requestedRewardRedemptions RewardRedemptionRequest[] @relation("RequestedRewardRedemptions")
+  reviewedRewardRedemptions RewardRedemptionRequest[] @relation("ReviewedRewardRedemptions")
 }
 
 model Family {
@@ -204,6 +212,7 @@ model Family {
   focusDeckStackItems FocusDeckStackItem[]
   focusActivityCompletions FocusActivityCompletion[]
   trainingDecks TrainingDeck[]
+  rewardRedemptionRequests RewardRedemptionRequest[]
 }
 
 model Cub {
@@ -237,6 +246,7 @@ model Cub {
   challengeProgressLogs    ChallengeProgressLog[]
   focusDeckStackItems      FocusDeckStackItem[]
   focusActivityCompletions FocusActivityCompletion[]
+  rewardRedemptionRequests RewardRedemptionRequest[]
 
   @@index([familyId])
 }
@@ -506,8 +516,33 @@ model RewardStoreItem {
   familyId String
   family   Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
   redemptions RewardRedemption[]
+  redemptionRequests RewardRedemptionRequest[]
 
   @@index([familyId])
+}
+
+model RewardRedemptionRequest {
+  id        String                        @id @default(cuid())
+  status    RewardRedemptionRequestStatus @default(PENDING)
+  requestedAt DateTime                    @default(now())
+  reviewedAt  DateTime?
+  reviewNote  String?
+
+  familyId          String
+  cubId             String
+  rewardStoreItemId String
+  requestedByUserId String?
+  reviewedByUserId  String?
+
+  family          Family          @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  cub             Cub             @relation(fields: [cubId], references: [id], onDelete: Cascade)
+  rewardStoreItem RewardStoreItem @relation(fields: [rewardStoreItemId], references: [id], onDelete: Cascade)
+  requestedBy     User?           @relation("RequestedRewardRedemptions", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+  reviewedBy      User?           @relation("ReviewedRewardRedemptions", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([familyId, status])
+  @@index([cubId])
+  @@index([rewardStoreItemId])
 }
 
 model RewardRedemption {

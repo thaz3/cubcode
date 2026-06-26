@@ -1,10 +1,12 @@
 import { CreateRewardStoreItemForm } from "@/components/create-reward-store-item-form";
+import { ParentRewardRequestsSection } from "@/components/parent-reward-requests-section";
 import { RewardStoreRedeemPanel } from "@/components/reward-store-redeem-panel";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { seedRewardStoreForFamily } from "@/lib/actions/rewards";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getPendingRewardRedemptionRequests } from "@/lib/pending-reward-redemptions";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
@@ -17,7 +19,7 @@ export default async function RewardsPage() {
 
   await seedRewardStoreForFamily(family.id);
 
-  const [items, tokenBalances] = await Promise.all([
+  const [items, tokenBalances, pendingRequests] = await Promise.all([
     db.rewardStoreItem.findMany({
       where: { familyId: family.id },
       orderBy: [{ isActive: "desc" }, { costFocusTokens: "asc" }],
@@ -35,16 +37,19 @@ export default async function RewardsPage() {
         };
       }),
     ),
+    getPendingRewardRedemptionRequests(family.id),
   ]);
 
   return (
     <div className="space-y-6">
       <PageHeader
         title="Rewards"
-        subtitle="Redeem Focus Tokens. You deliver each reward in real life."
+        subtitle="Approve Cub requests or redeem Focus Tokens yourself."
         backHref="/dashboard"
         backLabel="Home"
       />
+
+      <ParentRewardRequestsSection requests={pendingRequests} />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
@@ -60,7 +65,7 @@ export default async function RewardsPage() {
         <Card>
           <h2 className="text-lg font-semibold">Redeem a reward</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            Click a store item to select it, then pick the Cub and redeem.
+            Redeem instantly without a Cub request — useful when you&apos;re together.
           </p>
           <div className="mt-4">
             <RewardStoreRedeemPanel items={items} cubs={tokenBalances} />

@@ -457,6 +457,23 @@ export type EnumRewardGrantTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumRewardGrantTypeFilter<$PrismaModel>
 }
 
+export type EnumRewardRedemptionRequestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.RewardRedemptionRequestStatus | Prisma.EnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRewardRedemptionRequestStatusFilter<$PrismaModel> | $Enums.RewardRedemptionRequestStatus
+}
+
+export type EnumRewardRedemptionRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RewardRedemptionRequestStatus | Prisma.EnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRewardRedemptionRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.RewardRedemptionRequestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRewardRedemptionRequestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRewardRedemptionRequestStatusFilter<$PrismaModel>
+}
+
 export type EnumGuardianNudgeRuleTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.GuardianNudgeRuleType | Prisma.EnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
   in?: $Enums.GuardianNudgeRuleType[] | Prisma.ListEnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel>
@@ -1040,6 +1057,23 @@ export type NestedEnumRewardGrantTypeWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumRewardGrantTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumRewardGrantTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumRewardRedemptionRequestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.RewardRedemptionRequestStatus | Prisma.EnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRewardRedemptionRequestStatusFilter<$PrismaModel> | $Enums.RewardRedemptionRequestStatus
+}
+
+export type NestedEnumRewardRedemptionRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RewardRedemptionRequestStatus | Prisma.EnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RewardRedemptionRequestStatus[] | Prisma.ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRewardRedemptionRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.RewardRedemptionRequestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRewardRedemptionRequestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRewardRedemptionRequestStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumGuardianNudgeRuleTypeFilter<$PrismaModel = never> = {

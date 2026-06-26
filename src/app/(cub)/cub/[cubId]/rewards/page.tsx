@@ -1,5 +1,6 @@
 import { CubProgressOverview } from "@/components/cub-progress-overview";
 import { CubProgressView } from "@/components/cub-progress-view";
+import { CubRewardStore } from "@/components/cub-reward-store";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
@@ -7,6 +8,7 @@ import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
 import { getCubWeekStats } from "@/lib/council-day-stats";
 import { getCubLedgerEntries } from "@/lib/cub-ledger";
 import { getCubRewardSummary } from "@/lib/rewards";
+import { getCubPendingRewardRedemptionRequests, getCubDeclinedRewardRedemptionNotes } from "@/lib/pending-reward-redemptions";
 import { PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
 import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
 import { db } from "@/lib/db";
@@ -35,6 +37,8 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
     weekStats,
     ledgerEntries,
     completedTasks,
+    pendingRedemptions,
+    declinedNotesMap,
   ] = await Promise.all([
     getCubRewardSummary(cub),
     db.rewardStoreItem.findMany({
@@ -45,6 +49,8 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
         title: true,
         description: true,
         costFocusTokens: true,
+        grantType: true,
+        minutesGranted: true,
       },
     }),
     getCubWeekEarnedTotals(cub.id, weekStartsOn),
@@ -72,7 +78,11 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
         submittedAt: true,
       },
     }),
+    getCubPendingRewardRedemptionRequests(cub.id, familyId),
+    getCubDeclinedRewardRedemptionNotes(cub.id, familyId),
   ]);
+
+  const declinedNotes = Object.fromEntries(declinedNotesMap);
 
   return (
     <div className="space-y-6">
@@ -94,28 +104,26 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
       />
 
       {rewardItems.length > 0 ? (
-        <Card>
-          <h2 className="text-lg font-semibold text-zinc-100">Reward Store</h2>
-          <p className="mt-1 text-sm text-zinc-400">
-            Things you can work toward with Focus Tokens. Ask your parent to redeem.
-          </p>
-          <ul className="mt-4 space-y-3">
-            {rewardItems.map((item) => (
-              <li
-                key={item.id}
-                className="rounded-xl border border-cub-off-white/10 bg-cub-ebony/50 px-4 py-3"
-              >
-                <p className="font-medium text-zinc-100">{item.title}</p>
-                {item.description ? (
-                  <p className="mt-1 text-sm text-zinc-400">{item.description}</p>
-                ) : null}
-                <p className="mt-2 text-sm text-cub-gold">
-                  {item.costFocusTokens} Focus Token
-                  {item.costFocusTokens === 1 ? "" : "s"}
-                </p>
-              </li>
-            ))}
-          </ul>
+        <Card className="overflow-hidden border-cub-gold/25 bg-cub-charcoal/40 p-0">
+          <div className="border-b border-cub-gold/20 bg-gradient-to-r from-cub-gold-muted/30 via-cub-charcoal to-cub-ebony px-5 py-4">
+            <h2 className="text-lg font-semibold text-cub-off-white">Reward Store</h2>
+            <p className="mt-1 text-sm text-cub-muted">
+              Pick a reward, then ask your parent to approve it. Tokens spend when
+              they say yes.
+            </p>
+          </div>
+          <div className="p-5">
+            <CubRewardStore
+              cubId={cubId}
+              availableFocusTokens={summary.totalFocusTokens}
+              items={rewardItems}
+              pendingItemIds={pendingRedemptions.map(
+                (request: { rewardStoreItem: { id: string } }) =>
+                  request.rewardStoreItem.id,
+              )}
+              declinedNotes={declinedNotes}
+            />
+          </div>
         </Card>
       ) : null}
     </div>

@@ -397,6 +397,7 @@ export const ModelName = {
   PhoneTimeLedgerEntry: 'PhoneTimeLedgerEntry',
   WeekendBankLedgerEntry: 'WeekendBankLedgerEntry',
   RewardStoreItem: 'RewardStoreItem',
+  RewardRedemptionRequest: 'RewardRedemptionRequest',
   RewardRedemption: 'RewardRedemption',
   GuardianNudgePreferences: 'GuardianNudgePreferences',
   GuardianNudgeRule: 'GuardianNudgeRule',
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog" | "trainingDeck" | "focusActivityCard" | "focusDeckStackItem" | "focusActivityCompletion"
+    modelProps: "user" | "family" | "cub" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemptionRequest" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog" | "trainingDeck" | "focusActivityCard" | "focusDeckStackItem" | "focusActivityCompletion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1385,6 +1386,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RewardStoreItemCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RewardStoreItemCountAggregateOutputType> | number
+        }
+      }
+    }
+    RewardRedemptionRequest: {
+      payload: Prisma.$RewardRedemptionRequestPayload<ExtArgs>
+      fields: Prisma.RewardRedemptionRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RewardRedemptionRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RewardRedemptionRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.RewardRedemptionRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RewardRedemptionRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>
+        }
+        findMany: {
+          args: Prisma.RewardRedemptionRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>[]
+        }
+        create: {
+          args: Prisma.RewardRedemptionRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>
+        }
+        createMany: {
+          args: Prisma.RewardRedemptionRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RewardRedemptionRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.RewardRedemptionRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>
+        }
+        update: {
+          args: Prisma.RewardRedemptionRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.RewardRedemptionRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RewardRedemptionRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RewardRedemptionRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.RewardRedemptionRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RewardRedemptionRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.RewardRedemptionRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRewardRedemptionRequest>
+        }
+        groupBy: {
+          args: Prisma.RewardRedemptionRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RewardRedemptionRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RewardRedemptionRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RewardRedemptionRequestCountAggregateOutputType> | number
         }
       }
     }
@@ -2410,6 +2485,22 @@ export const RewardStoreItemScalarFieldEnum = {
 export type RewardStoreItemScalarFieldEnum = (typeof RewardStoreItemScalarFieldEnum)[keyof typeof RewardStoreItemScalarFieldEnum]
 
 
+export const RewardRedemptionRequestScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  reviewedAt: 'reviewedAt',
+  reviewNote: 'reviewNote',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  rewardStoreItemId: 'rewardStoreItemId',
+  requestedByUserId: 'requestedByUserId',
+  reviewedByUserId: 'reviewedByUserId'
+} as const
+
+export type RewardRedemptionRequestScalarFieldEnum = (typeof RewardRedemptionRequestScalarFieldEnum)[keyof typeof RewardRedemptionRequestScalarFieldEnum]
+
+
 export const RewardRedemptionScalarFieldEnum = {
   id: 'id',
   focusTokensSpent: 'focusTokensSpent',
@@ -2842,6 +2933,20 @@ export type ListEnumRewardGrantTypeFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'RewardRedemptionRequestStatus'
+ */
+export type EnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RewardRedemptionRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'RewardRedemptionRequestStatus[]'
+ */
+export type ListEnumRewardRedemptionRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RewardRedemptionRequestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'GuardianNudgeRuleType'
  */
 export type EnumGuardianNudgeRuleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GuardianNudgeRuleType'>
@@ -3117,6 +3222,7 @@ export type GlobalOmitConfig = {
   phoneTimeLedgerEntry?: Prisma.PhoneTimeLedgerEntryOmit
   weekendBankLedgerEntry?: Prisma.WeekendBankLedgerEntryOmit
   rewardStoreItem?: Prisma.RewardStoreItemOmit
+  rewardRedemptionRequest?: Prisma.RewardRedemptionRequestOmit
   rewardRedemption?: Prisma.RewardRedemptionOmit
   guardianNudgePreferences?: Prisma.GuardianNudgePreferencesOmit
   guardianNudgeRule?: Prisma.GuardianNudgeRuleOmit

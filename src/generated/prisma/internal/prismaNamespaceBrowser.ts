@@ -64,6 +64,7 @@ export const ModelName = {
   PhoneTimeLedgerEntry: 'PhoneTimeLedgerEntry',
   WeekendBankLedgerEntry: 'WeekendBankLedgerEntry',
   RewardStoreItem: 'RewardStoreItem',
+  RewardRedemptionRequest: 'RewardRedemptionRequest',
   RewardRedemption: 'RewardRedemption',
   GuardianNudgePreferences: 'GuardianNudgePreferences',
   GuardianNudgeRule: 'GuardianNudgeRule',
@@ -333,6 +334,22 @@ export const RewardStoreItemScalarFieldEnum = {
 } as const
 
 export type RewardStoreItemScalarFieldEnum = (typeof RewardStoreItemScalarFieldEnum)[keyof typeof RewardStoreItemScalarFieldEnum]
+
+
+export const RewardRedemptionRequestScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  reviewedAt: 'reviewedAt',
+  reviewNote: 'reviewNote',
+  familyId: 'familyId',
+  cubId: 'cubId',
+  rewardStoreItemId: 'rewardStoreItemId',
+  requestedByUserId: 'requestedByUserId',
+  reviewedByUserId: 'reviewedByUserId'
+} as const
+
+export type RewardRedemptionRequestScalarFieldEnum = (typeof RewardRedemptionRequestScalarFieldEnum)[keyof typeof RewardRedemptionRequestScalarFieldEnum]
 
 
 export const RewardRedemptionScalarFieldEnum = {

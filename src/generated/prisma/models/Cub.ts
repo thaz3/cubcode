@@ -330,6 +330,7 @@ export type CubWhereInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogListRelationFilter
   focusDeckStackItems?: Prisma.FocusDeckStackItemListRelationFilter
   focusActivityCompletions?: Prisma.FocusActivityCompletionListRelationFilter
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestListRelationFilter
 }
 
 export type CubOrderByWithRelationInput = {
@@ -362,6 +363,7 @@ export type CubOrderByWithRelationInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogOrderByRelationAggregateInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemOrderByRelationAggregateInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionOrderByRelationAggregateInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestOrderByRelationAggregateInput
 }
 
 export type CubWhereUniqueInput = Prisma.AtLeast<{
@@ -397,6 +399,7 @@ export type CubWhereUniqueInput = Prisma.AtLeast<{
   challengeProgressLogs?: Prisma.ChallengeProgressLogListRelationFilter
   focusDeckStackItems?: Prisma.FocusDeckStackItemListRelationFilter
   focusActivityCompletions?: Prisma.FocusActivityCompletionListRelationFilter
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestListRelationFilter
 }, "id">
 
 export type CubOrderByWithAggregationInput = {
@@ -472,6 +475,7 @@ export type CubCreateInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateInput = {
@@ -503,6 +507,7 @@ export type CubUncheckedCreateInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubUpdateInput = {
@@ -534,6 +539,7 @@ export type CubUpdateInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateInput = {
@@ -565,6 +571,7 @@ export type CubUncheckedUpdateInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateManyInput = {
@@ -862,6 +869,20 @@ export type CubUpdateOneRequiredWithoutWeekendBankLedgerEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CubUpdateToOneWithWhereWithoutWeekendBankLedgerEntriesInput, Prisma.CubUpdateWithoutWeekendBankLedgerEntriesInput>, Prisma.CubUncheckedUpdateWithoutWeekendBankLedgerEntriesInput>
 }
 
+export type CubCreateNestedOneWithoutRewardRedemptionRequestsInput = {
+  create?: Prisma.XOR<Prisma.CubCreateWithoutRewardRedemptionRequestsInput, Prisma.CubUncheckedCreateWithoutRewardRedemptionRequestsInput>
+  connectOrCreate?: Prisma.CubCreateOrConnectWithoutRewardRedemptionRequestsInput
+  connect?: Prisma.CubWhereUniqueInput
+}
+
+export type CubUpdateOneRequiredWithoutRewardRedemptionRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.CubCreateWithoutRewardRedemptionRequestsInput, Prisma.CubUncheckedCreateWithoutRewardRedemptionRequestsInput>
+  connectOrCreate?: Prisma.CubCreateOrConnectWithoutRewardRedemptionRequestsInput
+  upsert?: Prisma.CubUpsertWithoutRewardRedemptionRequestsInput
+  connect?: Prisma.CubWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CubUpdateToOneWithWhereWithoutRewardRedemptionRequestsInput, Prisma.CubUpdateWithoutRewardRedemptionRequestsInput>, Prisma.CubUncheckedUpdateWithoutRewardRedemptionRequestsInput>
+}
+
 export type CubCreateNestedOneWithoutRewardRedemptionsInput = {
   create?: Prisma.XOR<Prisma.CubCreateWithoutRewardRedemptionsInput, Prisma.CubUncheckedCreateWithoutRewardRedemptionsInput>
   connectOrCreate?: Prisma.CubCreateOrConnectWithoutRewardRedemptionsInput
@@ -976,6 +997,7 @@ export type CubCreateWithoutFamilyInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFamilyInput = {
@@ -1006,6 +1028,7 @@ export type CubUncheckedCreateWithoutFamilyInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFamilyInput = {
@@ -1083,6 +1106,7 @@ export type CubCreateWithoutCouncilDayEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutCouncilDayEntriesInput = {
@@ -1113,6 +1137,7 @@ export type CubUncheckedCreateWithoutCouncilDayEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutCouncilDayEntriesInput = {
@@ -1159,6 +1184,7 @@ export type CubUpdateWithoutCouncilDayEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutCouncilDayEntriesInput = {
@@ -1189,6 +1215,7 @@ export type CubUncheckedUpdateWithoutCouncilDayEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutTasksInput = {
@@ -1219,6 +1246,7 @@ export type CubCreateWithoutTasksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutTasksInput = {
@@ -1249,6 +1277,7 @@ export type CubUncheckedCreateWithoutTasksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutTasksInput = {
@@ -1295,6 +1324,7 @@ export type CubUpdateWithoutTasksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutTasksInput = {
@@ -1325,6 +1355,7 @@ export type CubUncheckedUpdateWithoutTasksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutFocusBlocksInput = {
@@ -1355,6 +1386,7 @@ export type CubCreateWithoutFocusBlocksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFocusBlocksInput = {
@@ -1385,6 +1417,7 @@ export type CubUncheckedCreateWithoutFocusBlocksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFocusBlocksInput = {
@@ -1431,6 +1464,7 @@ export type CubUpdateWithoutFocusBlocksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFocusBlocksInput = {
@@ -1461,6 +1495,7 @@ export type CubUncheckedUpdateWithoutFocusBlocksInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutXpLedgerEntriesInput = {
@@ -1491,6 +1526,7 @@ export type CubCreateWithoutXpLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutXpLedgerEntriesInput = {
@@ -1521,6 +1557,7 @@ export type CubUncheckedCreateWithoutXpLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutXpLedgerEntriesInput = {
@@ -1567,6 +1604,7 @@ export type CubUpdateWithoutXpLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutXpLedgerEntriesInput = {
@@ -1597,6 +1635,7 @@ export type CubUncheckedUpdateWithoutXpLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -1627,6 +1666,7 @@ export type CubCreateWithoutFocusTokenLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -1657,6 +1697,7 @@ export type CubUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFocusTokenLedgerEntriesInput = {
@@ -1703,6 +1744,7 @@ export type CubUpdateWithoutFocusTokenLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
@@ -1733,6 +1775,7 @@ export type CubUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutPhoneTimeLedgerEntriesInput = {
@@ -1763,6 +1806,7 @@ export type CubCreateWithoutPhoneTimeLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
@@ -1793,6 +1837,7 @@ export type CubUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutPhoneTimeLedgerEntriesInput = {
@@ -1839,6 +1884,7 @@ export type CubUpdateWithoutPhoneTimeLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
@@ -1869,6 +1915,7 @@ export type CubUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutWeekendBankLedgerEntriesInput = {
@@ -1899,6 +1946,7 @@ export type CubCreateWithoutWeekendBankLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
@@ -1929,6 +1977,7 @@ export type CubUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutWeekendBankLedgerEntriesInput = {
@@ -1975,6 +2024,7 @@ export type CubUpdateWithoutWeekendBankLedgerEntriesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
@@ -1998,6 +2048,147 @@ export type CubUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
   xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
+  challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutCubNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
+}
+
+export type CubCreateWithoutRewardRedemptionRequestsInput = {
+  id?: string
+  displayName: string
+  ageBand: $Enums.AgeBand
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  supervisionLevel?: $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family: Prisma.FamilyCreateNestedOneWithoutCubsInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutCubInput
+  focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutCubInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutCubInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutCubInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutCubInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutCubInput
+  rewardRedemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutCubInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutCubInput
+  challenges?: Prisma.ChallengeCreateNestedManyWithoutCubInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+}
+
+export type CubUncheckedCreateWithoutRewardRedemptionRequestsInput = {
+  id?: string
+  displayName: string
+  ageBand: $Enums.AgeBand
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  supervisionLevel?: $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCubInput
+  focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutCubInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutCubInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedCreateNestedManyWithoutCubInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutCubInput
+  challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutCubInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+}
+
+export type CubCreateOrConnectWithoutRewardRedemptionRequestsInput = {
+  where: Prisma.CubWhereUniqueInput
+  create: Prisma.XOR<Prisma.CubCreateWithoutRewardRedemptionRequestsInput, Prisma.CubUncheckedCreateWithoutRewardRedemptionRequestsInput>
+}
+
+export type CubUpsertWithoutRewardRedemptionRequestsInput = {
+  update: Prisma.XOR<Prisma.CubUpdateWithoutRewardRedemptionRequestsInput, Prisma.CubUncheckedUpdateWithoutRewardRedemptionRequestsInput>
+  create: Prisma.XOR<Prisma.CubCreateWithoutRewardRedemptionRequestsInput, Prisma.CubUncheckedCreateWithoutRewardRedemptionRequestsInput>
+  where?: Prisma.CubWhereInput
+}
+
+export type CubUpdateToOneWithWhereWithoutRewardRedemptionRequestsInput = {
+  where?: Prisma.CubWhereInput
+  data: Prisma.XOR<Prisma.CubUpdateWithoutRewardRedemptionRequestsInput, Prisma.CubUncheckedUpdateWithoutRewardRedemptionRequestsInput>
+}
+
+export type CubUpdateWithoutRewardRedemptionRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  ageBand?: Prisma.EnumAgeBandFieldUpdateOperationsInput | $Enums.AgeBand
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneRequiredWithoutCubsNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutCubNestedInput
+  focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutCubNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutCubNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutCubNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutCubNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutCubNestedInput
+  rewardRedemptions?: Prisma.RewardRedemptionUpdateManyWithoutCubNestedInput
+  councilDayEntries?: Prisma.CouncilDayCubEntryUpdateManyWithoutCubNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutCubNestedInput
+  challenges?: Prisma.ChallengeUpdateManyWithoutCubNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+}
+
+export type CubUncheckedUpdateWithoutRewardRedemptionRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  ageBand?: Prisma.EnumAgeBandFieldUpdateOperationsInput | $Enums.AgeBand
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  supervisionLevel?: Prisma.EnumSupervisionLevelFieldUpdateOperationsInput | $Enums.SupervisionLevel
+  requiredGrowthCategories?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  focusAreaSwapCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutCubNestedInput
+  focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutCubNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutCubNestedInput
   rewardRedemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutCubNestedInput
   councilDayEntries?: Prisma.CouncilDayCubEntryUncheckedUpdateManyWithoutCubNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutCubNestedInput
@@ -2035,6 +2226,7 @@ export type CubCreateWithoutRewardRedemptionsInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutRewardRedemptionsInput = {
@@ -2065,6 +2257,7 @@ export type CubUncheckedCreateWithoutRewardRedemptionsInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutRewardRedemptionsInput = {
@@ -2111,6 +2304,7 @@ export type CubUpdateWithoutRewardRedemptionsInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutRewardRedemptionsInput = {
@@ -2141,6 +2335,7 @@ export type CubUncheckedUpdateWithoutRewardRedemptionsInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutGuardianNudgesInput = {
@@ -2171,6 +2366,7 @@ export type CubCreateWithoutGuardianNudgesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutGuardianNudgesInput = {
@@ -2201,6 +2397,7 @@ export type CubUncheckedCreateWithoutGuardianNudgesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutGuardianNudgesInput = {
@@ -2247,6 +2444,7 @@ export type CubUpdateWithoutGuardianNudgesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutGuardianNudgesInput = {
@@ -2277,6 +2475,7 @@ export type CubUncheckedUpdateWithoutGuardianNudgesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutChallengesInput = {
@@ -2307,6 +2506,7 @@ export type CubCreateWithoutChallengesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutChallengesInput = {
@@ -2337,6 +2537,7 @@ export type CubUncheckedCreateWithoutChallengesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutChallengesInput = {
@@ -2383,6 +2584,7 @@ export type CubUpdateWithoutChallengesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutChallengesInput = {
@@ -2413,6 +2615,7 @@ export type CubUncheckedUpdateWithoutChallengesInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutChallengeProgressLogsInput = {
@@ -2443,6 +2646,7 @@ export type CubCreateWithoutChallengeProgressLogsInput = {
   challenges?: Prisma.ChallengeCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutChallengeProgressLogsInput = {
@@ -2473,6 +2677,7 @@ export type CubUncheckedCreateWithoutChallengeProgressLogsInput = {
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutChallengeProgressLogsInput = {
@@ -2519,6 +2724,7 @@ export type CubUpdateWithoutChallengeProgressLogsInput = {
   challenges?: Prisma.ChallengeUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutChallengeProgressLogsInput = {
@@ -2549,6 +2755,7 @@ export type CubUncheckedUpdateWithoutChallengeProgressLogsInput = {
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutFocusDeckStackItemsInput = {
@@ -2579,6 +2786,7 @@ export type CubCreateWithoutFocusDeckStackItemsInput = {
   challenges?: Prisma.ChallengeCreateNestedManyWithoutCubInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFocusDeckStackItemsInput = {
@@ -2609,6 +2817,7 @@ export type CubUncheckedCreateWithoutFocusDeckStackItemsInput = {
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutCubInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFocusDeckStackItemsInput = {
@@ -2655,6 +2864,7 @@ export type CubUpdateWithoutFocusDeckStackItemsInput = {
   challenges?: Prisma.ChallengeUpdateManyWithoutCubNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFocusDeckStackItemsInput = {
@@ -2685,6 +2895,7 @@ export type CubUncheckedUpdateWithoutFocusDeckStackItemsInput = {
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutCubNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateWithoutFocusActivityCompletionsInput = {
@@ -2715,6 +2926,7 @@ export type CubCreateWithoutFocusActivityCompletionsInput = {
   challenges?: Prisma.ChallengeCreateNestedManyWithoutCubInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutCubInput
 }
 
 export type CubUncheckedCreateWithoutFocusActivityCompletionsInput = {
@@ -2745,6 +2957,7 @@ export type CubUncheckedCreateWithoutFocusActivityCompletionsInput = {
   challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutCubInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutCubInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutCubInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutCubInput
 }
 
 export type CubCreateOrConnectWithoutFocusActivityCompletionsInput = {
@@ -2791,6 +3004,7 @@ export type CubUpdateWithoutFocusActivityCompletionsInput = {
   challenges?: Prisma.ChallengeUpdateManyWithoutCubNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFocusActivityCompletionsInput = {
@@ -2821,6 +3035,7 @@ export type CubUncheckedUpdateWithoutFocusActivityCompletionsInput = {
   challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutCubNestedInput
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubCreateManyFamilyInput = {
@@ -2868,6 +3083,7 @@ export type CubUpdateWithoutFamilyInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateWithoutFamilyInput = {
@@ -2898,6 +3114,7 @@ export type CubUncheckedUpdateWithoutFamilyInput = {
   challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutCubNestedInput
   focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutCubNestedInput
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutCubNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutCubNestedInput
 }
 
 export type CubUncheckedUpdateManyWithoutFamilyInput = {
@@ -2936,6 +3153,7 @@ export type CubCountOutputType = {
   challengeProgressLogs: number
   focusDeckStackItems: number
   focusActivityCompletions: number
+  rewardRedemptionRequests: number
 }
 
 export type CubCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2952,6 +3170,7 @@ export type CubCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.In
   challengeProgressLogs?: boolean | CubCountOutputTypeCountChallengeProgressLogsArgs
   focusDeckStackItems?: boolean | CubCountOutputTypeCountFocusDeckStackItemsArgs
   focusActivityCompletions?: boolean | CubCountOutputTypeCountFocusActivityCompletionsArgs
+  rewardRedemptionRequests?: boolean | CubCountOutputTypeCountRewardRedemptionRequestsArgs
 }
 
 /**
@@ -3055,6 +3274,13 @@ export type CubCountOutputTypeCountFocusActivityCompletionsArgs<ExtArgs extends 
   where?: Prisma.FocusActivityCompletionWhereInput
 }
 
+/**
+ * CubCountOutputType without action
+ */
+export type CubCountOutputTypeCountRewardRedemptionRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RewardRedemptionRequestWhereInput
+}
+
 
 export type CubSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3086,6 +3312,7 @@ export type CubSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   challengeProgressLogs?: boolean | Prisma.Cub$challengeProgressLogsArgs<ExtArgs>
   focusDeckStackItems?: boolean | Prisma.Cub$focusDeckStackItemsArgs<ExtArgs>
   focusActivityCompletions?: boolean | Prisma.Cub$focusActivityCompletionsArgs<ExtArgs>
+  rewardRedemptionRequests?: boolean | Prisma.Cub$rewardRedemptionRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.CubCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cub"]>
 
@@ -3161,6 +3388,7 @@ export type CubInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   challengeProgressLogs?: boolean | Prisma.Cub$challengeProgressLogsArgs<ExtArgs>
   focusDeckStackItems?: boolean | Prisma.Cub$focusDeckStackItemsArgs<ExtArgs>
   focusActivityCompletions?: boolean | Prisma.Cub$focusActivityCompletionsArgs<ExtArgs>
+  rewardRedemptionRequests?: boolean | Prisma.Cub$rewardRedemptionRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.CubCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CubIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3187,6 +3415,7 @@ export type $CubPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     challengeProgressLogs: Prisma.$ChallengeProgressLogPayload<ExtArgs>[]
     focusDeckStackItems: Prisma.$FocusDeckStackItemPayload<ExtArgs>[]
     focusActivityCompletions: Prisma.$FocusActivityCompletionPayload<ExtArgs>[]
+    rewardRedemptionRequests: Prisma.$RewardRedemptionRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3612,6 +3841,7 @@ export interface Prisma__CubClient<T, Null = never, ExtArgs extends runtime.Type
   challengeProgressLogs<T extends Prisma.Cub$challengeProgressLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$challengeProgressLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChallengeProgressLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   focusDeckStackItems<T extends Prisma.Cub$focusDeckStackItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$focusDeckStackItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FocusDeckStackItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   focusActivityCompletions<T extends Prisma.Cub$focusActivityCompletionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$focusActivityCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FocusActivityCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  rewardRedemptionRequests<T extends Prisma.Cub$rewardRedemptionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cub$rewardRedemptionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardRedemptionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4366,6 +4596,30 @@ export type Cub$focusActivityCompletionsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.FocusActivityCompletionScalarFieldEnum | Prisma.FocusActivityCompletionScalarFieldEnum[]
+}
+
+/**
+ * Cub.rewardRedemptionRequests
+ */
+export type Cub$rewardRedemptionRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RewardRedemptionRequest
+   */
+  select?: Prisma.RewardRedemptionRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RewardRedemptionRequest
+   */
+  omit?: Prisma.RewardRedemptionRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RewardRedemptionRequestInclude<ExtArgs> | null
+  where?: Prisma.RewardRedemptionRequestWhereInput
+  orderBy?: Prisma.RewardRedemptionRequestOrderByWithRelationInput | Prisma.RewardRedemptionRequestOrderByWithRelationInput[]
+  cursor?: Prisma.RewardRedemptionRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RewardRedemptionRequestScalarFieldEnum | Prisma.RewardRedemptionRequestScalarFieldEnum[]
 }
 
 /**

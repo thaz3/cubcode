@@ -197,6 +197,15 @@ export const RewardGrantType = {
 export type RewardGrantType = (typeof RewardGrantType)[keyof typeof RewardGrantType]
 
 
+export const RewardRedemptionRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type RewardRedemptionRequestStatus = (typeof RewardRedemptionRequestStatus)[keyof typeof RewardRedemptionRequestStatus]
+
+
 export const TaskRecurrence = {
   NONE: 'NONE',
   DAILY: 'DAILY',

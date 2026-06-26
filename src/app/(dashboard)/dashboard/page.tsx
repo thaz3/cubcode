@@ -15,6 +15,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { CubColorDot } from "@/components/cub-color-dot";
 import { ParentAwaitingReviewSection } from "@/components/parent-awaiting-review-section";
+import { ParentRewardRequestsSection } from "@/components/parent-reward-requests-section";
 import { GuardianNudgesSection } from "@/components/guardian-nudges-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { TaskScheduleDisplay } from "@/components/task-schedule-display";
@@ -40,6 +41,7 @@ import {
 } from "@/lib/guardian-nudges/sync";
 import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
 import { countPendingReviews, getPendingReviewItems } from "@/lib/pending-review";
+import { getPendingRewardRedemptionRequests } from "@/lib/pending-reward-redemptions";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { redirect } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -68,6 +70,7 @@ export default async function DashboardPage() {
     councilDaySession,
     guardianNudgePrefs,
     guardianNudges,
+    pendingRewardRequests,
   ] = await Promise.all([
     countPendingReviews(family.id),
     getPendingReviewItems(family.id),
@@ -120,6 +123,7 @@ export default async function DashboardPage() {
       : Promise.resolve(null),
     ensureGuardianNudgePreferences(family.id),
     getActiveGuardianNudgesForFamily(family.id),
+    getPendingRewardRedemptionRequests(family.id),
   ]);
 
   const pendingReview = pendingReviews.total;
@@ -296,6 +300,8 @@ export default async function DashboardPage() {
       ) : null}
 
       <ParentAwaitingReviewSection items={pendingReviewItems} />
+
+      <ParentRewardRequestsSection requests={pendingRewardRequests} />
 
       {sortedActiveTasks.length > 0 ? (
         <section className="space-y-3">

@@ -262,6 +262,7 @@ export type RewardStoreItemWhereInput = {
   familyId?: Prisma.StringFilter<"RewardStoreItem"> | string
   family?: Prisma.XOR<Prisma.FamilyScalarRelationFilter, Prisma.FamilyWhereInput>
   redemptions?: Prisma.RewardRedemptionListRelationFilter
+  redemptionRequests?: Prisma.RewardRedemptionRequestListRelationFilter
 }
 
 export type RewardStoreItemOrderByWithRelationInput = {
@@ -277,6 +278,7 @@ export type RewardStoreItemOrderByWithRelationInput = {
   familyId?: Prisma.SortOrder
   family?: Prisma.FamilyOrderByWithRelationInput
   redemptions?: Prisma.RewardRedemptionOrderByRelationAggregateInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestOrderByRelationAggregateInput
 }
 
 export type RewardStoreItemWhereUniqueInput = Prisma.AtLeast<{
@@ -295,6 +297,7 @@ export type RewardStoreItemWhereUniqueInput = Prisma.AtLeast<{
   familyId?: Prisma.StringFilter<"RewardStoreItem"> | string
   family?: Prisma.XOR<Prisma.FamilyScalarRelationFilter, Prisma.FamilyWhereInput>
   redemptions?: Prisma.RewardRedemptionListRelationFilter
+  redemptionRequests?: Prisma.RewardRedemptionRequestListRelationFilter
 }, "id">
 
 export type RewardStoreItemOrderByWithAggregationInput = {
@@ -343,6 +346,7 @@ export type RewardStoreItemCreateInput = {
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutRewardStoreItemsInput
   redemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutRewardStoreItemInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRewardStoreItemInput
 }
 
 export type RewardStoreItemUncheckedCreateInput = {
@@ -357,6 +361,7 @@ export type RewardStoreItemUncheckedCreateInput = {
   updatedAt?: Date | string
   familyId: string
   redemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutRewardStoreItemInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRewardStoreItemInput
 }
 
 export type RewardStoreItemUpdateInput = {
@@ -371,6 +376,7 @@ export type RewardStoreItemUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutRewardStoreItemsNestedInput
   redemptions?: Prisma.RewardRedemptionUpdateManyWithoutRewardStoreItemNestedInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutRewardStoreItemNestedInput
 }
 
 export type RewardStoreItemUncheckedUpdateInput = {
@@ -385,6 +391,7 @@ export type RewardStoreItemUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
   redemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutRewardStoreItemNestedInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRewardStoreItemNestedInput
 }
 
 export type RewardStoreItemCreateManyInput = {
@@ -535,6 +542,20 @@ export type EnumRewardGrantTypeFieldUpdateOperationsInput = {
   set?: $Enums.RewardGrantType
 }
 
+export type RewardStoreItemCreateNestedOneWithoutRedemptionRequestsInput = {
+  create?: Prisma.XOR<Prisma.RewardStoreItemCreateWithoutRedemptionRequestsInput, Prisma.RewardStoreItemUncheckedCreateWithoutRedemptionRequestsInput>
+  connectOrCreate?: Prisma.RewardStoreItemCreateOrConnectWithoutRedemptionRequestsInput
+  connect?: Prisma.RewardStoreItemWhereUniqueInput
+}
+
+export type RewardStoreItemUpdateOneRequiredWithoutRedemptionRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.RewardStoreItemCreateWithoutRedemptionRequestsInput, Prisma.RewardStoreItemUncheckedCreateWithoutRedemptionRequestsInput>
+  connectOrCreate?: Prisma.RewardStoreItemCreateOrConnectWithoutRedemptionRequestsInput
+  upsert?: Prisma.RewardStoreItemUpsertWithoutRedemptionRequestsInput
+  connect?: Prisma.RewardStoreItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RewardStoreItemUpdateToOneWithWhereWithoutRedemptionRequestsInput, Prisma.RewardStoreItemUpdateWithoutRedemptionRequestsInput>, Prisma.RewardStoreItemUncheckedUpdateWithoutRedemptionRequestsInput>
+}
+
 export type RewardStoreItemCreateNestedOneWithoutRedemptionsInput = {
   create?: Prisma.XOR<Prisma.RewardStoreItemCreateWithoutRedemptionsInput, Prisma.RewardStoreItemUncheckedCreateWithoutRedemptionsInput>
   connectOrCreate?: Prisma.RewardStoreItemCreateOrConnectWithoutRedemptionsInput
@@ -560,6 +581,7 @@ export type RewardStoreItemCreateWithoutFamilyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   redemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutRewardStoreItemInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRewardStoreItemInput
 }
 
 export type RewardStoreItemUncheckedCreateWithoutFamilyInput = {
@@ -573,6 +595,7 @@ export type RewardStoreItemUncheckedCreateWithoutFamilyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   redemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutRewardStoreItemInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRewardStoreItemInput
 }
 
 export type RewardStoreItemCreateOrConnectWithoutFamilyInput = {
@@ -617,6 +640,78 @@ export type RewardStoreItemScalarWhereInput = {
   familyId?: Prisma.StringFilter<"RewardStoreItem"> | string
 }
 
+export type RewardStoreItemCreateWithoutRedemptionRequestsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  costFocusTokens?: number
+  grantType?: $Enums.RewardGrantType
+  minutesGranted?: number | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family: Prisma.FamilyCreateNestedOneWithoutRewardStoreItemsInput
+  redemptions?: Prisma.RewardRedemptionCreateNestedManyWithoutRewardStoreItemInput
+}
+
+export type RewardStoreItemUncheckedCreateWithoutRedemptionRequestsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  costFocusTokens?: number
+  grantType?: $Enums.RewardGrantType
+  minutesGranted?: number | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  redemptions?: Prisma.RewardRedemptionUncheckedCreateNestedManyWithoutRewardStoreItemInput
+}
+
+export type RewardStoreItemCreateOrConnectWithoutRedemptionRequestsInput = {
+  where: Prisma.RewardStoreItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.RewardStoreItemCreateWithoutRedemptionRequestsInput, Prisma.RewardStoreItemUncheckedCreateWithoutRedemptionRequestsInput>
+}
+
+export type RewardStoreItemUpsertWithoutRedemptionRequestsInput = {
+  update: Prisma.XOR<Prisma.RewardStoreItemUpdateWithoutRedemptionRequestsInput, Prisma.RewardStoreItemUncheckedUpdateWithoutRedemptionRequestsInput>
+  create: Prisma.XOR<Prisma.RewardStoreItemCreateWithoutRedemptionRequestsInput, Prisma.RewardStoreItemUncheckedCreateWithoutRedemptionRequestsInput>
+  where?: Prisma.RewardStoreItemWhereInput
+}
+
+export type RewardStoreItemUpdateToOneWithWhereWithoutRedemptionRequestsInput = {
+  where?: Prisma.RewardStoreItemWhereInput
+  data: Prisma.XOR<Prisma.RewardStoreItemUpdateWithoutRedemptionRequestsInput, Prisma.RewardStoreItemUncheckedUpdateWithoutRedemptionRequestsInput>
+}
+
+export type RewardStoreItemUpdateWithoutRedemptionRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costFocusTokens?: Prisma.IntFieldUpdateOperationsInput | number
+  grantType?: Prisma.EnumRewardGrantTypeFieldUpdateOperationsInput | $Enums.RewardGrantType
+  minutesGranted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneRequiredWithoutRewardStoreItemsNestedInput
+  redemptions?: Prisma.RewardRedemptionUpdateManyWithoutRewardStoreItemNestedInput
+}
+
+export type RewardStoreItemUncheckedUpdateWithoutRedemptionRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costFocusTokens?: Prisma.IntFieldUpdateOperationsInput | number
+  grantType?: Prisma.EnumRewardGrantTypeFieldUpdateOperationsInput | $Enums.RewardGrantType
+  minutesGranted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  redemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutRewardStoreItemNestedInput
+}
+
 export type RewardStoreItemCreateWithoutRedemptionsInput = {
   id?: string
   title: string
@@ -628,6 +723,7 @@ export type RewardStoreItemCreateWithoutRedemptionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   family: Prisma.FamilyCreateNestedOneWithoutRewardStoreItemsInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRewardStoreItemInput
 }
 
 export type RewardStoreItemUncheckedCreateWithoutRedemptionsInput = {
@@ -641,6 +737,7 @@ export type RewardStoreItemUncheckedCreateWithoutRedemptionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   familyId: string
+  redemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRewardStoreItemInput
 }
 
 export type RewardStoreItemCreateOrConnectWithoutRedemptionsInput = {
@@ -670,6 +767,7 @@ export type RewardStoreItemUpdateWithoutRedemptionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   family?: Prisma.FamilyUpdateOneRequiredWithoutRewardStoreItemsNestedInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutRewardStoreItemNestedInput
 }
 
 export type RewardStoreItemUncheckedUpdateWithoutRedemptionsInput = {
@@ -683,6 +781,7 @@ export type RewardStoreItemUncheckedUpdateWithoutRedemptionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  redemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRewardStoreItemNestedInput
 }
 
 export type RewardStoreItemCreateManyFamilyInput = {
@@ -708,6 +807,7 @@ export type RewardStoreItemUpdateWithoutFamilyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   redemptions?: Prisma.RewardRedemptionUpdateManyWithoutRewardStoreItemNestedInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutRewardStoreItemNestedInput
 }
 
 export type RewardStoreItemUncheckedUpdateWithoutFamilyInput = {
@@ -721,6 +821,7 @@ export type RewardStoreItemUncheckedUpdateWithoutFamilyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   redemptions?: Prisma.RewardRedemptionUncheckedUpdateManyWithoutRewardStoreItemNestedInput
+  redemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRewardStoreItemNestedInput
 }
 
 export type RewardStoreItemUncheckedUpdateManyWithoutFamilyInput = {
@@ -742,10 +843,12 @@ export type RewardStoreItemUncheckedUpdateManyWithoutFamilyInput = {
 
 export type RewardStoreItemCountOutputType = {
   redemptions: number
+  redemptionRequests: number
 }
 
 export type RewardStoreItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   redemptions?: boolean | RewardStoreItemCountOutputTypeCountRedemptionsArgs
+  redemptionRequests?: boolean | RewardStoreItemCountOutputTypeCountRedemptionRequestsArgs
 }
 
 /**
@@ -765,6 +868,13 @@ export type RewardStoreItemCountOutputTypeCountRedemptionsArgs<ExtArgs extends r
   where?: Prisma.RewardRedemptionWhereInput
 }
 
+/**
+ * RewardStoreItemCountOutputType without action
+ */
+export type RewardStoreItemCountOutputTypeCountRedemptionRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RewardRedemptionRequestWhereInput
+}
+
 
 export type RewardStoreItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -779,6 +889,7 @@ export type RewardStoreItemSelect<ExtArgs extends runtime.Types.Extensions.Inter
   familyId?: boolean
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   redemptions?: boolean | Prisma.RewardStoreItem$redemptionsArgs<ExtArgs>
+  redemptionRequests?: boolean | Prisma.RewardStoreItem$redemptionRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.RewardStoreItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rewardStoreItem"]>
 
@@ -827,6 +938,7 @@ export type RewardStoreItemOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type RewardStoreItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   family?: boolean | Prisma.FamilyDefaultArgs<ExtArgs>
   redemptions?: boolean | Prisma.RewardStoreItem$redemptionsArgs<ExtArgs>
+  redemptionRequests?: boolean | Prisma.RewardStoreItem$redemptionRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.RewardStoreItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RewardStoreItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -841,6 +953,7 @@ export type $RewardStoreItemPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     family: Prisma.$FamilyPayload<ExtArgs>
     redemptions: Prisma.$RewardRedemptionPayload<ExtArgs>[]
+    redemptionRequests: Prisma.$RewardRedemptionRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1249,6 +1362,7 @@ export interface Prisma__RewardStoreItemClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   family<T extends Prisma.FamilyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FamilyDefaultArgs<ExtArgs>>): Prisma.Prisma__FamilyClient<runtime.Types.Result.GetResult<Prisma.$FamilyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   redemptions<T extends Prisma.RewardStoreItem$redemptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RewardStoreItem$redemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardRedemptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  redemptionRequests<T extends Prisma.RewardStoreItem$redemptionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RewardStoreItem$redemptionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardRedemptionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1710,6 +1824,30 @@ export type RewardStoreItem$redemptionsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.RewardRedemptionScalarFieldEnum | Prisma.RewardRedemptionScalarFieldEnum[]
+}
+
+/**
+ * RewardStoreItem.redemptionRequests
+ */
+export type RewardStoreItem$redemptionRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RewardRedemptionRequest
+   */
+  select?: Prisma.RewardRedemptionRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RewardRedemptionRequest
+   */
+  omit?: Prisma.RewardRedemptionRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RewardRedemptionRequestInclude<ExtArgs> | null
+  where?: Prisma.RewardRedemptionRequestWhereInput
+  orderBy?: Prisma.RewardRedemptionRequestOrderByWithRelationInput | Prisma.RewardRedemptionRequestOrderByWithRelationInput[]
+  cursor?: Prisma.RewardRedemptionRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RewardRedemptionRequestScalarFieldEnum | Prisma.RewardRedemptionRequestScalarFieldEnum[]
 }
 
 /**
