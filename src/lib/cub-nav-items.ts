@@ -1,6 +1,7 @@
 export const CUB_NAV_ITEMS = [
   { suffix: "", label: "Today" },
   { suffix: "/tasks", label: "Assignments" },
+  { suffix: "/training", label: "Training" },
   { suffix: "/challenges", label: "Routines" },
   { suffix: "/focus-deck", label: "Focus" },
   { suffix: "/progress", label: "Progress" },

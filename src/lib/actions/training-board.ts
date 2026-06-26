@@ -30,6 +30,11 @@ function revalidateTrainingBoardPaths(cubId?: string | null, deckSlug?: string) 
   if (cubId) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);
     revalidatePath(`/cub/${cubId}/tasks`);
+    revalidatePath(`/cub/${cubId}/training`);
+    revalidatePath(`/cub/${cubId}/progress`);
+    if (deckSlug) {
+      revalidatePath(`/cub/${cubId}/training/deck/${deckSlug}`);
+    }
   }
 }
 

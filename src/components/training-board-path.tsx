@@ -22,6 +22,9 @@ export type TrainingMilestoneNode = {
 type TrainingBoardPathProps = {
   milestones: TrainingMilestoneNode[];
   cubId: string;
+  deckBasePath?: string;
+  readOnly?: boolean;
+  allowLockedView?: boolean;
 };
 
 const STATUS_STYLES: Record<
@@ -50,7 +53,13 @@ const STATUS_STYLES: Record<
   },
 };
 
-export function TrainingBoardPath({ milestones, cubId }: TrainingBoardPathProps) {
+export function TrainingBoardPath({
+  milestones,
+  cubId,
+  deckBasePath = "/dashboard/tasks/templates/deck",
+  readOnly = false,
+  allowLockedView = false,
+}: TrainingBoardPathProps) {
   return (
     <ol className="relative space-y-4">
       <div
@@ -60,7 +69,16 @@ export function TrainingBoardPath({ milestones, cubId }: TrainingBoardPathProps)
       {milestones.map((milestone, index) => {
         const styles = STATUS_STYLES[milestone.status];
         const cta = getDeckCta(milestone.status);
-        const href = `/dashboard/tasks/templates/deck/${milestone.slug}?cubId=${cubId}`;
+        const href = `${deckBasePath}/${milestone.slug}`;
+        const canViewLocked = allowLockedView && milestone.status === "LOCKED";
+        const buttonLabel = readOnly
+          ? milestone.status === "LOCKED" && !allowLockedView
+            ? cta.label
+            : "View"
+          : canViewLocked
+            ? "View"
+            : cta.label;
+        const isDisabled = cta.disabled && !canViewLocked;
 
         return (
           <li key={milestone.slug} className="relative pl-12">
@@ -110,23 +128,25 @@ export function TrainingBoardPath({ milestones, cubId }: TrainingBoardPathProps)
                   </p>
                 </div>
 
-                {cta.disabled ? (
+                {isDisabled ? (
                   <Button size="sm" variant="neutral" disabled>
-                    {cta.label}
+                    {buttonLabel}
                   </Button>
                 ) : (
                   <Link href={href}>
                     <Button
                       size="sm"
                       variant={
-                        milestone.status === "COMPLETE"
+                        readOnly || canViewLocked
                           ? "secondary"
-                          : milestone.status === "IN_PROGRESS"
-                            ? "constructive"
-                            : "reward"
+                          : milestone.status === "COMPLETE"
+                            ? "secondary"
+                            : milestone.status === "IN_PROGRESS"
+                              ? "constructive"
+                              : "reward"
                       }
                     >
-                      {cta.label}
+                      {buttonLabel}
                     </Button>
                   </Link>
                 )}
