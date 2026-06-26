@@ -11,6 +11,7 @@
 export type * from './models/User'
 export type * from './models/Family'
 export type * from './models/Cub'
+export type * from './models/CalendarEvent'
 export type * from './models/CouncilDaySession'
 export type * from './models/CouncilDayCubEntry'
 export type * from './models/TaskTemplate'

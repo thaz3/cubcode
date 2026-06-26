@@ -5,7 +5,9 @@ import {
   type FocusGrowthContext,
 } from "@/components/cub-workflow-task-card";
 import { CubWorkflowRoutineCard } from "@/components/cub-workflow-routine-card";
+import { DenOverviewDashboard } from "@/components/den-overview/den-overview-dashboard";
 import { CubKidHero, CubKidPanel } from "@/components/cub-kid";
+import { CubKidSectionHeader } from "@/components/cub-kid/cub-kid-section-header";
 import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
 import { EmptyState } from "@/components/ui/empty-state";
 import { auth } from "@/lib/auth";
@@ -19,16 +21,17 @@ import {
   growthCategoryOptionsForCub,
   parseRequiredGrowthCategories,
 } from "@/lib/focus-growth";
-import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
+import { getWeekStart } from "@/lib/council-day";
 import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
+import { getDenOverviewData } from "@/lib/den-overview";
 import { getCubRoutinesView } from "@/lib/cub-routines";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
 import {
   filterTasksForCubWeekView,
-  isTaskOverdue,
   isTaskUrgent,
   sortTasksByUrgency,
 } from "@/lib/task-schedule";
+import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 type CubTasksPageProps = {
@@ -42,8 +45,16 @@ export default async function CubOverviewPage({ params }: CubTasksPageProps) {
 
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
+  const family = await getFamilyForUser(session.user.id);
+  const isParent = family?.ownerId === session.user.id;
+  const familyCubs =
+    family?.cubs.map((item) => ({
+      id: item.id,
+      displayName: item.displayName,
+    })) ?? [];
 
-  const [tasks, completedGrowth, availableGrowth, routinesView] = await Promise.all([
+  const [tasks, completedGrowth, availableGrowth, routinesView, denOverview] =
+    await Promise.all([
     db.task.findMany({
       where: { familyId, cubId: cub.id },
       include: {
@@ -53,6 +64,7 @@ export default async function CubOverviewPage({ params }: CubTasksPageProps) {
     getCompletedGrowthCategoriesThisWeek(cub.id),
     getAvailableGrowthCategoriesForCub(cub),
     getCubRoutinesView(familyId, cub.id),
+    getDenOverviewData(familyId, cub, weekStartsOn),
   ]);
 
   const requiredGrowth = parseRequiredGrowthCategories(cub);
@@ -132,10 +144,22 @@ export default async function CubOverviewPage({ params }: CubTasksPageProps) {
       <MissionHashScroll />
       <CubKidHero
         title="Overview"
-        subtitle={`Everything assigned to you · ${formatWeekLabel(weekStartsOn)}.`}
+        subtitle="Your Den at a glance — missions, deadlines, routines, and family plans."
         emoji={CUB_PAGE_EMOJI.overview}
         backHref={`/cub/${cubId}`}
         backLabel="Today"
+      />
+
+      <DenOverviewDashboard
+        cubId={cubId}
+        isParent={isParent}
+        cubs={familyCubs}
+        data={denOverview}
+        initialSelectedDay={
+          denOverview.weekDays.find((day) => day.isToday)?.dateKey ??
+          denOverview.weekDays[0]?.dateKey ??
+          ""
+        }
       />
 
       <ActiveFocusTimersBanner
@@ -161,7 +185,13 @@ export default async function CubOverviewPage({ params }: CubTasksPageProps) {
           description="When your parent assigns tasks or routines, they will show up here."
         />
       ) : (
-        <SwipeCardDeck>
+        <>
+          <CubKidSectionHeader
+            eyebrow="🎯 Your missions"
+            title="Assignment cards"
+            subtitle="Swipe through active quests — due dates also appear in the Den Dashboard above."
+          />
+          <SwipeCardDeck>
           {urgentTasks.map((task) => (
             <div key={`task-${task.id}`} id={`mission-${task.id}`} className="scroll-mt-24">
               <CubWorkflowTaskCard
@@ -215,7 +245,8 @@ export default async function CubOverviewPage({ params }: CubTasksPageProps) {
               />
             </div>
           ))}
-        </SwipeCardDeck>
+          </SwipeCardDeck>
+        </>
       )}
     </div>
   );

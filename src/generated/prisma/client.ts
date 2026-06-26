@@ -57,6 +57,11 @@ export type Family = Prisma.FamilyModel
  */
 export type Cub = Prisma.CubModel
 /**
+ * Model CalendarEvent
+ * 
+ */
+export type CalendarEvent = Prisma.CalendarEventModel
+/**
  * Model CouncilDaySession
  * 
  */

@@ -11,6 +11,7 @@
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
+    "db:repair": "node scripts/repair-db-schema.mjs",
     "db:studio": "prisma studio"
   },
   "dependencies": {

@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Family: 'Family',
   Cub: 'Cub',
+  CalendarEvent: 'CalendarEvent',
   CouncilDaySession: 'CouncilDaySession',
   CouncilDayCubEntry: 'CouncilDayCubEntry',
   TaskTemplate: 'TaskTemplate',
@@ -140,6 +141,25 @@ export const CubScalarFieldEnum = {
 } as const
 
 export type CubScalarFieldEnum = (typeof CubScalarFieldEnum)[keyof typeof CubScalarFieldEnum]
+
+
+export const CalendarEventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  eventType: 'eventType',
+  eventDate: 'eventDate',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  status: 'status',
+  linkedAssignmentId: 'linkedAssignmentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  familyId: 'familyId',
+  cubId: 'cubId'
+} as const
+
+export type CalendarEventScalarFieldEnum = (typeof CalendarEventScalarFieldEnum)[keyof typeof CalendarEventScalarFieldEnum]
 
 
 export const CouncilDaySessionScalarFieldEnum = {

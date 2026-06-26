@@ -10,12 +10,16 @@ type CubThisWeekSummarySectionProps = {
   cubId: string;
   summary: CubWeekEarnSummary;
   variant?: "default" | "compact";
+  sectionTitle?: string;
+  sectionSubtitle?: string;
 };
 
 export function CubThisWeekSummarySection({
   cubId,
   summary,
   variant = "default",
+  sectionTitle = "This Week",
+  sectionSubtitle = "Your progress across all five ways to earn.",
 }: CubThisWeekSummarySectionProps) {
   const isCompact = variant === "compact";
   const growthMet =
@@ -61,7 +65,7 @@ export function CubThisWeekSummarySection({
       <CubKidPanel variant="gold" contentClassName="space-y-3">
         <CubKidSectionHeader
           eyebrow="📊 Scoreboard"
-          title="This Week"
+          title={sectionTitle}
           compact
           trailing={
             <Link
@@ -110,8 +114,8 @@ export function CubThisWeekSummarySection({
     <section className="space-y-3">
       <CubKidSectionHeader
         eyebrow="📊 Scoreboard"
-        title="This Week"
-        subtitle="Your progress across all five ways to earn."
+        title={sectionTitle}
+        subtitle={sectionSubtitle}
       />
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {rows.map((row) => (

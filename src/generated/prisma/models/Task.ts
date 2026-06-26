@@ -488,6 +488,7 @@ export type TaskWhereInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryListRelationFilter
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryListRelationFilter
   guardianNudges?: Prisma.GuardianNudgeListRelationFilter
+  linkedCalendarEvents?: Prisma.CalendarEventListRelationFilter
 }
 
 export type TaskOrderByWithRelationInput = {
@@ -540,6 +541,7 @@ export type TaskOrderByWithRelationInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryOrderByRelationAggregateInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryOrderByRelationAggregateInput
   guardianNudges?: Prisma.GuardianNudgeOrderByRelationAggregateInput
+  linkedCalendarEvents?: Prisma.CalendarEventOrderByRelationAggregateInput
 }
 
 export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -595,6 +597,7 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryListRelationFilter
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryListRelationFilter
   guardianNudges?: Prisma.GuardianNudgeListRelationFilter
+  linkedCalendarEvents?: Prisma.CalendarEventListRelationFilter
 }, "id">
 
 export type TaskOrderByWithAggregationInput = {
@@ -729,6 +732,7 @@ export type TaskCreateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateInput = {
@@ -775,6 +779,7 @@ export type TaskUncheckedCreateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUpdateInput = {
@@ -821,6 +826,7 @@ export type TaskUpdateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateInput = {
@@ -867,6 +873,7 @@ export type TaskUncheckedUpdateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskCreateManyInput = {
@@ -991,6 +998,11 @@ export type TaskListRelationFilter = {
 
 export type TaskOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type TaskNullableScalarRelationFilter = {
+  is?: Prisma.TaskWhereInput | null
+  isNot?: Prisma.TaskWhereInput | null
 }
 
 export type TaskCountOrderByAggregateInput = {
@@ -1123,11 +1135,6 @@ export type TaskSumOrderByAggregateInput = {
   timeLoggedMinutes?: Prisma.SortOrder
 }
 
-export type TaskNullableScalarRelationFilter = {
-  is?: Prisma.TaskWhereInput | null
-  isNot?: Prisma.TaskWhereInput | null
-}
-
 export type TaskCreateNestedManyWithoutReviewedByInput = {
   create?: Prisma.XOR<Prisma.TaskCreateWithoutReviewedByInput, Prisma.TaskUncheckedCreateWithoutReviewedByInput> | Prisma.TaskCreateWithoutReviewedByInput[] | Prisma.TaskUncheckedCreateWithoutReviewedByInput[]
   connectOrCreate?: Prisma.TaskCreateOrConnectWithoutReviewedByInput | Prisma.TaskCreateOrConnectWithoutReviewedByInput[]
@@ -1252,6 +1259,22 @@ export type TaskUncheckedUpdateManyWithoutCubNestedInput = {
   update?: Prisma.TaskUpdateWithWhereUniqueWithoutCubInput | Prisma.TaskUpdateWithWhereUniqueWithoutCubInput[]
   updateMany?: Prisma.TaskUpdateManyWithWhereWithoutCubInput | Prisma.TaskUpdateManyWithWhereWithoutCubInput[]
   deleteMany?: Prisma.TaskScalarWhereInput | Prisma.TaskScalarWhereInput[]
+}
+
+export type TaskCreateNestedOneWithoutLinkedCalendarEventsInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutLinkedCalendarEventsInput, Prisma.TaskUncheckedCreateWithoutLinkedCalendarEventsInput>
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutLinkedCalendarEventsInput
+  connect?: Prisma.TaskWhereUniqueInput
+}
+
+export type TaskUpdateOneWithoutLinkedCalendarEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.TaskCreateWithoutLinkedCalendarEventsInput, Prisma.TaskUncheckedCreateWithoutLinkedCalendarEventsInput>
+  connectOrCreate?: Prisma.TaskCreateOrConnectWithoutLinkedCalendarEventsInput
+  upsert?: Prisma.TaskUpsertWithoutLinkedCalendarEventsInput
+  disconnect?: Prisma.TaskWhereInput | boolean
+  delete?: Prisma.TaskWhereInput | boolean
+  connect?: Prisma.TaskWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TaskUpdateToOneWithWhereWithoutLinkedCalendarEventsInput, Prisma.TaskUpdateWithoutLinkedCalendarEventsInput>, Prisma.TaskUncheckedUpdateWithoutLinkedCalendarEventsInput>
 }
 
 export type TaskCreateNestedManyWithoutTemplateInput = {
@@ -1531,6 +1554,7 @@ export type TaskCreateWithoutReviewedByInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutReviewedByInput = {
@@ -1576,6 +1600,7 @@ export type TaskUncheckedCreateWithoutReviewedByInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutReviewedByInput = {
@@ -1690,6 +1715,7 @@ export type TaskCreateWithoutFamilyInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutFamilyInput = {
@@ -1735,6 +1761,7 @@ export type TaskUncheckedCreateWithoutFamilyInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutFamilyInput = {
@@ -1806,6 +1833,7 @@ export type TaskCreateWithoutCubInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutCubInput = {
@@ -1851,6 +1879,7 @@ export type TaskUncheckedCreateWithoutCubInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutCubInput = {
@@ -1877,6 +1906,206 @@ export type TaskUpdateWithWhereUniqueWithoutCubInput = {
 export type TaskUpdateManyWithWhereWithoutCubInput = {
   where: Prisma.TaskScalarWhereInput
   data: Prisma.XOR<Prisma.TaskUpdateManyMutationInput, Prisma.TaskUncheckedUpdateManyWithoutCubInput>
+}
+
+export type TaskCreateWithoutLinkedCalendarEventsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family: Prisma.FamilyCreateNestedOneWithoutTasksInput
+  cub?: Prisma.CubCreateNestedOneWithoutTasksInput
+  template?: Prisma.TaskTemplateCreateNestedOneWithoutTasksInput
+  focusActivityCard?: Prisma.FocusActivityCardCreateNestedOneWithoutTasksInput
+  trainingDeck?: Prisma.TrainingDeckCreateNestedOneWithoutTasksInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedTasksInput
+  focusBlocks?: Prisma.FocusBlockLogCreateNestedManyWithoutTaskInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+}
+
+export type TaskUncheckedCreateWithoutLinkedCalendarEventsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category?: $Enums.TaskCategory
+  subcategory?: string | null
+  growthCategory?: $Enums.GrowthCategory | null
+  proofType: $Enums.TaskProofType
+  proofPrompt?: string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: number
+  phoneMinutesEarned?: number
+  xpEarned?: number
+  focusTokensEarned?: number
+  status?: $Enums.TaskStatus
+  reflection?: string | null
+  proofLink?: string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: number | null
+  reviewNote?: string | null
+  submittedAt?: Date | string | null
+  reviewedAt?: Date | string | null
+  claimedAt?: Date | string | null
+  dueAt?: Date | string | null
+  dueAtHasTime?: boolean
+  recurrence?: $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: boolean
+  focusSessionStartedAt?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  familyId: string
+  cubId?: string | null
+  templateId?: string | null
+  focusActivityCardId?: string | null
+  trainingDeckId?: string | null
+  reviewedByUserId?: string | null
+  focusBlocks?: Prisma.FocusBlockLogUncheckedCreateNestedManyWithoutTaskInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+}
+
+export type TaskCreateOrConnectWithoutLinkedCalendarEventsInput = {
+  where: Prisma.TaskWhereUniqueInput
+  create: Prisma.XOR<Prisma.TaskCreateWithoutLinkedCalendarEventsInput, Prisma.TaskUncheckedCreateWithoutLinkedCalendarEventsInput>
+}
+
+export type TaskUpsertWithoutLinkedCalendarEventsInput = {
+  update: Prisma.XOR<Prisma.TaskUpdateWithoutLinkedCalendarEventsInput, Prisma.TaskUncheckedUpdateWithoutLinkedCalendarEventsInput>
+  create: Prisma.XOR<Prisma.TaskCreateWithoutLinkedCalendarEventsInput, Prisma.TaskUncheckedCreateWithoutLinkedCalendarEventsInput>
+  where?: Prisma.TaskWhereInput
+}
+
+export type TaskUpdateToOneWithWhereWithoutLinkedCalendarEventsInput = {
+  where?: Prisma.TaskWhereInput
+  data: Prisma.XOR<Prisma.TaskUpdateWithoutLinkedCalendarEventsInput, Prisma.TaskUncheckedUpdateWithoutLinkedCalendarEventsInput>
+}
+
+export type TaskUpdateWithoutLinkedCalendarEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneRequiredWithoutTasksNestedInput
+  cub?: Prisma.CubUpdateOneWithoutTasksNestedInput
+  template?: Prisma.TaskTemplateUpdateOneWithoutTasksNestedInput
+  focusActivityCard?: Prisma.FocusActivityCardUpdateOneWithoutTasksNestedInput
+  trainingDeck?: Prisma.TrainingDeckUpdateOneWithoutTasksNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedTasksNestedInput
+  focusBlocks?: Prisma.FocusBlockLogUpdateManyWithoutTaskNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+}
+
+export type TaskUncheckedUpdateWithoutLinkedCalendarEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumTaskCategoryFieldUpdateOperationsInput | $Enums.TaskCategory
+  subcategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  growthCategory?: Prisma.NullableEnumGrowthCategoryFieldUpdateOperationsInput | $Enums.GrowthCategory | null
+  proofType?: Prisma.EnumTaskProofTypeFieldUpdateOperationsInput | $Enums.TaskProofType
+  proofPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofChecklistItems?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  focusMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  phoneMinutesEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  xpEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  focusTokensEarned?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+  reflection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proofLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  timeLoggedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueAtHasTime?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurrence?: Prisma.EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+  recurrenceConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isUrgent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  focusSessionStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  familyId?: Prisma.StringFieldUpdateOperationsInput | string
+  cubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusActivityCardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trainingDeckId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusBlocks?: Prisma.FocusBlockLogUncheckedUpdateManyWithoutTaskNestedInput
+  xpLedgerEntries?: Prisma.XpLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
 }
 
 export type TaskCreateWithoutTemplateInput = {
@@ -1922,6 +2151,7 @@ export type TaskCreateWithoutTemplateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutTemplateInput = {
@@ -1967,6 +2197,7 @@ export type TaskUncheckedCreateWithoutTemplateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutTemplateInput = {
@@ -2038,6 +2269,7 @@ export type TaskCreateWithoutFocusBlocksInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutFocusBlocksInput = {
@@ -2083,6 +2315,7 @@ export type TaskUncheckedCreateWithoutFocusBlocksInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutFocusBlocksInput = {
@@ -2144,6 +2377,7 @@ export type TaskUpdateWithoutFocusBlocksInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutFocusBlocksInput = {
@@ -2189,6 +2423,7 @@ export type TaskUncheckedUpdateWithoutFocusBlocksInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskCreateWithoutXpLedgerEntriesInput = {
@@ -2234,6 +2469,7 @@ export type TaskCreateWithoutXpLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutXpLedgerEntriesInput = {
@@ -2279,6 +2515,7 @@ export type TaskUncheckedCreateWithoutXpLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutXpLedgerEntriesInput = {
@@ -2340,6 +2577,7 @@ export type TaskUpdateWithoutXpLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutXpLedgerEntriesInput = {
@@ -2385,6 +2623,7 @@ export type TaskUncheckedUpdateWithoutXpLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -2430,6 +2669,7 @@ export type TaskCreateWithoutFocusTokenLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
@@ -2475,6 +2715,7 @@ export type TaskUncheckedCreateWithoutFocusTokenLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutFocusTokenLedgerEntriesInput = {
@@ -2536,6 +2777,7 @@ export type TaskUpdateWithoutFocusTokenLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
@@ -2581,6 +2823,7 @@ export type TaskUncheckedUpdateWithoutFocusTokenLedgerEntriesInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskCreateWithoutPhoneTimeLedgerEntriesInput = {
@@ -2626,6 +2869,7 @@ export type TaskCreateWithoutPhoneTimeLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
@@ -2671,6 +2915,7 @@ export type TaskUncheckedCreateWithoutPhoneTimeLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutPhoneTimeLedgerEntriesInput = {
@@ -2732,6 +2977,7 @@ export type TaskUpdateWithoutPhoneTimeLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
@@ -2777,6 +3023,7 @@ export type TaskUncheckedUpdateWithoutPhoneTimeLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskCreateWithoutWeekendBankLedgerEntriesInput = {
@@ -2822,6 +3069,7 @@ export type TaskCreateWithoutWeekendBankLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
@@ -2867,6 +3115,7 @@ export type TaskUncheckedCreateWithoutWeekendBankLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutWeekendBankLedgerEntriesInput = {
@@ -2928,6 +3177,7 @@ export type TaskUpdateWithoutWeekendBankLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
@@ -2973,6 +3223,7 @@ export type TaskUncheckedUpdateWithoutWeekendBankLedgerEntriesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskCreateWithoutGuardianNudgesInput = {
@@ -3018,6 +3269,7 @@ export type TaskCreateWithoutGuardianNudgesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryCreateNestedManyWithoutSourceTaskInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutGuardianNudgesInput = {
@@ -3063,6 +3315,7 @@ export type TaskUncheckedCreateWithoutGuardianNudgesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutGuardianNudgesInput = {
@@ -3124,6 +3377,7 @@ export type TaskUpdateWithoutGuardianNudgesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutGuardianNudgesInput = {
@@ -3169,6 +3423,7 @@ export type TaskUncheckedUpdateWithoutGuardianNudgesInput = {
   focusTokenLedgerEntries?: Prisma.FocusTokenLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskCreateWithoutTrainingDeckInput = {
@@ -3214,6 +3469,7 @@ export type TaskCreateWithoutTrainingDeckInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutTrainingDeckInput = {
@@ -3259,6 +3515,7 @@ export type TaskUncheckedCreateWithoutTrainingDeckInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutTrainingDeckInput = {
@@ -3330,6 +3587,7 @@ export type TaskCreateWithoutFocusActivityCardInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskUncheckedCreateWithoutFocusActivityCardInput = {
@@ -3375,6 +3633,7 @@ export type TaskUncheckedCreateWithoutFocusActivityCardInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedCreateNestedManyWithoutSourceTaskInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutTaskInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutLinkedTaskInput
 }
 
 export type TaskCreateOrConnectWithoutFocusActivityCardInput = {
@@ -3485,6 +3744,7 @@ export type TaskUpdateWithoutReviewedByInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutReviewedByInput = {
@@ -3530,6 +3790,7 @@ export type TaskUncheckedUpdateWithoutReviewedByInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateManyWithoutReviewedByInput = {
@@ -3653,6 +3914,7 @@ export type TaskUpdateWithoutFamilyInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutFamilyInput = {
@@ -3698,6 +3960,7 @@ export type TaskUncheckedUpdateWithoutFamilyInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateManyWithoutFamilyInput = {
@@ -3821,6 +4084,7 @@ export type TaskUpdateWithoutCubInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutCubInput = {
@@ -3866,6 +4130,7 @@ export type TaskUncheckedUpdateWithoutCubInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateManyWithoutCubInput = {
@@ -3989,6 +4254,7 @@ export type TaskUpdateWithoutTemplateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutTemplateInput = {
@@ -4034,6 +4300,7 @@ export type TaskUncheckedUpdateWithoutTemplateInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateManyWithoutTemplateInput = {
@@ -4157,6 +4424,7 @@ export type TaskUpdateWithoutTrainingDeckInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutTrainingDeckInput = {
@@ -4202,6 +4470,7 @@ export type TaskUncheckedUpdateWithoutTrainingDeckInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateManyWithoutTrainingDeckInput = {
@@ -4325,6 +4594,7 @@ export type TaskUpdateWithoutFocusActivityCardInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateWithoutFocusActivityCardInput = {
@@ -4370,6 +4640,7 @@ export type TaskUncheckedUpdateWithoutFocusActivityCardInput = {
   phoneTimeLedgerEntries?: Prisma.PhoneTimeLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   weekendBankLedgerEntries?: Prisma.WeekendBankLedgerEntryUncheckedUpdateManyWithoutSourceTaskNestedInput
   guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutTaskNestedInput
+  linkedCalendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutLinkedTaskNestedInput
 }
 
 export type TaskUncheckedUpdateManyWithoutFocusActivityCardInput = {
@@ -4423,6 +4694,7 @@ export type TaskCountOutputType = {
   phoneTimeLedgerEntries: number
   weekendBankLedgerEntries: number
   guardianNudges: number
+  linkedCalendarEvents: number
 }
 
 export type TaskCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4432,6 +4704,7 @@ export type TaskCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   phoneTimeLedgerEntries?: boolean | TaskCountOutputTypeCountPhoneTimeLedgerEntriesArgs
   weekendBankLedgerEntries?: boolean | TaskCountOutputTypeCountWeekendBankLedgerEntriesArgs
   guardianNudges?: boolean | TaskCountOutputTypeCountGuardianNudgesArgs
+  linkedCalendarEvents?: boolean | TaskCountOutputTypeCountLinkedCalendarEventsArgs
 }
 
 /**
@@ -4486,6 +4759,13 @@ export type TaskCountOutputTypeCountGuardianNudgesArgs<ExtArgs extends runtime.T
   where?: Prisma.GuardianNudgeWhereInput
 }
 
+/**
+ * TaskCountOutputType without action
+ */
+export type TaskCountOutputTypeCountLinkedCalendarEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CalendarEventWhereInput
+}
+
 
 export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4537,6 +4817,7 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   phoneTimeLedgerEntries?: boolean | Prisma.Task$phoneTimeLedgerEntriesArgs<ExtArgs>
   weekendBankLedgerEntries?: boolean | Prisma.Task$weekendBankLedgerEntriesArgs<ExtArgs>
   guardianNudges?: boolean | Prisma.Task$guardianNudgesArgs<ExtArgs>
+  linkedCalendarEvents?: boolean | Prisma.Task$linkedCalendarEventsArgs<ExtArgs>
   _count?: boolean | Prisma.TaskCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
@@ -4686,6 +4967,7 @@ export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   phoneTimeLedgerEntries?: boolean | Prisma.Task$phoneTimeLedgerEntriesArgs<ExtArgs>
   weekendBankLedgerEntries?: boolean | Prisma.Task$weekendBankLedgerEntriesArgs<ExtArgs>
   guardianNudges?: boolean | Prisma.Task$guardianNudgesArgs<ExtArgs>
+  linkedCalendarEvents?: boolean | Prisma.Task$linkedCalendarEventsArgs<ExtArgs>
   _count?: boolean | Prisma.TaskCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TaskIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4720,6 +5002,7 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     phoneTimeLedgerEntries: Prisma.$PhoneTimeLedgerEntryPayload<ExtArgs>[]
     weekendBankLedgerEntries: Prisma.$WeekendBankLedgerEntryPayload<ExtArgs>[]
     guardianNudges: Prisma.$GuardianNudgePayload<ExtArgs>[]
+    linkedCalendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5165,6 +5448,7 @@ export interface Prisma__TaskClient<T, Null = never, ExtArgs extends runtime.Typ
   phoneTimeLedgerEntries<T extends Prisma.Task$phoneTimeLedgerEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$phoneTimeLedgerEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PhoneTimeLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   weekendBankLedgerEntries<T extends Prisma.Task$weekendBankLedgerEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$weekendBankLedgerEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WeekendBankLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   guardianNudges<T extends Prisma.Task$guardianNudgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$guardianNudgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GuardianNudgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  linkedCalendarEvents<T extends Prisma.Task$linkedCalendarEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Task$linkedCalendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5868,6 +6152,30 @@ export type Task$guardianNudgesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.GuardianNudgeScalarFieldEnum | Prisma.GuardianNudgeScalarFieldEnum[]
+}
+
+/**
+ * Task.linkedCalendarEvents
+ */
+export type Task$linkedCalendarEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CalendarEvent
+   */
+  select?: Prisma.CalendarEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CalendarEvent
+   */
+  omit?: Prisma.CalendarEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CalendarEventInclude<ExtArgs> | null
+  where?: Prisma.CalendarEventWhereInput
+  orderBy?: Prisma.CalendarEventOrderByWithRelationInput | Prisma.CalendarEventOrderByWithRelationInput[]
+  cursor?: Prisma.CalendarEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CalendarEventScalarFieldEnum | Prisma.CalendarEventScalarFieldEnum[]
 }
 
 /**

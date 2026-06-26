@@ -206,6 +206,27 @@ export const RewardRedemptionRequestStatus = {
 export type RewardRedemptionRequestStatus = (typeof RewardRedemptionRequestStatus)[keyof typeof RewardRedemptionRequestStatus]
 
 
+export const CalendarEventType = {
+  APPOINTMENT: 'APPOINTMENT',
+  SCHOOL: 'SCHOOL',
+  ACTIVITY: 'ACTIVITY',
+  FAMILY: 'FAMILY',
+  DEADLINE: 'DEADLINE',
+  REVIEW: 'REVIEW'
+} as const
+
+export type CalendarEventType = (typeof CalendarEventType)[keyof typeof CalendarEventType]
+
+
+export const CalendarEventStatus = {
+  SCHEDULED: 'SCHEDULED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type CalendarEventStatus = (typeof CalendarEventStatus)[keyof typeof CalendarEventStatus]
+
+
 export const TaskRecurrence = {
   NONE: 'NONE',
   DAILY: 'DAILY',

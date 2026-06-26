@@ -147,6 +147,21 @@ enum RewardRedemptionRequestStatus {
   REJECTED
 }
 
+enum CalendarEventType {
+  APPOINTMENT
+  SCHOOL
+  ACTIVITY
+  FAMILY
+  DEADLINE
+  REVIEW
+}
+
+enum CalendarEventStatus {
+  SCHEDULED
+  CANCELLED
+  COMPLETED
+}
+
 enum TaskRecurrence {
   NONE
   DAILY
@@ -213,6 +228,7 @@ model Family {
   focusActivityCompletions FocusActivityCompletion[]
   trainingDecks TrainingDeck[]
   rewardRedemptionRequests RewardRedemptionRequest[]
+  calendarEvents CalendarEvent[]
 }
 
 model Cub {
@@ -247,8 +263,33 @@ model Cub {
   focusDeckStackItems      FocusDeckStackItem[]
   focusActivityCompletions FocusActivityCompletion[]
   rewardRedemptionRequests RewardRedemptionRequest[]
+  calendarEvents           CalendarEvent[]
 
   @@index([familyId])
+}
+
+model CalendarEvent {
+  id                 String              @id @default(cuid())
+  title              String
+  description        String?
+  eventType          CalendarEventType
+  eventDate          DateTime
+  startTime          String?
+  endTime            String?
+  status             CalendarEventStatus @default(SCHEDULED)
+  linkedAssignmentId String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  familyId String
+  family   Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  cubId    String?
+  cub      Cub?   @relation(fields: [cubId], references: [id], onDelete: SetNull)
+  linkedTask Task? @relation(fields: [linkedAssignmentId], references: [id], onDelete: SetNull)
+
+  @@index([familyId, eventDate])
+  @@index([cubId])
+  @@index([linkedAssignmentId])
 }
 
 model CouncilDaySession {
@@ -372,6 +413,7 @@ model Task {
   phoneTimeLedgerEntries   PhoneTimeLedgerEntry[]
   weekendBankLedgerEntries WeekendBankLedgerEntry[]
   guardianNudges           GuardianNudge[]
+  linkedCalendarEvents     CalendarEvent[]
 
   @@index([familyId])
   @@index([cubId])
