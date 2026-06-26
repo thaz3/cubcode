@@ -19,7 +19,7 @@ export const CUB_NAV_ITEMS: CubNavItem[] = [
   {
     type: "group",
     id: "practice",
-    label: "Practice",
+    label: "Quests",
     children: [
       { type: "link", suffix: "/training", label: "Training Path" },
       { type: "link", suffix: "/challenges", label: "Routines" },

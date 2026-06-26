@@ -36,6 +36,23 @@ const AREA_FILL: Record<GrowthCategory, string> = {
   COMMUNITY: "fill-cub-green-bright/35",
 };
 
+function radarLabelAnchor(angle: number): "start" | "middle" | "end" {
+  const x = Math.cos(angle);
+  if (x > 0.2) return "start";
+  if (x < -0.2) return "end";
+  return "middle";
+}
+
+function countAreasWithActivity(summary: GrowthAreaSummary): {
+  active: number;
+  total: number;
+} {
+  const active = ALL_GROWTH_CATEGORIES.filter(
+    (area) => summary.byArea[area].points > 0,
+  ).length;
+  return { active, total: ALL_GROWTH_CATEGORIES.length };
+}
+
 type GrowthAreasCardProps = {
   summary: GrowthAreaSummary;
   cubName?: string;
@@ -78,6 +95,7 @@ export function GrowthAreasCard({
       : "Evidence of work across all five growth areas, including Growth Picks.";
 
   if (audience === "cub") {
+    const activity = countAreasWithActivity(summary);
     return (
       <CubKidPanel variant="violet" contentClassName="space-y-5">
         <div>
@@ -87,7 +105,7 @@ export function GrowthAreasCard({
           <h2 className="mt-1 text-lg font-black text-cub-off-white">{headline}</h2>
           <p className="mt-2 text-sm text-cub-muted">{subcopy}</p>
           <p className="mt-2 text-sm font-bold text-cub-green-light">
-            {summary.coverage.met}/{summary.coverage.total} areas with activity ·{" "}
+            {activity.active}/{activity.total} areas with activity ·{" "}
             {summary.totalPoints} total points
             {summary.growthPicksCompleted > 0
               ? ` · ${summary.growthPicksCompleted} Growth Pick${summary.growthPicksCompleted === 1 ? "" : "s"}`
@@ -111,10 +129,15 @@ export function GrowthAreasCard({
         <p className={cubSectionLabel}>{summary.weekLabel}</p>
         <h2 className={cn("mt-1", cubSectionTitle)}>{headline}</h2>
         <p className="mt-2 text-sm text-cub-muted">{subcopy}</p>
+        {(() => {
+          const activity = countAreasWithActivity(summary);
+          return (
         <p className="mt-2 text-sm font-medium text-cub-green-light">
-          {summary.coverage.met}/{summary.coverage.total} areas with activity ·{" "}
+          {activity.active}/{activity.total} areas with activity ·{" "}
           {summary.totalPoints} total points
         </p>
+          );
+        })()}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
@@ -159,7 +182,7 @@ function GrowthAreasMiniCard({
         </div>
 
         <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
-          {summary.required.map((area) => {
+          {ALL_GROWTH_CATEGORIES.map((area) => {
             const filled = summary.byArea[area].points > 0;
             const count = summary.byArea[area].points;
             return (
@@ -216,7 +239,7 @@ function GrowthAreasMiniCard({
       </div>
 
       <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
-        {summary.required.map((area) => {
+        {ALL_GROWTH_CATEGORIES.map((area) => {
           const filled = summary.byArea[area].points > 0;
           const count = summary.byArea[area].points;
           return (
@@ -267,7 +290,7 @@ function CoverageRings({ summary }: { summary: GrowthAreaSummary }) {
         Coverage
       </p>
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-1">
-        {summary.required.map((area) => {
+        {ALL_GROWTH_CATEGORIES.map((area) => {
           const stats = summary.byArea[area];
           const filled = stats.points > 0;
           return (
@@ -347,9 +370,11 @@ function CoverageRing({
 }
 
 function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
-  const size = 260;
-  const center = size / 2;
-  const maxRadius = center - 36;
+  const chartSize = 220;
+  const pad = 52;
+  const size = chartSize + pad * 2;
+  const center = pad + chartSize / 2;
+  const maxRadius = chartSize / 2 - 28;
   const angles = ALL_GROWTH_CATEGORIES.map(
     (_, index) => -Math.PI / 2 + (index * 2 * Math.PI) / ALL_GROWTH_CATEGORIES.length,
   );
@@ -402,6 +427,7 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
             const labelRadius = maxRadius + 22;
             const lx = center + labelRadius * Math.cos(angle);
             const ly = center + labelRadius * Math.sin(angle);
+            const anchor = radarLabelAnchor(angle);
             return (
               <g key={area}>
                 <line
@@ -415,7 +441,7 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
                 <text
                   x={lx}
                   y={ly}
-                  textAnchor="middle"
+                  textAnchor={anchor}
                   dominantBaseline="middle"
                   className={cn(
                     "fill-current text-[10px] font-semibold",

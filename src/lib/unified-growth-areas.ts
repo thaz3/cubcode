@@ -43,6 +43,19 @@ export function normalizeRequiredGrowthAreas(
     .filter((value): value is GrowthArea => value != null);
 
   const unique = [...new Set(normalized)];
+
+  const isLegacyConfig =
+    Array.isArray(values) &&
+    values.some(
+      (value) =>
+        typeof value === "string" &&
+        (value === "CONTROL" || value === "USE" || value === "BUILD"),
+    );
+
+  if (isLegacyConfig || unique.length < ALL_GROWTH_AREAS.length) {
+    return [...ALL_GROWTH_AREAS];
+  }
+
   return unique.length > 0 ? unique : [...ALL_GROWTH_AREAS];
 }
 
