@@ -90,7 +90,7 @@ export default async function TrainingDeckDetailPage({
         title={deck.title}
         subtitle={deck.description ?? undefined}
         backHref="/dashboard/tasks/templates"
-        backLabel="Training Board"
+        backLabel="Training Path"
       />
 
       {cubProgress.length > 0 ? (
@@ -151,10 +151,10 @@ export default async function TrainingDeckDetailPage({
           </h2>
           <p className="mt-1 text-sm text-cub-muted">
             Every Cub has finished {deck.title}. The next milestone is unlocked
-            on the Training Board.
+            on the Training Path.
           </p>
           <Link href="/dashboard/tasks/templates" className="mt-4 inline-block">
-            <Button size="sm">Back to Training Board</Button>
+            <Button size="sm">Back to Training Path</Button>
           </Link>
         </Card>
       ) : cubProgress.some((c) => c.status === "COMPLETE") ? (

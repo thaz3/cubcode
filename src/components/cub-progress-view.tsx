@@ -1,5 +1,6 @@
 import type { CubRewardSummary } from "@/lib/rewards";
 import { formatMinutes } from "@/lib/ledger-labels";
+import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import { StatCard } from "@/components/ui/stat-card";
 import { cn } from "@/lib/utils";
 
@@ -15,27 +16,32 @@ export function CubProgressView({ summary, className }: CubProgressViewProps) {
 
   return (
     <div className={cn("space-y-4", className)}>
-      <div className="rounded-2xl border border-cub-gold/40 cub-card-gold p-5 shadow-lg shadow-cub-gold/10">
-        <p className="text-sm font-bold uppercase tracking-wide text-cub-gold-light">
-          Rank · {summary.rank.current.name}
-        </p>
-        <p className="mt-1 text-3xl font-bold text-cub-off-white">{summary.totalXp} XP</p>
+      <CubKidPanel variant="gold" contentClassName="space-y-4">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+            🏅 Your rank
+          </p>
+          <p className="mt-1 text-sm font-bold text-cub-gold-light">
+            {summary.rank.current.name}
+          </p>
+          <p className="mt-1 text-3xl font-black text-cub-off-white">{summary.totalXp} XP</p>
+        </div>
         {summary.rank.next ? (
           <>
-            <div className="mt-4 h-3 overflow-hidden rounded-full bg-cub-charcoal shadow-inner">
+            <div className="h-3 overflow-hidden rounded-full bg-cub-charcoal shadow-inner">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-cub-green-bright to-cub-gold shadow-sm"
+                className="h-full rounded-full bg-gradient-to-r from-violet-500 via-cub-green-bright to-cub-gold shadow-sm"
                 style={{ width: `${summary.rank.progressPercent}%` }}
               />
             </div>
-            <p className="mt-2 text-sm text-cub-muted">
+            <p className="text-sm text-cub-muted">
               {summary.rank.xpToNext} XP to {summary.rank.next.name}
             </p>
           </>
         ) : (
-          <p className="mt-2 text-sm text-zinc-400">Top rank!</p>
+          <p className="text-sm font-bold text-cub-green-light">Top rank — legend status!</p>
         )}
-      </div>
+      </CubKidPanel>
 
       <dl className="grid gap-3 sm:grid-cols-2">
         <StatCard
@@ -60,7 +66,7 @@ export function CubProgressView({ summary, className }: CubProgressViewProps) {
         />
       </dl>
 
-      <p className="text-sm text-zinc-500">
+      <p className="text-sm text-cub-muted">
         Your parent controls when you can use your phone. Earned time is a guide,
         not automatic access.
       </p>

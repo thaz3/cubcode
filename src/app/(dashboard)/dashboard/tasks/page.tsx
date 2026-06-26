@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AssignmentsRoutinesSection } from "@/components/assignments-routines-section";
-import { ParentCreateWorkPanel } from "@/components/parent-create-work-panel";
-import type { ParentCreateKind } from "@/components/parent-create-work-panel";
+import { ParentAssignEarnPanel } from "@/components/parent-assign-earn-panel";
+import type { ParentAssignKind } from "@/components/parent-assign-earn-panel";
 import { TaskBoardNav } from "@/components/task-board-nav";
 import { TaskBoardWorkflow } from "@/components/task-board-workflow";
 import { TaskTemplateCard } from "@/components/task-template-card";
@@ -20,8 +20,12 @@ type TaskBoardPageProps = {
   searchParams: Promise<{ kind?: string }>;
 };
 
-function parseCreateKind(value: string | undefined): ParentCreateKind {
-  return value === "challenge" ? "challenge" : "task";
+function parseCreateKind(value: string | undefined): ParentAssignKind {
+  if (value === "challenge" || value === "routine") return "routine";
+  if (value === "growth_pick" || value === "training_path" || value === "bonus") {
+    return value;
+  }
+  return "task";
 }
 
 export default async function TaskBoardPage({ searchParams }: TaskBoardPageProps) {
@@ -69,8 +73,8 @@ export default async function TaskBoardPage({ searchParams }: TaskBoardPageProps
   return (
     <div className="space-y-10">
       <PageHeader
-        title="Tasks & Routines"
-        subtitle="Everyday assignments for your household — create, assign, track, and review."
+        title="Assignments"
+        subtitle="Assign work across five earn types — routines, tasks, Growth Picks, Training Path, and bonuses."
         action={
           <div className="flex flex-wrap gap-2">
             {pendingReviewCount > 0 ? (
@@ -78,12 +82,17 @@ export default async function TaskBoardPage({ searchParams }: TaskBoardPageProps
                 <Button size="lg">Review ({pendingReviewCount})</Button>
               </Link>
             ) : null}
+            <Link href="/dashboard/ways-to-earn">
+              <Button variant="secondary" size="lg">
+                Ways to Earn
+              </Button>
+            </Link>
             <Link href="#create">
-              <Button size="lg">Create task or routine</Button>
+              <Button size="lg">Assign work</Button>
             </Link>
             <Link href="/dashboard/tasks/templates">
               <Button variant="secondary" size="lg">
-                Training Board
+                Training Path
               </Button>
             </Link>
           </div>
@@ -100,12 +109,12 @@ export default async function TaskBoardPage({ searchParams }: TaskBoardPageProps
 
       <section id="create" className="scroll-mt-36">
         <Card className="p-4 sm:p-6">
-          <h2 className="text-lg font-semibold">Create task or routine</h2>
+          <h2 className="text-lg font-semibold">Assign work</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            Add one-time work or a repeating habit to your household library.
+            Choose an earn type — routine, task, Growth Pick, Training Path, or bonus.
           </p>
           <div className="mt-4">
-            <ParentCreateWorkPanel
+            <ParentAssignEarnPanel
               key={defaultCreateKind}
               cubs={family.cubs}
               defaultKind={defaultCreateKind}
@@ -146,7 +155,7 @@ export default async function TaskBoardPage({ searchParams }: TaskBoardPageProps
         <p className="text-sm text-zinc-500">
           Themed learning decks live on the{" "}
           <Link href="/dashboard/tasks/templates" className="font-medium text-cub-gold">
-            Training Board
+            Training Path
           </Link>
           .
         </p>

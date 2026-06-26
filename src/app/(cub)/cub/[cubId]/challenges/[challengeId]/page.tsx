@@ -1,6 +1,5 @@
 import { ChallengeCheckInForm } from "@/components/challenge-check-in-form";
-import { Card } from "@/components/ui/card";
-import { PageHeader } from "@/components/ui/page-header";
+import { CubKidHero, CubKidPanel } from "@/components/cub-kid";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { requireCubForUser } from "@/lib/cub-access";
@@ -9,6 +8,7 @@ import {
   getCurrentInterval,
 } from "@/lib/challenge-intervals";
 import { getOrCreateCurrentProgressLog } from "@/lib/challenges";
+import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
 import { notFound, redirect } from "next/navigation";
 
 type CubRoutineDetailPageProps = {
@@ -38,19 +38,20 @@ export default async function CubRoutineDetailPage({
   const interval = getCurrentInterval(challenge);
   if (!interval) {
     return (
-      <div className="space-y-6">
-        <PageHeader
+      <div className="space-y-5">
+        <CubKidHero
           title={challenge.title}
           subtitle={formatChallengeInterval(
             challenge.intervalType,
             challenge.intervalConfig,
           )}
+          emoji={CUB_PAGE_EMOJI.routines}
           backHref={`/cub/${cubId}/challenges`}
           backLabel="Routines"
         />
-        <Card className="p-4 text-sm text-zinc-400">
+        <CubKidPanel variant="gold" contentClassName="text-sm text-cub-muted">
           This routine is not due today. Check back on the next scheduled day.
-        </Card>
+        </CubKidPanel>
       </div>
     );
   }
@@ -58,28 +59,29 @@ export default async function CubRoutineDetailPage({
   const log = await getOrCreateCurrentProgressLog(challenge);
 
   return (
-    <div className="space-y-6">
-      <PageHeader
+    <div className="space-y-5">
+      <CubKidHero
         title={challenge.title}
         subtitle={formatChallengeInterval(
           challenge.intervalType,
           challenge.intervalConfig,
         )}
+        emoji={CUB_PAGE_EMOJI.routines}
         backHref={`/cub/${cubId}/challenges`}
         backLabel="Routines"
       />
 
       {challenge.description ? (
-        <p className="text-sm text-zinc-400">{challenge.description}</p>
+        <p className="text-sm text-cub-muted">{challenge.description}</p>
       ) : null}
 
-      <Card className="p-4 sm:p-6">
+      <CubKidPanel variant="violet" contentClassName="p-1 sm:p-2">
         <ChallengeCheckInForm
           challenge={challenge}
           log={log}
           intervalLabel={interval.label}
         />
-      </Card>
+      </CubKidPanel>
     </div>
   );
 }

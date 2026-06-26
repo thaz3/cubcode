@@ -41,7 +41,6 @@ export const challengeSchema = z
   .object({
     title: z.string().trim().min(1, "Title is required").max(120),
     description: z.string().trim().max(2000).optional(),
-    cubId: z.string().min(1, "Pick a Cub"),
   })
   .extend(challengeIntervalSchema.shape)
   .extend({
@@ -52,7 +51,7 @@ export const challengeSchema = z
   .extend(challengeRewardFieldsSchema.shape)
   .extend({
     growthCategory: z
-      .enum(["CONTROL", "USE", "BUILD", "CHARACTER", "WELLNESS"])
+      .enum(["CHARACTER", "WELLNESS", "CREATIVITY", "RESPONSIBILITY", "COMMUNITY"])
       .optional(),
   });
 

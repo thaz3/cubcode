@@ -43,7 +43,7 @@ export default async function NewTaskTemplatePage({
           }
           className="text-sm font-medium text-amber-700"
         >
-          ← {isSummer ? GET_SOME_SUN_LABEL : "Training Packs"}
+          ← {isSummer ? GET_SOME_SUN_LABEL : "Themed task packs"}
         </Link>
         <h1 className="mt-2 text-3xl font-bold">
           {isLegacy

@@ -1,12 +1,11 @@
 import { GrowthAreasCard } from "@/components/growth-areas-card";
-import { FocusDeckGrowthCard } from "@/components/focus-deck-growth-card";
 import { CubTrainingProgressCard } from "@/components/cub-training-progress-card";
-import { PageHeader } from "@/components/ui/page-header";
+import { CubKidHero } from "@/components/cub-kid";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { getWeekStart } from "@/lib/council-day";
+import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
 import { getCubTrainingBoardSummary } from "@/lib/cub-training-board-summary";
-import { getCubFocusDeckGrowthSummary } from "@/lib/focus-deck-growth";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { redirect } from "next/navigation";
 
@@ -23,24 +22,23 @@ export default async function CubModeProgressPage({
 
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
-  const [growthSummary, focusDeckGrowth, trainingSummary] = await Promise.all([
+  const [growthSummary, trainingSummary] = await Promise.all([
     getCubGrowthAreaSummary(cub, weekStartsOn),
-    getCubFocusDeckGrowthSummary(cub.id, weekStartsOn),
     getCubTrainingBoardSummary(familyId, cub.id),
   ]);
 
   return (
-    <>
-      <PageHeader
+    <div className="space-y-5">
+      <CubKidHero
         title="My progress"
-        subtitle="See how you're growing this week — tasks, routines, Focus Deck, training milestones, and parent bonuses."
+        subtitle="See how you're growing this week — tasks, routines, Growth Picks, Training Path, and bonuses."
+        emoji={CUB_PAGE_EMOJI.progress}
+        backHref={`/cub/${cubId}`}
+        backLabel="Today"
       />
 
-      <div className="space-y-6">
-        <GrowthAreasCard summary={growthSummary} audience="cub" cubId={cubId} />
-        <CubTrainingProgressCard cubId={cubId} summary={trainingSummary} />
-        <FocusDeckGrowthCard summary={focusDeckGrowth} />
-      </div>
-    </>
+      <GrowthAreasCard summary={growthSummary} audience="cub" cubId={cubId} />
+      <CubTrainingProgressCard cubId={cubId} summary={trainingSummary} />
+    </div>
   );
 }

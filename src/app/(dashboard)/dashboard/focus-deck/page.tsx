@@ -46,8 +46,8 @@ export default async function FocusDeckDashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Focus Decks"
-        subtitle="Parent-approved activity cards with multi-area growth points."
+        title="Growth Picks"
+        subtitle="Parent-approved Growth Picks with multi-area growth points."
         action={
           <Link href="/dashboard/focus-deck/new">
             <Button>New card</Button>
@@ -56,7 +56,7 @@ export default async function FocusDeckDashboardPage() {
       />
 
       <CollapsibleSection
-        title={`This week's decks · ${formatWeekLabel(weekStartsOn)}`}
+        title={`This week's Growth Picks · ${formatWeekLabel(weekStartsOn)}`}
         summary={
           stackItems.length === 0
             ? "No cards on any Cub deck yet this week."

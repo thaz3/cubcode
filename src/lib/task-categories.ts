@@ -3,6 +3,7 @@ import type {
   TaskCategory,
   TaskProofType,
 } from "@/generated/prisma/client";
+import { ALL_GROWTH_AREAS } from "@/lib/unified-growth-areas";
 
 export type CategorySuggestion = {
   proofType: TaskProofType;
@@ -24,20 +25,14 @@ export const TASK_CATEGORY_LABELS: Record<TaskCategory, string> = {
   SUMMER_LITE: "Get Some Sun",
 };
 
-export const ALL_GROWTH_CATEGORIES = [
-  "CONTROL",
-  "USE",
-  "BUILD",
-  "CHARACTER",
-  "WELLNESS",
-] as const satisfies readonly GrowthCategory[];
+export const ALL_GROWTH_CATEGORIES = ALL_GROWTH_AREAS;
 
 export const GROWTH_CATEGORY_LABELS: Record<GrowthCategory, string> = {
-  CONTROL: "Control — focus & self-regulation",
-  USE: "Use — learning & intentional tools",
-  BUILD: "Build — creating & making",
   CHARACTER: "Character — values & relationships",
   WELLNESS: "Wellness — body, rest & health",
+  CREATIVITY: "Creativity — making, learning & ideas",
+  RESPONSIBILITY: "Responsibility — habits & self-discipline",
+  COMMUNITY: "Community — family, neighbors & service",
 };
 
 export const SCHOOL_SUBCATEGORY_LABELS = {
@@ -111,18 +106,13 @@ const FOCUS_BLOCK_BASE: CategorySuggestion = {
 const GROWTH_TWEAKS: Partial<
   Record<GrowthCategory, Partial<CategorySuggestion>>
 > = {
-  CONTROL: {
-    proofPrompt: "What did you focus on? How did you stay in control?",
+  RESPONSIBILITY: {
+    proofPrompt: "What did you focus on? How did you stay responsible and on track?",
     xpEarned: 10,
   },
-  USE: {
-    proofPrompt: "What did you learn or practice? How did you use your tools well?",
+  CREATIVITY: {
+    proofPrompt: "What did you learn, build, or create? What was hardest?",
     xpEarned: 12,
-  },
-  BUILD: {
-    proofType: "SHORT_REFLECTION",
-    proofPrompt: "What did you build or create? What was hardest?",
-    xpEarned: 15,
   },
   CHARACTER: {
     proofType: "SHORT_REFLECTION",
@@ -134,6 +124,11 @@ const GROWTH_TWEAKS: Partial<
     focusMinutesEarned: 20,
     phoneMinutesEarned: 10,
     xpEarned: 8,
+  },
+  COMMUNITY: {
+    proofType: "SHORT_REFLECTION",
+    proofPrompt: "How did this help your family, neighbors, or community?",
+    xpEarned: 12,
   },
 };
 

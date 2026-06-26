@@ -1,19 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { ParentCreateWorkPanel } from "@/components/parent-create-work-panel";
+import { ParentAssignEarnPanel } from "@/components/parent-assign-earn-panel";
 import {
   CubLibraryAssignCard,
   type LibraryTaskOption,
 } from "@/components/cub-library-assign-card";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
-import type { Cub } from "@/generated/prisma/client";
+import type { Cub, GrowthCategory } from "@/generated/prisma/client";
 
 type AssignTaskToCubPanelProps = {
   cubId: string;
   cubName: string;
   libraryTasks: LibraryTaskOption[];
   cubs: Cub[];
+  bonusGrowthOptions?: Array<{ value: GrowthCategory; label: string }>;
 };
 
 export function AssignTaskToCubPanel({
@@ -21,17 +22,23 @@ export function AssignTaskToCubPanel({
   cubName,
   libraryTasks,
   cubs,
+  bonusGrowthOptions = [],
 }: AssignTaskToCubPanelProps) {
   const hasLibraryTasks = libraryTasks.length > 0;
 
   return (
     <div className="space-y-3">
       <CollapsibleSection
-        title="Create task or routine"
-        summary={`One-time work or repeating habit for ${cubName}`}
+        title="What do you want to assign?"
+        summary={`Choose an earn type for ${cubName}`}
         defaultOpen={!hasLibraryTasks}
       >
-        <ParentCreateWorkPanel cubs={cubs} defaultCubId={cubId} compact />
+        <ParentAssignEarnPanel
+          cubs={cubs}
+          defaultCubId={cubId}
+          compact
+          bonusGrowthOptions={bonusGrowthOptions}
+        />
       </CollapsibleSection>
 
       <CollapsibleSection
@@ -46,7 +53,7 @@ export function AssignTaskToCubPanel({
         {hasLibraryTasks ? (
           <div className="space-y-3">
             <p className="text-xs text-zinc-500">
-              Pick a saved task, set a schedule if needed, and assign it to{" "}
+              Pick a saved one-time task, set a schedule if needed, and assign it to{" "}
               {cubName}.
             </p>
             {libraryTasks.map((task) => (

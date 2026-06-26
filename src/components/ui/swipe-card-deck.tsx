@@ -9,11 +9,29 @@ import {
   useEffect,
   useRef,
   useState,
+  type ReactElement,
   type ReactNode,
 } from "react";
 
 const SWIPE_THRESHOLD_PX = 56;
 const SWIPE_INTENT_PX = 10;
+
+function getChildMissionId(child: ReactElement): string | null {
+  const props = child.props as { id?: string; children?: ReactNode };
+  if (typeof props.id === "string") {
+    return props.id;
+  }
+
+  const nestedChild = props.children;
+  if (isValidElement(nestedChild)) {
+    const nestedId = (nestedChild.props as { id?: string }).id;
+    if (typeof nestedId === "string") {
+      return nestedId;
+    }
+  }
+
+  return null;
+}
 
 type SwipeCardDeckProps = {
   children: ReactNode;
@@ -55,6 +73,24 @@ export function SwipeCardDeck({
     setIsAnimating(false);
     isAnimatingRef.current = false;
   }, [childCount, childKeys.join("|")]);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash || childCount === 0) return;
+
+    const targetIndex = childArray.findIndex((child) => {
+      if (!isValidElement(child)) return false;
+      return getChildMissionId(child) === hash;
+    });
+
+    if (targetIndex < 0) return;
+
+    setOrder([
+      targetIndex,
+      ...childArray.map((_, index) => index).filter((index) => index !== targetIndex),
+    ]);
+    setActiveStep(targetIndex);
+  }, [childArray, childCount, childKeys.join("|")]);
 
   const rotateNext = useCallback(() => {
     if (childCount <= 1 || isAnimatingRef.current) return;

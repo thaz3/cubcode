@@ -373,3 +373,33 @@ export function filterTasksForCubWeekView<T extends TaskScheduleInput>(
     isTaskVisibleOnCubWeekView(task, weekStart, now),
   );
 }
+
+const CUB_TODAY_TASK_STATUSES: TaskStatus[] = [
+  "CLAIMED",
+  "IN_PROGRESS",
+  "SENT_BACK",
+];
+
+/** Cub Today view: routines plus tasks due today, overdue, or without a due date. */
+export function isTaskForCubTodayView(
+  task: TaskScheduleInput,
+  now = new Date(),
+): boolean {
+  if (!CUB_TODAY_TASK_STATUSES.includes(task.status)) {
+    return false;
+  }
+
+  if (!task.dueAt) {
+    return true;
+  }
+
+  const summary = getTaskScheduleSummary(task, now);
+  return summary.timingTone === "overdue" || summary.timingTone === "due-today";
+}
+
+export function filterTasksForCubTodayView<T extends TaskScheduleInput>(
+  tasks: T[],
+  now = new Date(),
+): T[] {
+  return tasks.filter((task) => isTaskForCubTodayView(task, now));
+}

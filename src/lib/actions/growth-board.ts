@@ -20,11 +20,11 @@ import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 
 const growthCategorySchema = z.enum([
-  "CONTROL",
-  "USE",
-  "BUILD",
   "CHARACTER",
   "WELLNESS",
+  "CREATIVITY",
+  "RESPONSIBILITY",
+  "COMMUNITY",
 ]);
 
 function revalidateCubGrowthPaths(cubId: string, taskId?: string) {

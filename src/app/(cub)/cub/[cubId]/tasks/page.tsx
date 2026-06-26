@@ -1,14 +1,16 @@
+import { MissionHashScroll } from "@/components/mission-hash-scroll";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
 import {
   CubWorkflowTaskCard,
   type FocusGrowthContext,
 } from "@/components/cub-workflow-task-card";
+import { CubWorkflowRoutineCard } from "@/components/cub-workflow-routine-card";
+import { CubKidHero, CubKidPanel } from "@/components/cub-kid";
 import { SwipeCardDeck } from "@/components/ui/swipe-card-deck";
-import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
+import { getOrCreateCurrentProgressLog } from "@/lib/challenges";
 import { db } from "@/lib/db";
 import {
   formatGrowthWeekProgress,
@@ -18,6 +20,9 @@ import {
   parseRequiredGrowthCategories,
 } from "@/lib/focus-growth";
 import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
+import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
+import { getCubRoutinesView } from "@/lib/cub-routines";
+import { formatChallengeInterval } from "@/lib/challenge-intervals";
 import {
   filterTasksForCubWeekView,
   isTaskOverdue,
@@ -30,7 +35,7 @@ type CubTasksPageProps = {
   params: Promise<{ cubId: string }>;
 };
 
-export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
+export default async function CubOverviewPage({ params }: CubTasksPageProps) {
   const { cubId } = await params;
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
@@ -38,7 +43,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
 
-  const [tasks, completedGrowth, availableGrowth] = await Promise.all([
+  const [tasks, completedGrowth, availableGrowth, routinesView] = await Promise.all([
     db.task.findMany({
       where: { familyId, cubId: cub.id },
       include: {
@@ -47,6 +52,7 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
     }),
     getCompletedGrowthCategoriesThisWeek(cub.id),
     getAvailableGrowthCategoriesForCub(cub),
+    getCubRoutinesView(familyId, cub.id),
   ]);
 
   const requiredGrowth = parseRequiredGrowthCategories(cub);
@@ -58,8 +64,55 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
   };
 
   const weekTasks = filterTasksForCubWeekView(tasks, weekStartsOn);
+  const urgentTasks = weekTasks.filter((task) => isTaskUrgent(task));
   const sortedTasks = sortTasksByUrgency(weekTasks);
-  const urgentTasks = sortedTasks.filter((task) => isTaskUrgent(task));
+  const nonUrgentTasks = sortedTasks.filter((task) => !isTaskUrgent(task));
+
+  const dueChallengeIds = routinesView.dueToday.map((routine) => routine.id);
+  const upcomingChallengeIds = routinesView.upcoming.map((routine) => routine.id);
+  const allRoutineIds = [...dueChallengeIds, ...upcomingChallengeIds];
+
+  const challenges =
+    allRoutineIds.length > 0
+      ? await db.challenge.findMany({
+          where: {
+            id: { in: allRoutineIds },
+            familyId,
+            cubId: cub.id,
+            status: "ACTIVE",
+          },
+        })
+      : [];
+
+  const dueRoutines = await Promise.all(
+    routinesView.dueToday.map(async (preview) => {
+      const challenge = challenges.find((item) => item.id === preview.id);
+      if (!challenge) return null;
+
+      const log = await getOrCreateCurrentProgressLog(challenge);
+      return {
+        challenge,
+        log,
+        intervalLabel: preview.intervalLabel ?? "",
+      };
+    }),
+  );
+
+  const upcomingRoutines = routinesView.upcoming
+    .map((preview) => {
+      const challenge = challenges.find((item) => item.id === preview.id);
+      if (!challenge) return null;
+
+      return {
+        challenge,
+        intervalLabel: formatChallengeInterval(
+          preview.intervalType,
+          preview.intervalConfig,
+        ),
+      };
+    })
+    .filter((item): item is NonNullable<typeof item> => item !== null);
+
   const activeFocusTasks = sortedTasks
     .filter(
       (task) =>
@@ -71,11 +124,18 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
       focusSessionStartedAt: task.focusSessionStartedAt!.toISOString(),
     }));
 
+  const totalItems =
+    sortedTasks.length + dueRoutines.filter(Boolean).length + upcomingRoutines.length;
+
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="My tasks"
-        subtitle={`This week · ${formatWeekLabel(weekStartsOn)}.`}
+    <div className="space-y-5">
+      <MissionHashScroll />
+      <CubKidHero
+        title="Overview"
+        subtitle={`Everything assigned to you · ${formatWeekLabel(weekStartsOn)}.`}
+        emoji={CUB_PAGE_EMOJI.overview}
+        backHref={`/cub/${cubId}`}
+        backLabel="Today"
       />
 
       <ActiveFocusTimersBanner
@@ -84,39 +144,76 @@ export default async function CubModeTasksPage({ params }: CubTasksPageProps) {
       />
 
       {urgentTasks.length > 0 ? (
-        <Card
-          variant="accent"
-          className={
-            urgentTasks.some((task) => isTaskOverdue(task))
-              ? "border-red-800/60"
-              : undefined
-          }
-        >
-          <h2 className="text-lg font-semibold text-zinc-100">Do these first</h2>
-          <p className="mt-1 text-sm text-zinc-400">
+        <CubKidPanel variant="gold" contentClassName="space-y-1">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+            ⚡ Priority quests
+          </p>
+          <h2 className="text-lg font-black text-cub-off-white">Do these first</h2>
+          <p className="text-sm text-cub-muted">
             Due soon or overdue — tackle these before anything else.
           </p>
-        </Card>
+        </CubKidPanel>
       ) : null}
 
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-zinc-100">One-time tasks</h2>
-      </section>
-
-      {sortedTasks.length === 0 ? (
+      {totalItems === 0 ? (
         <EmptyState
-          title="No tasks this week"
-          description="Ask your parent to assign something for this week."
+          title="Nothing assigned yet"
+          description="When your parent assigns tasks or routines, they will show up here."
         />
       ) : (
         <SwipeCardDeck>
-          {sortedTasks.map((task) => (
-            <CubWorkflowTaskCard
-              key={task.id}
-              task={task}
-              cubId={cub.id}
-              focusGrowth={task.category === "FOCUS_BLOCK" ? focusGrowth : null}
-            />
+          {urgentTasks.map((task) => (
+            <div key={`task-${task.id}`} id={`mission-${task.id}`} className="scroll-mt-24">
+              <CubWorkflowTaskCard
+                task={task}
+                cubId={cub.id}
+                focusGrowth={task.category === "FOCUS_BLOCK" ? focusGrowth : null}
+              />
+            </div>
+          ))}
+
+          {dueRoutines.map((routine) =>
+            routine ? (
+              <div
+                key={`routine-${routine.challenge.id}`}
+                id={`mission-routine-${routine.challenge.id}`}
+                className="scroll-mt-24"
+              >
+                <CubWorkflowRoutineCard
+                  cubId={cub.id}
+                  challenge={routine.challenge}
+                  log={routine.log}
+                  intervalLabel={routine.intervalLabel}
+                  dueNow
+                />
+              </div>
+            ) : null,
+          )}
+
+          {nonUrgentTasks.map((task) => (
+            <div key={`task-${task.id}`} id={`mission-${task.id}`} className="scroll-mt-24">
+              <CubWorkflowTaskCard
+                task={task}
+                cubId={cub.id}
+                focusGrowth={task.category === "FOCUS_BLOCK" ? focusGrowth : null}
+              />
+            </div>
+          ))}
+
+          {upcomingRoutines.map((routine) => (
+            <div
+              key={`routine-upcoming-${routine.challenge.id}`}
+              id={`mission-routine-${routine.challenge.id}`}
+              className="scroll-mt-24"
+            >
+              <CubWorkflowRoutineCard
+                cubId={cub.id}
+                challenge={routine.challenge}
+                log={null}
+                intervalLabel={routine.intervalLabel}
+                dueNow={false}
+              />
+            </div>
           ))}
         </SwipeCardDeck>
       )}

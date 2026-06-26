@@ -53,13 +53,21 @@ const STATUS_STYLES: Record<
   },
 };
 
+/** Parent dashboard training path — practical list layout. */
 export function TrainingBoardPath({
   milestones,
-  cubId,
   deckBasePath = "/dashboard/tasks/templates/deck",
   readOnly = false,
   allowLockedView = false,
 }: TrainingBoardPathProps) {
+  if (milestones.length === 0) {
+    return (
+      <p className="text-center text-sm text-cub-muted">
+        Training path milestones will appear here once seeded.
+      </p>
+    );
+  }
+
   return (
     <ol className="relative space-y-4">
       <div
@@ -93,7 +101,10 @@ export function TrainingBoardPath({
             </div>
 
             {index < milestones.length - 1 ? (
-              <div className="absolute left-5 top-16 h-[calc(100%-1rem)] w-px bg-zinc-800" aria-hidden />
+              <div
+                className="absolute left-5 top-16 h-[calc(100%-1rem)] w-px bg-zinc-800"
+                aria-hidden
+              />
             ) : null}
 
             <div

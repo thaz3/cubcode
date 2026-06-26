@@ -9,7 +9,9 @@ import { CubLink } from "@/components/cub-link";
 import type { ActionState } from "@/lib/actions/auth";
 import { approveTaskAction } from "@/lib/actions/tasks";
 import { cubErrorText, cubLink, cubSuccessText } from "@/lib/cub-theme";
+import { EarnTypeBadge } from "@/components/earn-type-badge";
 import { formatProofType } from "@/lib/task-labels";
+import type { EarnType } from "@/lib/earn-types";
 import type { TaskProofType, TaskStatus } from "@/generated/prisma/client";
 
 type ReviewCardTask = {
@@ -24,9 +26,15 @@ type ReviewCardTask = {
 
 type ReviewCardProps = {
   task: ReviewCardTask;
+  earnType?: Extract<EarnType, "task" | "training_path">;
+  trainingLevelTitle?: string | null;
 };
 
-export function ReviewCard({ task }: ReviewCardProps) {
+export function ReviewCard({
+  task,
+  earnType = "task",
+  trainingLevelTitle,
+}: ReviewCardProps) {
   const [state, approveAction, pending] = useActionState(
     approveTaskAction,
     {} as ActionState,
@@ -42,6 +50,7 @@ export function ReviewCard({ task }: ReviewCardProps) {
     <Card variant="accent" className="space-y-4">
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
+          <EarnTypeBadge earnType={earnType} />
           <h2 className="text-lg font-semibold text-cub-off-white">{task.title}</h2>
           <StatusBadge status={task.status} />
         </div>
@@ -54,9 +63,13 @@ export function ReviewCard({ task }: ReviewCardProps) {
                 className={cubLink}
               />{" "}
               · {formatProofType(task.proofType)}
+              {trainingLevelTitle ? ` · ${trainingLevelTitle}` : ""}
             </>
           ) : (
-            <>Unknown Cub · {formatProofType(task.proofType)}</>
+            <>
+              Unknown Cub · {formatProofType(task.proofType)}
+              {trainingLevelTitle ? ` · ${trainingLevelTitle}` : ""}
+            </>
           )}
         </p>
         {reflectionSnippet ? (

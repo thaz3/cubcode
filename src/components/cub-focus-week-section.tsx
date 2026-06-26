@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { EarnTypeBadge } from "@/components/earn-type-badge";
 import type { CubFocusWeekCard } from "@/lib/cub-focus-deck-week";
 import { cubSectionTitle } from "@/lib/cub-theme";
 import { cn } from "@/lib/utils";
@@ -35,13 +36,13 @@ export function CubFocusWeekSection({
     cards.length === 0 ? (
       isCompact ? (
         <p className="text-xs text-cub-muted">
-          No Focus cards picked for this week yet.
+          No Growth Picks picked for this week yet.
         </p>
       ) : (
         <EmptyState
-          title="No Focus cards this week"
-          description="When your parent adds cards to your weekly deck, they will show up here."
-          actionLabel="Open Focus Decks"
+          title="No Growth Picks this week"
+          description="When your parent adds Growth Picks to your weekly chart, they will show up here."
+          actionLabel="Open Growth Picks"
           actionHref={focusHref}
         />
       )
@@ -58,7 +59,8 @@ export function CubFocusWeekSection({
                 )}
               >
                 <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <EarnTypeBadge earnType="growth_pick" />
                     <p
                       className={
                         isCompact
@@ -104,7 +106,7 @@ export function CubFocusWeekSection({
     return (
       <Card className="h-full space-y-2 border-cub-gold/20 bg-cub-charcoal/40 p-3">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-cub-off-white">Focus this week</h2>
+          <h2 className="text-sm font-semibold text-cub-off-white">Growth Picks</h2>
           <Link
             href={focusHref}
             className="text-xs font-medium text-cub-gold hover:text-cub-gold-light"
@@ -120,18 +122,18 @@ export function CubFocusWeekSection({
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between gap-3">
-        <h2 className={cubSectionTitle}>Focus this week</h2>
+        <h2 className={cubSectionTitle}>Growth Picks</h2>
         <Link
           href={focusHref}
           className="text-sm font-medium text-cub-gold hover:text-cub-gold-light"
         >
-          Focus Decks →
+          Growth Picks →
         </Link>
       </div>
       {content}
       {cards.length > preview.length ? (
         <p className="text-xs text-cub-muted">
-          +{cards.length - preview.length} more on your Focus Decks
+          +{cards.length - preview.length} more Growth Picks
         </p>
       ) : null}
     </section>

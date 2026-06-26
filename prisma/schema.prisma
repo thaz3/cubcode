@@ -56,11 +56,11 @@ enum TaskCategory {
 }
 
 enum GrowthCategory {
-  CONTROL
-  USE
-  BUILD
   CHARACTER
   WELLNESS
+  CREATIVITY
+  RESPONSIBILITY
+  COMMUNITY
 }
 
 enum LedgerReason {
@@ -226,7 +226,7 @@ model Cub {
   dailyPhoneCapMinutes  Int               @default(45)
   weekendBankCapMinutes Int               @default(90)
   supervisionLevel      SupervisionLevel  @default(NEARBY)
-  requiredGrowthCategories Json          @default("[\"CONTROL\",\"USE\",\"BUILD\",\"CHARACTER\",\"WELLNESS\"]")
+  requiredGrowthCategories Json          @default("[\"CHARACTER\",\"WELLNESS\",\"CREATIVITY\",\"RESPONSIBILITY\",\"COMMUNITY\"]")
   focusAreaSwapCredits   Int           @default(0)
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt

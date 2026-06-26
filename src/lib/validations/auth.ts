@@ -67,7 +67,7 @@ export const cubSchema = z.object({
     .max(1440),
   supervisionLevel: z.enum(["DIRECT", "NEARBY", "INDEPENDENT"]),
   requiredGrowthCategories: z
-    .array(z.enum(["CONTROL", "USE", "BUILD", "CHARACTER", "WELLNESS"]))
+    .array(z.enum(["CHARACTER", "WELLNESS", "CREATIVITY", "RESPONSIBILITY", "COMMUNITY"]))
     .min(1, "Pick at least one growth area"),
 });
 

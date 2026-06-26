@@ -213,20 +213,20 @@ export function GuardianNudgesSection({
                         FOCUS_DECK_BADGE,
                       )}
                     >
-                      Focus Decks
+                      Growth Picks
                     </span>
                     <p className="text-base font-medium leading-snug text-cub-off-white">
                       {card.title}
                     </p>
                     <p className="text-sm text-cub-muted">{card.cubName}</p>
                     <p className="text-sm text-cub-gold-light">
-                      Started a new Focus Deck card this week.
+                      Started a new Growth Pick this week.
                     </p>
                   </div>
                   <div className="mt-4">
                     <Link href={card.href}>
                       <Button size="sm" variant="reward">
-                        View Focus Decks
+                        View Growth Picks
                       </Button>
                     </Link>
                   </div>

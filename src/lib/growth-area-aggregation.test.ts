@@ -2,17 +2,18 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import type { GrowthCategory } from "@/generated/prisma/client";
 import {
+  addGrowthAreaPoints,
   computeCoverage,
-  computeMaxCompletions,
+  computeMaxPoints,
   createEmptyByArea,
   finalizeGrowthAreaSummary,
   mergeGrowthAreaItem,
 } from "@/lib/growth-area-aggregation";
 
 describe("growth-area-summary", () => {
-  it("counts coverage when required areas have completions", () => {
+  it("counts coverage when required areas have points", () => {
     const byArea = createEmptyByArea();
-    mergeGrowthAreaItem(byArea, "CONTROL", {
+    mergeGrowthAreaItem(byArea, "RESPONSIBILITY", {
       type: "task",
       id: "t1",
       title: "Focus session",
@@ -26,11 +27,11 @@ describe("growth-area-summary", () => {
     });
 
     const required: GrowthCategory[] = [
-      "CONTROL",
-      "USE",
-      "BUILD",
+      "RESPONSIBILITY",
+      "CREATIVITY",
       "CHARACTER",
       "WELLNESS",
+      "COMMUNITY",
     ];
     const coverage = computeCoverage(required, byArea);
     assert.equal(coverage.met, 2);
@@ -39,33 +40,39 @@ describe("growth-area-summary", () => {
 
   it("normalizes radar scale with at least 1", () => {
     const byArea = createEmptyByArea();
-    assert.equal(computeMaxCompletions(byArea), 1);
-    mergeGrowthAreaItem(byArea, "USE", {
+    assert.equal(computeMaxPoints(byArea), 1);
+    mergeGrowthAreaItem(byArea, "CREATIVITY", {
       type: "task",
       id: "t2",
       title: "Homework",
       completedAt: new Date(),
     });
-    mergeGrowthAreaItem(byArea, "USE", {
-      type: "task",
-      id: "t3",
-      title: "Reading",
-      completedAt: new Date(),
-    });
-    assert.equal(computeMaxCompletions(byArea), 2);
+    addGrowthAreaPoints(
+      byArea,
+      "CREATIVITY",
+      {
+        type: "growth_pick",
+        id: "p1",
+        title: "Walk + Witness",
+        completedAt: new Date(),
+        points: 2,
+      },
+      2,
+    );
+    assert.equal(computeMaxPoints(byArea), 3);
   });
 
   it("finalizes sorted drill-down items", () => {
     const byArea = createEmptyByArea();
     const older = new Date("2026-06-20T10:00:00Z");
     const newer = new Date("2026-06-22T10:00:00Z");
-    mergeGrowthAreaItem(byArea, "BUILD", {
+    mergeGrowthAreaItem(byArea, "CREATIVITY", {
       type: "task",
       id: "old",
       title: "Older",
       completedAt: older,
     });
-    mergeGrowthAreaItem(byArea, "BUILD", {
+    mergeGrowthAreaItem(byArea, "CREATIVITY", {
       type: "task",
       id: "new",
       title: "Newer",
@@ -73,11 +80,12 @@ describe("growth-area-summary", () => {
     });
 
     const summary = finalizeGrowthAreaSummary(
-      ["BUILD"],
+      ["CREATIVITY"],
       byArea,
       "Week of Jun 16",
     );
-    assert.equal(summary.byArea.BUILD.items[0]?.title, "Newer");
+    assert.equal(summary.byArea.CREATIVITY.items[0]?.title, "Newer");
     assert.equal(summary.coverage.met, 1);
+    assert.equal(summary.totalPoints, 2);
   });
 });

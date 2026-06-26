@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
+import { cubKidGameCard } from "@/lib/cub-kid-theme";
 import type { CubUpcomingRoutine } from "@/lib/cub-routines";
+import { cn } from "@/lib/utils";
 
 type CubUpcomingRoutinesSectionProps = {
   cubId: string;
@@ -17,34 +19,42 @@ export function CubUpcomingRoutinesSection({
   }
 
   return (
-    <section className="space-y-3">
+    <CubKidPanel variant="gold" contentClassName="space-y-3">
       <div>
-        <h2 className="text-lg font-semibold text-zinc-100">Upcoming routines</h2>
-        <p className="text-sm text-zinc-500">
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+          📅 Coming up
+        </p>
+        <h2 className="mt-0.5 text-lg font-black text-cub-off-white">Upcoming routines</h2>
+        <p className="text-sm text-cub-muted">
           Not due today — your parent set these up to repeat on other days.
         </p>
       </div>
       <ul className="space-y-2">
         {routines.map((routine) => (
           <li key={routine.id}>
-            <Card className="py-4">
-              <p className="font-medium text-zinc-300">{routine.title}</p>
-              <p className="mt-1 text-sm text-zinc-500">
+            <div
+              className={cn(
+                cubKidGameCard,
+                "border-cub-gold/20 bg-gradient-to-br from-cub-charcoal to-cub-ebony p-4",
+              )}
+            >
+              <p className="font-bold text-cub-off-white">{routine.title}</p>
+              <p className="mt-1 text-sm text-cub-muted">
                 {formatChallengeInterval(
                   routine.intervalType,
                   routine.intervalConfig,
                 )}
               </p>
-            </Card>
+            </div>
           </li>
         ))}
       </ul>
       <Link
         href={`/cub/${cubId}/challenges`}
-        className="inline-block text-sm font-medium text-cub-gold hover:text-cub-gold-light"
+        className="inline-block text-sm font-bold text-cub-gold-light hover:text-cub-gold-warm"
       >
         All routines →
       </Link>
-    </section>
+    </CubKidPanel>
   );
 }

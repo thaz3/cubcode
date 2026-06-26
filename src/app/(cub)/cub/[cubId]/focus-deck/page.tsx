@@ -1,9 +1,10 @@
+import { MissionHashScroll } from "@/components/mission-hash-scroll";
+import { EarnTypeBadge } from "@/components/earn-type-badge";
 import Link from "next/link";
 import { FocusCompletionSubmitForm } from "@/components/focus-completion-submit-form";
+import { CubKidHero, CubKidPanel } from "@/components/cub-kid";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
@@ -12,8 +13,10 @@ import {
   formatFocusDeckCategoryPoints,
   parseFocusDeckCategoryPoints,
 } from "@/lib/focus-deck-categories";
+import { CUB_PAGE_EMOJI, cubKidGameCard } from "@/lib/cub-kid-theme";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 type CubFocusDeckPageProps = {
   params: Promise<{ cubId: string }>;
@@ -62,44 +65,64 @@ export default async function CubFocusDeckPage({ params }: CubFocusDeckPageProps
   );
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Focus Decks"
-        subtitle={`Pick a card for ${formatWeekLabel(weekStartsOn)}. One real-world activity, multiple growth areas.`}
+    <div className="space-y-5">
+      <MissionHashScroll />
+      <CubKidHero
+        title="Growth Picks"
+        subtitle={`Pick a Growth Pick for ${formatWeekLabel(weekStartsOn)}. Choice-based activities across the five Cub Code growth areas.`}
+        emoji={CUB_PAGE_EMOJI.growthPicks}
+        backHref={`/cub/${cubId}`}
+        backLabel="Today"
       />
 
       {activeCompletions.length > 0 ? (
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold text-zinc-100">In progress</h2>
+        <CubKidPanel variant="gold" contentClassName="space-y-3">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+            🌱 In progress
+          </p>
           {activeCompletions.map((completion) => {
             const points = parseFocusDeckCategoryPoints(completion.card.categoryPoints);
             const pointsLabel = points ? formatFocusDeckCategoryPoints(points) : "";
 
             return (
-              <Card key={completion.id} className="space-y-3">
+              <div
+                key={completion.id}
+                id={`pick-${completion.cardId}`}
+                className={cn(
+                  cubKidGameCard,
+                  "scroll-mt-24 space-y-3 border-cub-green-bright/35 bg-gradient-to-br from-cub-green-muted/20 to-cub-charcoal p-4",
+                )}
+              >
                 <div>
-                  <h3 className="text-lg font-semibold text-zinc-100">
-                    {completion.card.title}
-                  </h3>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <EarnTypeBadge earnType="growth_pick" />
+                    <h3 className="text-lg font-bold text-cub-off-white">
+                      {completion.card.title}
+                    </h3>
+                  </div>
                   {completion.card.instructions ? (
-                    <p className="mt-2 text-sm text-zinc-400">
+                    <p className="mt-2 text-sm text-cub-muted">
                       {completion.card.instructions}
                     </p>
                   ) : null}
                   {pointsLabel ? (
                     <p className="mt-2 text-sm text-cub-gold/90">{pointsLabel}</p>
                   ) : null}
-                  <p className="mt-1 text-xs text-zinc-500">Status: {completion.status}</p>
+                  <p className="mt-1 text-xs font-bold text-cub-green-light">
+                    Status: {completion.status}
+                  </p>
                 </div>
                 <FocusCompletionSubmitForm completion={completion} card={completion.card} />
-              </Card>
+              </div>
             );
           })}
-        </section>
+        </CubKidPanel>
       ) : null}
 
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-zinc-100">Your deck this week</h2>
+      <CubKidPanel variant="violet" contentClassName="space-y-3">
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+          ✨ Your picks this week
+        </p>
         {availableStack.length === 0 ? (
           <EmptyState
             title="No cards available"
@@ -113,17 +136,23 @@ export default async function CubFocusDeckPage({ params }: CubFocusDeckPageProps
 
               return (
                 <li key={item.id}>
-                  <Card className="space-y-3">
+                  <div
+                    id={`pick-${item.cardId}`}
+                    className={cn(
+                      cubKidGameCard,
+                      "scroll-mt-24 space-y-3 border-cub-green-bright/25 bg-gradient-to-br from-cub-charcoal to-cub-ebony p-4",
+                    )}
+                  >
                     <div>
-                      <h3 className="font-semibold text-zinc-100">{item.card.title}</h3>
+                      <h3 className="font-bold text-cub-off-white">{item.card.title}</h3>
                       {item.card.description ? (
-                        <p className="mt-1 text-sm text-zinc-400">{item.card.description}</p>
+                        <p className="mt-1 text-sm text-cub-muted">{item.card.description}</p>
                       ) : null}
                       {pointsLabel ? (
                         <p className="mt-2 text-sm text-cub-gold/90">{pointsLabel}</p>
                       ) : null}
                       {item.card.estimatedMinutes ? (
-                        <p className="mt-1 text-xs text-zinc-500">
+                        <p className="mt-1 text-xs text-cub-muted">
                           About {item.card.estimatedMinutes} min
                         </p>
                       ) : null}
@@ -131,20 +160,23 @@ export default async function CubFocusDeckPage({ params }: CubFocusDeckPageProps
                     <form action={pickFocusCardFormAction}>
                       <input type="hidden" name="cubId" value={cubId} />
                       <input type="hidden" name="cardId" value={item.cardId} />
-                      <Button type="submit" variant="constructive">
-                        Pick this card
+                      <Button type="submit" variant="constructive" className="font-bold">
+                        Pick this card ▶
                       </Button>
                     </form>
-                  </Card>
+                  </div>
                 </li>
               );
             })}
           </ul>
         )}
-      </section>
+      </CubKidPanel>
 
-      <Link href={`/cub/${cubId}/progress`} className="text-sm font-medium text-cub-gold-light">
-        View Focus Decks growth chart →
+      <Link
+        href={`/cub/${cubId}/progress`}
+        className="inline-flex rounded-xl border border-violet-500/25 bg-violet-950/30 px-3 py-2 text-sm font-bold text-violet-200 hover:text-cub-gold-light"
+      >
+        View Growth Chart →
       </Link>
     </div>
   );

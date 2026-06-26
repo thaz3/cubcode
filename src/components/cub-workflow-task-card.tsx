@@ -1,3 +1,4 @@
+import { EarnTypeBadge } from "@/components/earn-type-badge";
 import { RequestSessionTimer } from "@/components/request-session-timer";
 import { CancelFocusSessionForm } from "@/components/cancel-focus-session-form";
 import { StartTaskForm } from "@/components/start-task-form";
@@ -10,7 +11,9 @@ import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
 import { formatTaskCategory, GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { cubStatusMessage } from "@/lib/cub-next-action";
+import { getTaskEarnType } from "@/lib/earn-types";
 import type { GrowthCategory, Task, TaskStatus } from "@/generated/prisma/client";
+import { cn } from "@/lib/utils";
 
 type CubWorkflowTask = Pick<
   Task,
@@ -34,8 +37,12 @@ type CubWorkflowTask = Pick<
   | "focusMinutesEarned"
   | "focusSessionStartedAt"
   | "reviewNote"
+  | "focusActivityCardId"
+  | "trainingDeckId"
 > & {
   focusBlocks: Array<{ durationMinutes: number }>;
+  focusActivityCardId?: string | null;
+  trainingDeckId?: string | null;
 };
 
 export type FocusGrowthContext = {
@@ -63,18 +70,23 @@ export function CubWorkflowTaskCard({
   );
   const statusMsg = cubStatusMessage(task.status as TaskStatus);
   const isFocusBlock = task.category === "FOCUS_BLOCK";
+  const earnType = getTaskEarnType(task);
   const instructionsVisible = task.status === "IN_PROGRESS";
 
   return (
     <Card
-      className={cubAccentClassNames(cubId, {
-        border: true,
-        cardTint: isRequestActive,
-      })}
+      className={cn(
+        "rounded-2xl border-2 shadow-md",
+        cubAccentClassNames(cubId, {
+          border: true,
+          cardTint: isRequestActive,
+        }),
+      )}
     >
       <div className="space-y-3">
         <div>
           <div className="flex flex-wrap items-center gap-2">
+            <EarnTypeBadge earnType={earnType} />
             <h2 className="text-lg font-semibold text-zinc-50">{task.title}</h2>
             <StatusBadge status={task.status} />
             <TaskScheduleBadge task={task} />

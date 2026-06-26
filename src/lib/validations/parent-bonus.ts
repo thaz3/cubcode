@@ -3,11 +3,11 @@ import { z } from "zod";
 export const PARENT_BONUS_XP_OPTIONS = [5, 10, 15, 20, 25, 30] as const;
 
 const growthCategorySchema = z.enum([
-  "CONTROL",
-  "USE",
-  "BUILD",
   "CHARACTER",
   "WELLNESS",
+  "CREATIVITY",
+  "RESPONSIBILITY",
+  "COMMUNITY",
 ]);
 
 export const awardParentBonusXpSchema = z.object({

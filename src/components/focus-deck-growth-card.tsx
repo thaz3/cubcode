@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import type { FocusDeckGrowthSummary } from "@/lib/focus-deck-growth";
 import {
   ALL_FOCUS_DECK_CATEGORIES,
@@ -26,11 +26,14 @@ export function FocusDeckGrowthCard({ summary, className }: FocusDeckGrowthCardP
   );
 
   return (
-    <Card variant="accent" className={cn("space-y-4", className)}>
+    <CubKidPanel variant="gold" contentClassName="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold text-cub-off-white">Focus Deck growth</h2>
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+          🌱 Growth Chart
+        </p>
+        <h2 className="mt-1 text-lg font-black text-cub-off-white">Growth Picks points</h2>
         <p className="mt-1 text-sm text-cub-muted">
-          {summary.weekLabel} · {summary.cardsCompleted} card
+          {summary.weekLabel} · {summary.cardsCompleted} Growth Pick
           {summary.cardsCompleted === 1 ? "" : "s"} approved · {summary.totalPoints} area
           points
         </p>
@@ -59,6 +62,6 @@ export function FocusDeckGrowthCard({ summary, className }: FocusDeckGrowthCardP
           );
         })}
       </ul>
-    </Card>
+    </CubKidPanel>
   );
 }

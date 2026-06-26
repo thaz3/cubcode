@@ -23,8 +23,9 @@ export const DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS = DASHBOARD_CORE_NAV_ITEMS;
 
 export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
-  { href: "/dashboard/focus-deck", label: "Focus Decks" },
-  { href: "/dashboard/tasks/templates", label: "Training Board" },
+  { href: "/dashboard/ways-to-earn", label: "Ways to Earn" },
+  { href: "/dashboard/focus-deck", label: "Growth Picks" },
+  { href: "/dashboard/tasks/templates", label: "Training Path" },
   { href: "/dashboard/family/settings", label: "Settings" },
 ] as const;
 
@@ -46,6 +47,9 @@ export function isDashboardNavActive(pathname: string, href: string): boolean {
   }
   if (href === "/dashboard/focus-deck") {
     return pathname.startsWith("/dashboard/focus-deck");
+  }
+  if (href === "/dashboard/ways-to-earn") {
+    return pathname.startsWith("/dashboard/ways-to-earn");
   }
   if (href === "/dashboard/family-day") {
     return (

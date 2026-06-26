@@ -51,14 +51,14 @@ export default async function TrainingBoardPage({
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Cub Training Board"
-        subtitle="Complete each Focus Deck to unlock the next part of the Code."
+        title="Training Path"
+        subtitle="Complete each level to unlock the next part of the Code."
         backHref="/dashboard/tasks"
         backLabel="Assignments"
         action={
           <Link href="/dashboard/focus-deck">
             <Button variant="secondary" size="lg">
-              Manage Decks
+              Growth Picks
             </Button>
           </Link>
         }

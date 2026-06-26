@@ -1,10 +1,11 @@
 import { CubProgressOverview } from "@/components/cub-progress-overview";
 import { CubProgressView } from "@/components/cub-progress-view";
 import { CubRewardStore } from "@/components/cub-reward-store";
-import { PageHeader } from "@/components/ui/page-header";
+import { CubKidHero, CubKidPanel } from "@/components/cub-kid";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { formatWeekLabel, getWeekStart } from "@/lib/council-day";
+import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
 import { getCubWeekStats } from "@/lib/council-day-stats";
 import { getCubLedgerEntries } from "@/lib/cub-ledger";
 import { getCubRewardSummary } from "@/lib/rewards";
@@ -14,7 +15,6 @@ import { getCubWeekEarnedTotals } from "@/lib/weekly-progress";
 import { db } from "@/lib/db";
 import { seedRewardStoreForFamily } from "@/lib/actions/rewards";
 import { redirect } from "next/navigation";
-import { Card } from "@/components/ui/card";
 
 type CubRewardsPageProps = {
   params: Promise<{ cubId: string }>;
@@ -85,10 +85,13 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
   const declinedNotes = Object.fromEntries(declinedNotesMap);
 
   return (
-    <div className="space-y-6">
-      <PageHeader
+    <div className="space-y-5">
+      <CubKidHero
         title="Rewards"
         subtitle="What you've earned, finished work, and things to save up for."
+        emoji={CUB_PAGE_EMOJI.rewards}
+        backHref={`/cub/${cubId}`}
+        backLabel="Today"
       />
 
       <CubProgressView summary={summary} />
@@ -104,27 +107,28 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
       />
 
       {rewardItems.length > 0 ? (
-        <Card className="overflow-hidden border-cub-gold/25 bg-cub-charcoal/40 p-0">
-          <div className="border-b border-cub-gold/20 bg-gradient-to-r from-cub-gold-muted/30 via-cub-charcoal to-cub-ebony px-5 py-4">
-            <h2 className="text-lg font-semibold text-cub-off-white">Reward Store</h2>
+        <CubKidPanel variant="gold" contentClassName="space-y-4">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+              🛒 Reward store
+            </p>
+            <h2 className="mt-1 text-lg font-black text-cub-off-white">Spend your tokens</h2>
             <p className="mt-1 text-sm text-cub-muted">
               Pick a reward, then ask your parent to approve it. Tokens spend when
               they say yes.
             </p>
           </div>
-          <div className="p-5">
-            <CubRewardStore
-              cubId={cubId}
-              availableFocusTokens={summary.totalFocusTokens}
-              items={rewardItems}
-              pendingItemIds={pendingRedemptions.map(
-                (request: { rewardStoreItem: { id: string } }) =>
-                  request.rewardStoreItem.id,
-              )}
-              declinedNotes={declinedNotes}
-            />
-          </div>
-        </Card>
+          <CubRewardStore
+            cubId={cubId}
+            availableFocusTokens={summary.totalFocusTokens}
+            items={rewardItems}
+            pendingItemIds={pendingRedemptions.map(
+              (request: { rewardStoreItem: { id: string } }) =>
+                request.rewardStoreItem.id,
+            )}
+            declinedNotes={declinedNotes}
+          />
+        </CubKidPanel>
       ) : null}
     </div>
   );

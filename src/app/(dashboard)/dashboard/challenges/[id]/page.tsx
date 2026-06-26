@@ -4,8 +4,9 @@ import { ChallengeProgressBadge } from "@/components/challenge-progress-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { CubLink } from "@/components/cub-link";
+import { CubColorBadge } from "@/components/cub-color-dot";
 import { auth } from "@/lib/auth";
+import { findRoutineGroupMembersByChallengeId } from "@/lib/assignment-routine-groups";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
@@ -29,27 +30,36 @@ export default async function ChallengeDetailPage({
   const family = await getFamilyForUser(session.user.id);
   if (!family) redirect("/signup");
 
-  const challenge = await db.challenge.findFirst({
-    where: { id, familyId: family.id },
-    include: {
-      cub: true,
-      progressLogs: {
-        orderBy: { intervalStart: "desc" },
-        take: 10,
-      },
-      _count: {
-        select: {
-          progressLogs: {
-            where: {
-              status: { in: ["SUBMITTED", "SENT_BACK", "REJECTED", "REWARDED"] },
+  const [challenge, familyChallenges] = await Promise.all([
+    db.challenge.findFirst({
+      where: { id, familyId: family.id },
+      include: {
+        cub: true,
+        progressLogs: {
+          orderBy: { intervalStart: "desc" },
+          take: 10,
+        },
+        _count: {
+          select: {
+            progressLogs: {
+              where: {
+                status: { in: ["SUBMITTED", "SENT_BACK", "REJECTED", "REWARDED"] },
+              },
             },
           },
         },
       },
-    },
-  });
+    }),
+    db.challenge.findMany({
+      where: { familyId: family.id, status: { not: "ARCHIVED" } },
+      include: { cub: true },
+    }),
+  ]);
 
   if (!challenge) notFound();
+
+  const groupMembers = findRoutineGroupMembersByChallengeId(id, familyChallenges);
+  const assignedCubs = groupMembers.map((member) => member.cub);
 
   const canHardDelete = challenge._count.progressLogs === 0;
 
@@ -75,14 +85,16 @@ export default async function ChallengeDetailPage({
       />
 
       <Card className="space-y-3 p-4">
-        <p className="text-sm text-zinc-400">
-          Assigned to{" "}
-          <CubLink
-            cubId={challenge.cub.id}
-            displayName={challenge.cub.displayName}
-            className="font-medium text-cub-gold"
-          />
-        </p>
+        <div className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+            Assigned to
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {assignedCubs.map((cub) => (
+              <CubColorBadge key={cub.id} cubId={cub.id} displayName={cub.displayName} />
+            ))}
+          </div>
+        </div>
         {challenge.description ? (
           <p className="text-sm text-zinc-300">{challenge.description}</p>
         ) : null}

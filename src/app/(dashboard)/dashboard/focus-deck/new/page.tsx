@@ -14,7 +14,7 @@ export default async function NewFocusDeckCardPage() {
         title="New Focus card"
         subtitle="Create a multi-area activity your Cub can choose from."
         backHref="/dashboard/focus-deck"
-        backLabel="Focus Decks"
+        backLabel="Growth Picks"
       />
       <Card>
         <FocusActivityCardForm submitLabel="Create card" />

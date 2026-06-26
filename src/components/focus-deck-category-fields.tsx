@@ -18,7 +18,7 @@ export function FocusDeckCategoryFields({
       <div>
         <h4 className="text-sm font-medium text-cub-off-white">Growth area points</h4>
         <p className="mt-1 text-sm text-cub-muted">
-          Most cards touch 1–3 areas. Points add to the weekly Focus Deck chart after
+          Most Growth Picks touch 1–3 areas. Points add to the weekly Growth Chart after
           approval.
         </p>
       </div>

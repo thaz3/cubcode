@@ -1,28 +1,33 @@
 import Link from "next/link";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
-import { CubAssignedTasksSection } from "@/components/cub-assigned-tasks-section";
-import { CubFocusWeekSection } from "@/components/cub-focus-week-section";
-import { CubRoutinesSection } from "@/components/cub-routines-section";
+import {
+  CubKidHero,
+  CubKidPanel,
+  CubKidStatBar,
+  CubKidTipCard,
+} from "@/components/cub-kid";
+import { CubThisWeekSummarySection } from "@/components/cub-this-week-summary-section";
+import { CubTodaysMissionsSection } from "@/components/cub-todays-missions-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { getCubNextAction } from "@/lib/cub-next-action";
 import { getWeekStart } from "@/lib/council-day";
+import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
-import { sortTasksByUrgency, filterTasksForCubWeekView } from "@/lib/task-schedule";
-import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
-import { getCubWeeklyFocusStack } from "@/lib/cub-focus-deck-week";
-import { getCubRoutinesDueToday } from "@/lib/cub-routines";
 import {
-  cubSectionLabel,
+  getCubActiveMissions,
+  getCubWeekEarnSummary,
+} from "@/lib/cub-week-earn-summary";
+import { sumLedgerAmounts } from "@/lib/rewards";
+import { filterTasksForCubWeekView } from "@/lib/task-schedule";
+import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
+import {
   nextActionButtonVariant,
-  nextActionCardClass,
 } from "@/lib/cub-theme";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 type CubTodayPageProps = {
   params: Promise<{ cubId: string }>;
@@ -36,8 +41,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
 
-  const [assignedTasks, growthSummary, routinesDueToday, focusWeekCards] =
-    await Promise.all([
+  const [assignedTasks, growthSummary, missions, weekSummary, ledger] = await Promise.all([
     db.task.findMany({
       where: {
         familyId,
@@ -56,12 +60,12 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
       },
     }),
     getCubGrowthAreaSummary(cub, weekStartsOn),
-    getCubRoutinesDueToday(familyId, cub.id),
-    getCubWeeklyFocusStack(familyId, cub.id, weekStartsOn),
+    getCubActiveMissions(familyId, cub.id, weekStartsOn),
+    getCubWeekEarnSummary(familyId, cub.id, weekStartsOn),
+    sumLedgerAmounts(cub.id),
   ]);
 
   const weekAssigned = filterTasksForCubWeekView(assignedTasks, weekStartsOn);
-  const sortedAssigned = sortTasksByUrgency(weekAssigned);
   const nextAction = getCubNextAction(weekAssigned, cubId);
 
   const activeFocus = weekAssigned
@@ -72,39 +76,36 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
       focusSessionStartedAt: t.focusSessionStartedAt!.toISOString(),
     }));
 
-  const cardClass =
-    nextAction.tone === "urgent"
-      ? nextActionCardClass("urgent")
-      : nextAction.tone === "focus"
-        ? nextActionCardClass("normal")
-        : nextActionCardClass("normal");
-
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-cub-off-white sm:text-3xl">
-          Hey, {cub.displayName}!
-        </h1>
-        <p className="mt-2 text-cub-gold-light/90">Here&apos;s what to do today.</p>
-      </div>
+    <div className="space-y-5">
+      <CubKidHero
+        title={`Hey, ${cub.displayName}!`}
+        subtitle="Your quest board is ready — pick a mission and level up."
+        emoji={CUB_PAGE_EMOJI.today}
+      />
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <CubRoutinesSection
-          cubId={cubId}
-          routines={routinesDueToday}
-          variant="compact"
-        />
-        <CubAssignedTasksSection
-          cubId={cubId}
-          tasks={sortedAssigned}
-          variant="compact"
-        />
-        <CubFocusWeekSection
-          cubId={cubId}
-          cards={focusWeekCards}
-          variant="compact"
-        />
-      </div>
+      <CubKidStatBar
+        leftIcon="⚔️"
+        leftTitle={
+          missions.length > 0
+            ? `${missions.length} active mission${missions.length === 1 ? "" : "s"}`
+            : "Quest board cleared!"
+        }
+        leftSubtitle={
+          missions.length > 0
+            ? "Tap a mission tile to jump in."
+            : "Nice work — check back for new quests."
+        }
+        rightValue={ledger.totalXp}
+      />
+
+      <CubTodaysMissionsSection missions={missions} variant="compact" />
+
+      <CubThisWeekSummarySection
+        cubId={cubId}
+        summary={weekSummary}
+        variant="compact"
+      />
 
       <GrowthAreasCard
         summary={growthSummary}
@@ -113,10 +114,12 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         variant="mini"
       />
 
-      <Card className={cn("space-y-4", cardClass)}>
+      <CubKidPanel variant="gold" contentClassName="space-y-4">
         <div>
-          <p className={cubSectionLabel}>Your next step</p>
-          <h2 className="mt-1 text-xl font-bold text-cub-off-white">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+            🎯 Next step
+          </p>
+          <h2 className="mt-1 text-xl font-black text-cub-off-white">
             {nextAction.title}
           </h2>
           <p className="mt-2 text-sm text-cub-muted">{nextAction.description}</p>
@@ -126,11 +129,12 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
             fullWidth
             size="lg"
             variant={nextActionButtonVariant("normal", nextAction.buttonLabel)}
+            className="font-bold uppercase tracking-wide"
           >
-            {nextAction.buttonLabel}
+            {nextAction.buttonLabel} ▶
           </Button>
         </Link>
-      </Card>
+      </CubKidPanel>
 
       <ActiveFocusTimersBanner cubName={cub.displayName} tasks={activeFocus} />
     </div>

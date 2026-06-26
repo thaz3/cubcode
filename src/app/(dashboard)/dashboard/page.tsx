@@ -414,8 +414,8 @@ export default async function DashboardPage() {
           />
           <ActionTile
             href="/dashboard/tasks/templates"
-            label="Training Board"
-            description="Themed Focus Deck path — milestones, cards, and unlocks"
+            label="Training Path"
+            description="Required lesson journey — milestones, lessons, and unlocks"
             accent="zinc"
             icon={<TemplateIcon className="h-5 w-5" />}
           />

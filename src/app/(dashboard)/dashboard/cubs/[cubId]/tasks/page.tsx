@@ -422,8 +422,8 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
       <Card id="assign-task" className="scroll-mt-8">
         <h2 className="text-lg font-semibold">Assign work</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Create a one-time task or routine, or assign from your household task
-          library for {cub.displayName}.
+          Choose an earn type for {cub.displayName} — routine, task, Growth Pick,
+          Training Path, or bonus.
         </p>
         <div className="mt-4">
           <AssignTaskToCubPanel
@@ -431,15 +431,16 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
             cubName={cub.displayName}
             libraryTasks={libraryTasks}
             cubs={family.cubs}
+            bonusGrowthOptions={bonusGrowthOptions}
           />
         </div>
       </Card>
 
-      <Card>
-        <h2 className="text-lg font-semibold">Offline behavior bonus</h2>
+      <Card id="bonus" className="scroll-mt-8">
+        <h2 className="text-lg font-semibold">Bonus points</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Award extra XP when {cub.displayName} shows strong offline behavior.
-          Counts toward their weekly growth chart.
+          Award extra XP when {cub.displayName} shows effort, maturity, or something
+          worth celebrating.
         </p>
         {recentParentBonuses.length === 0 ? (
           <p className="mt-2 text-sm text-zinc-500">No bonuses awarded yet.</p>

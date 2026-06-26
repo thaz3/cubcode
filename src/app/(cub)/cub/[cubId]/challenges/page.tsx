@@ -1,14 +1,15 @@
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import { CubKidHero, CubKidPanel } from "@/components/cub-kid";
 import { EmptyState } from "@/components/ui/empty-state";
-import { PageHeader } from "@/components/ui/page-header";
 import { ChallengeProgressBadge } from "@/components/challenge-progress-badge";
 import { CubUpcomingRoutinesSection } from "@/components/cub-upcoming-routines-section";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
+import { CUB_PAGE_EMOJI, cubKidGameCard } from "@/lib/cub-kid-theme";
 import { getCubRoutinesView } from "@/lib/cub-routines";
 import { redirect } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 type CubRoutinesPageProps = {
   params: Promise<{ cubId: string }>;
@@ -23,10 +24,11 @@ export default async function CubRoutinesPage({ params }: CubRoutinesPageProps) 
   const { dueToday, upcoming } = await getCubRoutinesView(familyId, cub.id);
 
   return (
-    <div className="space-y-6">
-      <PageHeader
+    <div className="space-y-5">
+      <CubKidHero
         title="Routines"
-        subtitle="Repeating habits — not one-time tasks."
+        subtitle="Repeating habits — your daily power-ups."
+        emoji={CUB_PAGE_EMOJI.routines}
         backHref={`/cub/${cubId}`}
         backLabel="Today"
       />
@@ -39,34 +41,42 @@ export default async function CubRoutinesPage({ params }: CubRoutinesPageProps) 
       ) : null}
 
       {dueToday.length > 0 ? (
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold text-zinc-100">Due now</h2>
+        <CubKidPanel variant="violet" contentClassName="space-y-3">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+            🔄 Due now
+          </p>
           <ul className="space-y-2">
             {dueToday.map((routine) => (
               <li key={routine.id}>
                 <Link href={`/cub/${cubId}/challenges/${routine.id}`}>
-                  <Card variant="interactive" className="space-y-2 py-4">
+                  <div
+                    className={cn(
+                      cubKidGameCard,
+                      "space-y-2 border-sky-500/30 bg-gradient-to-br from-sky-950/40 to-cub-charcoal p-4",
+                    )}
+                  >
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="font-medium text-zinc-100">{routine.title}</p>
+                      <p className="font-bold text-cub-off-white">{routine.title}</p>
                       {routine.logStatus ? (
                         <ChallengeProgressBadge status={routine.logStatus} />
                       ) : (
-                        <span className="text-xs text-zinc-500">Not started</span>
+                        <span className="text-xs font-bold text-cub-gold-light">Not started</span>
                       )}
                     </div>
-                    <p className="text-sm text-zinc-500">
+                    <p className="text-sm text-cub-muted">
                       {formatChallengeInterval(
                         routine.intervalType,
                         routine.intervalConfig,
                       )}
                       {routine.intervalLabel ? ` · ${routine.intervalLabel}` : ""}
                     </p>
-                  </Card>
+                    <p className="text-xs font-bold uppercase text-sky-300">Check in →</p>
+                  </div>
                 </Link>
               </li>
             ))}
           </ul>
-        </section>
+        </CubKidPanel>
       ) : null}
 
       <CubUpcomingRoutinesSection cubId={cubId} routines={upcoming} />

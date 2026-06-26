@@ -8,6 +8,7 @@ import { CubLink } from "@/components/cub-link";
 import type { ActionState } from "@/lib/actions/auth";
 import { approveFocusCompletionAction } from "@/lib/actions/focus-deck";
 import { cubErrorText, cubLink, cubSuccessText } from "@/lib/cub-theme";
+import { EarnTypeBadge } from "@/components/earn-type-badge";
 import { formatFocusDeckCategoryPoints, parseFocusDeckCategoryPoints } from "@/lib/focus-deck-categories";
 
 type FocusDeckReviewCardProps = {
@@ -42,9 +43,7 @@ export function FocusDeckReviewCard({ completion }: FocusDeckReviewCardProps) {
     <Card variant="constructive" className="space-y-4">
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-cub-green-muted px-2 py-0.5 text-xs font-semibold text-cub-green-light ring-1 ring-cub-green-bright/35">
-            Focus card
-          </span>
+          <EarnTypeBadge earnType="growth_pick" />
           <h2 className="text-lg font-semibold text-cub-off-white">
             {completion.card.title}
           </h2>

@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import {
   CubRecentCompletionsCarousel,
   RecentWinsSectionHeader,
@@ -60,24 +60,10 @@ export function CubProgressOverview({
         showProgressLink={false}
       />
 
-      <Card
-        variant="accent"
-        className="relative overflow-hidden border-cub-gold/45 shadow-xl shadow-cub-gold/15"
-      >
-        <div
-          className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-cub-gold/15 blur-2xl"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute -bottom-10 -left-6 h-28 w-28 rounded-full bg-cub-green-bright/10 blur-2xl"
-          aria-hidden
-        />
-
-        <div className="relative space-y-5">
-          <RecentWinsSectionHeader count={feedItems.length} />
-          <CubRecentCompletionsCarousel items={feedItems} />
-        </div>
-      </Card>
+      <CubKidPanel variant="violet" contentClassName="space-y-5">
+        <RecentWinsSectionHeader count={feedItems.length} />
+        <CubRecentCompletionsCarousel items={feedItems} />
+      </CubKidPanel>
     </div>
   );
 }

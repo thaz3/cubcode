@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import type { CubTrainingBoardSummary } from "@/lib/cub-training-board-summary";
 import { TRAINING_DECK_STATUS_LABELS } from "@/lib/training-board-progress";
 import { cn } from "@/lib/utils";
@@ -31,10 +31,13 @@ export function CubTrainingProgressCard({
       : 0;
 
   return (
-    <Card variant="accent" className={cn("space-y-4", className)}>
+    <CubKidPanel variant="violet" contentClassName="space-y-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-cub-off-white">Training Board</h2>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
+            🗺️ Training Path
+          </p>
+          <h2 className="mt-1 text-lg font-black text-cub-off-white">Your levels</h2>
           <p className="mt-1 text-sm text-cub-muted">
             {summary.completedDecks}/{summary.totalDecks} milestone
             {summary.totalDecks === 1 ? "" : "s"} complete ·{" "}
@@ -43,9 +46,9 @@ export function CubTrainingProgressCard({
         </div>
         <Link
           href={`/cub/${cubId}/training`}
-          className="text-sm font-medium text-cub-gold-light hover:underline"
+          className="rounded-lg border border-violet-500/30 bg-violet-950/40 px-3 py-1.5 text-sm font-bold text-violet-200 hover:text-cub-gold-light"
         >
-          Open board →
+          Open map →
         </Link>
       </div>
 
@@ -73,7 +76,7 @@ export function CubTrainingProgressCard({
         </p>
       ) : summary.completedDecks === summary.totalDecks && summary.totalDecks > 0 ? (
         <p className="text-sm text-cub-green-light">
-          You finished every milestone on the Training Board!
+          You finished every level on the Training Path!
         </p>
       ) : null}
 
@@ -129,6 +132,6 @@ export function CubTrainingProgressCard({
           );
         })}
       </ul>
-    </Card>
+    </CubKidPanel>
   );
 }

@@ -76,11 +76,11 @@ export type TaskCategory = (typeof TaskCategory)[keyof typeof TaskCategory]
 
 
 export const GrowthCategory = {
-  CONTROL: 'CONTROL',
-  USE: 'USE',
-  BUILD: 'BUILD',
   CHARACTER: 'CHARACTER',
-  WELLNESS: 'WELLNESS'
+  WELLNESS: 'WELLNESS',
+  CREATIVITY: 'CREATIVITY',
+  RESPONSIBILITY: 'RESPONSIBILITY',
+  COMMUNITY: 'COMMUNITY'
 } as const
 
 export type GrowthCategory = (typeof GrowthCategory)[keyof typeof GrowthCategory]

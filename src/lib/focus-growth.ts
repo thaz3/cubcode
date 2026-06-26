@@ -6,6 +6,7 @@ import {
   GROWTH_CATEGORY_LABELS,
   growthCategoryShortLabel,
 } from "@/lib/task-categories";
+import { normalizeGrowthArea, normalizeRequiredGrowthAreas } from "@/lib/unified-growth-areas";
 
 export { ALL_GROWTH_CATEGORIES, GROWTH_CATEGORY_LABELS, growthCategoryShortLabel };
 
@@ -16,15 +17,7 @@ const ACTIVE_FOCUS_STATUSES: TaskStatus[] = [
 ];
 
 export function parseRequiredGrowthCategories(cub: Cub): GrowthCategory[] {
-  if (!Array.isArray(cub.requiredGrowthCategories)) {
-    return [...ALL_GROWTH_CATEGORIES];
-  }
-
-  const parsed = cub.requiredGrowthCategories.filter((value): value is GrowthCategory =>
-    ALL_GROWTH_CATEGORIES.includes(value as GrowthCategory),
-  );
-
-  return parsed.length > 0 ? parsed : [...ALL_GROWTH_CATEGORIES];
+  return normalizeRequiredGrowthAreas(cub.requiredGrowthCategories) as GrowthCategory[];
 }
 
 export function growthCategoryOptionsForCub(cub: Cub) {
@@ -57,7 +50,7 @@ export async function getCompletedGrowthCategoriesThisWeek(
   return [
     ...new Set(
       tasks
-        .map((task) => task.growthCategory)
+        .map((task) => normalizeGrowthArea(task.growthCategory))
         .filter((value): value is GrowthCategory => value != null),
     ),
   ];
@@ -87,8 +80,9 @@ export async function getActiveFocusBlockByArea(
   > = {};
 
   for (const task of tasks) {
-    if (!task.growthCategory || map[task.growthCategory]) continue;
-    map[task.growthCategory] = {
+    const area = normalizeGrowthArea(task.growthCategory);
+    if (!area || map[area]) continue;
+    map[area] = {
       id: task.id,
       title: task.title,
       status: task.status,

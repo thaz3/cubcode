@@ -120,6 +120,19 @@ html {
   );
 }
 
+/* Kid cub view — subtle adventure-map atmosphere */
+.cub-kid-atmosphere {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 92, 246, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 80%, rgba(213, 160, 33, 0.06), transparent),
+    linear-gradient(
+      180deg,
+      var(--cub-deep-black) 0%,
+      color-mix(in srgb, var(--cub-ebony) 92%, #5b21b6) 40%,
+      color-mix(in srgb, var(--cub-ebony) 88%, var(--cub-green)) 100%
+    );
+}
+
 .cub-card-surface {
   background: var(--cub-gradient-surface);
 }

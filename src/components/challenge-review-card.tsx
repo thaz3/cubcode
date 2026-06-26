@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { EarnTypeBadge } from "@/components/earn-type-badge";
 import { ChallengeProgressBadge } from "@/components/challenge-progress-badge";
 import { CubLink } from "@/components/cub-link";
 import type { ActionState } from "@/lib/actions/auth";
@@ -43,9 +44,7 @@ export function ChallengeReviewCard({ log }: ChallengeReviewCardProps) {
     <Card variant="accent" className="space-y-4">
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-cub-gold-muted px-2 py-0.5 text-xs font-semibold text-cub-gold ring-1 ring-cub-gold/35">
-            Routine
-          </span>
+          <EarnTypeBadge earnType="routine" />
           <h2 className="text-lg font-semibold text-cub-off-white">
             {log.challenge.title}
           </h2>
