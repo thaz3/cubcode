@@ -34,7 +34,7 @@ export function AddCalendarEventForm({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-xl border border-teal-400/35 bg-teal-950/40 px-3 py-1.5 text-xs font-bold text-teal-100 transition hover:border-teal-300/50 hover:bg-teal-900/50"
+        className="min-h-11 touch-manipulation rounded-xl border border-teal-400/35 bg-teal-950/40 px-3 py-2 text-xs font-bold text-teal-100 transition active:border-teal-300/50 active:bg-teal-900/50"
       >
         Add Event
       </button>
@@ -53,7 +53,7 @@ export function AddCalendarEventForm({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="text-xs text-cub-muted hover:text-cub-off-white"
+          className="min-h-11 touch-manipulation px-2 text-xs text-cub-muted active:text-cub-off-white"
         >
           Close
         </button>

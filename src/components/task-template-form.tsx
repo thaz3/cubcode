@@ -4,9 +4,16 @@ import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { TaskRecurrenceField } from "@/components/task-recurrence-field";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
+import { FormSubmitFooter } from "@/components/ui/form-submit-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { MOBILE_TEXTAREA_CLASS } from "@/lib/mobile-form-styles";
+import {
+  logActionResult,
+  logCreateButtonTap,
+  logFormSubmit,
+} from "@/lib/touch-debug";
 import { ProofConfigFields } from "@/components/proof-config-fields";
 import {
   TaskCategoryFields,
@@ -17,7 +24,7 @@ import type { ActionState } from "@/lib/actions/auth";
 import { createTaskTemplateAction } from "@/lib/actions/task-templates";
 import type { CategorySuggestion } from "@/lib/task-categories";
 import type { TaskProofType, TaskRecurrence } from "@/generated/prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type TaskTemplateFormProps = {
   action: (
@@ -80,8 +87,28 @@ export function TaskTemplateForm({
     setProofKey((key) => key + 1);
   }
 
+  useEffect(() => {
+    logActionResult("task", state);
+  }, [state]);
+
   return (
-    <form action={formAction} className={compact ? "space-y-4" : "space-y-6"}>
+    <form
+      action={formAction}
+      className={compact ? "space-y-4" : "space-y-6"}
+      onSubmit={() => logFormSubmit("task", { submitLabel })}
+      onInvalid={(event) => {
+        const target = event.target;
+        if (target instanceof HTMLElement) {
+          logFormSubmit("task", {
+            phase: "validation-blocked",
+            field:
+              "name" in target && typeof target.name === "string"
+                ? target.name
+                : target.id,
+          });
+        }
+      }}
+    >
       {hiddenFields
         ? Object.entries(hiddenFields).map(([name, value]) => (
             <input key={name} type="hidden" name={name} value={value} />
@@ -105,7 +132,7 @@ export function TaskTemplateForm({
           name="description"
           defaultValue={initialValues?.description ?? ""}
           rows={compact ? 2 : 3}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+          className={MOBILE_TEXTAREA_CLASS}
         />
       </div>
 
@@ -114,6 +141,7 @@ export function TaskTemplateForm({
           <CollapsibleSection
             title="Category & type"
             summary="Chore, school, focus block, and more"
+            defaultOpen
           >
             <TaskCategoryFields
               initialValues={{
@@ -128,6 +156,7 @@ export function TaskTemplateForm({
           <CollapsibleSection
             title="Proof style"
             summary="Checklist, reflection, parent approval"
+            defaultOpen
           >
             <ProofConfigFields
               key={proofKey}
@@ -233,16 +262,20 @@ export function TaskTemplateForm({
 
       {compact ? rewardFields : null}
 
-      {state.error ? (
-        <p className="text-sm text-red-600">{state.error}</p>
-      ) : null}
-      {state.success ? (
-        <p className="text-sm text-green-700">{state.success}</p>
-      ) : null}
-
-      <Button type="submit" disabled={isPending} fullWidth={compact}>
-        {isPending ? "Saving..." : submitLabel}
-      </Button>
+      <FormSubmitFooter error={state.error} success={state.success}>
+        <Button
+          type="submit"
+          disabled={isPending}
+          fullWidth={compact}
+          size="lg"
+          className="relative z-[1] min-h-12 touch-manipulation"
+          onPointerDown={() =>
+            logCreateButtonTap("task", { submitLabel, isPending })
+          }
+        >
+          {isPending ? "Saving..." : submitLabel}
+        </Button>
+      </FormSubmitFooter>
     </form>
   );
 }

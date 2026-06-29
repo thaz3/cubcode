@@ -4,6 +4,7 @@ import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { TaskRecurrenceField } from "@/components/task-recurrence-field";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
+import { FormSubmitFooter } from "@/components/ui/form-submit-footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { ActionState } from "@/lib/actions/auth";
@@ -65,18 +66,11 @@ export function CubLibraryAssignCard({ task, cubId }: CubLibraryAssignCardProps)
           </div>
         </CollapsibleSection>
 
-        {state.error ? (
-          <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>
-        ) : null}
-        {state.success ? (
-          <p className="text-sm text-green-700 dark:text-green-400">
-            {state.success}
-          </p>
-        ) : null}
-
-        <Button type="submit" disabled={isPending} fullWidth>
-          {isPending ? "Assigning..." : "Assign from library"}
-        </Button>
+        <FormSubmitFooter error={state.error} success={state.success}>
+          <Button type="submit" disabled={isPending} fullWidth size="lg">
+            {isPending ? "Assigning..." : "Assign from library"}
+          </Button>
+        </FormSubmitFooter>
       </form>
     </Card>
   );

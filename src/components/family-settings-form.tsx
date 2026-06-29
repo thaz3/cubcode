@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
+import { FormSubmitFooter } from "@/components/ui/form-submit-footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateFamilySettingsAction } from "@/lib/actions/family";
@@ -101,18 +102,11 @@ export function FamilySettingsForm({ initialValues }: FamilySettingsFormProps) {
           of recreational phone time.
         </p>
 
-        {state.error ? (
-          <p className="text-sm text-red-400">{state.error}</p>
-        ) : null}
-        {state.success ? (
-          <p className="text-sm text-emerald-400">{state.success}</p>
-        ) : null}
-
-        <div className="sticky bottom-20 z-10 -mx-1 rounded-xl bg-zinc-900/95 p-3 backdrop-blur lg:static lg:bg-transparent lg:p-0">
+        <FormSubmitFooter error={state.error} success={state.success}>
           <Button type="submit" variant="constructive" fullWidth size="lg" disabled={isPending}>
             {isPending ? "Saving..." : "Save"}
           </Button>
-        </div>
+        </FormSubmitFooter>
       </form>
     </CollapsibleSection>
   );

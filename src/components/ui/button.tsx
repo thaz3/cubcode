@@ -39,7 +39,7 @@ const variants = {
 };
 
 const sizes = {
-  sm: "min-h-9 px-3 py-1.5 text-sm",
+  sm: "min-h-11 px-3 py-2 text-sm",
   md: "min-h-11 px-4 py-2.5 text-sm",
   lg: "min-h-12 px-5 py-3 text-base font-semibold",
 };
@@ -56,7 +56,7 @@ export function Button({
     <button
       type={type}
       className={cn(
-        "inline-flex items-center justify-center rounded-xl font-medium transition disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cub-gold-warm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-cub-ebony",
+        "inline-flex touch-manipulation items-center justify-center rounded-xl font-medium transition disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cub-gold-warm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-cub-ebony",
         variants[variant],
         sizes[size],
         fullWidth && "w-full",

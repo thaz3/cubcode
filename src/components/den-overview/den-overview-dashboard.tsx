@@ -24,21 +24,21 @@ type DenOverviewDashboardProps = {
 function stateTone(state: DenOverviewItem["state"]) {
   switch (state) {
     case "done":
-      return "text-cub-green-light";
+      return "text-emerald-600";
     case "overdue":
-      return "text-red-300";
+      return "text-red-500";
     case "submitted":
-      return "text-cub-gold-light";
+      return "text-amber-600";
     case "in_progress":
-      return "text-violet-200";
+      return "text-kid-purple";
     default:
-      return "text-cub-muted";
+      return "text-kid-ink-muted";
   }
 }
 
 function DenItemRow({ item }: { item: DenOverviewItem }) {
   const content = (
-    <div className="flex items-start justify-between gap-3 rounded-xl border border-cub-charcoal/80 bg-cub-ebony/50 px-3 py-2.5 transition hover:border-cub-gold/25 hover:bg-cub-charcoal/50">
+    <div className="flex items-start justify-between gap-3 rounded-2xl border-2 border-kid-purple/10 bg-white px-3 py-2.5 shadow-sm transition hover:border-kid-blue/30 hover:shadow-md">
       <div className="min-w-0 space-y-1">
         <div className="flex flex-wrap items-center gap-2">
           <DenItemBadge
@@ -46,28 +46,33 @@ function DenItemRow({ item }: { item: DenOverviewItem }) {
             calendarEventType={item.calendarEventType}
           />
           {item.cubName ? (
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-cub-muted">
+            <span className="text-[10px] font-bold uppercase tracking-wide text-kid-ink-muted">
               {item.cubName}
             </span>
           ) : null}
         </div>
         <p
           className={cn(
-            "truncate text-sm font-semibold",
-            item.state === "done" ? "text-cub-muted line-through" : "text-cub-off-white",
+            "truncate text-sm font-bold",
+            item.state === "done" ? "text-kid-ink-muted line-through" : "text-kid-ink",
           )}
         >
           {item.title}
+          {item.state === "done" ? (
+            <span className="ml-1.5 inline-block" aria-hidden>
+              ⭐
+            </span>
+          ) : null}
         </p>
         {item.subtitle ? (
-          <p className="truncate text-xs text-cub-muted">{item.subtitle}</p>
+          <p className="truncate text-xs text-kid-ink-muted">{item.subtitle}</p>
         ) : null}
       </div>
       <div className="shrink-0 text-right">
         {item.timeLabel ? (
-          <p className="text-xs font-bold text-teal-200/90">{item.timeLabel}</p>
+          <p className="text-xs font-bold text-kid-blue">{item.timeLabel}</p>
         ) : null}
-        <p className={cn("text-[10px] font-semibold uppercase tracking-wide", stateTone(item.state))}>
+        <p className={cn("text-[10px] font-black uppercase tracking-wide", stateTone(item.state))}>
           {denItemStateLabel(item.state)}
         </p>
       </div>
@@ -113,9 +118,9 @@ export function DenOverviewDashboard({
   return (
     <div className="space-y-3">
       <CubKidSectionHeader
-        eyebrow="🗓️ Den Dashboard"
-        title="Family calendar"
-        subtitle="Tap a day to see assignments and family events."
+        eyebrow="🎮 Cub HQ"
+        title="Mission Control"
+        subtitle="Your week at a glance — tap a day to see what's coming up!"
         trailing={
           isParent ? (
             <AddCalendarEventForm cubs={cubs} defaultCubId={cubId} />
@@ -130,23 +135,23 @@ export function DenOverviewDashboard({
               type="button"
               onClick={() => setSelectedDay(day.dateKey)}
               className={cn(
-                "rounded-xl border px-1 py-2 text-center transition sm:px-2 sm:py-3",
+                "rounded-2xl border-2 px-1 py-2 text-center transition sm:px-2 sm:py-3",
                 selectedDay === day.dateKey
-                  ? "border-cub-gold/50 bg-cub-gold-muted/30 shadow-md"
-                  : "border-cub-charcoal/80 bg-cub-ebony/60 hover:border-teal-400/30",
-                day.isToday && selectedDay !== day.dateKey && "ring-1 ring-teal-400/25",
+                  ? "border-kid-purple/50 bg-kid-lavender shadow-md shadow-kid-purple/15"
+                  : "border-kid-purple/10 bg-white hover:border-kid-blue/35 hover:bg-kid-sky/50",
+                day.isToday && selectedDay !== day.dateKey && "ring-2 ring-kid-aqua/50",
               )}
             >
-              <p className="text-[10px] font-bold uppercase tracking-wide text-cub-muted sm:text-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-kid-ink-muted sm:text-xs">
                 {day.dayName}
               </p>
-              <p className="text-lg font-black text-cub-off-white sm:text-xl">
+              <p className="text-lg font-black text-kid-ink sm:text-xl">
                 {day.dayNum}
               </p>
               <p
                 className={cn(
-                  "text-[10px] font-semibold",
-                  day.itemCount > 0 ? "text-teal-200" : "text-cub-muted",
+                  "text-[10px] font-bold",
+                  day.itemCount > 0 ? "text-kid-purple" : "text-kid-ink-muted",
                 )}
               >
                 {day.itemCount}
@@ -155,12 +160,14 @@ export function DenOverviewDashboard({
           ))}
         </div>
 
-        <CubKidPanel contentClassName="space-y-2">
-          <p className="text-xs font-bold uppercase tracking-[0.15em] text-teal-200/80">
-            {selectedDayLabel}
+        <CubKidPanel variant="violet" contentClassName="space-y-2">
+          <p className="text-xs font-black uppercase tracking-[0.15em] text-kid-purple">
+            📅 {selectedDayLabel}
           </p>
           {selectedItems.length === 0 ? (
-            <p className="text-sm text-cub-muted">No items on this day.</p>
+            <p className="text-sm font-medium text-kid-ink-muted">
+              No items on this day — enjoy the free time!
+            </p>
           ) : (
             <ul className="space-y-2">
               {selectedItems.map((item) => (

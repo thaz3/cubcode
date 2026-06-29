@@ -27,6 +27,7 @@ import {
   parseRequiredGrowthCategories,
 } from "@/lib/focus-growth";
 import { cubAccentClassNames } from "@/lib/cub-colors";
+import { parseParentAssignKind } from "@/lib/earn-types";
 import { getFamilyForUser } from "@/lib/session";
 import {
   getTaskScheduleSummary,
@@ -41,10 +42,16 @@ import { notFound, redirect } from "next/navigation";
 
 type CubTasksPageProps = {
   params: Promise<{ cubId: string }>;
+  searchParams: Promise<{ kind?: string }>;
 };
 
-export default async function CubTasksPage({ params }: CubTasksPageProps) {
+export default async function CubTasksPage({
+  params,
+  searchParams,
+}: CubTasksPageProps) {
   const { cubId } = await params;
+  const { kind: kindParam } = await searchParams;
+  const defaultAssignKind = parseParentAssignKind(kindParam);
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
@@ -119,16 +126,9 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
         backHref="/dashboard/cubs"
         backLabel="Cubs"
         action={
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Link href={`/cub/${cub.id}`}>
-              <Button variant="secondary" size="lg">
-                Cub view
-              </Button>
-            </Link>
-            <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
-              <Button size="lg">Assign task</Button>
-            </Link>
-          </div>
+          <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
+            <Button size="lg">Assign New Work</Button>
+          </Link>
         }
       />
       <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
@@ -211,7 +211,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
             ) : null}
             <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
               <Button variant="secondary" className="rounded-md px-2.5 py-1 text-xs">
-                Assign task
+                Assign New Work
               </Button>
             </Link>
           </div>
@@ -419,7 +419,7 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
         )}
       </section>
 
-      <Card id="assign-task" className="scroll-mt-8">
+      <Card id="assign-task" className="scroll-mt-36">
         <h2 className="text-lg font-semibold">Assign work</h2>
         <p className="mt-1 text-sm text-zinc-500">
           Choose an earn type for {cub.displayName} — routine, task, Growth Pick,
@@ -432,11 +432,12 @@ export default async function CubTasksPage({ params }: CubTasksPageProps) {
             libraryTasks={libraryTasks}
             cubs={family.cubs}
             bonusGrowthOptions={bonusGrowthOptions}
+            defaultKind={defaultAssignKind}
           />
         </div>
       </Card>
 
-      <Card id="bonus" className="scroll-mt-8">
+      <Card id="bonus" className="scroll-mt-36">
         <h2 className="text-lg font-semibold">Bonus points</h2>
         <p className="mt-1 text-sm text-zinc-500">
           Award extra XP when {cub.displayName} shows effort, maturity, or something

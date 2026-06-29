@@ -45,7 +45,7 @@ export function MobileNav({
         <div
           className="fixed inset-x-0 z-50 border-t border-cub-green/20 bg-cub-deep-black/95 px-2 py-2 shadow-xl shadow-black/40 lg:hidden"
           style={{
-            bottom: "calc(3.5rem + env(safe-area-inset-bottom, 0px))",
+            bottom: "var(--mobile-nav-safe-bottom)",
           }}
           role="menu"
           aria-label="More navigation"

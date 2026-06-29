@@ -43,7 +43,7 @@ export function getCubMissionHref(
       return `/cub/${cubId}/focus-deck#pick-${mission.sourceId}`;
     case "task":
     case "training_path":
-      return `/cub/${cubId}/challenges#mission-${mission.sourceId}`;
+      return `/cub/${cubId}/tasks/${mission.sourceId}`;
   }
 }
 

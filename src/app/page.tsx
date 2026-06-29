@@ -11,7 +11,7 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-4 py-16">
+    <main className="mx-auto flex min-h-dvh max-w-4xl flex-col justify-center px-4 py-16">
       <div className="space-y-6">
         <p className="text-sm font-semibold uppercase tracking-wide text-cub-gold">
           Control · Use · Build

@@ -36,6 +36,7 @@ import {
 import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { revalidateTrainingBoardAfterTaskReview } from "@/lib/actions/training-board";
 import type { ActionState } from "@/lib/actions/auth";
+import { debugServerAction } from "@/lib/form-debug-server";
 import type { z } from "zod";
 
 type ParsedCustomTask = z.infer<typeof availableTaskSchema>;
@@ -95,11 +96,16 @@ export async function createCustomTaskAction(
   _prevState: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  debugServerAction("createCustomTaskAction", "start", {
+    title: formData.get("title")?.toString(),
+  });
+
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
 
   const parsed = parseCustomTaskFormData(formData);
   if (!parsed.ok) {
+    debugServerAction("createCustomTaskAction", "error", { error: parsed.error });
     return { error: parsed.error };
   }
 
@@ -119,6 +125,9 @@ export async function createCustomTaskAction(
   });
 
   revalidateTaskPaths();
+  debugServerAction("createCustomTaskAction", "success", {
+    title: parsed.data.title,
+  });
   return { success: "Task added to the library." };
 }
 
@@ -126,21 +135,35 @@ export async function createAndAssignCustomTaskAction(
   _prevState: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  debugServerAction("createAndAssignCustomTaskAction", "start", {
+    title: formData.get("title")?.toString(),
+    cubId: formData.get("cubId")?.toString(),
+  });
+
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
 
   const cubId = formData.get("cubId")?.toString();
   if (!cubId) {
+    debugServerAction("createAndAssignCustomTaskAction", "error", {
+      error: "Cub not found.",
+    });
     return { error: "Cub not found." };
   }
 
   const cub = family.cubs.find((c) => c.id === cubId);
   if (!cub) {
+    debugServerAction("createAndAssignCustomTaskAction", "error", {
+      error: "Cub not found.",
+    });
     return { error: "Cub not found." };
   }
 
   const parsed = parseCustomTaskFormData(formData);
   if (!parsed.ok) {
+    debugServerAction("createAndAssignCustomTaskAction", "error", {
+      error: parsed.error,
+    });
     return { error: parsed.error };
   }
 
@@ -167,6 +190,10 @@ export async function createAndAssignCustomTaskAction(
   await syncGuardianNudgesAfterTaskChange(family.id);
 
   revalidateTaskPaths(cub.id);
+  debugServerAction("createAndAssignCustomTaskAction", "success", {
+    title: parsed.data.title,
+    cubId: cub.id,
+  });
   return { success: `Task created and assigned to ${cub.displayName}.` };
 }
 

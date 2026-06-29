@@ -94,23 +94,26 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
       <MissionHashScroll />
       <CubKidHero
         title={`Hey, ${cub.displayName}!`}
-        subtitle="Your Den at a glance — missions, deadlines, routines, and family plans."
+        subtitle="Welcome to Cub HQ — check your missions, see what's coming up, and keep your streak going!"
         emoji={CUB_PAGE_EMOJI.today}
       />
 
       <CubKidStatBar
-        leftIcon="⚔️"
+        leftIcon="🔥"
         leftTitle={
           missions.length > 0
-            ? `${missions.length} active mission${missions.length === 1 ? "" : "s"}`
-            : "Quest board cleared!"
+            ? `${missions.length} mission${missions.length === 1 ? "" : "s"} today`
+            : "All clear for today!"
         }
         leftSubtitle={
           missions.length > 0
-            ? "Tap a mission tile to jump in."
-            : "Nice work — check back for new quests."
+            ? missions.length === 1
+              ? "1 Mission Left — tap to jump in!"
+              : "Tap a mission card to get started."
+            : "Nothing due today. Nice work, Cub!"
         }
         rightValue={ledger.totalXp}
+        rightLabel="Total XP"
       />
 
       <CubTodaysMissionsSection missions={missions} variant="compact" />

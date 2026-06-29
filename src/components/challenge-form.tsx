@@ -1,15 +1,22 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import type { Challenge, Cub } from "@/generated/prisma/client";
 import { ProofConfigFields } from "@/components/proof-config-fields";
 import { ChallengeIntervalFields } from "@/components/challenge-interval-fields";
 import { ChallengeRewardFields } from "@/components/challenge-reward-fields";
 import { GrowthAreaFields } from "@/components/growth-area-fields";
 import { RoutineCubAssignmentFields } from "@/components/routine-cub-assignment-fields";
+import { FormSubmitFooter } from "@/components/ui/form-submit-footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { MOBILE_TEXTAREA_CLASS } from "@/lib/mobile-form-styles";
+import {
+  logActionResult,
+  logCreateButtonTap,
+  logFormSubmit,
+} from "@/lib/touch-debug";
 import type { ActionState } from "@/lib/actions/auth";
 import {
   createChallengeAction,
@@ -45,8 +52,16 @@ export function ChallengeForm({
   const selectedCubIds =
     assignedCubIds ?? (defaultCubId ? [defaultCubId] : []);
 
+  useEffect(() => {
+    logActionResult("routine", state);
+  }, [state]);
+
   return (
-    <form action={formAction} className="space-y-6">
+    <form
+      action={formAction}
+      className="space-y-6"
+      onSubmit={() => logFormSubmit("routine", { submitLabel })}
+    >
       {challenge ? (
         <input type="hidden" name="challengeId" value={challenge.id} />
       ) : null}
@@ -72,7 +87,7 @@ export function ChallengeForm({
             rows={2}
             maxLength={2000}
             defaultValue={challenge?.description ?? ""}
-            className="w-full min-h-11 rounded-xl border border-zinc-700 bg-cub-ebony px-4 py-2.5 text-base text-zinc-100 outline-none ring-cub-gold focus:ring-2"
+            className={MOBILE_TEXTAREA_CLASS}
             placeholder="What should your Cub do each time?"
           />
         </div>
@@ -119,15 +134,20 @@ export function ChallengeForm({
         />
       </div>
 
-      {state.error ? (
-        <p className="text-sm text-red-400">{state.error}</p>
-      ) : state.success ? (
-        <p className="text-sm text-emerald-400">{state.success}</p>
-      ) : null}
-
-      <Button type="submit" fullWidth size="lg" disabled={pending || cubs.length === 0}>
-        {pending ? "Saving…" : submitLabel}
-      </Button>
+      <FormSubmitFooter error={state.error} success={state.success}>
+        <Button
+          type="submit"
+          fullWidth
+          size="lg"
+          disabled={pending || cubs.length === 0}
+          className="relative z-[1] min-h-12 touch-manipulation"
+          onPointerDown={() =>
+            logCreateButtonTap("routine", { submitLabel, pending })
+          }
+        >
+          {pending ? "Saving…" : submitLabel}
+        </Button>
+      </FormSubmitFooter>
     </form>
   );
 }

@@ -145,6 +145,7 @@ export function parseEarnType(value: string | undefined | null): EarnType | null
 }
 
 export function parseParentAssignKind(value: string | undefined): EarnType {
+  if (value === "challenge") return "routine";
   return parseEarnType(value) ?? "task";
 }
 

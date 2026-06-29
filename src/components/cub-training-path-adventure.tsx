@@ -35,10 +35,10 @@ function LessonStars({
             "leading-none",
             size === "sm" ? "text-xs" : "text-base",
             locked
-              ? "text-zinc-600"
+              ? "text-slate-300"
               : index < approved
-                ? "text-cub-gold-warm drop-shadow-[0_0_4px_rgba(242,193,78,0.5)]"
-                : "text-zinc-600",
+                ? "text-kid-yellow drop-shadow-[0_0_4px_rgba(255,216,77,0.6)]"
+                : "text-slate-300",
           )}
         >
           {index < approved ? "★" : "☆"}
@@ -66,10 +66,10 @@ function LevelShield({
         "flex shrink-0 flex-col items-center justify-center rounded-2xl border-b-[4px] font-black",
         large ? "h-14 w-14 sm:h-16 sm:w-16" : "h-11 w-11",
         isLocked
-          ? "border-zinc-700 border-b-zinc-900 bg-gradient-to-b from-zinc-700 to-zinc-900 text-zinc-500"
+          ? "border-slate-300 border-b-slate-400 bg-gradient-to-b from-slate-200 to-slate-300 text-slate-500"
           : isComplete
-            ? "border-emerald-900 border-b-emerald-950 bg-gradient-to-b from-cub-green-bright to-emerald-700 text-white shadow-md shadow-cub-green/30"
-            : "border-violet-900 border-b-violet-950 bg-gradient-to-b from-violet-400 to-violet-700 text-white shadow-lg shadow-violet-500/40",
+            ? "border-emerald-500 border-b-emerald-600 bg-gradient-to-b from-kid-green to-emerald-400 text-kid-ink shadow-md shadow-emerald-300/40"
+            : "border-kid-purple border-b-[#6a4de6] bg-gradient-to-b from-kid-purple to-[#9b7fff] text-white shadow-lg shadow-kid-purple/40",
       )}
     >
       {isLocked ? (
@@ -95,12 +95,12 @@ function PathConnector({ locked }: { locked: boolean }) {
         className={cn(
           "absolute left-1/2 h-full w-1 -translate-x-1/2 rounded-full",
           locked
-            ? "bg-zinc-800"
-            : "bg-gradient-to-b from-violet-500/80 to-violet-400/40 shadow-[0_0_8px_rgba(139,92,246,0.4)]",
+            ? "bg-slate-200"
+            : "bg-gradient-to-b from-kid-purple/80 to-kid-blue/50 shadow-[0_0_12px_rgba(123,92,255,0.35)]",
         )}
       />
       {locked ? (
-        <span className="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-900 text-xs ring-1 ring-zinc-700">
+        <span className="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs ring-2 ring-slate-300">
           🔒
         </span>
       ) : null}
@@ -127,12 +127,12 @@ function FeaturedLevelCard({
         className={cn(
           "relative overflow-hidden rounded-2xl border-2 p-4 shadow-xl transition-transform group-hover:scale-[1.01]",
           isComplete
-            ? "border-cub-green-bright/50 bg-gradient-to-br from-emerald-950/60 via-cub-charcoal to-cub-ebony shadow-cub-green/20"
-            : "border-violet-400/60 bg-gradient-to-br from-violet-950/50 via-cub-charcoal to-cub-ebony shadow-violet-500/30 ring-2 ring-violet-400/20",
+            ? "border-kid-green/50 bg-gradient-to-br from-emerald-50 via-white to-kid-cream shadow-emerald-200/30"
+            : "border-kid-purple/50 bg-gradient-to-br from-kid-lavender via-white to-kid-sky shadow-kid-purple/20 ring-2 ring-kid-purple/15",
         )}
       >
         <div
-          className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-violet-500/20 blur-2xl"
+          className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-kid-purple/15 blur-2xl"
           aria-hidden
         />
 
@@ -143,7 +143,7 @@ function FeaturedLevelCard({
             large
           />
           <div className="min-w-0 flex-1">
-            <h3 className="text-lg font-bold text-cub-off-white group-hover:text-cub-gold-light">
+            <h3 className="text-lg font-black text-kid-ink group-hover:text-kid-purple">
               {milestone.title}
             </h3>
             <div className="mt-1.5">
@@ -153,14 +153,14 @@ function FeaturedLevelCard({
                 locked={false}
               />
             </div>
-            <p className="mt-1.5 text-xs text-cub-muted">
+            <p className="mt-1.5 text-xs text-kid-ink-muted">
               {milestone.approvedCount}/{milestone.totalCards} lessons complete
             </p>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-cub-ebony">
+            <div className="mt-2 h-2.5 overflow-hidden rounded-full border border-kid-purple/15 bg-kid-lavender/50">
               <div
                 className={cn(
                   "h-full rounded-full transition-all",
-                  isComplete ? "bg-cub-green-bright" : "bg-gradient-to-r from-violet-500 to-sky-400",
+                  isComplete ? "bg-kid-green" : "bg-gradient-to-r from-kid-purple to-kid-blue",
                 )}
                 style={{ width: `${progressPct}%` }}
               />
@@ -170,8 +170,8 @@ function FeaturedLevelCard({
                 className={cn(
                   "inline-flex items-center gap-1 rounded-xl px-5 py-2 text-sm font-bold uppercase tracking-wide shadow-md",
                   isComplete
-                    ? "bg-cub-green-muted text-cub-green-light ring-1 ring-cub-green-bright/40"
-                    : "bg-sky-500 text-white shadow-sky-500/40 group-hover:bg-sky-400",
+                    ? "bg-emerald-100 text-emerald-700 ring-2 ring-emerald-300"
+                    : "bg-kid-blue text-white shadow-kid-blue/30 group-hover:bg-kid-purple",
                 )}
               >
                 {isComplete ? "Replay" : "Play"} <span aria-hidden>▶</span>
@@ -194,16 +194,16 @@ function LockedLevelCard({
   return (
     <div
       className={cn(
-        "flex w-[88%] items-center gap-2.5 rounded-xl border border-zinc-800 bg-zinc-900/80 px-3 py-2.5 opacity-80",
+        "flex w-[88%] items-center gap-2.5 rounded-2xl border-2 border-slate-200 bg-slate-50 px-3 py-2.5 opacity-90",
         side === "left" ? "mr-auto" : "ml-auto flex-row-reverse text-right",
       )}
     >
       <LevelShield level={milestone.milestoneNumber} status="LOCKED" />
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-zinc-500">{milestone.title}</p>
+        <p className="truncate text-sm font-bold text-slate-400">{milestone.title}</p>
         <LessonStars approved={0} total={milestone.totalCards} locked size="sm" />
-        <p className="mt-1 text-[10px] text-zinc-600">
-          Complete the previous level to unlock
+        <p className="mt-1 text-[10px] font-semibold text-slate-400">
+          🔮 Complete the previous level to unlock
         </p>
       </div>
       <span className="shrink-0 text-base text-zinc-600" aria-hidden>
@@ -226,20 +226,20 @@ function CompleteLevelCard({
     <Link
       href={href}
       className={cn(
-        "group flex w-[88%] items-center gap-2.5 rounded-xl border border-cub-green-bright/30 bg-cub-green-muted/20 px-3 py-2.5 transition-colors hover:border-cub-green-bright/50",
+        "group flex w-[88%] items-center gap-2.5 rounded-2xl border-2 border-emerald-200 bg-emerald-50 px-3 py-2.5 transition-colors hover:border-emerald-400 hover:shadow-md",
         side === "left" ? "mr-auto" : "ml-auto flex-row-reverse text-right",
       )}
     >
       <LevelShield level={milestone.milestoneNumber} status="COMPLETE" />
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-cub-off-white">{milestone.title}</p>
+        <p className="truncate text-sm font-black text-kid-ink">{milestone.title}</p>
         <LessonStars
           approved={milestone.approvedCount}
           total={milestone.totalCards}
           locked={false}
           size="sm"
         />
-        <p className="mt-1 text-[10px] font-bold uppercase text-cub-green-light">
+        <p className="mt-1 text-[10px] font-black uppercase text-emerald-600">
           Level complete! Replay →
         </p>
       </div>
@@ -260,7 +260,7 @@ export function CubTrainingPathStatusBar({
     <CubKidStatBar
       leftIcon="⭐"
       leftTitle={`${unlockedLevels} of ${totalLevels} levels unlocked`}
-      leftSubtitle="Keep going, future legend!"
+      leftSubtitle="Keep going, future legend! ⭐"
       rightIcon="💎"
       rightLabel="Your XP"
       rightValue={cubXp}
@@ -277,7 +277,7 @@ export function CubTrainingPathAdventure({
 
   if (milestones.length === 0) {
     return (
-      <p className="text-center text-sm text-cub-muted">
+      <p className="text-center text-sm font-medium text-kid-ink-muted">
         Your Training Path is getting set up — check back soon!
       </p>
     );
@@ -300,8 +300,8 @@ export function CubTrainingPathAdventure({
       />
 
       <CubKidPanel
-        eyebrow="🗺️ Adventure map"
-        subtitle="Beat each level to unlock the next"
+        eyebrow="🗺️ Adventure Map"
+        subtitle="Beat each level to unlock the next — stars, badges, and XP await!"
         contentClassName="space-y-0"
       >
         <ol className="relative space-y-0">
@@ -331,14 +331,14 @@ export function CubTrainingPathAdventure({
           })}
         </ol>
 
-        <div className="relative mt-5 rounded-2xl border border-cub-gold/25 bg-cub-gold-muted/15 px-4 py-3">
+        <div className="relative mt-5 rounded-2xl border-2 border-kid-yellow/40 bg-kid-yellow/15 px-4 py-3">
           <div className="flex items-start gap-3">
             <span className="text-2xl" aria-hidden>
               🏆
             </span>
             <div>
-              <p className="text-sm font-bold text-cub-gold-light">Rewards for finishing</p>
-              <p className="mt-1 text-xs text-cub-muted">
+              <p className="text-sm font-black text-kid-ink">Rewards for finishing</p>
+              <p className="mt-1 text-xs text-kid-ink-muted">
                 Complete the full path to earn bonus XP, C.U.B. badges, and bragging rights at
                 Family Day!
               </p>
@@ -346,7 +346,7 @@ export function CubTrainingPathAdventure({
                 {["Bonus XP", "C.U.B. Badge", "Path Champion"].map((reward) => (
                   <span
                     key={reward}
-                    className="rounded-full border border-cub-gold/30 bg-cub-ebony/60 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-cub-gold-warm"
+                    className="rounded-full border-2 border-kid-orange/40 bg-white px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-orange-700"
                   >
                     {reward}
                   </span>

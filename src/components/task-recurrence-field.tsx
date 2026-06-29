@@ -8,7 +8,9 @@ import {
   type TaskRecurrenceConfig,
 } from "@/lib/task-recurrence-config";
 import { TASK_RECURRENCE_OPTIONS } from "@/lib/task-recurrence";
+import { NATIVE_SELECT_CLASS, NATIVE_TIME_INPUT_CLASS } from "@/lib/mobile-form-styles";
 import { cn } from "@/lib/utils";
+import { useTouchNativeControls } from "@/components/use-prefers-hover";
 import { useState } from "react";
 
 type TaskRecurrenceFieldProps = {
@@ -28,6 +30,7 @@ export function TaskRecurrenceField({
     initialConfig?.dayOfMonth ?? new Date().getDate(),
   );
   const [time, setTime] = useState(initialConfig?.time ?? "");
+  const useNativeControls = useTouchNativeControls();
 
   return (
     <div className="space-y-3">
@@ -46,13 +49,34 @@ export function TaskRecurrenceField({
         <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
           Repeat
         </p>
-        <RadioChoiceList
-          name="recurrenceChoice"
-          value={recurrence}
-          onChange={setRecurrence}
-          layout="compact"
-          options={TASK_RECURRENCE_OPTIONS}
-        />
+
+        {useNativeControls ? (
+          <div>
+            <Label htmlFor="recurrence-select" className="sr-only">
+              Repeat
+            </Label>
+            <select
+              id="recurrence-select"
+              value={recurrence}
+              onChange={(event) => setRecurrence(event.target.value as TaskRecurrence)}
+              className={NATIVE_SELECT_CLASS}
+            >
+              {TASK_RECURRENCE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          <RadioChoiceList
+            name="recurrenceChoice"
+            value={recurrence}
+            onChange={setRecurrence}
+            layout="compact"
+            options={TASK_RECURRENCE_OPTIONS}
+          />
+        )}
       </div>
 
       {recurrence === "WEEKLY" ? (
@@ -67,7 +91,7 @@ export function TaskRecurrenceField({
                   type="button"
                   onClick={() => setDayOfWeek(day.value)}
                   className={cn(
-                    "min-h-10 rounded-xl border px-3 py-2 text-sm font-medium transition-colors",
+                    "min-h-11 touch-manipulation rounded-xl border px-3 py-2 text-sm font-medium transition-colors",
                     selected
                       ? "border-cub-gold bg-cub-gold-muted text-cub-gold-light"
                       : "border-cub-off-white/15 bg-cub-charcoal text-cub-muted hover:border-cub-off-white/25",
@@ -88,7 +112,7 @@ export function TaskRecurrenceField({
             id="recurrence-day-of-month"
             value={dayOfMonth}
             onChange={(event) => setDayOfMonth(Number(event.target.value))}
-            className="mt-1 w-full max-w-xs rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+            className={NATIVE_SELECT_CLASS}
           >
             {Array.from({ length: 31 }, (_, index) => index + 1).map((day) => (
               <option key={day} value={day}>
@@ -107,7 +131,7 @@ export function TaskRecurrenceField({
             type="time"
             value={time}
             onChange={(event) => setTime(event.target.value)}
-            className="mt-1 w-full max-w-xs rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+            className={NATIVE_TIME_INPUT_CLASS}
           />
           <p className="mt-1 text-xs text-zinc-500">
             Optional — sets when each repeat is due. Leave blank for end of day.

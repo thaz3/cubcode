@@ -3,6 +3,7 @@
 import type { GrowthCategory } from "@/generated/prisma/client";
 import { Label } from "@/components/ui/label";
 import { growthCategoryOptions } from "@/lib/task-categories";
+import { NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
 
 type GrowthAreaFieldsProps = {
   initialValue?: GrowthCategory | null;
@@ -28,7 +29,7 @@ export function GrowthAreaFields({
         id={id}
         name={name}
         defaultValue={initialValue ?? ""}
-        className="w-full min-h-11 rounded-xl border border-cub-charcoal bg-cub-ebony px-4 py-2.5 text-base text-cub-off-white outline-none ring-cub-gold focus:ring-2"
+        className={NATIVE_SELECT_CLASS}
       >
         <option value="">No growth area</option>
         {options.map((option) => (

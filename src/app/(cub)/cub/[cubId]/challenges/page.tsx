@@ -10,7 +10,7 @@ import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
 import { getWeekStart } from "@/lib/council-day";
-import { CUB_PAGE_EMOJI, cubKidGameCard } from "@/lib/cub-kid-theme";
+import { CUB_PAGE_EMOJI, cubKidGameCard, cubKidSectionEyebrow, KID_EARN_CARD } from "@/lib/cub-kid-theme";
 import { getCubRoutinesView } from "@/lib/cub-routines";
 import {
   formatGrowthWeekProgress,
@@ -84,8 +84,8 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
     <div id="assignments" className="scroll-mt-24 space-y-5">
       <MissionHashScroll />
       <CubKidHero
-        title="Assignments"
-        subtitle="Routines and one-time tasks — your daily quest log."
+        title="Quest Board"
+        subtitle="Routines and one-time tasks — your daily adventure log!"
         emoji={CUB_PAGE_EMOJI.assignments}
         backHref={`/cub/${cubId}`}
         backLabel="Today"
@@ -106,9 +106,7 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
 
             {dueToday.length > 0 ? (
               <CubKidPanel variant="violet" contentClassName="space-y-3">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
-                  🔄 Due now
-                </p>
+                <p className={cubKidSectionEyebrow}>🔄 Due now</p>
                 <ul className="space-y-2">
                   {dueToday.map((routine) => (
                     <li key={routine.id}>
@@ -116,11 +114,13 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
                         <div
                           className={cn(
                             cubKidGameCard,
-                            "space-y-2 border-sky-500/30 bg-gradient-to-br from-sky-950/40 to-cub-charcoal p-4",
+                            "space-y-2 border-[3px] bg-gradient-to-br p-4",
+                            KID_EARN_CARD.routine.border,
+                            KID_EARN_CARD.routine.accent,
                           )}
                         >
                           <div className="flex flex-wrap items-center justify-between gap-2">
-                            <p className="font-bold text-cub-off-white">
+                            <p className="font-black text-kid-ink">
                               {routine.title}
                             </p>
                             {routine.logStatus ? (
@@ -128,12 +128,12 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
                                 status={routine.logStatus}
                               />
                             ) : (
-                              <span className="text-xs font-bold text-cub-gold-light">
-                                Not started
+                              <span className="text-xs font-black text-kid-purple">
+                                Ready to Play
                               </span>
                             )}
                           </div>
-                          <p className="text-sm text-cub-muted">
+                          <p className="text-sm text-kid-ink-muted">
                             {formatChallengeInterval(
                               routine.intervalType,
                               routine.intervalConfig,
@@ -142,7 +142,7 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
                               ? ` · ${routine.intervalLabel}`
                               : ""}
                           </p>
-                          <p className="text-xs font-bold uppercase text-sky-300">
+                          <p className="text-xs font-black uppercase text-kid-blue">
                             Check in →
                           </p>
                         </div>
@@ -152,7 +152,7 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
                 </ul>
               </CubKidPanel>
             ) : (
-              <p className="text-sm text-cub-muted">No routines due right now.</p>
+              <p className="text-sm text-kid-ink-muted">No routines due right now — nice work!</p>
             )}
 
             <CubUpcomingRoutinesSection cubId={cubId} routines={upcoming} />

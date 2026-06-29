@@ -58,6 +58,27 @@ export default async function CubRoutineDetailPage({
 
   const log = await getOrCreateCurrentProgressLog(challenge);
 
+  if (!log) {
+    return (
+      <div className="space-y-5">
+        <CubKidHero
+          title={challenge.title}
+          subtitle={formatChallengeInterval(
+            challenge.intervalType,
+            challenge.intervalConfig,
+          )}
+          emoji={CUB_PAGE_EMOJI.routines}
+          backHref={`/cub/${cubId}/challenges`}
+          backLabel="Routines"
+        />
+        <CubKidPanel variant="gold" contentClassName="text-sm text-cub-muted">
+          This routine could not be opened right now. Go back and try again, or
+          ask your parent to check the routine settings.
+        </CubKidPanel>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-5">
       <CubKidHero

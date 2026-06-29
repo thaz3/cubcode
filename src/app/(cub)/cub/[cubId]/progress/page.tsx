@@ -30,8 +30,8 @@ export default async function CubModeProgressPage({
   return (
     <div className="space-y-5">
       <CubKidHero
-        title="My progress"
-        subtitle="See how you're growing this week — tasks, routines, Growth Picks, Training Path, and bonuses."
+        title="Level Up!"
+        subtitle="See how you're growing — badges, XP, growth areas, and training progress. You're building something awesome!"
         emoji={CUB_PAGE_EMOJI.progress}
         backHref={`/cub/${cubId}`}
         backLabel="Today"

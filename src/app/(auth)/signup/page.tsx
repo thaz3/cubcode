@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function SignupPage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16 pb-nav-safe">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-4 py-16 pb-nav-safe">
       <div className="mb-6 space-y-2 text-center">
         <Link href="/" className="text-sm font-bold text-cub-gold">
           C.U.B. Code

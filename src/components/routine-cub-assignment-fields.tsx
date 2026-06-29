@@ -35,10 +35,10 @@ export function RoutineCubAssignmentFields({
           <li key={cub.id}>
             <label
               className={cn(
-                "flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition",
+                "flex min-h-11 touch-manipulation cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition",
                 selected.has(cub.id)
                   ? "border-cub-gold/40 bg-cub-gold-muted/20"
-                  : "border-zinc-700 bg-cub-ebony hover:border-cub-gold/20",
+                  : "border-zinc-700 bg-cub-ebony active:border-cub-gold/20",
               )}
             >
               <input
@@ -46,7 +46,7 @@ export function RoutineCubAssignmentFields({
                 name="cubIds"
                 value={cub.id}
                 defaultChecked={selected.has(cub.id)}
-                className="size-4 rounded border-zinc-600"
+                className="size-5 shrink-0 rounded border-zinc-600"
               />
               <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
             </label>

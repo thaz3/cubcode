@@ -31,27 +31,27 @@ type CubRewardStoreProps = {
 
 const ACCENT_STYLES = {
   gold: {
-    card: "border-cub-gold/35 bg-gradient-to-br from-cub-gold-muted/40 via-cub-charcoal/80 to-cub-ebony/90 shadow-cub-gold/15",
-    affordable: "ring-2 ring-cub-gold/50 shadow-lg shadow-cub-gold/20",
-    badge: "bg-cub-gold text-cub-ebony",
+    card: "border-kid-yellow/50 bg-gradient-to-br from-kid-yellow/30 via-white to-kid-cream shadow-kid-orange/15",
+    affordable: "ring-2 ring-kid-orange/50 shadow-lg shadow-kid-yellow/25",
+    badge: "bg-kid-yellow text-kid-ink border-2 border-kid-orange/40",
     button: "reward" as const,
   },
   green: {
-    card: "border-cub-green/35 bg-gradient-to-br from-cub-green-muted/30 via-cub-charcoal/80 to-cub-ebony/90 shadow-cub-green/15",
-    affordable: "ring-2 ring-cub-green-bright/45 shadow-lg shadow-cub-green/20",
-    badge: "bg-cub-green-bright text-cub-off-white",
+    card: "border-kid-green/45 bg-gradient-to-br from-emerald-50 via-white to-kid-cream shadow-emerald-200/30",
+    affordable: "ring-2 ring-emerald-400/45 shadow-lg shadow-emerald-200/40",
+    badge: "bg-kid-green text-kid-ink border-2 border-emerald-400/40",
     button: "constructive" as const,
   },
   violet: {
-    card: "border-violet-500/35 bg-gradient-to-br from-violet-950/50 via-cub-charcoal/80 to-cub-ebony/90",
-    affordable: "ring-2 ring-violet-400/45 shadow-lg shadow-violet-900/30",
-    badge: "bg-violet-600 text-white",
+    card: "border-kid-purple/40 bg-gradient-to-br from-kid-lavender via-white to-kid-cream",
+    affordable: "ring-2 ring-kid-purple/45 shadow-lg shadow-kid-purple/20",
+    badge: "bg-kid-purple text-white",
     button: "neutral" as const,
   },
   sky: {
-    card: "border-sky-500/35 bg-gradient-to-br from-sky-950/40 via-cub-charcoal/80 to-cub-ebony/90",
-    affordable: "ring-2 ring-sky-400/45 shadow-lg shadow-sky-900/30",
-    badge: "bg-sky-600 text-white",
+    card: "border-kid-blue/40 bg-gradient-to-br from-kid-sky via-white to-kid-cream",
+    affordable: "ring-2 ring-kid-blue/45 shadow-lg shadow-kid-blue/20",
+    badge: "bg-kid-blue text-white",
     button: "neutral" as const,
   },
 };
@@ -79,14 +79,14 @@ export function CubRewardStore({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-3 rounded-2xl border border-cub-gold/30 bg-cub-gold-muted/20 px-4 py-3">
+      <div className="flex items-center justify-between gap-3 rounded-2xl border-2 border-kid-yellow/50 bg-kid-yellow/20 px-4 py-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
-            Your stash
+          <p className="text-xs font-black uppercase tracking-wide text-kid-purple">
+            🏆 Your stash
           </p>
-          <p className="text-2xl font-bold text-cub-off-white">
+          <p className="text-2xl font-black text-kid-ink">
             {availableFocusTokens}{" "}
-            <span className="text-base font-semibold text-cub-gold">
+            <span className="text-base font-bold text-kid-orange">
               Focus Token{availableFocusTokens === 1 ? "" : "s"}
             </span>
           </p>
@@ -170,23 +170,23 @@ function RewardStoreCard({
         </span>
       </div>
 
-      <h3 className="mt-3 text-lg font-bold text-cub-off-white">{item.title}</h3>
+      <h3 className="mt-3 text-lg font-black text-kid-ink">{item.title}</h3>
       {item.description ? (
-        <p className="mt-1 text-sm text-cub-muted">{item.description}</p>
+        <p className="mt-1 text-sm text-kid-ink-muted">{item.description}</p>
       ) : null}
       {grantLabel ? (
-        <p className="mt-2 text-xs font-medium text-cub-gold-light">{grantLabel}</p>
+        <p className="mt-2 text-xs font-bold text-kid-purple">{grantLabel}</p>
       ) : null}
       {declinedNote && !isPendingApproval ? (
-        <p className="mt-2 rounded-lg border border-cub-charcoal/80 bg-cub-charcoal/50 px-3 py-2 text-xs text-cub-muted">
-          <span className="font-medium text-cub-off-white">Parent said: </span>
+        <p className="mt-2 rounded-xl border-2 border-kid-pink/30 bg-pink-50 px-3 py-2 text-xs text-kid-ink-muted">
+          <span className="font-bold text-kid-ink">Parent said: </span>
           {declinedNote}
         </p>
       ) : null}
 
       <div className="mt-4">
         {isPendingApproval ? (
-          <div className="rounded-xl border border-cub-gold/30 bg-cub-gold-muted/20 px-3 py-2 text-center text-sm font-medium text-cub-gold-light">
+          <div className="rounded-xl border-2 border-kid-yellow/40 bg-kid-yellow/20 px-3 py-2 text-center text-sm font-bold text-orange-700">
             Waiting for parent approval…
           </div>
         ) : canAfford ? (
@@ -203,7 +203,7 @@ function RewardStoreCard({
             </Button>
           </form>
         ) : (
-          <div className="rounded-xl border border-cub-charcoal bg-cub-charcoal/60 px-3 py-2 text-center text-sm text-cub-muted">
+          <div className="rounded-xl border-2 border-kid-purple/20 bg-kid-lavender/50 px-3 py-2 text-center text-sm font-semibold text-kid-ink-muted">
             Save up {item.costFocusTokens - availableFocusTokens} more token
             {item.costFocusTokens - availableFocusTokens === 1 ? "" : "s"}
           </div>

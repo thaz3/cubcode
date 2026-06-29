@@ -2,8 +2,11 @@
 
 import type { ActionState } from "@/lib/actions/auth";
 import { Label } from "@/components/ui/label";
+import { NATIVE_TIME_INPUT_CLASS, NATIVE_DATE_INPUT_CLASS } from "@/lib/mobile-form-styles";
+import { debugServerAction } from "@/lib/form-debug-server";
 import { dueInHoursFromNow, parseDueDateFormValue } from "@/lib/task-schedule";
 import { cn } from "@/lib/utils";
+import { useTouchNativeControls } from "@/components/use-prefers-hover";
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 
 type TaskDueDateFieldProps = {
@@ -100,6 +103,7 @@ export function TaskDueDateField({
     () => initial.date ?? new Date(),
   );
   const hiddenInputRef = useRef<HTMLInputElement>(null);
+  const useNativeControls = useTouchNativeControls();
 
   const selectedValue = buildDueFormValue(selectedDate, dueTime);
 
@@ -158,14 +162,14 @@ export function TaskDueDateField({
           <button
             type="button"
             onClick={() => applyDueValue(dueInHoursFromNow(2))}
-            className="rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-900 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+            className="min-h-11 touch-manipulation rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 active:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
           >
             Due in 2 hours
           </button>
           <button
             type="button"
             onClick={() => applyDueValue(dueInHoursFromNow(4))}
-            className="rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-900 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+            className="min-h-11 touch-manipulation rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 active:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
           >
             Due in 4 hours
           </button>
@@ -179,19 +183,37 @@ export function TaskDueDateField({
               }
               applyDueValue(buildDueFormValue(tonight, "20:00"));
             }}
-            className="rounded-md border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+            className="min-h-11 touch-manipulation rounded-xl border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 active:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:active:bg-zinc-900"
           >
             Due tonight 8 PM
           </button>
         </div>
       ) : null}
 
+      {useNativeControls ? (
+        <div className="mt-3">
+          <input
+            type="date"
+            value={selectedDate ? toInputDateValue(selectedDate) : ""}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (!value) {
+                setSelectedDate(null);
+                return;
+              }
+              const [year, month, day] = value.split("-").map(Number);
+              selectDate(new Date(year, month - 1, day));
+            }}
+            className={NATIVE_DATE_INPUT_CLASS}
+          />
+        </div>
+      ) : (
       <div className="mt-3 overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-cub-off-white/10 dark:bg-cub-ebony">
         <div className="flex items-center justify-between border-b border-zinc-200 px-3 py-2 dark:border-cub-off-white/10">
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
-            className="rounded-md px-2 py-1 text-sm text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-900"
+            className="touch-target flex items-center justify-center rounded-md text-sm text-zinc-600 active:bg-zinc-100 dark:text-zinc-300 dark:active:bg-zinc-900"
             aria-label="Previous month"
           >
             ←
@@ -202,7 +224,7 @@ export function TaskDueDateField({
           <button
             type="button"
             onClick={() => shiftMonth(1)}
-            className="rounded-md px-2 py-1 text-sm text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-900"
+            className="touch-target flex items-center justify-center rounded-md text-sm text-zinc-600 active:bg-zinc-100 dark:text-zinc-300 dark:active:bg-zinc-900"
             aria-label="Next month"
           >
             →
@@ -230,7 +252,7 @@ export function TaskDueDateField({
                 type="button"
                 onClick={() => selectDate(day)}
                 className={cn(
-                  "min-h-10 bg-white px-1 py-2 text-sm transition dark:bg-cub-ebony",
+                  "min-h-11 touch-manipulation bg-white px-1 py-2 text-sm transition dark:bg-cub-ebony",
                   inCurrentMonth
                     ? "text-zinc-900 dark:text-zinc-100"
                     : "text-zinc-400 dark:text-zinc-600",
@@ -255,6 +277,7 @@ export function TaskDueDateField({
           })}
         </div>
       </div>
+      )}
 
       <input
         ref={hiddenInputRef}
@@ -272,7 +295,7 @@ export function TaskDueDateField({
           type="time"
           value={dueTime}
           onChange={(event) => setDueTime(event.target.value)}
-          className="mt-1 w-full max-w-xs rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+          className={NATIVE_TIME_INPUT_CLASS}
         />
         <p className="mt-1 text-xs text-zinc-500">
           Add a time for &quot;due in a few hours&quot; urgency. Leave blank for end of day.
@@ -303,7 +326,7 @@ export function TaskDueDateField({
               setSelectedDate(null);
               setDueTime("");
             }}
-            className="text-amber-700 hover:underline dark:text-cub-gold-light"
+            className="min-h-11 touch-manipulation px-2 text-amber-700 active:underline dark:text-cub-gold-light"
           >
             Clear
           </button>
@@ -313,7 +336,7 @@ export function TaskDueDateField({
           onClick={() => {
             setViewMonth(new Date(today.getFullYear(), today.getMonth(), 1));
           }}
-          className="text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+          className="min-h-11 touch-manipulation px-2 text-zinc-500 active:text-zinc-700 dark:active:text-zinc-300"
         >
           Today
         </button>
@@ -350,7 +373,16 @@ export function useDueDateFormAction(
         const dueDate = dueDateRef.current || fromForm;
         applyDueDateToFormData(formData, dueDate);
       }
-      return action(prevState, formData);
+      debugServerAction("taskFormAction", "start", {
+        dueDate: formData.get("dueDate")?.toString(),
+        title: formData.get("title")?.toString(),
+      });
+      const result = await action(prevState, formData);
+      debugServerAction("taskFormAction", result.error ? "error" : "success", {
+        error: result.error,
+        success: result.success,
+      });
+      return result;
     },
     initialState,
   );

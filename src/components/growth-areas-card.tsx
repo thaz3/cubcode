@@ -4,6 +4,14 @@ import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import { Card } from "@/components/ui/card";
 import { cubSectionLabel, cubSectionTitle } from "@/lib/cub-theme";
 import {
+  KID_GROWTH_BG,
+  KID_GROWTH_COLORS,
+  KID_GROWTH_TEXT,
+  cubKidSectionEyebrow,
+  cubKidSectionTitle,
+  cubKidTextMuted,
+} from "@/lib/cub-kid-theme";
+import {
   ALL_GROWTH_CATEGORIES,
   GROWTH_CATEGORY_LABELS,
   growthCategoryShortLabel,
@@ -36,8 +44,8 @@ const GROWTH_FILL_COLORS: Record<GrowthCategory, string> = {
   COMMUNITY: "rgba(74, 222, 128, 0.35)",
 };
 
-const GROWTH_TRACK_COLOR = "#78716c";
-const GROWTH_GRID_COLOR = "#57534e";
+const GROWTH_TRACK_COLOR = "#e8e4f0";
+const GROWTH_GRID_COLOR = "#d4cfe8";
 
 function radarLabelAnchor(angle: number): "start" | "middle" | "end" {
   const x = Math.cos(angle);
@@ -100,14 +108,12 @@ export function GrowthAreasCard({
   if (audience === "cub") {
     const activity = countAreasWithActivity(summary);
     return (
-      <CubKidPanel variant="violet" contentClassName="space-y-5">
+      <CubKidPanel variant="green" contentClassName="space-y-5">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
-            📈 {summary.weekLabel}
-          </p>
-          <h2 className="mt-1 text-lg font-black text-cub-off-white">{headline}</h2>
-          <p className="mt-2 text-sm text-cub-muted">{subcopy}</p>
-          <p className="mt-2 text-sm font-bold text-cub-green-light">
+          <p className={cubKidSectionEyebrow}>📈 {summary.weekLabel}</p>
+          <h2 className={cn("mt-1 text-lg", cubKidSectionTitle)}>{headline}</h2>
+          <p className={cn("mt-2 text-sm", cubKidTextMuted)}>{subcopy}</p>
+          <p className="mt-2 text-sm font-black text-emerald-600">
             {activity.active}/{activity.total} areas with activity ·{" "}
             {summary.totalPoints} total points
             {summary.growthPicksCompleted > 0
@@ -117,11 +123,11 @@ export function GrowthAreasCard({
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
-          <CoverageRings summary={summary} />
-          <GrowthRadar summary={summary} />
+          <CoverageRings summary={summary} audience="cub" />
+          <GrowthRadar summary={summary} audience="cub" />
         </div>
 
-        <GrowthAreaDrillDown summary={summary} />
+        <GrowthAreaDrillDown summary={summary} audience="cub" />
       </CubKidPanel>
     );
   }
@@ -176,12 +182,10 @@ function GrowthAreasMiniCard({
 
   if (audience === "cub") {
     return (
-      <CubKidPanel variant="violet" contentClassName="space-y-3">
+      <CubKidPanel variant="pink" contentClassName="space-y-3">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
-            🌱 Growth this week
-          </p>
-          <p className="mt-0.5 text-xs text-cub-muted">{summary.weekLabel}</p>
+          <p className={cubKidSectionEyebrow}>🌱 Growth this week</p>
+          <p className={cn("mt-0.5 text-xs", cubKidTextMuted)}>{summary.weekLabel}</p>
         </div>
 
         <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
@@ -191,7 +195,10 @@ function GrowthAreasMiniCard({
             return (
               <li
                 key={area}
-                className="flex flex-col items-center gap-1 rounded-xl border border-violet-500/20 bg-cub-ebony/60 px-1 py-2 text-center"
+                className={cn(
+                  "flex flex-col items-center gap-1 rounded-2xl border-2 px-1 py-2 text-center",
+                  KID_GROWTH_BG[area],
+                )}
                 title={
                   filled
                     ? `${growthCategoryShortLabel(area)}: ${count} point${count === 1 ? "" : "s"}`
@@ -204,11 +211,12 @@ function GrowthAreasMiniCard({
                   points={count}
                   label={growthCategoryShortLabel(area)}
                   size="sm"
+                  audience="cub"
                 />
                 <span
                   className={cn(
-                    "text-[10px] font-bold leading-tight",
-                    AREA_COLORS[area],
+                    "text-[10px] font-black leading-tight",
+                    KID_GROWTH_TEXT[area],
                   )}
                 >
                   {growthCategoryShortLabel(area)}
@@ -221,9 +229,9 @@ function GrowthAreasMiniCard({
         {progressHref ? (
           <Link
             href={progressHref}
-            className="block text-center text-xs font-bold text-cub-gold-light hover:text-cub-gold-warm"
+            className="block text-center text-xs font-black text-kid-purple hover:text-kid-pink"
           >
-            View full growth →
+            Level up your growth →
           </Link>
         ) : null}
       </CubKidPanel>
@@ -288,10 +296,22 @@ function GrowthAreasMiniCard({
   );
 }
 
-function CoverageRings({ summary }: { summary: GrowthAreaSummary }) {
+function CoverageRings({
+  summary,
+  audience = "parent",
+}: {
+  summary: GrowthAreaSummary;
+  audience?: "parent" | "cub";
+}) {
+  const isCub = audience === "cub";
   return (
     <div className="space-y-3">
-      <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
+      <p
+        className={cn(
+          "text-xs font-bold uppercase tracking-wide",
+          isCub ? cubKidSectionEyebrow : "text-cub-gold-light",
+        )}
+      >
         Coverage
       </p>
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-1">
@@ -301,19 +321,30 @@ function CoverageRings({ summary }: { summary: GrowthAreaSummary }) {
           return (
             <li
               key={area}
-              className="flex items-center gap-3 rounded-xl border border-cub-green/25 bg-cub-ebony/50 px-3 py-2.5"
+              className={cn(
+                "flex items-center gap-3 rounded-2xl border-2 px-3 py-2.5",
+                isCub
+                  ? KID_GROWTH_BG[area]
+                  : "border-cub-green/25 bg-cub-ebony/50",
+              )}
             >
               <CoverageRing
                 area={area}
                 filled={filled}
                 points={stats.points}
                 label={growthCategoryShortLabel(area)}
+                audience={audience}
               />
               <div className="min-w-0">
-                <p className={cn("text-sm font-semibold", AREA_COLORS[area])}>
+                <p
+                  className={cn(
+                    "text-sm font-bold",
+                    isCub ? KID_GROWTH_TEXT[area] : AREA_COLORS[area],
+                  )}
+                >
                   {growthCategoryShortLabel(area)}
                 </p>
-                <p className="text-xs text-cub-muted">
+                <p className={cn("text-xs", isCub ? cubKidTextMuted : "text-cub-muted")}>
                   {filled ? `${stats.points} point${stats.points === 1 ? "" : "s"}` : "No activity yet"}
                 </p>
               </div>
@@ -331,16 +362,19 @@ function CoverageRing({
   points = 0,
   label,
   size = "md",
+  audience = "parent",
 }: {
   area: GrowthCategory;
   filled: boolean;
   points?: number;
   label: string;
   size?: "sm" | "md";
+  audience?: "parent" | "cub";
 }) {
   const dim = size === "sm" ? 32 : 48;
   const thickness = size === "sm" ? 4 : 5;
-  const color = GROWTH_RING_COLORS[area];
+  const color =
+    audience === "cub" ? KID_GROWTH_COLORS[area] : GROWTH_RING_COLORS[area];
   const sweep = filled ? Math.min(100, Math.max(30, (points / 5) * 100)) : 18;
 
   return (
@@ -359,7 +393,14 @@ function CoverageRing({
   );
 }
 
-function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
+function GrowthRadar({
+  summary,
+  audience = "parent",
+}: {
+  summary: GrowthAreaSummary;
+  audience?: "parent" | "cub";
+}) {
+  const isCub = audience === "cub";
   const chartSize = 220;
   const pad = 52;
   const size = chartSize + pad * 2;
@@ -386,7 +427,12 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
+      <p
+        className={cn(
+          "text-xs font-bold uppercase tracking-wide",
+          isCub ? cubKidSectionEyebrow : "text-cub-gold-light",
+        )}
+      >
         Balance
       </p>
       <div className="mx-auto w-full max-w-xs">
@@ -436,7 +482,7 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
                   dominantBaseline="middle"
                   className={cn(
                     "fill-current text-[10px] font-semibold",
-                    AREA_COLORS[area],
+                    isCub ? KID_GROWTH_TEXT[area] : AREA_COLORS[area],
                   )}
                 >
                   {growthCategoryShortLabel(area)}
@@ -448,29 +494,35 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
           {summary.totalPoints > 0 ? (
             <polygon
               points={polygon}
-              fill="rgba(213, 160, 33, 0.25)"
-              stroke="#f2c14e"
+              fill="rgba(123, 92, 255, 0.2)"
+              stroke="#7B5CFF"
               strokeWidth={2}
             />
           ) : null}
           {ALL_GROWTH_CATEGORIES.map((area) => {
             const p = pointFor(area, 1);
             const points = summary.byArea[area].points;
+            const ringColor =
+              audience === "cub" ? KID_GROWTH_COLORS[area] : GROWTH_RING_COLORS[area];
+            const fillColor =
+              audience === "cub"
+                ? `${KID_GROWTH_COLORS[area]}55`
+                : GROWTH_FILL_COLORS[area];
             return (
               <g key={`${area}-dot`}>
                 <circle
                   cx={p.x}
                   cy={p.y}
                   r={points > 0 ? 5 : 3}
-                  fill={GROWTH_FILL_COLORS[area]}
-                  stroke={GROWTH_RING_COLORS[area]}
+                  fill={fillColor}
+                  stroke={ringColor}
                   strokeWidth={2}
                 />
               </g>
             );
           })}
         </svg>
-        <p className="mt-2 text-center text-xs text-cub-muted">
+        <p className={cn("mt-2 text-center text-xs", isCub ? cubKidTextMuted : "text-cub-muted")}>
           Points this week — tasks, routines, and Growth Picks combined · larger
           shape = more balanced growth
         </p>
@@ -479,14 +531,28 @@ function GrowthRadar({ summary }: { summary: GrowthAreaSummary }) {
   );
 }
 
-function GrowthAreaDrillDown({ summary }: { summary: GrowthAreaSummary }) {
+function GrowthAreaDrillDown({
+  summary,
+  audience = "parent",
+}: {
+  summary: GrowthAreaSummary;
+  audience?: "parent" | "cub";
+}) {
+  const isCub = audience === "cub";
   const activeAreas = ALL_GROWTH_CATEGORIES.filter(
     (area) => summary.byArea[area].points > 0,
   );
 
   if (activeAreas.length === 0) {
     return (
-      <p className="rounded-xl border border-dashed border-cub-gold/30 bg-cub-gold-muted/30 px-4 py-3 text-sm text-cub-muted">
+      <p
+        className={cn(
+          "rounded-2xl border-2 border-dashed px-4 py-3 text-sm",
+          isCub
+            ? "border-kid-purple/25 bg-kid-lavender/50 text-kid-ink-muted"
+            : "border-cub-gold/30 bg-cub-gold-muted/30 text-cub-muted",
+        )}
+      >
         No growth activity yet this week. Complete tasks, routines, Focus Blocks,
         or pick a Growth Pick card.
       </p>
@@ -495,7 +561,12 @@ function GrowthAreaDrillDown({ summary }: { summary: GrowthAreaSummary }) {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
+      <p
+        className={cn(
+          "text-xs font-bold uppercase tracking-wide",
+          isCub ? cubKidSectionEyebrow : "text-cub-gold-light",
+        )}
+      >
         What counted
       </p>
       <ul className="space-y-3">
@@ -504,13 +575,16 @@ function GrowthAreaDrillDown({ summary }: { summary: GrowthAreaSummary }) {
           return (
             <li
               key={area}
-              className="rounded-xl border border-cub-charcoal bg-cub-ebony/50 px-4 py-3"
+              className={cn(
+                "rounded-2xl border-2 px-4 py-3",
+                isCub ? KID_GROWTH_BG[area] : "border-cub-charcoal bg-cub-ebony/50",
+              )}
             >
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className={cn("font-semibold", AREA_COLORS[area])}>
+                <p className={cn("font-bold", isCub ? KID_GROWTH_TEXT[area] : AREA_COLORS[area])}>
                   {GROWTH_CATEGORY_LABELS[area]}
                 </p>
-                <p className="text-xs text-cub-muted">
+                <p className={cn("text-xs", isCub ? cubKidTextMuted : "text-cub-muted")}>
                   {stats.points} point{stats.points === 1 ? "" : "s"}
                   {stats.xpEarned > 0 ? ` · ${stats.xpEarned} XP` : ""}
                 </p>
@@ -519,10 +593,13 @@ function GrowthAreaDrillDown({ summary }: { summary: GrowthAreaSummary }) {
                 {stats.items.map((item) => (
                   <li
                     key={`${item.type}-${item.id}-${item.points ?? 0}`}
-                    className="flex items-center justify-between gap-2 text-sm text-cub-off-white/90"
+                    className={cn(
+                      "flex items-center justify-between gap-2 text-sm",
+                      isCub ? "text-kid-ink" : "text-cub-off-white/90",
+                    )}
                   >
                     <span className="min-w-0 truncate">
-                      <span className="text-cub-muted">
+                      <span className={isCub ? "text-kid-ink-muted" : "text-cub-muted"}>
                         {item.type === "routine"
                           ? "Routine"
                           : item.type === "bonus"
@@ -534,7 +611,7 @@ function GrowthAreaDrillDown({ summary }: { summary: GrowthAreaSummary }) {
                       </span>
                       {item.title}
                     </span>
-                    <span className="shrink-0 text-xs text-cub-muted">
+                    <span className={cn("shrink-0 text-xs", isCub ? "text-kid-ink-muted" : "text-cub-muted")}>
                       {item.type === "growth_pick" && item.points
                         ? `+${item.points} pts`
                         : item.completedAt.toLocaleDateString()}

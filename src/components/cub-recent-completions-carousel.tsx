@@ -2,7 +2,12 @@
 
 import { StatusBadge } from "@/components/ui/status-badge";
 import type { SerializedCompletionFeedItem } from "@/lib/cub-completion-feed";
-import { cubSectionLabel } from "@/lib/cub-theme";
+import {
+  cubKidBadge,
+  cubKidSectionEyebrow,
+  cubKidSectionTitle,
+  cubKidTextMuted,
+} from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 
@@ -33,13 +38,12 @@ function formatFeedDate(iso: string): string {
 function slideTheme(item: SerializedCompletionFeedItem): SlideTheme {
   if (item.status === "REJECTED") {
     return {
-      surface:
-        "border-cub-red-alert/45 cub-card-red shadow-lg shadow-cub-red/15",
-      accentBar: "bg-cub-red-alert",
-      glow: "from-cub-red-alert/20 via-transparent to-transparent",
-      badge: "bg-cub-red-muted text-cub-red-light ring-cub-red-alert/40",
+      surface: "border-red-300 bg-red-50 shadow-lg shadow-red-200/30",
+      accentBar: "bg-red-400",
+      glow: "from-red-200/40 via-transparent to-transparent",
+      badge: "bg-red-100 text-red-700 ring-red-300",
       badgeText: "Try again",
-      subtitle: "text-cub-red-light/90",
+      subtitle: "text-red-600",
       icon: "↩",
     };
   }
@@ -48,51 +52,47 @@ function slideTheme(item: SerializedCompletionFeedItem): SlideTheme {
 
   if (subtitle.includes("routine")) {
     return {
-      surface:
-        "border-cub-green-bright/50 cub-card-green shadow-lg shadow-cub-green/20",
-      accentBar: "bg-cub-green-bright",
-      glow: "from-cub-green-bright/25 via-cub-gold/10 to-transparent",
-      badge: "bg-cub-green-muted text-cub-green-light ring-cub-green-bright/45",
+      surface: "border-emerald-300 bg-emerald-50 shadow-lg shadow-emerald-200/30",
+      accentBar: "bg-kid-green",
+      glow: "from-emerald-200/40 via-transparent to-transparent",
+      badge: "bg-emerald-100 text-emerald-700 ring-emerald-300",
       badgeText: "Routine win",
-      subtitle: "text-cub-green-light",
+      subtitle: "text-emerald-600",
       icon: "✦",
     };
   }
 
   if (subtitle.includes("redeem")) {
     return {
-      surface:
-        "border-cub-gold-warm/55 cub-card-gold shadow-lg shadow-cub-gold/25",
-      accentBar: "bg-cub-gold-warm",
-      glow: "from-cub-gold-warm/30 via-cub-gold/10 to-transparent",
-      badge: "bg-cub-gold-muted text-cub-gold-warm ring-cub-gold-warm/50",
+      surface: "border-kid-yellow/60 bg-kid-yellow/20 shadow-lg shadow-kid-orange/20",
+      accentBar: "bg-kid-orange",
+      glow: "from-kid-yellow/40 via-transparent to-transparent",
+      badge: "bg-amber-100 text-amber-700 ring-amber-300",
       badgeText: "Redeemed",
-      subtitle: "text-cub-gold-warm",
+      subtitle: "text-orange-600",
       icon: "★",
     };
   }
 
   if (subtitle.includes("family") || subtitle.includes("bonus")) {
     return {
-      surface:
-        "border-cub-gold/50 cub-card-gold shadow-lg shadow-cub-gold/22",
-      accentBar: "bg-gradient-to-r from-cub-gold to-cub-gold-warm",
-      glow: "from-cub-gold-warm/28 via-cub-green-bright/10 to-transparent",
-      badge: "bg-cub-gold-muted text-cub-gold-light ring-cub-gold/50",
+      surface: "border-kid-pink/40 bg-pink-50 shadow-lg shadow-pink-200/25",
+      accentBar: "bg-gradient-to-r from-kid-pink to-kid-purple",
+      glow: "from-pink-200/40 via-transparent to-transparent",
+      badge: "bg-pink-100 text-pink-700 ring-pink-300",
       badgeText: "Bonus",
-      subtitle: "text-cub-gold-light",
+      subtitle: "text-pink-600",
       icon: "★",
     };
   }
 
   return {
-    surface:
-      "border-cub-gold/50 cub-card-gold shadow-lg shadow-cub-gold/20",
-    accentBar: "bg-gradient-to-r from-cub-gold to-cub-gold-warm",
-    glow: "from-cub-gold/25 via-cub-green-bright/8 to-transparent",
-    badge: "bg-cub-gold-muted text-cub-gold-light ring-cub-gold/45",
+    surface: "border-kid-purple/30 bg-kid-lavender/60 shadow-lg shadow-kid-purple/15",
+    accentBar: "bg-gradient-to-r from-kid-purple to-kid-blue",
+    glow: "from-violet-200/40 via-transparent to-transparent",
+    badge: "bg-violet-100 text-violet-700 ring-violet-300",
     badgeText: "Task win",
-    subtitle: "text-cub-gold-light",
+    subtitle: "text-violet-600",
     icon: "✦",
   };
 }
@@ -101,19 +101,19 @@ function rewardPillClass(part: string): string {
   const lower = part.toLowerCase();
 
   if (lower.includes("xp")) {
-    return "bg-cub-green-muted/90 text-cub-green-light ring-cub-green-bright/40";
+    return "bg-emerald-100 text-emerald-700 ring-emerald-300";
   }
   if (lower.includes("token")) {
-    return "bg-cub-gold-muted text-cub-gold-warm ring-cub-gold-warm/45";
+    return "bg-amber-100 text-amber-700 ring-amber-300";
   }
   if (lower.includes("phone")) {
-    return "bg-cub-gold-muted/80 text-cub-gold-light ring-cub-gold/40";
+    return "bg-sky-100 text-sky-700 ring-sky-300";
   }
   if (lower.includes("bank")) {
-    return "bg-cub-charcoal text-cub-off-white ring-cub-off-white/15";
+    return "bg-violet-100 text-violet-700 ring-violet-300";
   }
 
-  return "bg-cub-gold-muted text-cub-gold-light ring-cub-gold/40";
+  return "bg-amber-100 text-amber-700 ring-amber-300";
 }
 
 function RewardPills({ rewardsLine }: { rewardsLine: string }) {
@@ -179,9 +179,9 @@ export function CubRecentCompletionsCarousel({
 
   if (items.length === 0) {
     return (
-      <p className="text-sm text-cub-muted">
+      <p className={cn("text-sm", cubKidTextMuted)}>
         Nothing here yet. Finish tasks and routines, then get parent approval to
-        see your wins roll through.
+        see your wins roll through. 🌟
       </p>
     );
   }
@@ -243,14 +243,14 @@ export function CubRecentCompletionsCarousel({
                     <StatusBadge status={activeItem.status} />
                   ) : null}
                 </div>
-                <p className="mt-2 text-lg font-bold leading-snug text-cub-off-white sm:text-xl">
+                <p className="mt-2 text-lg font-black leading-snug text-kid-ink sm:text-xl">
                   {activeItem.title}
                 </p>
                 <p className={cn("mt-1 text-sm font-medium", theme.subtitle)}>
                   {activeItem.subtitle}
                 </p>
               </div>
-              <span className="shrink-0 rounded-lg bg-cub-ebony/50 px-2 py-1 text-xs font-semibold text-cub-muted ring-1 ring-cub-off-white/10">
+              <span className="shrink-0 rounded-lg bg-white/80 px-2 py-1 text-xs font-bold text-kid-ink-muted ring-1 ring-kid-purple/15">
                 {formatFeedDate(activeItem.occurredAt)}
               </span>
             </div>
@@ -258,7 +258,7 @@ export function CubRecentCompletionsCarousel({
             {activeItem.rewardsLine ? (
               <RewardPills rewardsLine={activeItem.rewardsLine} />
             ) : activeItem.status === "REJECTED" ? (
-              <p className="relative mt-3 text-sm text-cub-muted">
+              <p className={cn("relative mt-3 text-sm", cubKidTextMuted)}>
                 Ask your parent what to try next.
               </p>
             ) : null}
@@ -278,8 +278,8 @@ export function CubRecentCompletionsCarousel({
               className={cn(
                 "h-2 rounded-full transition-all",
                 index === activeIndex
-                  ? "w-7 bg-gradient-to-r from-cub-gold to-cub-gold-warm shadow-sm shadow-cub-gold/40"
-                  : "w-2 bg-cub-charcoal ring-1 ring-cub-gold/20 hover:bg-cub-gold-muted",
+                  ? "w-7 bg-gradient-to-r from-kid-purple to-kid-pink shadow-sm shadow-kid-purple/30"
+                  : "w-2 bg-kid-lavender ring-1 ring-kid-purple/20 hover:bg-kid-purple/30",
               )}
             />
           ))}
@@ -293,17 +293,17 @@ export function RecentWinsSectionHeader({ count }: { count: number }) {
   return (
     <div className="flex items-start justify-between gap-3">
       <div>
-        <p className={cubSectionLabel}>Celebrate</p>
-        <h2 className="mt-1 text-xl font-bold tracking-tight text-cub-off-white sm:text-2xl">
+        <p className={cubKidSectionEyebrow}>🎉 Celebrate</p>
+        <h2 className={cn("mt-1 text-xl sm:text-2xl", cubKidSectionTitle)}>
           Recent wins
         </h2>
-        <p className="mt-1.5 text-sm text-cub-gold-light/85">
-          Completions and rewards from approved tasks and routines.
+        <p className={cn("mt-1.5 text-sm", cubKidTextMuted)}>
+          XP earned! Completions and rewards from approved tasks and routines.
         </p>
       </div>
       {count > 0 ? (
-        <span className="shrink-0 rounded-full bg-gradient-to-br from-cub-gold to-cub-gold-warm px-3 py-1.5 text-sm font-bold text-cub-ebony shadow-md shadow-cub-gold/30">
-          {count}
+        <span className={cubKidBadge}>
+          {count} ⭐
         </span>
       ) : null}
     </div>

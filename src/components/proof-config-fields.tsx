@@ -16,6 +16,9 @@ import {
 } from "@/lib/task-labels";
 import { Label } from "@/components/ui/label";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
+import { MOBILE_TEXTAREA_CLASS, NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
+import { cn } from "@/lib/utils";
+import { useTouchNativeControls } from "@/components/use-prefers-hover";
 import { useState } from "react";
 
 const PROOF_TYPE_SHORT_LABELS: Record<MvpCubProofType, string> = {
@@ -61,6 +64,7 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
   const parsedItems = parseChecklistLines(checklistText);
   const checklistJson = JSON.stringify(parsedItems);
   const lineCount = checklistText.split("\n").filter((l) => l.trim()).length;
+  const useNativeControls = useTouchNativeControls();
 
   return (
     <div className="space-y-3">
@@ -77,20 +81,42 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
             Pick a supported style below to switch, or keep the current style.
           </p>
         ) : null}
-        <RadioChoiceList
-          name="proofTypeChoice"
-          value={
-            isMvpProofType(proofType)
-              ? proofType
-              : ("" as MvpCubProofType)
-          }
-          onChange={handleProofTypeChange}
-          layout="compact"
-          options={SELECTABLE_PROOF_TYPES.map((type) => ({
-            value: type,
-            label: PROOF_TYPE_SHORT_LABELS[type],
-          }))}
-        />
+        {useNativeControls ? (
+          <div className="space-y-1.5">
+            <Label htmlFor="proof-type-select" className="sr-only">
+              Proof style
+            </Label>
+            <select
+              id="proof-type-select"
+              value={isMvpProofType(proofType) ? proofType : ""}
+              onChange={(event) =>
+                handleProofTypeChange(event.target.value as MvpCubProofType)
+              }
+              className={NATIVE_SELECT_CLASS}
+            >
+              {SELECTABLE_PROOF_TYPES.map((type) => (
+                <option key={type} value={type}>
+                  {PROOF_TYPE_SHORT_LABELS[type]}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          <RadioChoiceList
+            name="proofTypeChoice"
+            value={
+              isMvpProofType(proofType)
+                ? proofType
+                : ("" as MvpCubProofType)
+            }
+            onChange={handleProofTypeChange}
+            layout="compact"
+            options={SELECTABLE_PROOF_TYPES.map((type) => ({
+              value: type,
+              label: PROOF_TYPE_SHORT_LABELS[type],
+            }))}
+          />
+        )}
         <p className="text-xs text-zinc-500">
           {proofType === "PARENT_APPROVAL"
             ? "Cub taps View instructions, does the work, and submits — you approve to award rewards."
@@ -117,7 +143,7 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
             rows={2}
             value={proofPrompt}
             onChange={(e) => setProofPrompt(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+            className={cn("mt-1", MOBILE_TEXTAREA_CLASS)}
             placeholder={defaultProofPrompt(proofType)}
           />
         </div>
@@ -143,7 +169,10 @@ export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
               rows={Math.min(12, Math.max(4, parsedItems.length + 2))}
               value={checklistText}
               onChange={(e) => setChecklistText(e.target.value)}
-              className="mt-1 max-h-64 min-h-24 w-full resize-y rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+              className={cn(
+                "mt-1 max-h-64 min-h-24 w-full resize-y",
+                MOBILE_TEXTAREA_CLASS,
+              )}
               placeholder={
                 "**Read** Chapter 3\nAnswer all questions\nCheck my work"
               }

@@ -2,14 +2,13 @@
 
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
+import { FormSubmitFooter } from "@/components/ui/form-submit-footer";
 import { Label } from "@/components/ui/label";
 import type { ActionState } from "@/lib/actions/auth";
 import { awardParentBonusXpAction } from "@/lib/actions/parent-bonus";
+import { MOBILE_TEXTAREA_CLASS, NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
 import { PARENT_BONUS_XP_OPTIONS } from "@/lib/validations/parent-bonus";
 import type { GrowthCategory } from "@/generated/prisma/client";
-
-const selectClassName =
-  "w-full min-h-11 rounded-xl border border-cub-charcoal bg-cub-ebony px-4 py-2.5 text-base text-cub-off-white outline-none ring-cub-gold focus:ring-2";
 
 type GrowthOption = {
   value: GrowthCategory;
@@ -42,7 +41,7 @@ export function ParentBonusXpForm({
             name="amount"
             required
             defaultValue=""
-            className={selectClassName}
+            className={NATIVE_SELECT_CLASS}
           >
             <option value="" disabled>
               Choose points…
@@ -62,7 +61,7 @@ export function ParentBonusXpForm({
             name="growthCategory"
             required
             defaultValue=""
-            className={selectClassName}
+            className={NATIVE_SELECT_CLASS}
           >
             <option value="" disabled>
               Choose area…
@@ -86,20 +85,15 @@ export function ParentBonusXpForm({
           minLength={3}
           maxLength={500}
           placeholder="What offline behavior did you notice? e.g. helped a sibling without being asked."
-          className="w-full min-h-24 rounded-xl border border-cub-charcoal bg-cub-ebony px-4 py-2.5 text-base text-cub-off-white outline-none ring-cub-gold focus:ring-2"
+          className={MOBILE_TEXTAREA_CLASS}
         />
       </div>
 
-      {state.error ? (
-        <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>
-      ) : null}
-      {state.success ? (
-        <p className="text-sm text-green-700 dark:text-green-400">{state.success}</p>
-      ) : null}
-
-      <Button type="submit" variant="reward" disabled={isPending}>
-        {isPending ? "Awarding…" : "Award bonus XP"}
-      </Button>
+      <FormSubmitFooter error={state.error} success={state.success}>
+        <Button type="submit" variant="reward" disabled={isPending} fullWidth size="lg">
+          {isPending ? "Awarding…" : "Award bonus XP"}
+        </Button>
+      </FormSubmitFooter>
     </form>
   );
 }

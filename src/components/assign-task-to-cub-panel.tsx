@@ -7,7 +7,9 @@ import {
   type LibraryTaskOption,
 } from "@/components/cub-library-assign-card";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
+import type { ParentAssignKind } from "@/components/parent-assign-earn-panel";
 import type { Cub, GrowthCategory } from "@/generated/prisma/client";
+import { parseParentAssignKind } from "@/lib/earn-types";
 
 type AssignTaskToCubPanelProps = {
   cubId: string;
@@ -15,6 +17,7 @@ type AssignTaskToCubPanelProps = {
   libraryTasks: LibraryTaskOption[];
   cubs: Cub[];
   bonusGrowthOptions?: Array<{ value: GrowthCategory; label: string }>;
+  defaultKind?: ParentAssignKind;
 };
 
 export function AssignTaskToCubPanel({
@@ -23,23 +26,19 @@ export function AssignTaskToCubPanel({
   libraryTasks,
   cubs,
   bonusGrowthOptions = [],
+  defaultKind = "task",
 }: AssignTaskToCubPanelProps) {
   const hasLibraryTasks = libraryTasks.length > 0;
 
   return (
     <div className="space-y-3">
-      <CollapsibleSection
-        title="What do you want to assign?"
-        summary={`Choose an earn type for ${cubName}`}
-        defaultOpen={!hasLibraryTasks}
-      >
-        <ParentAssignEarnPanel
-          cubs={cubs}
-          defaultCubId={cubId}
-          compact
-          bonusGrowthOptions={bonusGrowthOptions}
-        />
-      </CollapsibleSection>
+      <ParentAssignEarnPanel
+        cubs={cubs}
+        defaultCubId={cubId}
+        defaultKind={defaultKind}
+        compact
+        bonusGrowthOptions={bonusGrowthOptions}
+      />
 
       <CollapsibleSection
         title="Task library"

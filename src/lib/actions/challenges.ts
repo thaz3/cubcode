@@ -31,6 +31,7 @@ import {
   validateSubmissionProof,
 } from "@/lib/tasks";
 import type { ActionState } from "@/lib/actions/auth";
+import { debugServerAction } from "@/lib/form-debug-server";
 
 function revalidateChallengePaths(cubIds: string[]) {
   const uniqueCubIds = [...new Set(cubIds)];
@@ -155,21 +156,32 @@ export async function createChallengeAction(
   _prevState: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  debugServerAction("createChallengeAction", "start", {
+    title: formData.get("title")?.toString(),
+    cubIds: formData.getAll("cubIds").map(String),
+  });
+
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
 
   const parsed = parseChallengeFormData(formData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid input." };
+    const error = parsed.error.issues[0]?.message ?? "Invalid input.";
+    debugServerAction("createChallengeAction", "error", { error });
+    return { error };
   }
 
   const validationError = validateChallengeDefinition(parsed.data);
   if (validationError) {
+    debugServerAction("createChallengeAction", "error", { error: validationError });
     return { error: validationError };
   }
 
   const cubIds = parseCubIdsFromForm(formData);
   if (cubIds.length === 0) {
+    debugServerAction("createChallengeAction", "error", {
+      error: "Pick at least one Cub.",
+    });
     return { error: "Pick at least one Cub." };
   }
 
@@ -203,6 +215,10 @@ export async function createChallengeAction(
     .join(", ");
 
   const title = createdTitles[0] ?? "Routine";
+  debugServerAction("createChallengeAction", "success", {
+    title,
+    cubIds,
+  });
   return {
     success:
       cubIds.length === 1

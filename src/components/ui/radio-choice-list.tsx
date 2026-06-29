@@ -29,7 +29,7 @@ export function RadioChoiceList<T extends string>({
     <div
       className={cn(
         compact
-          ? "grid grid-cols-2 gap-1.5 sm:grid-cols-3"
+          ? "grid grid-cols-2 gap-2 sm:grid-cols-3"
           : "grid gap-2",
         className,
       )}
@@ -43,30 +43,31 @@ export function RadioChoiceList<T extends string>({
           <label
             key={option.value}
             className={cn(
-              "cursor-pointer border transition",
+              "cursor-pointer touch-manipulation border transition select-none",
               compact
                 ? cn(
-                    "flex min-h-9 items-center justify-center rounded-lg px-2 py-1.5 text-center text-xs font-medium leading-tight sm:text-sm",
+                    "flex min-h-11 items-center justify-center rounded-lg px-2 py-2.5 text-center text-xs font-medium leading-tight sm:text-sm",
                     selected
                       ? "border-amber-600/70 bg-amber-950/40 text-cub-gold-light"
-                      : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-600",
+                      : "border-zinc-700 bg-zinc-900 text-zinc-300 active:border-zinc-600 active:bg-zinc-800",
                   )
                 : cn(
                     "flex min-h-11 items-start gap-3 rounded-lg px-3 py-2.5",
                     selected
                       ? "border-amber-600/60 bg-amber-50/60 dark:bg-amber-950/30"
-                      : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900",
+                      : "border-zinc-200 bg-white active:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:active:bg-zinc-800",
                   ),
             )}
           >
             <input
               type="radio"
               name={name}
+              value={option.value}
               checked={selected}
               onChange={() => onChange(option.value)}
               className={cn(
                 "accent-amber-600",
-                compact ? "sr-only" : "mt-0.5 size-4 shrink-0",
+                compact ? "sr-only" : "mt-1 size-5 shrink-0",
               )}
             />
             <span className={cn("min-w-0", compact ? "" : "flex-1")}>

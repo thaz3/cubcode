@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { CubColorDot } from "@/components/cub-color-dot";
 import { EmptyState } from "@/components/ui/empty-state";
+import {
+  cubKidGameCard,
+  cubKidSectionEyebrow,
+  cubKidSectionTitle,
+  cubKidTextMuted,
+} from "@/lib/cub-kid-theme";
 import { auth } from "@/lib/auth";
 import { getFamilyForUser } from "@/lib/session";
+import { cn } from "@/lib/utils";
 
 export default async function CubPickerPage() {
   const session = await auth();
@@ -20,7 +26,7 @@ export default async function CubPickerPage() {
 
   if (family.cubs.length === 0) {
     return (
-      <main className="mx-auto max-w-md px-4 py-16">
+      <main className="cub-kid-atmosphere mx-auto max-w-md px-4 py-16">
         <EmptyState
           title="No Cubs yet"
           description="Add a Cub profile in the parent area first."
@@ -36,33 +42,39 @@ export default async function CubPickerPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md space-y-6 px-4 py-16 pb-nav-safe">
+    <main className="cub-kid-atmosphere mx-auto max-w-md space-y-6 px-4 py-16 pb-nav-safe">
       <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-wide text-cub-gold">
-          Cub view
-        </p>
-        <h1 className="mt-2 text-2xl font-bold text-zinc-50">Who is using this device?</h1>
-        <p className="mt-2 text-sm text-zinc-400">
-          Pick your profile to see your chores and tasks. Switch here anytime if
-          a sibling needs a turn.
+        <p className={cubKidSectionEyebrow}>🎮 Cub Quest</p>
+        <h1 className={cn("mt-2 text-2xl", cubKidSectionTitle)}>
+          Who&apos;s playing today?
+        </h1>
+        <p className={cn("mt-2 text-sm", cubKidTextMuted)}>
+          Pick your profile to jump into missions, training, and rewards. Switch
+          here anytime if a sibling needs a turn.
         </p>
       </div>
       <ul className="space-y-3">
         {family.cubs.map((cub) => (
           <li key={cub.id}>
             <Link href={`/cub/${cub.id}`}>
-              <Card variant="interactive" className="flex items-center justify-center gap-3 py-5 text-center">
-                <CubColorDot cubId={cub.id} className="h-4 w-4" />
-                <p className="text-lg font-semibold text-zinc-50">
-                  {cub.displayName}
-                </p>
-              </Card>
+              <div
+                className={cn(
+                  cubKidGameCard,
+                  "flex items-center justify-center gap-3 border-kid-purple/25 bg-white py-5 text-center hover:border-kid-purple/45",
+                )}
+              >
+                <CubColorDot cubId={cub.id} className="h-5 w-5" />
+                <p className="text-lg font-black text-kid-ink">{cub.displayName}</p>
+                <span className="text-lg" aria-hidden>
+                  →
+                </span>
+              </div>
             </Link>
           </li>
         ))}
       </ul>
       <Link href="/parent/unlock?returnTo=%2Fdashboard" className="block">
-        <Button variant="secondary" fullWidth size="lg">
+        <Button variant="neutral" fullWidth size="lg">
           Parent area
         </Button>
       </Link>

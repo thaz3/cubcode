@@ -9,7 +9,15 @@ import {
   isCubQuestsNavActive,
 } from "@/lib/cub-nav-items";
 import { useCubNavLocation } from "@/components/use-cub-nav-hash";
-import { cubKidNavActive, cubKidNavInactive } from "@/lib/cub-kid-theme";
+import { usePrefersHover } from "@/components/use-prefers-hover";
+import {
+  cubKidMenuDropdown,
+  cubKidMenuItemActive,
+  cubKidMenuItemInactive,
+  cubKidNavActive,
+  cubKidNavInactive,
+  cubKidSectionEyebrow,
+} from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
 type CubNavPracticeMenuProps = {
@@ -51,10 +59,8 @@ function QuestsMenuLinks({
               role="menuitem"
               onClick={onClose}
               className={cn(
-                "block rounded-lg px-3 py-2.5 text-sm font-semibold transition",
-                childActive
-                  ? "bg-cub-gold-muted text-cub-gold-light"
-                  : "text-cub-off-white hover:bg-cub-charcoal",
+                "block min-h-11 touch-manipulation rounded-xl px-3 py-2.5 text-sm transition",
+                childActive ? cubKidMenuItemActive : cubKidMenuItemInactive,
               )}
             >
               {child.label}
@@ -80,6 +86,7 @@ export function CubNavPracticeMenu({
   const rootRef = useRef<HTMLDivElement>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const active = isCubQuestsNavActive(pathname, base, group, hash);
+  const prefersHover = usePrefersHover();
 
   function setOpen(next: boolean) {
     if (menuOpenProp === undefined) {
@@ -88,10 +95,14 @@ export function CubNavPracticeMenu({
     onMenuOpenChange?.(next);
   }
 
+  const isBottom = layout === "bottom";
+  /** Hover-open only on header + mouse/trackpad — touch taps must use click. */
+  const openOnHover = !isBottom && prefersHover;
+
   useEffect(() => {
     if (!open) return;
 
-    function handlePointerDown(event: MouseEvent) {
+    function handlePointerDown(event: PointerEvent) {
       const target = event.target as Node;
       if (
         !rootRef.current?.contains(target) &&
@@ -101,12 +112,14 @@ export function CubNavPracticeMenu({
       }
     }
 
-    document.addEventListener("mousedown", handlePointerDown);
-    return () => document.removeEventListener("mousedown", handlePointerDown);
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [open]);
 
   useEffect(() => {
-    if (!open) return;
+    // Scroll-to-close only for header dropdowns — iOS fires spurious scroll
+    // when the bottom sheet opens and would immediately dismiss it.
+    if (!open || isBottom) return;
 
     function onScroll() {
       setOpen(false);
@@ -114,7 +127,7 @@ export function CubNavPracticeMenu({
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [open]);
+  }, [open, isBottom]);
 
   useEffect(() => {
     return () => {
@@ -123,8 +136,6 @@ export function CubNavPracticeMenu({
       }
     };
   }, []);
-
-  const isBottom = layout === "bottom";
 
   function openMenu() {
     if (closeTimerRef.current) {
@@ -135,17 +146,28 @@ export function CubNavPracticeMenu({
   }
 
   function scheduleClose() {
-    if (isBottom) return;
+    if (!openOnHover) return;
     closeTimerRef.current = setTimeout(() => setOpen(false), 120);
+  }
+
+  function handleToggleClick() {
+    if (openOnHover) {
+      setOpen(true);
+      return;
+    }
+    setOpen(!open);
   }
 
   const headerMenu =
     open && !isBottom ? (
       <div
-        className="absolute left-0 top-full z-50 mt-1 min-w-[11rem] rounded-xl border border-violet-500/30 bg-cub-deep-black p-2 shadow-xl shadow-violet-950/40"
+        className={cn(
+          "absolute left-0 top-full z-50 mt-1 min-w-[11rem]",
+          cubKidMenuDropdown,
+        )}
         role="menu"
-        onMouseEnter={openMenu}
-        onMouseLeave={scheduleClose}
+        onMouseEnter={openOnHover ? openMenu : undefined}
+        onMouseLeave={openOnHover ? scheduleClose : undefined}
       >
         <QuestsMenuLinks
           group={group}
@@ -163,19 +185,22 @@ export function CubNavPracticeMenu({
           <div data-cub-quests-sheet className="fixed inset-0 z-[120] lg:hidden">
             <button
               type="button"
-              className="absolute inset-0 bg-black/50"
+              className="absolute inset-0 bg-kid-ink/30 backdrop-blur-sm"
               aria-label="Close Quests menu"
               onClick={() => setOpen(false)}
             />
             <div
-              className="absolute inset-x-3 rounded-2xl border border-violet-500/35 bg-cub-deep-black p-3 shadow-2xl shadow-violet-950/50"
+              className={cn(
+                "absolute inset-x-3 p-3",
+                cubKidMenuDropdown,
+              )}
               style={{
                 bottom: "calc(4.25rem + env(safe-area-inset-bottom, 0px))",
               }}
               role="menu"
             >
-              <p className="mb-2 px-1 text-[10px] font-bold uppercase tracking-[0.18em] text-violet-300">
-                Quests
+              <p className={cn("mb-2 px-1", cubKidSectionEyebrow)}>
+                🎯 Quests
               </p>
               <QuestsMenuLinks
                 group={group}
@@ -195,17 +220,17 @@ export function CubNavPracticeMenu({
       <div
         ref={rootRef}
         className={cn("relative", isBottom && "min-w-0 flex-1")}
-        onMouseEnter={isBottom ? undefined : openMenu}
-        onMouseLeave={isBottom ? undefined : scheduleClose}
+        onMouseEnter={openOnHover ? openMenu : undefined}
+        onMouseLeave={openOnHover ? scheduleClose : undefined}
       >
         <button
           type="button"
-          onClick={() => setOpen(!open)}
+          onClick={handleToggleClick}
           className={cn(
-            "transition",
+            "touch-manipulation transition",
             isBottom
-              ? "flex min-h-14 w-full flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-1.5 text-[10px] font-bold"
-              : "inline-flex min-h-10 items-center rounded-xl px-3 py-2 text-sm font-bold",
+              ? "flex min-h-14 w-full flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1.5 text-[10px] font-bold"
+              : "inline-flex min-h-11 items-center rounded-2xl px-3 py-2 text-sm font-bold",
             active ? cubKidNavActive : cubKidNavInactive,
           )}
           aria-expanded={open}

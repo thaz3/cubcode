@@ -87,8 +87,8 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
   return (
     <div className="space-y-5">
       <CubKidHero
-        title="Rewards"
-        subtitle="What you've earned, finished work, and things to save up for."
+        title="Prize Room"
+        subtitle="Your XP, badges, wins, and rewards — save up tokens and pick something awesome!"
         emoji={CUB_PAGE_EMOJI.rewards}
         backHref={`/cub/${cubId}`}
         backLabel="Today"
@@ -107,13 +107,13 @@ export default async function CubRewardsPage({ params }: CubRewardsPageProps) {
       />
 
       {rewardItems.length > 0 ? (
-        <CubKidPanel variant="gold" contentClassName="space-y-4">
+        <CubKidPanel variant="pink" contentClassName="space-y-4">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
-              🛒 Reward store
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-kid-pink">
+              🛒 Reward Store
             </p>
-            <h2 className="mt-1 text-lg font-black text-cub-off-white">Spend your tokens</h2>
-            <p className="mt-1 text-sm text-cub-muted">
+            <h2 className="mt-1 text-lg font-black text-kid-ink">Spend your tokens</h2>
+            <p className="mt-1 text-sm text-kid-ink-muted">
               Pick a reward, then ask your parent to approve it. Tokens spend when
               they say yes.
             </p>

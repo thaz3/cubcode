@@ -1,4 +1,5 @@
 import type { TaskStatus } from "@/generated/prisma/client";
+import { coerceDate } from "@/lib/coerce-date";
 import { getWeekStart } from "@/lib/council-day";
 
 const ACTIVE_SCHEDULE_STATUSES: TaskStatus[] = [
@@ -9,12 +10,21 @@ const ACTIVE_SCHEDULE_STATUSES: TaskStatus[] = [
 ];
 
 export type TaskScheduleInput = {
-  claimedAt: Date | null;
-  dueAt: Date | null;
+  claimedAt: Date | string | null;
+  dueAt: Date | string | null;
   dueAtHasTime?: boolean;
   status: TaskStatus;
-  createdAt: Date;
+  createdAt: Date | string;
 };
+
+function normalizeTaskScheduleInput(task: TaskScheduleInput) {
+  return {
+    ...task,
+    claimedAt: coerceDate(task.claimedAt),
+    dueAt: coerceDate(task.dueAt),
+    createdAt: coerceDate(task.createdAt) ?? new Date(),
+  };
+}
 
 export type TaskScheduleSummary = {
   assignedAt: Date;
@@ -208,12 +218,17 @@ export function isTaskOverdue(
   task: TaskScheduleInput,
   now = new Date(),
 ): boolean {
-  const actionable = ["CLAIMED", "IN_PROGRESS", "SENT_BACK"].includes(task.status);
-  if (!task.dueAt || !actionable) {
+  const normalized = normalizeTaskScheduleInput(task);
+  const actionable = ["CLAIMED", "IN_PROGRESS", "SENT_BACK"].includes(
+    normalized.status,
+  );
+  if (!normalized.dueAt || !actionable) {
     return false;
   }
 
-  return minutesUntilDue(task.dueAt, task.dueAtHasTime ?? false, now) < 0;
+  return (
+    minutesUntilDue(normalized.dueAt, normalized.dueAtHasTime ?? false, now) < 0
+  );
 }
 
 export function isTaskUrgent(
@@ -221,21 +236,31 @@ export function isTaskUrgent(
   withinMinutes = 4 * 60,
   now = new Date(),
 ): boolean {
-  const actionable = ["CLAIMED", "IN_PROGRESS", "SENT_BACK"].includes(task.status);
-  if (!task.dueAt || !actionable) {
+  const normalized = normalizeTaskScheduleInput(task);
+  const actionable = ["CLAIMED", "IN_PROGRESS", "SENT_BACK"].includes(
+    normalized.status,
+  );
+  if (!normalized.dueAt || !actionable) {
     return false;
   }
 
-  const minutes = minutesUntilDue(task.dueAt, task.dueAtHasTime ?? false, now);
+  const minutes = minutesUntilDue(
+    normalized.dueAt,
+    normalized.dueAtHasTime ?? false,
+    now,
+  );
   return minutes < 0 || minutes <= withinMinutes;
 }
 
 export function compareTaskUrgency(a: TaskScheduleInput, b: TaskScheduleInput): number {
-  const minutesA = a.dueAt
-    ? minutesUntilDue(a.dueAt, a.dueAtHasTime ?? false)
+  const normA = normalizeTaskScheduleInput(a);
+  const normB = normalizeTaskScheduleInput(b);
+
+  const minutesA = normA.dueAt
+    ? minutesUntilDue(normA.dueAt, normA.dueAtHasTime ?? false)
     : null;
-  const minutesB = b.dueAt
-    ? minutesUntilDue(b.dueAt, b.dueAtHasTime ?? false)
+  const minutesB = normB.dueAt
+    ? minutesUntilDue(normB.dueAt, normB.dueAtHasTime ?? false)
     : null;
 
   if (minutesA !== null && minutesB !== null) {
@@ -248,8 +273,8 @@ export function compareTaskUrgency(a: TaskScheduleInput, b: TaskScheduleInput): 
     return 1;
   }
 
-  const assignedA = a.claimedAt ?? a.createdAt;
-  const assignedB = b.claimedAt ?? b.createdAt;
+  const assignedA = normA.claimedAt ?? normA.createdAt;
+  const assignedB = normB.claimedAt ?? normB.createdAt;
   return assignedB.getTime() - assignedA.getTime();
 }
 
@@ -261,8 +286,9 @@ export function getTaskScheduleSummary(
   task: TaskScheduleInput,
   now = new Date(),
 ): TaskScheduleSummary {
-  const assignedAt = task.claimedAt ?? task.createdAt;
-  const dueAt = task.dueAt;
+  const normalized = normalizeTaskScheduleInput(task);
+  const assignedAt = normalized.claimedAt ?? normalized.createdAt;
+  const dueAt = normalized.dueAt;
   const dueAtHasTime = task.dueAtHasTime ?? false;
   const dueLabel = dueAt ? formatDueScheduleDate(dueAt, dueAtHasTime) : null;
 
@@ -272,7 +298,7 @@ export function getTaskScheduleSummary(
   let daysBehind: number | null = null;
   let behindLabel: string | null = null;
 
-  if (dueAt && ACTIVE_SCHEDULE_STATUSES.includes(task.status)) {
+  if (dueAt && ACTIVE_SCHEDULE_STATUSES.includes(normalized.status)) {
     if (dueAtHasTime) {
       const minutes = minutesUntilDue(dueAt, true, now);
       daysRemaining = Math.floor(minutes / (24 * 60));
@@ -322,7 +348,9 @@ export function getTaskScheduleSummary(
 
 /** Week bucket for a task: due week if set, otherwise assignment week. */
 export function getTaskWeekStart(task: TaskScheduleInput): Date {
-  const anchor = task.dueAt ?? task.claimedAt ?? task.createdAt;
+  const normalized = normalizeTaskScheduleInput(task);
+  const anchor =
+    normalized.dueAt ?? normalized.claimedAt ?? normalized.createdAt;
   return getWeekStart(anchor);
 }
 

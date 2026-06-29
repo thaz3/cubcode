@@ -25,15 +25,15 @@ export function CubNextStepSection({ action }: CubNextStepSectionProps) {
       <div>
         <p
           className={cn(
-            "text-[10px] font-bold uppercase tracking-[0.2em]",
-            actionable ? "text-cub-gold-warm" : "text-cub-gold-light",
+            "text-[10px] font-black uppercase tracking-[0.2em]",
+            actionable ? "text-kid-orange" : "text-kid-purple",
           )}
         >
-          {actionable ? "⚡ Start here" : "🎯 Next step"}
+          {actionable ? "⚡ Let's Go!" : "🎯 Next step"}
         </p>
         <h2
           className={cn(
-            "mt-1 font-black text-cub-off-white",
+            "mt-1 font-black text-kid-ink",
             actionable ? "text-xl sm:text-2xl" : "text-xl",
           )}
         >
@@ -41,8 +41,8 @@ export function CubNextStepSection({ action }: CubNextStepSectionProps) {
         </h2>
         <p
           className={cn(
-            "mt-2 text-sm",
-            actionable ? "text-cub-off-white/90" : "text-cub-muted",
+            "mt-2 text-sm font-medium",
+            actionable ? "text-kid-ink-soft" : "text-kid-ink-muted",
           )}
         >
           {action.description}
@@ -54,9 +54,9 @@ export function CubNextStepSection({ action }: CubNextStepSectionProps) {
           size="lg"
           variant={actionable ? "reward" : buttonVariant}
           className={cn(
-            "font-bold uppercase tracking-wide",
+            "rounded-2xl font-black uppercase tracking-wide",
             actionable &&
-              "shadow-lg shadow-cub-gold/45 ring-2 ring-cub-gold-warm/50 hover:brightness-110",
+              "shadow-lg shadow-kid-orange/35 ring-2 ring-kid-yellow/60 hover:brightness-110",
           )}
         >
           {action.buttonLabel} ▶
@@ -76,17 +76,17 @@ export function CubNextStepSection({ action }: CubNextStepSectionProps) {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-3xl border-2 border-cub-gold-warm",
-        "bg-gradient-to-br from-cub-gold-warm/30 via-cub-gold/20 to-cub-charcoal",
-        "p-4 shadow-2xl shadow-cub-gold/40 ring-2 ring-cub-gold-warm/55 sm:p-5",
+        "relative overflow-hidden rounded-3xl border-[3px] border-kid-orange/60",
+        "bg-gradient-to-br from-kid-yellow/50 via-kid-orange/20 to-white",
+        "p-4 shadow-xl shadow-kid-orange/25 ring-2 ring-kid-yellow/40 sm:p-5",
       )}
     >
       <div
-        className="pointer-events-none absolute -inset-1 animate-pulse rounded-3xl bg-cub-gold-warm/15 blur-sm"
+        className="pointer-events-none absolute -inset-1 animate-pulse rounded-3xl bg-kid-yellow/20 blur-sm"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(circle_at_20%_0%,rgba(242,193,78,0.35),transparent_55%),radial-gradient(circle_at_80%_100%,rgba(213,160,33,0.25),transparent_50%)]"
+        className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_20%_0%,rgba(255,216,77,0.4),transparent_55%),radial-gradient(circle_at_80%_100%,rgba(255,159,67,0.25),transparent_50%)]"
         aria-hidden
       />
       <div className="relative space-y-4">{body}</div>

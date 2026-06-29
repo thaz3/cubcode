@@ -9,7 +9,10 @@ import {
 } from "@/lib/task-categories";
 import { Button } from "@/components/ui/button";
 import { GrowthAreaFields } from "@/components/growth-area-fields";
+import { Label } from "@/components/ui/label";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
+import { NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
+import { useTouchNativeControls } from "@/components/use-prefers-hover";
 import { useMemo, useState } from "react";
 
 const TASK_CATEGORIES = Object.keys(TASK_CATEGORY_LABELS) as TaskCategory[];
@@ -36,6 +39,7 @@ export function TaskCategoryFields({
     initialValues?.subcategory ?? "GENERAL",
   );
   const [message, setMessage] = useState<string | null>(null);
+  const useNativeControls = useTouchNativeControls();
 
   const suggestion = useMemo(
     () =>
@@ -79,16 +83,39 @@ export function TaskCategoryFields({
         <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
           Category
         </p>
-        <RadioChoiceList
-          name="categoryChoice"
-          value={category}
-          onChange={handleCategoryChange}
-          layout="compact"
-          options={TASK_CATEGORIES.map((value) => ({
-            value,
-            label: TASK_CATEGORY_LABELS[value],
-          }))}
-        />
+
+        {useNativeControls ? (
+          <div className="space-y-1.5">
+            <Label htmlFor="task-category-select" className="sr-only">
+              Category
+            </Label>
+            <select
+              id="task-category-select"
+              value={category}
+              onChange={(event) =>
+                handleCategoryChange(event.target.value as TaskCategory)
+              }
+              className={NATIVE_SELECT_CLASS}
+            >
+              {TASK_CATEGORIES.map((value) => (
+                <option key={value} value={value}>
+                  {TASK_CATEGORY_LABELS[value]}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          <RadioChoiceList
+            name="categoryChoice"
+            value={category}
+            onChange={handleCategoryChange}
+            layout="compact"
+            options={TASK_CATEGORIES.map((value) => ({
+              value,
+              label: TASK_CATEGORY_LABELS[value],
+            }))}
+          />
+        )}
       </div>
 
       {category === "FOCUS_BLOCK" ? (
@@ -102,13 +129,34 @@ export function TaskCategoryFields({
             <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
               Type
             </p>
-            <RadioChoiceList
-              name="subcategoryChoice"
-              value={subcategory}
-              onChange={setSubcategory}
-              layout="compact"
-              options={subcategoryOptions(category)}
-            />
+
+            {useNativeControls ? (
+              <div className="space-y-1.5">
+                <Label htmlFor="task-subcategory-select" className="sr-only">
+                  Type
+                </Label>
+                <select
+                  id="task-subcategory-select"
+                  value={subcategory}
+                  onChange={(event) => setSubcategory(event.target.value)}
+                  className={NATIVE_SELECT_CLASS}
+                >
+                  {subcategoryOptions(category).map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <RadioChoiceList
+                name="subcategoryChoice"
+                value={subcategory}
+                onChange={setSubcategory}
+                layout="compact"
+                options={subcategoryOptions(category)}
+              />
+            )}
           </div>
           <GrowthAreaFields initialValue={initialValues?.growthCategory} />
         </>

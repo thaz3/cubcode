@@ -3,9 +3,13 @@
 import { TaskUrgentField } from "@/components/task-urgent-field";
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
+import { FormSubmitFooter } from "@/components/ui/form-submit-footer";
 import type { ActionState } from "@/lib/actions/auth";
 import { assignTaskAction } from "@/lib/actions/tasks";
+import { NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
+import { useTouchNativeControls } from "@/components/use-prefers-hover";
 import { useState } from "react";
 
 type AssignTaskFormProps = {
@@ -23,6 +27,8 @@ export function AssignTaskForm({
     assignTaskAction,
     {} as ActionState,
   );
+  const [cubId, setCubId] = useState(cubs[0]?.id ?? "");
+  const useNativeControls = useTouchNativeControls();
 
   if (cubs.length === 0) {
     return (
@@ -31,8 +37,6 @@ export function AssignTaskForm({
       </p>
     );
   }
-
-  const [cubId, setCubId] = useState(cubs[0]?.id ?? "");
 
   return (
     <form action={formAction} className="space-y-4">
@@ -46,15 +50,36 @@ export function AssignTaskForm({
           you assign it. Cubs do not pick tasks from the board — parents assign
           them.
         </p>
-        <RadioChoiceList
-          name={`assign-cub-${taskId}`}
-          value={cubId}
-          onChange={setCubId}
-          options={cubs.map((cub) => ({
-            value: cub.id,
-            label: cub.displayName,
-          }))}
-        />
+
+        {useNativeControls ? (
+          <div className="space-y-1.5">
+            <Label htmlFor={`assign-cub-select-${taskId}`} className="sr-only">
+              Assign to child
+            </Label>
+            <select
+              id={`assign-cub-select-${taskId}`}
+              value={cubId}
+              onChange={(event) => setCubId(event.target.value)}
+              className={NATIVE_SELECT_CLASS}
+            >
+              {cubs.map((cub) => (
+                <option key={cub.id} value={cub.id}>
+                  {cub.displayName}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          <RadioChoiceList
+            name={`assign-cub-${taskId}`}
+            value={cubId}
+            onChange={setCubId}
+            options={cubs.map((cub) => ({
+              value: cub.id,
+              label: cub.displayName,
+            }))}
+          />
+        )}
       </div>
 
       <TaskDueDateField
@@ -65,18 +90,11 @@ export function AssignTaskForm({
 
       <TaskUrgentField id={`assign-urgent-${taskId}`} />
 
-      {state.error ? (
-        <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>
-      ) : null}
-      {state.success ? (
-        <p className="text-sm text-green-700 dark:text-green-400">
-          {state.success}
-        </p>
-      ) : null}
-
-      <Button type="submit" disabled={isPending || !cubId}>
-        {isPending ? "Assigning..." : submitLabel}
-      </Button>
+      <FormSubmitFooter error={state.error} success={state.success}>
+        <Button type="submit" disabled={isPending || !cubId} fullWidth size="lg">
+          {isPending ? "Assigning..." : submitLabel}
+        </Button>
+      </FormSubmitFooter>
     </form>
   );
 }

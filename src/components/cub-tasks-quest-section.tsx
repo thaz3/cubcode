@@ -80,7 +80,7 @@ export function CubTasksQuestSection({
                 return (
                   <li key={task.id}>
                     <Link
-                      href={`#mission-${task.id}`}
+                      href={`/cub/${cubId}/tasks/${task.id}`}
                       className={cn(
                         cubKidGameCard,
                         "block space-y-2 border-cub-gold/35 bg-gradient-to-br from-cub-gold/15 to-cub-charcoal p-4 transition",

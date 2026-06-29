@@ -104,6 +104,11 @@ export async function setParentPinAction(
   };
 }
 
+/** Called when Cub view mounts — ends parent unlock without affecting prefetch/RSC. */
+export async function clearParentUnlockOnCubViewAction(): Promise<void> {
+  await clearParentUnlockCookie();
+}
+
 export async function removeParentPinAction(
   _prevState: ActionState,
   formData: FormData,

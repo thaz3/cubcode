@@ -9,7 +9,12 @@ import {
 } from "@/lib/active-mission-flair";
 import type { ActiveMission } from "@/lib/cub-week-earn-summary";
 import { getEarnTypeMeta } from "@/lib/earn-types";
-import { cubKidGameCard } from "@/lib/cub-kid-theme";
+import {
+  cubKidBadge,
+  cubKidEmptyState,
+  cubKidGameCard,
+  KID_EARN_CARD,
+} from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
 type CubTodaysMissionsSectionProps = {
@@ -42,6 +47,7 @@ function ActiveMissionButton({
 }) {
   const meta = getEarnTypeMeta(mission.earnType);
   const flair = MISSION_FLAIR[mission.earnType];
+  const kidCard = KID_EARN_CARD[mission.earnType];
   const statusCopy = getKidMissionStatusLabel(mission.statusLabel);
 
   return (
@@ -50,31 +56,30 @@ function ActiveMissionButton({
         href={mission.href}
         aria-label={`${mission.title}. ${statusCopy}. ${flair.actionLabel}`}
         className={cn(
-          "group flex aspect-square w-full flex-col rounded-xl border bg-gradient-to-br p-2.5 text-left",
+          "group flex aspect-square w-full flex-col rounded-2xl border-[3px] bg-gradient-to-br p-2.5 text-left",
           cubKidGameCard,
-          "hover:border-cub-gold/45 hover:shadow-cub-gold/10",
-          "active:translate-y-0 active:scale-[0.98]",
-          meta.cardBorderClass,
-          meta.cardAccentClass,
-          urgent && "ring-1 ring-cub-gold/35",
+          kidCard.border,
+          kidCard.accent,
+          flair.glowClass,
+          urgent && "ring-2 ring-kid-orange/50",
           showPulse && "animate-pulse",
         )}
       >
         <div className="flex items-start justify-between gap-1">
           <span
             className={cn(
-              "flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-[10px] font-bold ring-1",
+              "flex h-5 min-w-5 items-center justify-center rounded-lg px-1 text-[10px] font-black ring-1",
               flair.indexClass,
             )}
           >
             {index + 1}
           </span>
           {urgent ? (
-            <span className="rounded-full bg-cub-gold-muted px-1 py-0.5 text-[8px] font-bold uppercase text-cub-gold-light">
-              Go
+            <span className={cn(cubKidBadge, "px-1 py-0.5 text-[8px]")}>
+              Go!
             </span>
           ) : (
-            <span className="text-sm leading-none opacity-80" aria-hidden>
+            <span className="text-sm leading-none" aria-hidden>
               {flair.icon}
             </span>
           )}
@@ -83,7 +88,7 @@ function ActiveMissionButton({
         <div className="flex min-h-0 flex-1 flex-col justify-center">
           <p
             className={cn(
-              "line-clamp-3 font-bold leading-snug text-cub-off-white group-hover:text-cub-gold-light",
+              "line-clamp-3 font-black leading-snug text-kid-ink group-hover:text-kid-purple",
               compact ? "text-sm sm:text-base" : "text-base sm:text-lg",
             )}
           >
@@ -92,12 +97,12 @@ function ActiveMissionButton({
         </div>
 
         <div className="mt-auto space-y-0.5 pt-1">
-          <p className="truncate text-[10px] font-bold uppercase tracking-wide text-cub-muted">
+          <p className="truncate text-[10px] font-bold uppercase tracking-wide text-kid-ink-muted">
             {meta.shortLabel}
           </p>
           <p
             className={cn(
-              "truncate font-bold uppercase tracking-wide text-cub-gold-light group-hover:text-cub-gold-warm",
+              "truncate font-black uppercase tracking-wide text-kid-purple group-hover:text-kid-pink",
               compact ? "text-xs" : "text-sm",
             )}
           >
@@ -119,14 +124,19 @@ export function CubTodaysMissionsSection({
   const content =
     missions.length === 0 ? (
       isCompact ? (
-        <div className="col-span-full rounded-xl border border-dashed border-cub-green/25 bg-cub-green-muted/15 px-3 py-6 text-center">
-          <p className="text-sm font-semibold text-cub-off-white">Board cleared!</p>
-          <p className="mt-0.5 text-[10px] text-cub-muted">No quests right now.</p>
+        <div className={cubKidEmptyState}>
+          <p className="text-2xl" aria-hidden>
+            ✨
+          </p>
+          <p className="mt-2 text-sm font-black text-kid-ink">Board cleared!</p>
+          <p className="mt-0.5 text-xs text-kid-ink-muted">
+            No missions yet — your next quest will show up soon!
+          </p>
         </div>
       ) : (
         <EmptyState
           title="Board cleared!"
-          description="No quests on your log right now. When your parent assigns new missions, they'll show up here."
+          description="No missions yet — your next quest will show up soon! When your parent assigns new missions, they'll appear here."
         />
       )
     ) : (
@@ -159,21 +169,25 @@ export function CubTodaysMissionsSection({
 
   const header = (
     <CubKidSectionHeader
-      eyebrow="🗺️ Quest log"
+      eyebrow="⚔️ Today's Missions"
       title="Active Missions"
       subtitle={!isCompact ? getQuestLogSubtitle(missions.length) : undefined}
       compact={isCompact}
       trailing={
         missions.length > 0 ? (
           <div className="flex items-center gap-1.5">
-            <span className="rounded-lg border border-cub-gold/30 bg-cub-gold-muted/30 px-2 py-0.5 text-xs font-black text-cub-gold-warm">
+            <span className={cubKidBadge}>
               {missions.length}
             </span>
             {urgentCount > 0 ? (
-              <span className="rounded-lg bg-cub-gold/15 px-1.5 py-0.5 text-[10px] font-bold text-cub-gold-light">
+              <span className="rounded-full bg-kid-orange/25 px-2 py-0.5 text-[10px] font-black text-orange-700">
                 {urgentCount} to do
               </span>
-            ) : null}
+            ) : (
+              <span className="rounded-full bg-kid-green/25 px-2 py-0.5 text-[10px] font-black text-emerald-700">
+                You&apos;re on a roll!
+              </span>
+            )}
           </div>
         ) : null
       }
@@ -182,7 +196,7 @@ export function CubTodaysMissionsSection({
 
   if (isCompact) {
     return (
-      <CubKidPanel variant="violet" contentClassName="space-y-3">
+      <CubKidPanel variant="sky" contentClassName="space-y-3">
         {header}
         {content}
       </CubKidPanel>

@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
-import { PARENT_UNLOCK_COOKIE } from "@/lib/parent-pin-constants";
 import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
@@ -12,16 +11,9 @@ export default auth((req) => {
     req.nextUrl.pathname + req.nextUrl.search,
   );
 
-  const response = NextResponse.next({
+  return NextResponse.next({
     request: { headers: requestHeaders },
   });
-
-  // Cub view is kid-facing — end any parent unlock session on entry.
-  if (req.nextUrl.pathname === "/cub" || req.nextUrl.pathname.startsWith("/cub/")) {
-    response.cookies.delete(PARENT_UNLOCK_COOKIE);
-  }
-
-  return response;
 });
 
 export const config = {

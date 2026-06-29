@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 :root {
+  --mobile-nav-height: 3.5rem;
+  --mobile-nav-safe-bottom: calc(
+    var(--mobile-nav-height) + env(safe-area-inset-bottom, 0px)
+  );
+
   /* C.U.B. Code brand palette */
   --cub-ebony: #121212;
   --cub-deep-black: #070707;
@@ -46,6 +51,36 @@
     var(--cub-charcoal) 100%
   );
 
+  /* Kid-facing playful palette */
+  --kid-purple: #7b5cff;
+  --kid-blue: #32b8ff;
+  --kid-green: #7dff72;
+  --kid-yellow: #ffd84d;
+  --kid-orange: #ff9f43;
+  --kid-pink: #ff5fd2;
+  --kid-aqua: #44f0d3;
+  --kid-cream: #fff9f1;
+  --kid-lavender: #f4eeff;
+  --kid-sky: #eaf8ff;
+  --kid-ink: #2d2640;
+  --kid-ink-muted: #6b6280;
+  --kid-ink-soft: #4a4260;
+
+  --kid-gradient-hero: linear-gradient(
+    135deg,
+    var(--kid-lavender) 0%,
+    var(--kid-sky) 45%,
+    var(--kid-cream) 100%
+  );
+  --kid-gradient-purple: linear-gradient(135deg, #ede8ff 0%, #f4eeff 50%, #fff9f1 100%);
+  --kid-gradient-gold: linear-gradient(135deg, #fff8e1 0%, #fff3cc 50%, #fff9f1 100%);
+  --kid-gradient-sky: linear-gradient(135deg, #e3f6ff 0%, #eaf8ff 50%, #f4eeff 100%);
+  --kid-gradient-green: linear-gradient(135deg, #e8ffe5 0%, #f0fff4 50%, #fff9f1 100%);
+  --kid-gradient-pink: linear-gradient(135deg, #ffe8f7 0%, #f4eeff 50%, #fff9f1 100%);
+  --kid-shadow-card: 0 4px 24px rgba(123, 92, 255, 0.12), 0 2px 8px rgba(45, 38, 64, 0.06);
+  --kid-shadow-glow-purple: 0 0 24px rgba(123, 92, 255, 0.35);
+  --kid-shadow-glow-gold: 0 0 24px rgba(255, 216, 77, 0.45);
+
   /* Semantic app tokens */
   --background: var(--cub-deep-black);
   --foreground: var(--cub-off-white);
@@ -83,6 +118,20 @@
   --color-cub-gold-muted: var(--cub-gold-muted);
   --color-cub-red-muted: var(--cub-red-muted);
 
+  --color-kid-purple: var(--kid-purple);
+  --color-kid-blue: var(--kid-blue);
+  --color-kid-green: var(--kid-green);
+  --color-kid-yellow: var(--kid-yellow);
+  --color-kid-orange: var(--kid-orange);
+  --color-kid-pink: var(--kid-pink);
+  --color-kid-aqua: var(--kid-aqua);
+  --color-kid-cream: var(--kid-cream);
+  --color-kid-lavender: var(--kid-lavender);
+  --color-kid-sky: var(--kid-sky);
+  --color-kid-ink: var(--kid-ink);
+  --color-kid-ink-muted: var(--kid-ink-muted);
+  --color-kid-ink-soft: var(--kid-ink-soft);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -101,7 +150,7 @@ html {
 }
 
 .pb-nav-safe {
-  padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
 @media (min-width: 1024px) {
@@ -110,7 +159,87 @@ html {
   }
 }
 
-/* Warm app shell gradient */
+/* Scrollable create/edit panel on touch — page scroll only (no inner trap) */
+.mobile-form-shell {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Reserve space so fixed submit bar does not cover the last fields */
+.form-submit-footer-spacer {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .form-submit-footer-spacer {
+    display: block;
+    height: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Fixed submit bar above bottom nav — z-index must exceed mobile nav (z-50) */
+@media (max-width: 1023px) {
+  .form-submit-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: var(--mobile-nav-safe-bottom);
+    z-index: 55;
+    margin-top: 0;
+    padding-top: 0.75rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(
+      to top,
+      var(--cub-ebony) 80%,
+      color-mix(in srgb, var(--cub-ebony) 92%, transparent) 100%
+    );
+    border-top: 1px solid color-mix(in srgb, var(--cub-off-white) 10%, transparent);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Sticky fallback when bottom nav hidden but still touch-first (rare mid widths) */
+@media (min-width: 1024px) {
+  .form-submit-footer {
+    position: sticky;
+    bottom: 1rem;
+    z-index: 10;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0;
+    background: linear-gradient(
+      to top,
+      var(--cub-ebony) 70%,
+      color-mix(in srgb, var(--cub-ebony) 85%, transparent) 100%
+    );
+    border-top: 1px solid color-mix(in srgb, var(--cub-off-white) 8%, transparent);
+  }
+}
+
+/* Desktop mouse — static footer */
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+  .form-submit-footer {
+    position: static;
+    z-index: auto;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    background: none;
+    border-top: none;
+    box-shadow: none;
+  }
+
+  .form-submit-footer-spacer {
+    display: none;
+  }
+}
+
+.touch-target {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  touch-action: manipulation;
+}
+
+/* Warm app shell gradient (parent / auth areas) */
 .cub-app-shell {
   background: linear-gradient(
     180deg,
@@ -120,17 +249,21 @@ html {
   );
 }
 
-/* Kid cub view — subtle adventure-map atmosphere */
+/* Kid cub view — bright, playful game-world atmosphere */
 .cub-kid-atmosphere {
   background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 92, 246, 0.12), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 80%, rgba(213, 160, 33, 0.06), transparent),
-    linear-gradient(
-      180deg,
-      var(--cub-deep-black) 0%,
-      color-mix(in srgb, var(--cub-ebony) 92%, #5b21b6) 40%,
-      color-mix(in srgb, var(--cub-ebony) 88%, var(--cub-green)) 100%
-    );
+    radial-gradient(ellipse 90% 60% at 10% -5%, rgba(123, 92, 255, 0.18), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 95% 15%, rgba(50, 184, 255, 0.14), transparent 50%),
+    radial-gradient(ellipse 60% 45% at 50% 100%, rgba(125, 255, 114, 0.1), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 80% 60%, rgba(255, 95, 210, 0.08), transparent 50%),
+    var(--kid-gradient-hero);
+  color: var(--kid-ink);
+}
+
+.cub-kid-card {
+  background: white;
+  border-radius: 1.25rem;
+  box-shadow: var(--kid-shadow-card);
 }
 
 .cub-card-surface {

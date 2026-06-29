@@ -97,7 +97,7 @@ function taskDenState(task: TaskScheduleInput): DenItemState {
 }
 
 function taskHref(cubId: string, taskId: string): string {
-  return `/cub/${cubId}/challenges#mission-${taskId}`;
+  return `/cub/${cubId}/tasks/${taskId}`;
 }
 
 function taskToDenItem(

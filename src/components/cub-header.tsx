@@ -10,7 +10,11 @@ import {
   CUB_NAV_ITEMS,
   isCubNavActive,
 } from "@/lib/cub-nav-items";
-import { cubKidNavActive, cubKidNavInactive } from "@/lib/cub-kid-theme";
+import {
+  cubKidHeader,
+  cubKidNavActive,
+  cubKidNavInactive,
+} from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
 type CubHeaderProps = {
@@ -30,20 +34,20 @@ export function CubHeader({ cubId, displayName, focusTokens, cubs }: CubHeaderPr
   }, [pathname, hash]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-violet-500/20 bg-cub-deep-black/90 backdrop-blur-md">
+    <header className={cubKidHeader}>
       <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-3">
         <div className="flex min-w-0 items-center gap-2">
           <span
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-violet-500/30 bg-gradient-to-br from-violet-700 to-violet-950 text-lg shadow-md shadow-violet-500/20"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border-2 border-white bg-gradient-to-br from-kid-purple to-kid-pink text-lg shadow-md shadow-kid-purple/25"
             aria-hidden
           >
             🐾
           </span>
           <div className="min-w-0">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-violet-300">
+            <p className="text-[10px] font-black uppercase tracking-[0.14em] text-kid-purple">
               C.U.B. Quest
             </p>
-            <p className="truncate text-lg font-black text-cub-off-white">
+            <p className="truncate text-lg font-black text-kid-ink">
               {displayName}
             </p>
           </div>
@@ -81,7 +85,7 @@ export function CubHeader({ cubId, displayName, focusTokens, cubs }: CubHeaderPr
                 key={item.suffix}
                 href={href}
                 className={cn(
-                  "inline-flex min-h-10 items-center rounded-xl px-3 py-2 text-sm font-bold transition",
+                  "inline-flex min-h-10 items-center rounded-2xl px-3 py-2 text-sm font-bold transition",
                   active ? cubKidNavActive : cubKidNavInactive,
                 )}
               >
@@ -94,13 +98,13 @@ export function CubHeader({ cubId, displayName, focusTokens, cubs }: CubHeaderPr
         <div className="flex shrink-0 items-center gap-2">
           <Link
             href={`${base}/rewards`}
-            className="flex items-center gap-1.5 rounded-xl border border-cub-gold/30 bg-cub-gold-muted/25 px-2.5 py-1 transition hover:border-cub-gold/45"
+            className="flex items-center gap-1.5 rounded-2xl border-2 border-kid-yellow/50 bg-kid-yellow/25 px-2.5 py-1 transition hover:border-kid-orange/50 hover:bg-kid-yellow/40"
             title="Focus Tokens — save up for rewards"
           >
             <span className="text-sm" aria-hidden>
               🪙
             </span>
-            <span className="text-sm font-black text-cub-off-white">{focusTokens}</span>
+            <span className="text-sm font-black text-kid-ink">{focusTokens}</span>
           </Link>
           <Link
             href="/parent/unlock?returnTo=%2Fdashboard"

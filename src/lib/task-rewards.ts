@@ -1,3 +1,4 @@
+import { coerceDate } from "@/lib/coerce-date";
 import { minutesUntilDue } from "@/lib/task-schedule";
 
 export type TaskRewardAmounts = {
@@ -8,9 +9,9 @@ export type TaskRewardAmounts = {
 };
 
 export type TaskRewardContext = TaskRewardAmounts & {
-  dueAt?: Date | null;
+  dueAt?: Date | string | null;
   dueAtHasTime?: boolean;
-  submittedAt?: Date | null;
+  submittedAt?: Date | string | null;
 };
 
 export type EffectiveTaskRewards = TaskRewardAmounts & {
@@ -18,23 +19,26 @@ export type EffectiveTaskRewards = TaskRewardAmounts & {
 };
 
 export function isPastDueAt(
-  task: { dueAt?: Date | null; dueAtHasTime?: boolean },
+  task: { dueAt?: Date | string | null; dueAtHasTime?: boolean },
   at: Date,
 ): boolean {
-  if (!task.dueAt) {
+  const dueAt = coerceDate(task.dueAt);
+  if (!dueAt) {
     return false;
   }
 
-  return minutesUntilDue(task.dueAt, task.dueAtHasTime ?? false, at) < 0;
+  return minutesUntilDue(dueAt, task.dueAtHasTime ?? false, at) < 0;
 }
 
 /** True when the Cub submitted after the due date/time. */
 export function wasTaskSubmittedLate(task: TaskRewardContext): boolean {
-  if (!task.dueAt || !task.submittedAt) {
+  const dueAt = coerceDate(task.dueAt);
+  const submittedAt = coerceDate(task.submittedAt);
+  if (!dueAt || !submittedAt) {
     return false;
   }
 
-  return isPastDueAt(task, task.submittedAt);
+  return isPastDueAt({ dueAt, dueAtHasTime: task.dueAtHasTime }, submittedAt);
 }
 
 function halveReward(amount: number): number {
@@ -47,7 +51,7 @@ export function getEffectiveTaskRewards(
 ): EffectiveTaskRewards {
   const penalizedForLateSubmission = isPastDueAt(
     task,
-    task.submittedAt ?? referenceTime,
+    coerceDate(task.submittedAt) ?? referenceTime,
   );
 
   if (!penalizedForLateSubmission) {

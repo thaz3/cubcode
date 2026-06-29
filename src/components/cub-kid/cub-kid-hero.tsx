@@ -2,6 +2,8 @@ import Link from "next/link";
 import {
   cubKidBackLink,
   cubKidHeroBadge,
+  cubKidSectionTitle,
+  cubKidTextMuted,
 } from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
@@ -34,11 +36,16 @@ export function CubKidHero({
       ) : null}
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl font-black tracking-tight text-cub-off-white sm:text-3xl">
+          <h1
+            className={cn(
+              cubKidSectionTitle,
+              "text-2xl tracking-tight sm:text-3xl",
+            )}
+          >
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-2 max-w-2xl text-sm text-cub-gold-light/90 sm:text-base">
+            <p className={cn("mt-2 max-w-2xl text-sm sm:text-base", cubKidTextMuted)}>
               {subtitle}
             </p>
           ) : null}

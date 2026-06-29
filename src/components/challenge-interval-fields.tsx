@@ -4,6 +4,8 @@ import type { ChallengeIntervalType } from "@/generated/prisma/client";
 import { CUSTOM_DAY_OPTIONS } from "@/lib/challenge-intervals";
 import { Label } from "@/components/ui/label";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
+import { NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
+import { useTouchNativeControls } from "@/components/use-prefers-hover";
 import { useState } from "react";
 
 const INTERVAL_OPTIONS: Array<{ value: ChallengeIntervalType; label: string }> = [
@@ -25,6 +27,7 @@ export function ChallengeIntervalFields({
   const [intervalType, setIntervalType] =
     useState<ChallengeIntervalType>(initialIntervalType);
   const [customDays, setCustomDays] = useState<number[]>(initialCustomDays);
+  const useNativeControls = useTouchNativeControls();
 
   function toggleDay(day: number) {
     setCustomDays((prev) =>
@@ -43,15 +46,38 @@ export function ChallengeIntervalFields({
         <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
           How often
         </p>
-        <RadioChoiceList
-          name="intervalTypeChoice"
-          options={INTERVAL_OPTIONS.map((o) => ({
-            value: o.value,
-            label: o.label,
-          }))}
-          value={intervalType}
-          onChange={(v) => setIntervalType(v as ChallengeIntervalType)}
-        />
+
+        {useNativeControls ? (
+          <div>
+            <Label htmlFor="interval-type-select" className="sr-only">
+              How often
+            </Label>
+            <select
+              id="interval-type-select"
+              value={intervalType}
+              onChange={(event) =>
+                setIntervalType(event.target.value as ChallengeIntervalType)
+              }
+              className={NATIVE_SELECT_CLASS}
+            >
+              {INTERVAL_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          <RadioChoiceList
+            name="intervalTypeChoice"
+            options={INTERVAL_OPTIONS.map((o) => ({
+              value: o.value,
+              label: o.label,
+            }))}
+            value={intervalType}
+            onChange={(v) => setIntervalType(v as ChallengeIntervalType)}
+          />
+        )}
       </div>
 
       {intervalType === "CUSTOM" ? (
@@ -65,7 +91,7 @@ export function ChallengeIntervalFields({
                   key={day.value}
                   type="button"
                   onClick={() => toggleDay(day.value)}
-                  className={`min-h-11 rounded-xl border px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`min-h-11 touch-manipulation rounded-xl border px-3 py-2 text-sm font-medium transition-colors ${
                     selected
                       ? "border-cub-gold bg-cub-gold-muted text-cub-gold-light"
                       : "border-cub-off-white/15 bg-cub-charcoal text-cub-muted hover:border-cub-off-white/25"

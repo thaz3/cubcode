@@ -16,10 +16,10 @@ export function CubKidTipCard({
 }: CubKidTipCardProps) {
   return (
     <div className={cn(cubKidTipCard, className)}>
-      <p className="text-sm font-bold text-cub-off-white">
+      <p className="text-sm font-black text-kid-ink">
         {emoji} {title}
       </p>
-      <div className="mt-1 text-xs text-cub-muted">{children}</div>
+      <div className="mt-1 text-xs text-kid-ink-muted">{children}</div>
     </div>
   );
 }

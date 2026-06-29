@@ -1,3 +1,5 @@
+"use client";
+
 import { EarnTypeBadge } from "@/components/earn-type-badge";
 import { RequestSessionTimer } from "@/components/request-session-timer";
 import { CancelFocusSessionForm } from "@/components/cancel-focus-session-form";
@@ -9,6 +11,7 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
 import { formatTaskCategory, GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
+import { toIsoString } from "@/lib/coerce-date";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { cubStatusMessage } from "@/lib/cub-next-action";
 import { getTaskEarnType } from "@/lib/earn-types";
@@ -27,22 +30,20 @@ type CubWorkflowTask = Pick<
   | "proofType"
   | "proofPrompt"
   | "proofChecklistItems"
-  | "dueAt"
   | "dueAtHasTime"
-  | "claimedAt"
-  | "createdAt"
   | "xpEarned"
   | "focusTokensEarned"
   | "phoneMinutesEarned"
   | "focusMinutesEarned"
-  | "focusSessionStartedAt"
   | "reviewNote"
   | "focusActivityCardId"
   | "trainingDeckId"
 > & {
+  dueAt: Date | string | null;
+  claimedAt: Date | string | null;
+  createdAt: Date | string;
+  focusSessionStartedAt?: Date | string | null;
   focusBlocks: Array<{ durationMinutes: number }>;
-  focusActivityCardId?: string | null;
-  trainingDeckId?: string | null;
 };
 
 export type FocusGrowthContext = {
@@ -73,6 +74,8 @@ export function CubWorkflowTaskCard({
   const earnType = getTaskEarnType(task);
   const instructionsVisible = task.status === "IN_PROGRESS";
 
+  const focusStartedIso = toIsoString(task.focusSessionStartedAt);
+
   return (
     <Card
       className={cn(
@@ -97,7 +100,7 @@ export function CubWorkflowTaskCard({
           ) : null}
         </div>
 
-        {isRequestActive && task.focusSessionStartedAt ? (
+        {isRequestActive && focusStartedIso ? (
           <div className="rounded-xl border border-cub-green/30 bg-cub-green-muted px-4 py-3">
             {task.growthCategory ? (
               <p className="mb-2 text-xs font-medium uppercase tracking-wide text-cub-green-light">
@@ -105,7 +108,7 @@ export function CubWorkflowTaskCard({
               </p>
             ) : null}
             <RequestSessionTimer
-              startedAt={task.focusSessionStartedAt.toISOString()}
+              startedAt={focusStartedIso}
               label="Request timer"
             />
             <p className="mt-2 text-xs text-cub-green-light/80">
@@ -163,7 +166,10 @@ export function CubWorkflowTaskCard({
             {isFocusBlock ? (
               <CancelFocusSessionForm cubId={cubId} taskId={task.id} />
             ) : null}
-            <TaskSubmitForm task={task} audience="cub" />
+            <TaskSubmitForm
+              task={task as Parameters<typeof TaskSubmitForm>[0]["task"]}
+              audience="cub"
+            />
           </>
         )}
 

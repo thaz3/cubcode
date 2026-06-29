@@ -1,4 +1,8 @@
-import { cubKidSectionEyebrow } from "@/lib/cub-kid-theme";
+import {
+  cubKidSectionEyebrow,
+  cubKidSectionTitle,
+  cubKidTextMuted,
+} from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
 type CubKidSectionHeaderProps = {
@@ -28,7 +32,7 @@ export function CubKidSectionHeader({
         ) : null}
         <h2
           className={cn(
-            "font-black text-cub-off-white",
+            cubKidSectionTitle,
             compact ? "text-sm" : "text-lg sm:text-xl",
             eyebrow && "mt-0.5",
           )}
@@ -36,7 +40,7 @@ export function CubKidSectionHeader({
           {title}
         </h2>
         {subtitle ? (
-          <p className={cn("text-cub-muted", compact ? "text-[10px]" : "text-xs")}>
+          <p className={cn(cubKidTextMuted, compact ? "text-[10px]" : "text-xs")}>
             {subtitle}
           </p>
         ) : null}

@@ -36,7 +36,7 @@ export default async function ParentUnlockPage({
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-16">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-4 py-16">
       <div className="mb-6 space-y-2 text-center">
         <p className="text-xs font-semibold uppercase tracking-wide text-cub-gold">
           Parent area
@@ -46,7 +46,7 @@ export default async function ParentUnlockPage({
         </h1>
         <p className="text-sm text-zinc-400">
           {hasPin
-            ? "Required every time you open the parent area from Cub view."
+            ? "Required when opening the parent area from Cub view. Stays unlocked for 4 hours while you work in the parent dashboard."
             : "Create a PIN before household settings and approvals are available."}
         </p>
       </div>

@@ -23,7 +23,7 @@ export function getCubNextAction(
     return {
       title: `Keep going: ${inProgressFocus.title}`,
       description: "Your request timer is running. Submit when you're done.",
-      href: `/cub/${cubId}/challenges#mission-${inProgressFocus.id}`,
+      href: `/cub/${cubId}/tasks/${inProgressFocus.id}`,
       buttonLabel: "Continue task",
       tone: "focus",
     };
@@ -34,7 +34,7 @@ export function getCubNextAction(
     return {
       title: `Try again: ${sentBack.title}`,
       description: "Your parent asked for changes. Read their note and resubmit.",
-      href: `/cub/${cubId}/challenges#mission-${sentBack.id}`,
+      href: `/cub/${cubId}/tasks/${sentBack.id}`,
       buttonLabel: "Fix task",
       tone: "urgent",
     };
@@ -52,7 +52,7 @@ export function getCubNextAction(
         claimed.status === "IN_PROGRESS"
           ? "Finish your work and submit proof for parent review."
           : "Tap View instructions when you're ready — your parent will know you opened them.",
-      href: `/cub/${cubId}/challenges#mission-${claimed.id}`,
+      href: `/cub/${cubId}/tasks/${claimed.id}`,
       buttonLabel: label,
       tone: "focus",
     };
@@ -63,7 +63,7 @@ export function getCubNextAction(
     return {
       title: "Waiting for parent review",
       description: `"${waiting.title}" was submitted. Your parent will review it soon.`,
-      href: `/cub/${cubId}/challenges#mission-${waiting.id}`,
+      href: `/cub/${cubId}/tasks/${waiting.id}`,
       buttonLabel: "View tasks",
       tone: "wait",
     };
