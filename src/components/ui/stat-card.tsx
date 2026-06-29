@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 type StatCardProps = {
@@ -6,6 +7,7 @@ type StatCardProps = {
   detail?: string;
   highlight?: "gold" | "green" | "red" | "amber" | "violet";
   className?: string;
+  href?: string;
 };
 
 const ACCENT_BAR: Record<"gold" | "green" | "red", string> = {
@@ -32,6 +34,7 @@ export function StatCard({
   detail,
   highlight,
   className,
+  href,
 }: StatCardProps) {
   const tone =
     highlight === "amber"
@@ -40,14 +43,16 @@ export function StatCard({
         ? "gold"
         : highlight;
 
-  return (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-2xl border p-4",
-        tone ? ACCENT_SURFACE[tone] : "border-cub-charcoal/80 cub-card-surface shadow-sm",
-        className,
-      )}
-    >
+  const surfaceClass = cn(
+    "relative overflow-hidden rounded-2xl border p-4",
+    tone ? ACCENT_SURFACE[tone] : "border-cub-charcoal/80 cub-card-surface shadow-sm",
+    href &&
+      "block transition hover:brightness-105 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cub-gold/50 active:scale-[0.99]",
+    className,
+  );
+
+  const body = (
+    <>
       {tone ? (
         <div
           className={cn("absolute inset-x-0 top-0 h-1", ACCENT_BAR[tone])}
@@ -66,6 +71,16 @@ export function StatCard({
       {detail ? (
         <p className="mt-1 text-sm text-cub-muted">{detail}</p>
       ) : null}
-    </div>
+    </>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className={surfaceClass}>
+        {body}
+      </Link>
+    );
+  }
+
+  return <div className={surfaceClass}>{body}</div>;
 }

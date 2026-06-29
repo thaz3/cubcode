@@ -22,7 +22,11 @@ export const authConfig = {
     authorized: async ({ auth, request }) => {
       const { pathname } = request.nextUrl;
       const isLoggedIn = !!auth?.user;
-      const isAuthPage = pathname === "/login" || pathname === "/signup";
+      const isAuthPage =
+        pathname === "/login" ||
+        pathname === "/signup" ||
+        pathname === "/forgot-password" ||
+        pathname === "/reset-password";
       const isDashboard = pathname.startsWith("/dashboard");
       const isCub = pathname.startsWith("/cub");
       const isParentGate = pathname.startsWith("/parent");

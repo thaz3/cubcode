@@ -1,4 +1,4 @@
-import type { Cub } from "@/generated/prisma/client";
+import type { Cub, TaskStatus } from "@/generated/prisma/client";
 import {
   formatWeekLabel,
   getWeekEnd,
@@ -8,6 +8,21 @@ import { getCubWeekStats } from "@/lib/council-day-stats";
 import { parseCouncilDayValueRatings } from "@/lib/council-day-values";
 import { getCubLedgerEntries, type CubLedgerEntry } from "@/lib/cub-ledger";
 import { db } from "@/lib/db";
+import {
+  filterTasksForCubWeekView,
+  sortTasksByUrgency,
+} from "@/lib/task-schedule";
+
+export type WeekAssignedTask = {
+  id: string;
+  title: string;
+  status: TaskStatus;
+  dueAt: Date | null;
+  dueAtHasTime: boolean;
+  claimedAt: Date | null;
+  createdAt: Date;
+  isUrgent: boolean;
+};
 
 export type CubWeeklyProgressRow = {
   cubId: string;
@@ -23,6 +38,7 @@ export type CubWeeklyProgressRow = {
   familyDaySaved: boolean;
   familyDayReady: boolean;
   ledgerEntries: CubLedgerEntry[];
+  assignedTasks: WeekAssignedTask[];
 };
 
 export type HouseholdWeeklyProgress = {
@@ -36,6 +52,7 @@ export type HouseholdWeeklyProgress = {
     focusTokensEarned: number;
     phoneMinutesEarned: number;
     pendingReview: number;
+    tasksAssigned: number;
   };
   familyDay: {
     status: "not_started" | "in_progress" | "completed";
@@ -103,7 +120,7 @@ export async function getHouseholdWeeklyProgress(
 
   const cubRows = await Promise.all(
     cubs.map(async (cub) => {
-      const [weekStats, ledgers, tasksSubmitted, ledgerEntries] =
+      const [weekStats, ledgers, tasksSubmitted, ledgerEntries, assignedTasks] =
         await Promise.all([
         getCubWeekStats(cub.id, weekStartsOn),
         getCubLedgerWeekTotals(cub.id, weekStartsOn, weekEnd),
@@ -117,7 +134,27 @@ export async function getHouseholdWeeklyProgress(
           weekStartsOn: weekStartsOn,
           limit: 20,
         }),
+        db.task.findMany({
+          where: {
+            cubId: cub.id,
+            status: { in: ["CLAIMED", "IN_PROGRESS", "SENT_BACK"] },
+          },
+          select: {
+            id: true,
+            title: true,
+            status: true,
+            dueAt: true,
+            dueAtHasTime: true,
+            claimedAt: true,
+            createdAt: true,
+            isUrgent: true,
+          },
+        }),
       ]);
+
+      const weekAssigned = sortTasksByUrgency(
+        filterTasksForCubWeekView(assignedTasks, weekStartsOn),
+      );
 
       const entry = familyDaySession?.cubEntries.find(
         (item) => item.cubId === cub.id,
@@ -145,6 +182,7 @@ export async function getHouseholdWeeklyProgress(
         familyDaySaved: Boolean(entry),
         familyDayReady,
         ledgerEntries,
+        assignedTasks: weekAssigned,
       };
     }),
   );
@@ -158,6 +196,7 @@ export async function getHouseholdWeeklyProgress(
     focusTokensEarned: 0,
     phoneMinutesEarned: 0,
     pendingReview,
+    tasksAssigned: 0,
   };
 
   for (const row of cubRows) {
@@ -168,6 +207,7 @@ export async function getHouseholdWeeklyProgress(
     householdTotals.xpEarned += row.xpEarned;
     householdTotals.focusTokensEarned += row.focusTokensEarned;
     householdTotals.phoneMinutesEarned += row.phoneMinutesEarned;
+    householdTotals.tasksAssigned += row.assignedTasks.length;
   }
 
   const familyDayStatus = familyDaySession?.conductedAt

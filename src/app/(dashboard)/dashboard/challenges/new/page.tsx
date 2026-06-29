@@ -12,5 +12,5 @@ export default async function NewChallengeRedirectPage({
   if (params.cubId) {
     query.set("cubId", params.cubId);
   }
-  redirect(`/dashboard/tasks?${query.toString()}#create`);
+  redirect(`/dashboard/tasks/assign?${query.toString()}`);
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ActionTile } from "@/components/ui/action-tile";
 import {
+  AssignWorkIcon,
   CalendarIcon,
   CubDeviceIcon,
   HomeIcon,
@@ -213,6 +214,45 @@ export default async function DashboardPage() {
       <p className="-mt-4 text-sm text-cub-muted">{greeting}</p>
 
       {family.cubs.length > 0 ? (
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <StatCard
+            label="Needs review"
+            value={String(pendingReview)}
+            detail={
+              pendingReview > 0
+                ? pendingReviews.focusCards > 0
+                  ? `${pendingReviews.focusCards} Focus card${pendingReviews.focusCards === 1 ? "" : "s"} · waiting for you`
+                  : "Waiting for you"
+                : "All caught up"
+            }
+            highlight="gold"
+            href="/dashboard/tasks#in-review"
+          />
+          <StatCard
+            label="Active tasks"
+            value={String(inProgressCount)}
+            detail="Claimed or in progress"
+            highlight="green"
+            href="/dashboard/tasks#active"
+          />
+          <StatCard
+            label={SMALL_REMINDERS_LABEL}
+            value={String(activeSmallRemindersCount)}
+            detail={smallRemindersDetail}
+            highlight={activeSmallRemindersCount > 0 ? "red" : "gold"}
+            href="/dashboard#small-reminders"
+          />
+          <StatCard
+            label="Focus this week"
+            value={String(totalFocusTasksThisWeek)}
+            detail="Focus tasks completed so far"
+            highlight="green"
+            href={`/dashboard/week?week=${weekQuery}`}
+          />
+        </div>
+      ) : null}
+
+      {family.cubs.length > 0 ? (
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-3">
             <h2 className={cubSectionTitle}>Your Cubs</h2>
@@ -263,41 +303,6 @@ export default async function DashboardPage() {
           </Link>
         </Card>
       )}
-
-      {family.cubs.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          <StatCard
-            label="Needs review"
-            value={String(pendingReview)}
-            detail={
-              pendingReview > 0
-                ? pendingReviews.focusCards > 0
-                  ? `${pendingReviews.focusCards} Focus card${pendingReviews.focusCards === 1 ? "" : "s"} · waiting for you`
-                  : "Waiting for you"
-                : "All caught up"
-            }
-            highlight="gold"
-          />
-          <StatCard
-            label="Active tasks"
-            value={String(inProgressCount)}
-            detail="Claimed or in progress"
-            highlight="green"
-          />
-          <StatCard
-            label={SMALL_REMINDERS_LABEL}
-            value={String(activeSmallRemindersCount)}
-            detail={smallRemindersDetail}
-            highlight={activeSmallRemindersCount > 0 ? "red" : "gold"}
-          />
-          <StatCard
-            label="Focus this week"
-            value={String(totalFocusTasksThisWeek)}
-            detail="Focus tasks completed so far"
-            highlight="green"
-          />
-        </div>
-      ) : null}
 
       <ParentAwaitingReviewSection items={pendingReviewItems} />
 
@@ -391,6 +396,13 @@ export default async function DashboardPage() {
             }
             accent="amber"
             icon={<CalendarIcon className="h-5 w-5" />}
+          />
+          <ActionTile
+            href="/dashboard/tasks/assign"
+            label="Assign work"
+            description="Tasks, routines, bonuses, and more"
+            accent="amber"
+            icon={<AssignWorkIcon className="h-5 w-5" />}
           />
           {family.cubs.length > 0 ? (
             <ActionTile

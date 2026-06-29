@@ -49,8 +49,8 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
       <PageHeader
         title={task.title}
         subtitle="Review proof and decide"
-        backHref="/dashboard/tasks/review"
-        backLabel="Review"
+        backHref="/dashboard/tasks#in-review"
+        backLabel="Assignments"
       />
       <div className="flex flex-wrap items-center gap-2">
         <StatusBadge status={task.status} />
@@ -158,10 +158,10 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
                   <p>Parent note: {task.reviewNote}</p>
                 ) : null}
                 <Link
-                  href="/dashboard/tasks/review"
+                  href="/dashboard/tasks#in-review"
                   className="inline-block font-medium text-cub-gold"
                 >
-                  Back to review inbox
+                  Back to assignments
                 </Link>
               </div>
             </Card>

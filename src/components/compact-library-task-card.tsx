@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { AssignmentManageActions } from "@/components/assignment-manage-actions";
+import { EarnTypeBadge } from "@/components/earn-type-badge";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { formatTaskCategory } from "@/lib/task-categories";
+import { getTaskEarnType } from "@/lib/earn-types";
 import { formatProofType } from "@/lib/task-labels";
 import type { TaskWithCub } from "@/lib/task-groups";
 
@@ -12,38 +13,36 @@ type CompactLibraryTaskCardProps = {
 };
 
 export function CompactLibraryTaskCard({ task }: CompactLibraryTaskCardProps) {
-  return (
-    <Card className="p-3">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <Link
-              href={`/dashboard/tasks/${task.id}`}
-              className="font-medium text-zinc-50 hover:text-cub-gold-light"
-            >
-              {task.title}
-            </Link>
-            <StatusBadge status={task.status} />
-          </div>
-          <p className="mt-1 text-xs text-zinc-500">
-            {formatTaskCategory(task.category, {
-              subcategory: task.subcategory,
-              growthCategory: task.growthCategory,
-            })}{" "}
-            · {formatProofType(task.proofType)}
-          </p>
-        </div>
+  const earnType = getTaskEarnType(task);
 
-        <div className="flex shrink-0 flex-wrap items-center gap-2">
-          <Link href={`/dashboard/tasks/${task.id}`}>
-            <Button size="sm">Assign</Button>
-          </Link>
-          <AssignmentManageActions
-            taskId={task.id}
-            status={task.status}
-            size="sm"
-          />
+  return (
+    <Card variant="accent" className="space-y-3 !p-4">
+      <div className="space-y-1.5">
+        <div className="flex flex-wrap items-center gap-2">
+          <EarnTypeBadge earnType={earnType} />
+          <h2 className="text-base font-semibold text-cub-off-white">{task.title}</h2>
+          <StatusBadge status={task.status} />
         </div>
+        <p className="text-sm text-cub-muted">
+          {formatTaskCategory(task.category, {
+            subcategory: task.subcategory,
+            growthCategory: task.growthCategory,
+          })}{" "}
+          · {formatProofType(task.proofType)}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <Link href={`/dashboard/tasks/${task.id}`} className="flex-1">
+          <Button fullWidth size="md">
+            Assign
+          </Button>
+        </Link>
+        <Link href={`/dashboard/tasks/${task.id}`} className="flex-1">
+          <Button variant="neutral" fullWidth size="md">
+            Details
+          </Button>
+        </Link>
       </div>
     </Card>
   );

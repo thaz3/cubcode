@@ -23,5 +23,7 @@ export const config = {
     "/parent/:path*",
     "/login",
     "/signup",
+    "/forgot-password",
+    "/reset-password",
   ],
 };

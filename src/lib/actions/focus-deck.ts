@@ -32,7 +32,7 @@ import {
 function revalidateFocusDeckPaths(cubId?: string) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/focus-deck");
-  revalidatePath("/dashboard/tasks/review");
+  revalidatePath("/dashboard/tasks");
   if (cubId) {
     revalidatePath(`/cub/${cubId}`);
     revalidatePath(`/cub/${cubId}/focus-deck`);

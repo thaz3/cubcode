@@ -3,6 +3,7 @@ import {
   getTaskScheduleSummary,
   type TaskScheduleInput,
 } from "@/lib/task-schedule";
+import { coerceDate } from "@/lib/coerce-date";
 import { cn } from "@/lib/utils";
 
 type TaskScheduleDisplayProps = {
@@ -28,13 +29,17 @@ export function TaskScheduleDisplay({
   const schedule = getTaskScheduleSummary(task);
 
   if (inline) {
+    const submittedAt = coerceDate(task.submittedAt);
     const parts = [
       `Assigned ${formatScheduleDate(schedule.assignedAt)}`,
       schedule.dueLabel
         ? `Due ${schedule.dueLabel}`
         : "Due not set",
     ];
-    if (schedule.timingLabel && schedule.timingTone) {
+    if (submittedAt) {
+      parts.push(`Submitted ${formatSubmissionDate(submittedAt)}`);
+    }
+    if (schedule.timingLabel && schedule.timingTone && !submittedAt) {
       parts.push(
         schedule.timingTone === "overdue"
           ? `Urgent · ${schedule.timingLabel}`
@@ -45,11 +50,15 @@ export function TaskScheduleDisplay({
     return (
       <p className={cn("text-xs text-cub-muted", className)}>
         {parts.map((part, index) => (
-          <span key={part}>
+          <span key={`${index}-${part}`}>
             {index > 0 ? (
               <span className="text-cub-charcoal dark:text-zinc-600"> · </span>
             ) : null}
-            {schedule.timingLabel && index === parts.length - 1 && schedule.timingTone ? (
+            {part.startsWith("Submitted") ? (
+              <span className="font-medium text-cub-off-white">{part}</span>
+            ) : schedule.timingLabel &&
+              index === parts.length - 1 &&
+              schedule.timingTone ? (
               <span className={TIMING_STYLES[schedule.timingTone]}>{part}</span>
             ) : (
               part
@@ -71,6 +80,14 @@ export function TaskScheduleDisplay({
           <span className="italic text-cub-muted">Not set — edit task to add</span>
         )}
       </p>
+      {coerceDate(task.submittedAt) ? (
+        <p>
+          Submitted{" "}
+          <span className="font-medium text-cub-off-white">
+            {formatSubmissionDate(coerceDate(task.submittedAt)!)}
+          </span>
+        </p>
+      ) : null}
       {schedule.timingLabel && schedule.timingTone ? (
         <p
           className={cn(
@@ -109,4 +126,14 @@ export function TaskScheduleBadge({ task }: { task: TaskScheduleInput }) {
       {schedule.timingLabel}
     </span>
   );
+}
+
+function formatSubmissionDate(date: Date): string {
+  return date.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }

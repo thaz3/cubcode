@@ -22,7 +22,7 @@ import type { GuardianNudgeRuleType } from "@/generated/prisma/client";
 function revalidateGuardianNudgePaths() {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/family/settings");
-  revalidatePath("/dashboard/tasks/review");
+  revalidatePath("/dashboard/tasks");
 }
 
 async function getFamilyNudge(nudgeId: string, familyId: string) {

@@ -1,13 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { GuardianNudgeDismissButton } from "@/components/guardian-nudge-dismiss-button";
 import { GuardianNudgeSeenButton } from "@/components/guardian-nudge-seen-button";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import type { GuardianNudge, GuardianNudgeRuleType } from "@/generated/prisma/client";
 import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { isGuardianNudgeDismissAllowed } from "@/lib/guardian-nudges/rule-state";
 import { SMALL_REMINDERS_LABEL } from "@/lib/small-reminders-labels";
-import { cubLink, cubNudgeCard, cubNudgeHeader, cubSectionTitle } from "@/lib/cub-theme";
+import { cubLink } from "@/lib/cub-theme";
 import { cn } from "@/lib/utils";
 
 type NudgeWithRelations = GuardianNudge & {
@@ -17,7 +18,7 @@ type NudgeWithRelations = GuardianNudge & {
 
 function nudgeHref(nudge: NudgeWithRelations): string {
   if (nudge.type === "DAILY_SUMMARY") {
-    return "/dashboard";
+    return "/dashboard/tasks#waiting-to-start";
   }
   if (nudge.task?.status === "SUBMITTED") {
     return `/dashboard/tasks/review/${nudge.task.id}`;
@@ -25,7 +26,7 @@ function nudgeHref(nudge: NudgeWithRelations): string {
   if (nudge.taskId) {
     return `/dashboard/tasks/${nudge.taskId}`;
   }
-  return "/dashboard";
+  return "/dashboard/tasks";
 }
 
 function nudgeLabel(type: GuardianNudgeRuleType): string {
@@ -80,11 +81,22 @@ type GuardianNudgesSectionProps = {
   hiddenByQuietHours?: boolean;
 };
 
-const FOCUS_BADGE =
-  "bg-cub-green-muted text-cub-green-light ring-cub-green-bright/45";
-
-const FOCUS_DECK_BADGE =
-  "bg-cub-gold-muted text-cub-gold-light ring-cub-gold/45";
+function getRemindersSummary(
+  nudges: NudgeWithRelations[],
+  focusSessions: FocusSessionReminder[],
+  focusDeckCards: FocusDeckReminder[],
+): string {
+  if (focusSessions.length > 0) {
+    return `${focusSessions.length} focus session${focusSessions.length === 1 ? "" : "s"} running`;
+  }
+  if (nudges.length > 0) {
+    return nudges[0]!.message;
+  }
+  if (focusDeckCards.length > 0) {
+    return `${focusDeckCards.length} Growth Pick${focusDeckCards.length === 1 ? "" : "s"} started this week`;
+  }
+  return "Nothing right now";
+}
 
 export function GuardianNudgesSection({
   nudges,
@@ -105,138 +117,67 @@ export function GuardianNudgesSection({
     focusSessions.length +
     focusDeckCards.length;
 
+  const itemCount =
+    (hiddenByQuietHours ? 0 : nudges.length) +
+    focusSessions.length +
+    focusDeckCards.length;
+
   return (
-    <section id="small-reminders" className="scroll-mt-4 space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <h2 className={cubSectionTitle}>{SMALL_REMINDERS_LABEL}</h2>
-          {unseenCount > 0 ? (
-            <span className="rounded-full bg-cub-red-muted px-2.5 py-0.5 text-xs font-bold text-cub-off-white ring-1 ring-cub-red/40">
-              {unseenCount} new
-            </span>
-          ) : null}
-        </div>
-        <Link
-          href="/dashboard/family/settings"
-          className={cn("text-sm font-medium", cubLink)}
-        >
-          Settings →
-        </Link>
-      </div>
-
-      <Card className="overflow-hidden border-cub-red-alert/30 bg-cub-charcoal p-0 shadow-lg shadow-cub-red/15 ring-1 ring-cub-red/20">
-        <div
-          className={cn(
-            "flex flex-wrap items-start gap-3 px-5 py-4",
-            cubNudgeHeader,
-          )}
-        >
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              {unseenCount > 0 ? (
-                <span
-                  className="h-2.5 w-2.5 shrink-0 animate-pulse rounded-full bg-cub-red"
-                  aria-hidden
-                />
-              ) : null}
-              <p className="text-sm text-cub-muted">
-                A quick heads-up — you decide what happens next.
-              </p>
-            </div>
-          </div>
+    <section id="small-reminders" className="scroll-mt-36">
+      <CollapsibleSection
+        title={SMALL_REMINDERS_LABEL}
+        summary={getRemindersSummary(nudges, focusSessions, focusDeckCards)}
+        badge={itemCount > 0 ? itemCount : undefined}
+        defaultOpen={unseenCount > 0}
+        className="border-cub-red-alert/35 border-l-4 border-l-cub-red-alert cub-card-red bg-cub-charcoal shadow-md shadow-cub-red/10"
+      >
+        <div className="mb-3 flex justify-end">
+          <Link href="/dashboard/family/settings" className={cn("text-xs font-medium", cubLink)}>
+            Settings →
+          </Link>
         </div>
 
-        <div className="space-y-3 p-4">
-          {hiddenByQuietHours && hasNudges ? (
-            <div className={cn("rounded-xl px-4 py-4", cubNudgeCard)}>
-              <p className="text-sm font-medium text-cub-off-white">
-                {nudges.length} nudge{nudges.length === 1 ? "" : "s"} waiting
-              </p>
-              <p className="mt-1 text-sm text-cub-muted">
-                Quiet hours are on. Nudges will appear here when quiet hours end.
-                Review and tasks are not affected.
-              </p>
-            </div>
-          ) : null}
+        {hiddenByQuietHours && hasNudges ? (
+          <p className="mb-3 rounded-lg border border-cub-off-white/10 bg-cub-ebony px-3 py-2 text-sm text-cub-muted">
+            {nudges.length} reminder{nudges.length === 1 ? "" : "s"} hidden during
+            quiet hours.
+          </p>
+        ) : null}
 
-          <ul className="space-y-3">
-            {focusSessions.map((session) => (
-              <li key={`focus-${session.id}`}>
-                <div
-                  className={cn(
-                    "rounded-xl border-l-4 border-l-cub-green-bright p-4 shadow-sm",
-                    "border border-cub-green/30 bg-cub-green-muted/15 ring-1 ring-cub-green/20",
-                  )}
-                >
-                  <div className="space-y-2">
-                    <span
-                      className={cn(
-                        "inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ring-1",
-                        FOCUS_BADGE,
-                      )}
-                    >
-                      Focus
-                    </span>
-                    <p className="text-base font-medium leading-snug text-cub-off-white">
-                      {session.title}
-                    </p>
-                    {session.cubName ? (
-                      <p className="text-sm text-cub-muted">{session.cubName}</p>
-                    ) : null}
-                    <p className="text-sm text-cub-green-light">
-                      Request timer running — check in when they submit.
-                    </p>
-                  </div>
-                  <div className="mt-4">
-                    <Link href={session.href}>
-                      <Button size="sm" variant="constructive">
-                        Continue task
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </li>
-            ))}
+        <ul className="space-y-2">
+          {focusSessions.map((session) => (
+            <li key={`focus-${session.id}`}>
+              <ReminderRow
+                badgeLabel="Focus"
+                badgeClass="bg-cub-green-muted text-cub-green-light ring-cub-green-bright/45"
+                message={session.title}
+                detail={
+                  session.cubName
+                    ? `${session.cubName} · timer running`
+                    : "Timer running"
+                }
+                href={session.href}
+                hrefLabel="Continue"
+              />
+            </li>
+          ))}
 
-            {focusDeckCards.map((card) => (
-              <li key={`focus-deck-${card.id}`}>
-                <div
-                  className={cn(
-                    "rounded-xl border-l-4 border-l-cub-gold p-4 shadow-sm",
-                    "border border-cub-gold/30 bg-cub-gold-muted/15 ring-1 ring-cub-gold/20",
-                  )}
-                >
-                  <div className="space-y-2">
-                    <span
-                      className={cn(
-                        "inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ring-1",
-                        FOCUS_DECK_BADGE,
-                      )}
-                    >
-                      Growth Picks
-                    </span>
-                    <p className="text-base font-medium leading-snug text-cub-off-white">
-                      {card.title}
-                    </p>
-                    <p className="text-sm text-cub-muted">{card.cubName}</p>
-                    <p className="text-sm text-cub-gold-light">
-                      Started a new Growth Pick this week.
-                    </p>
-                  </div>
-                  <div className="mt-4">
-                    <Link href={card.href}>
-                      <Button size="sm" variant="reward">
-                        View Growth Picks
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </li>
-            ))}
+          {focusDeckCards.map((card) => (
+            <li key={`focus-deck-${card.id}`}>
+              <ReminderRow
+                badgeLabel="Growth Pick"
+                badgeClass="bg-cub-gold-muted text-cub-gold-light ring-cub-gold/45"
+                message={card.title}
+                detail={card.cubName}
+                href={card.href}
+                hrefLabel="View"
+              />
+            </li>
+          ))}
 
-            {hiddenByQuietHours
-              ? null
-              : nudges.map((nudge) => {
+          {hiddenByQuietHours
+            ? null
+            : nudges.map((nudge) => {
                 const isNew = nudge.status === "ACTIVE";
                 const reviewCta = nudge.type === "SUBMITTED_FOR_REVIEW";
 
@@ -244,53 +185,88 @@ export function GuardianNudgesSection({
                   <li key={nudge.id}>
                     <div
                       className={cn(
-                        "rounded-xl p-4 shadow-sm",
-                        cubNudgeCard,
-                        isNew && "ring-1 ring-cub-red/30",
+                        "flex flex-col gap-2 rounded-lg border border-cub-charcoal bg-cub-ebony px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between",
+                        isNew && "border-cub-red-alert/40",
                       )}
                     >
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1 space-y-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1.5">
                           <span
                             className={cn(
-                              "inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ring-1",
+                              "inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ring-1",
                               NUDGE_BADGE[nudge.type],
                             )}
                           >
                             {nudgeLabel(nudge.type)}
                           </span>
                           {nudge.task?.isUrgent ? <TaskUrgentBadge /> : null}
-                          <p className="text-base font-medium leading-snug text-cub-off-white">
-                            {nudge.message}
-                          </p>
                         </div>
-                        {isGuardianNudgeDismissAllowed(nudge.type) ? (
-                          <GuardianNudgeDismissButton nudgeId={nudge.id} />
-                        ) : null}
+                        <p className="mt-1 text-sm leading-snug text-cub-off-white">
+                          {nudge.message}
+                        </p>
                       </div>
 
-                      <div className="mt-4 flex flex-wrap items-center gap-2">
-                        <Link href={nudgeHref(nudge)}>
-                          <Button
-                            size="sm"
-                            variant={reviewCta ? "reward" : "neutral"}
-                          >
-                            {reviewCta ? "Review now" : "View task"}
-                          </Button>
+                      <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end">
+                        <Link
+                          href={nudgeHref(nudge)}
+                          className={cn(
+                            "text-sm font-medium",
+                            reviewCta ? "text-cub-gold-light" : cubLink,
+                          )}
+                        >
+                          {reviewCta ? "Review" : "View"} →
                         </Link>
                         {isNew ? (
                           <GuardianNudgeSeenButton nudgeId={nudge.id} />
-                        ) : (
-                          <span className="text-xs text-cub-muted">Seen</span>
-                        )}
+                        ) : null}
+                        {isGuardianNudgeDismissAllowed(nudge.type) ? (
+                          <GuardianNudgeDismissButton nudgeId={nudge.id} compact />
+                        ) : null}
                       </div>
                     </div>
                   </li>
                 );
               })}
-          </ul>
-        </div>
-      </Card>
+        </ul>
+      </CollapsibleSection>
     </section>
+  );
+}
+
+function ReminderRow({
+  badgeLabel,
+  badgeClass,
+  message,
+  detail,
+  href,
+  hrefLabel,
+}: {
+  badgeLabel: string;
+  badgeClass: string;
+  message: string;
+  detail?: string;
+  href: string;
+  hrefLabel: string;
+}) {
+  return (
+    <div className="flex flex-col gap-2 rounded-lg border border-cub-charcoal bg-cub-ebony px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0 flex-1">
+        <span
+          className={cn(
+            "inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ring-1",
+            badgeClass,
+          )}
+        >
+          {badgeLabel}
+        </span>
+        <p className="mt-1 text-sm font-medium text-cub-off-white">{message}</p>
+        {detail ? (
+          <p className="text-xs text-cub-muted">{detail}</p>
+        ) : null}
+      </div>
+      <Link href={href} className={cn("shrink-0 text-sm font-medium", cubLink)}>
+        {hrefLabel} →
+      </Link>
+    </div>
   );
 }

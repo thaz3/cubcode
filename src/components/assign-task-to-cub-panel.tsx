@@ -60,7 +60,7 @@ export function AssignTaskToCubPanel({
             ))}
             <p className="text-xs text-zinc-500">
               <Link
-                href="/dashboard/tasks#ready-to-assign"
+                href="/dashboard/tasks#library"
                 className="font-medium text-cub-gold hover:text-cub-gold-light"
               >
                 Manage library on Assignments →
@@ -70,7 +70,7 @@ export function AssignTaskToCubPanel({
         ) : (
           <p className="text-sm text-zinc-500">
             Save tasks to your household library on the{" "}
-            <Link href="/dashboard/tasks#create" className="text-cub-gold">
+            <Link href="/dashboard/tasks/assign" className="text-cub-gold">
               Assignments board
             </Link>
             , then assign them here.

@@ -6,12 +6,16 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { logoutAction } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
+  DASHBOARD_ASSIGNMENTS_SUB_NAV_ITEMS,
+  DASHBOARD_ASSIGN_WORK_SUB_NAV_ITEMS,
   DASHBOARD_CORE_NAV_ITEMS,
   DASHBOARD_EXTENDED_NAV_ITEMS,
-  DASHBOARD_MORE_ACCOUNT_NAV_ITEMS,
-  DASHBOARD_MORE_EXPLORE_NAV_ITEMS,
-  isDashboardMoreNavActive,
+  DASHBOARD_USER_MENU_NAV_ITEMS,
+  DASHBOARD_WAYS_TO_LEARN_NAV_ITEM,
+  isDashboardAssignWorkNavActive,
+  isDashboardAssignmentsNavActive,
   isDashboardNavActive,
+  isDashboardUserMenuNavActive,
 } from "@/lib/dashboard-nav-items";
 import { cn } from "@/lib/utils";
 import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
@@ -30,27 +34,8 @@ export function DashboardNav({
   userEmail,
 }: DashboardNavProps) {
   const pathname = usePathname();
-  const [moreOpen, setMoreOpen] = useState(false);
-  const moreRef = useRef<HTMLDivElement>(null);
   const displayName = userName?.trim() || "Parent";
   const email = userEmail?.trim() || "";
-
-  useEffect(() => {
-    function handleClick(event: MouseEvent) {
-      if (moreRef.current && !moreRef.current.contains(event.target as Node)) {
-        setMoreOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
-
-  useEffect(() => {
-    setMoreOpen(false);
-  }, [pathname]);
-
-  const moreActive = isDashboardMoreNavActive(pathname);
 
   return (
     <header className="sticky top-0 z-40 border-b border-cub-green/20 bg-cub-deep-black/95 backdrop-blur-md">
@@ -76,15 +61,47 @@ export function DashboardNav({
         >
           <div className="flex max-w-full items-center gap-1 rounded-2xl border border-cub-off-white/10 bg-cub-ebony/70 p-1 shadow-inner shadow-black/20">
             <NavGroup>
-              {DASHBOARD_CORE_NAV_ITEMS.map((item) => (
-                <NavLink
-                  key={item.href}
-                  item={item}
-                  pathname={pathname}
-                  pendingReviewCount={pendingReviewCount}
-                  guardianNudgeCount={guardianNudgeCount}
-                />
-              ))}
+              {DASHBOARD_CORE_NAV_ITEMS.map((item) => {
+                if (item.href === "/dashboard/tasks") {
+                  return (
+                    <NavDropdown
+                      key={item.href}
+                      label={item.label}
+                      pathname={pathname}
+                      isActive={isDashboardAssignmentsNavActive(pathname)}
+                      badge={
+                        pendingReviewCount > 0 ? pendingReviewCount : null
+                      }
+                      items={[
+                        { href: "/dashboard/tasks", label: "Assignment board" },
+                        ...DASHBOARD_ASSIGNMENTS_SUB_NAV_ITEMS,
+                      ]}
+                    />
+                  );
+                }
+                if (item.href === "/dashboard/tasks/assign") {
+                  return (
+                    <NavDropdown
+                      key={item.href}
+                      label={item.label}
+                      pathname={pathname}
+                      isActive={isDashboardAssignWorkNavActive(pathname)}
+                      items={[
+                        { href: "/dashboard/tasks/assign", label: "Assign work" },
+                        ...DASHBOARD_ASSIGN_WORK_SUB_NAV_ITEMS,
+                      ]}
+                    />
+                  );
+                }
+                return (
+                  <NavLink
+                    key={item.href}
+                    item={item}
+                    pathname={pathname}
+                    guardianNudgeCount={guardianNudgeCount}
+                  />
+                );
+              })}
             </NavGroup>
 
             {DASHBOARD_EXTENDED_NAV_ITEMS.length > 0 ? (
@@ -100,54 +117,18 @@ export function DashboardNav({
 
             <NavDivider />
 
-            <div className="relative" ref={moreRef}>
-              <button
-                type="button"
-                onClick={() => setMoreOpen((open) => !open)}
-                className={cn(
-                  "inline-flex min-h-9 items-center gap-1 rounded-xl px-3 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cub-gold/50",
-                  moreActive || moreOpen ? cubNavActive : cubNavInactive,
-                )}
-                aria-expanded={moreOpen}
-                aria-haspopup="menu"
-              >
-                More
-                <ChevronIcon open={moreOpen} />
-              </button>
-
-              {moreOpen ? (
-                <div
-                  className="absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-52 overflow-hidden rounded-2xl border border-cub-gold/20 bg-cub-charcoal py-1.5 shadow-2xl shadow-black/50"
-                  role="menu"
-                >
-                  <MoreMenuSection label="Account">
-                    {DASHBOARD_MORE_ACCOUNT_NAV_ITEMS.map((item) => (
-                      <MoreMenuLink
-                        key={item.href}
-                        item={item}
-                        pathname={pathname}
-                      />
-                    ))}
-                  </MoreMenuSection>
-                  <MoreMenuSection label="Explore">
-                    {DASHBOARD_MORE_EXPLORE_NAV_ITEMS.map((item) => (
-                      <MoreMenuLink
-                        key={item.href}
-                        item={item}
-                        pathname={pathname}
-                      />
-                    ))}
-                  </MoreMenuSection>
-                </div>
-              ) : null}
-            </div>
+            <NavLink
+              item={DASHBOARD_WAYS_TO_LEARN_NAV_ITEM}
+              pathname={pathname}
+            />
           </div>
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
-          <SignedInUser
+          <UserMenu
             displayName={displayName}
             email={email}
+            pathname={pathname}
             className="hidden lg:flex"
           />
           <form action={logoutAction}>
@@ -166,41 +147,148 @@ export function DashboardNav({
   );
 }
 
-function SignedInUser({
+function UserMenu({
   displayName,
   email,
+  pathname,
   className,
 }: {
   displayName: string;
   email: string;
+  pathname: string;
   className?: string;
 }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
   const initials = getInitials(displayName);
+  const active = isDashboardUserMenuNavActive(pathname);
+
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
-    <Link
-      href="/dashboard/family/settings"
-      className={cn(
-        "max-w-[11rem] items-center gap-2.5 rounded-xl border border-cub-off-white/10 bg-cub-ebony/60 px-2.5 py-1.5 transition hover:border-cub-gold/25 hover:bg-cub-charcoal/80 xl:max-w-xs",
-        className,
-      )}
-      title={email || displayName}
-    >
-      <span
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cub-gold-muted text-xs font-bold text-cub-gold-light ring-1 ring-cub-gold/30"
-        aria-hidden
+    <div className={cn("relative", className)} ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        className={cn(
+          "flex max-w-[11rem] items-center gap-2.5 rounded-xl border px-2.5 py-1.5 transition xl:max-w-xs",
+          active || open
+            ? "border-cub-gold/40 bg-cub-gold-muted/30"
+            : "border-cub-off-white/10 bg-cub-ebony/60 hover:border-cub-gold/25 hover:bg-cub-charcoal/80",
+        )}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        title={email || displayName}
       >
-        {initials}
-      </span>
-      <span className="min-w-0">
-        <span className="block truncate text-sm font-medium text-cub-off-white">
-          {displayName}
+        <span
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cub-gold-muted text-xs font-bold text-cub-gold-light ring-1 ring-cub-gold/30"
+          aria-hidden
+        >
+          {initials}
         </span>
-        {email ? (
-          <span className="block truncate text-[11px] text-cub-muted">{email}</span>
+        <span className="min-w-0 text-left">
+          <span className="block truncate text-sm font-medium text-cub-off-white">
+            {displayName}
+          </span>
+          {email ? (
+            <span className="block truncate text-[11px] text-cub-muted">{email}</span>
+          ) : null}
+        </span>
+        <ChevronIcon open={open} />
+      </button>
+
+      {open ? (
+        <div
+          className="absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-48 overflow-hidden rounded-2xl border border-cub-gold/20 bg-cub-charcoal py-1.5 shadow-2xl shadow-black/50"
+          role="menu"
+        >
+          <MoreMenuSection label="Account">
+            {DASHBOARD_USER_MENU_NAV_ITEMS.map((item) => (
+              <MoreMenuLink key={item.href} item={item} pathname={pathname} />
+            ))}
+          </MoreMenuSection>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function NavDropdown({
+  label,
+  items,
+  pathname,
+  isActive,
+  badge,
+}: {
+  label: string;
+  items: Array<{ href: string; label: string }>;
+  pathname: string;
+  isActive: boolean;
+  badge?: number | null;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        className={cn(
+          "relative inline-flex min-h-9 items-center gap-1 whitespace-nowrap rounded-xl px-2.5 py-1.5 text-sm font-medium transition xl:px-3",
+          isActive || open ? cubNavActive : cubNavInactive,
+        )}
+        aria-expanded={open}
+        aria-haspopup="menu"
+      >
+        {label}
+        {badge != null ? (
+          <span className="ml-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-cub-gold px-1 text-[10px] font-bold text-cub-ebony">
+            {badge > 9 ? "9+" : badge}
+          </span>
         ) : null}
-      </span>
-    </Link>
+        <ChevronIcon open={open} />
+      </button>
+
+      {open ? (
+        <div
+          className="absolute left-0 top-[calc(100%+0.5rem)] z-50 min-w-48 overflow-hidden rounded-2xl border border-cub-gold/20 bg-cub-charcoal py-1.5 shadow-2xl shadow-black/50"
+          role="menu"
+        >
+          {items.map((item) => (
+            <MoreMenuLink key={item.href} item={item} pathname={pathname} />
+          ))}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -233,7 +321,7 @@ function MoreMenuLink({
       href={item.href}
       role="menuitem"
       className={cn(
-        "mx-0 block rounded-xl px-3 py-2.5 text-sm transition",
+        "mx-1.5 block rounded-xl px-3 py-2.5 text-sm transition",
         isDashboardNavActive(pathname, item.href)
           ? "bg-cub-gold-muted font-medium text-cub-gold-light"
           : "text-cub-off-white/85 hover:bg-cub-ebony hover:text-cub-off-white",
@@ -270,7 +358,7 @@ function ChevronIcon({ open }: { open: boolean }) {
       viewBox="0 0 16 16"
       aria-hidden
       className={cn(
-        "h-3.5 w-3.5 text-current transition-transform duration-200",
+        "h-3.5 w-3.5 shrink-0 text-current transition-transform duration-200",
         open && "rotate-180",
       )}
       fill="none"
@@ -292,21 +380,17 @@ type NavItem = {
 function NavLink({
   item,
   pathname,
-  pendingReviewCount = 0,
   guardianNudgeCount = 0,
 }: {
   item: NavItem;
   pathname: string;
-  pendingReviewCount?: number;
   guardianNudgeCount?: number;
 }) {
   const active = isDashboardNavActive(pathname, item.href);
   const badge =
-    item.href === "/dashboard/tasks/review" && pendingReviewCount > 0
-      ? pendingReviewCount
-      : item.href === "/dashboard" && guardianNudgeCount > 0
-        ? guardianNudgeCount
-        : null;
+    item.href === "/dashboard" && guardianNudgeCount > 0
+      ? guardianNudgeCount
+      : null;
 
   return (
     <Link

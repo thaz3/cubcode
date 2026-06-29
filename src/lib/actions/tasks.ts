@@ -201,7 +201,7 @@ function revalidateTaskPaths(cubId?: string | null) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/tasks");
   revalidatePath("/dashboard/tasks/library");
-  revalidatePath("/dashboard/tasks/review");
+  revalidatePath("/dashboard/tasks");
   revalidatePath("/dashboard/family/settings");
   if (cubId) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks`);

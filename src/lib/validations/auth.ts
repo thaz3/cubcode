@@ -11,6 +11,26 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const requestPasswordResetSchema = z.object({
+  email: z.email("Enter a valid email"),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    token: z.string().min(1, "Reset link is invalid or expired"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "Confirm your password"),
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
+
 export const accountSettingsSchema = z
   .object({
     name: z.string().trim().min(1, "Name is required").max(100),

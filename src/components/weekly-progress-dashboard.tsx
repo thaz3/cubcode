@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CubColorBadge } from "@/components/cub-color-dot";
 import { CubLedgerTimeline } from "@/components/cub-ledger-history";
+import { WeeklyAssignedTasksList } from "@/components/weekly-assigned-tasks-list";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
@@ -66,6 +67,11 @@ export function WeeklyProgressDashboard({
   return (
     <div className="space-y-8">
       <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <HouseholdStat
+          label="Tasks assigned"
+          value={String(householdTotals.tasksAssigned)}
+          detail="Assigned and not yet completed this week"
+        />
         <HouseholdStat
           label="Tasks approved"
           value={String(householdTotals.completedTasks)}
@@ -215,6 +221,13 @@ export function WeeklyProgressDashboard({
                       value={formatMinutes(cub.phoneMinutesEarned)}
                     />
                   </dl>
+
+                  <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-cub-off-white/10">
+                    <WeeklyAssignedTasksList
+                      cubName={cub.displayName}
+                      tasks={cub.assignedTasks}
+                    />
+                  </div>
 
                   <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-cub-off-white/10">
                     <CubLedgerTimeline

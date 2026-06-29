@@ -115,10 +115,10 @@ export function ParentAwaitingReviewSection({
           </p>
         </div>
         <Link
-          href="/dashboard/tasks/review"
+          href="/dashboard/tasks#in-review"
           className="text-sm font-medium text-cub-gold"
         >
-          Review inbox →
+          Assignments →
         </Link>
       </div>
       <ul className="space-y-2">
@@ -156,9 +156,9 @@ export function ParentAwaitingReviewSection({
           );
         })}
       </ul>
-      <Link href="/dashboard/tasks/review">
+      <Link href="/dashboard/tasks#in-review">
         <Button variant="reward" fullWidth>
-          Review all
+          Review on assignments
         </Button>
       </Link>
     </section>

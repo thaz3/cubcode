@@ -5,11 +5,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { logoutAction } from "@/lib/actions/auth";
 import {
+  DASHBOARD_ASSIGNMENTS_SUB_NAV_ITEMS,
+  DASHBOARD_ASSIGN_WORK_SUB_NAV_ITEMS,
   DASHBOARD_EXTENDED_NAV_ITEMS,
-  DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS,
-  DASHBOARD_MORE_ACCOUNT_NAV_ITEMS,
-  DASHBOARD_MORE_EXPLORE_NAV_ITEMS,
-  isDashboardMobileMoreNavActive,
+  DASHBOARD_MOBILE_BOTTOM_NAV_ITEMS,
+  DASHBOARD_USER_MENU_NAV_ITEMS,
+  isDashboardMobileAccountNavActive,
   isDashboardNavActive,
 } from "@/lib/dashboard-nav-items";
 import { cn } from "@/lib/utils";
@@ -29,71 +30,56 @@ export function MobileNav({
   userEmail,
 }: MobileNavProps) {
   const pathname = usePathname();
-  const [moreOpen, setMoreOpen] = useState(false);
-  const moreActive = isDashboardMobileMoreNavActive(pathname);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const accountActive = isDashboardMobileAccountNavActive(pathname);
   const displayName = userName?.trim() || "Parent";
   const email = userEmail?.trim() || "";
 
   useEffect(() => {
-    setMoreOpen(false);
+    setAccountOpen(false);
   }, [pathname]);
 
   return (
     <>
-      {moreOpen ? (
+      {accountOpen ? (
         <button
           type="button"
           className="fixed inset-0 z-40 bg-black/60 lg:hidden"
           aria-label="Close menu"
-          onClick={() => setMoreOpen(false)}
+          onClick={() => setAccountOpen(false)}
         />
       ) : null}
 
-      {moreOpen ? (
+      {accountOpen ? (
         <div
           className="fixed inset-x-0 z-50 border-t border-cub-green/20 bg-cub-deep-black/95 px-2 py-2 shadow-xl shadow-black/40 lg:hidden"
           style={{
             bottom: "var(--mobile-nav-safe-bottom)",
           }}
           role="menu"
-          aria-label="More navigation"
+          aria-label="Account navigation"
         >
-          <Link
-            href="/dashboard/family/settings"
-            className="mx-1 mb-2 flex items-center gap-3 rounded-xl border border-cub-off-white/10 bg-cub-charcoal/80 px-3 py-3"
-          >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cub-gold-muted text-sm font-bold text-cub-gold-light">
-              {getInitials(displayName)}
-            </span>
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold text-cub-off-white">
-                {displayName}
-              </span>
-              {email ? (
-                <span className="block truncate text-xs text-cub-muted">{email}</span>
-              ) : (
-                <span className="block text-xs text-cub-muted">Signed in</span>
-              )}
-            </span>
-          </Link>
+          <MobileUserSection
+            displayName={displayName}
+            email={email}
+            pathname={pathname}
+          />
 
           {DASHBOARD_EXTENDED_NAV_ITEMS.map((item) => (
             <MobileMoreLink key={item.href} item={item} pathname={pathname} />
           ))}
 
-          <p className="px-4 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-cub-muted">
-            Account
-          </p>
-          {DASHBOARD_MORE_ACCOUNT_NAV_ITEMS.map((item) => (
-            <MobileMoreLink key={item.href} item={item} pathname={pathname} />
-          ))}
+          <MobileMoreSection label="Assignments">
+            {DASHBOARD_ASSIGNMENTS_SUB_NAV_ITEMS.map((item) => (
+              <MobileMoreLink key={item.href} item={item} pathname={pathname} />
+            ))}
+          </MobileMoreSection>
 
-          <p className="px-4 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-cub-muted">
-            Explore
-          </p>
-          {DASHBOARD_MORE_EXPLORE_NAV_ITEMS.map((item) => (
-            <MobileMoreLink key={item.href} item={item} pathname={pathname} />
-          ))}
+          <MobileMoreSection label="Assign work">
+            {DASHBOARD_ASSIGN_WORK_SUB_NAV_ITEMS.map((item) => (
+              <MobileMoreLink key={item.href} item={item} pathname={pathname} />
+            ))}
+          </MobileMoreSection>
 
           <div className="my-1 border-t border-cub-off-white/10" />
           <form action={logoutAction}>
@@ -114,10 +100,10 @@ export function MobileNav({
         aria-label="Main navigation"
       >
         <div className="mx-auto flex max-w-lg items-stretch justify-around px-1 pt-1">
-          {DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS.map((item) => {
+          {DASHBOARD_MOBILE_BOTTOM_NAV_ITEMS.map((item) => {
             const active = isDashboardNavActive(pathname, item.href);
             const badge =
-              item.href === "/dashboard/tasks/review" && pendingReviewCount > 0
+              item.href === "/dashboard/tasks" && pendingReviewCount > 0
                 ? pendingReviewCount
                 : item.href === "/dashboard" && guardianNudgeCount > 0
                   ? guardianNudgeCount
@@ -132,7 +118,7 @@ export function MobileNav({
                   active ? cn(cubNavActive, "text-[11px]") : cn(cubNavInactive, "text-[11px]"),
                 )}
               >
-                <span className="relative">
+                <span className="relative text-center leading-tight">
                   {item.label}
                   {badge != null ? (
                     <span
@@ -153,21 +139,85 @@ export function MobileNav({
 
           <button
             type="button"
-            onClick={() => setMoreOpen((open) => !open)}
+            onClick={() => setAccountOpen((open) => !open)}
             className={cn(
               "flex min-h-14 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-2 text-[11px] font-medium transition",
-              moreActive || moreOpen
+              accountActive || accountOpen
                 ? cn(cubNavActive, "text-[11px]")
                 : cn(cubNavInactive, "text-[11px]"),
             )}
-            aria-expanded={moreOpen}
+            aria-expanded={accountOpen}
             aria-haspopup="menu"
           >
-            More
+            Account
           </button>
         </div>
       </nav>
     </>
+  );
+}
+
+function MobileUserSection({
+  displayName,
+  email,
+  pathname,
+}: {
+  displayName: string;
+  email: string;
+  pathname: string;
+}) {
+  return (
+    <div className="mx-1 mb-2 overflow-hidden rounded-xl border border-cub-off-white/10 bg-cub-charcoal/80">
+      <div className="flex items-center gap-3 px-3 py-3">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cub-gold-muted text-sm font-bold text-cub-gold-light">
+          {getInitials(displayName)}
+        </span>
+        <span className="min-w-0">
+          <span className="block truncate text-sm font-semibold text-cub-off-white">
+            {displayName}
+          </span>
+          {email ? (
+            <span className="block truncate text-xs text-cub-muted">{email}</span>
+          ) : (
+            <span className="block text-xs text-cub-muted">Signed in</span>
+          )}
+        </span>
+      </div>
+      <div className="border-t border-cub-off-white/10 px-1 pb-1">
+        {DASHBOARD_USER_MENU_NAV_ITEMS.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            role="menuitem"
+            className={cn(
+              "block rounded-lg px-3 py-2.5 text-sm font-medium transition hover:bg-zinc-800",
+              isDashboardNavActive(pathname, item.href)
+                ? "text-cub-gold"
+                : "text-zinc-200",
+            )}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MobileMoreSection({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <p className="px-4 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-cub-muted">
+        {label}
+      </p>
+      {children}
+    </div>
   );
 }
 

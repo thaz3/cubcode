@@ -38,7 +38,7 @@ export function getTodayNextAction(input: NextActionInput): TodayNextAction {
           ? "1 item needs your review"
           : `${pendingReview} items need your review`,
       description: "Approve, send back, or reject submitted tasks and routine check-ins.",
-      href: "/dashboard/tasks/review",
+      href: "/dashboard/tasks#in-review",
       buttonLabel: "Review now",
       priority: "urgent",
     };

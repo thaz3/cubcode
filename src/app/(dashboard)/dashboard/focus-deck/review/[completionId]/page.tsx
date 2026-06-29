@@ -39,8 +39,8 @@ export default async function FocusDeckReviewPage({
       <PageHeader
         title={completion.card.title}
         subtitle={`${completion.cub.displayName} · Focus card review`}
-        backHref="/dashboard/tasks/review"
-        backLabel="Review"
+        backHref="/dashboard/tasks#in-review"
+        backLabel="Assignments"
       />
 
       <Card className="space-y-4">

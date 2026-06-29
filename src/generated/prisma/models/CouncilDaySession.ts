@@ -487,10 +487,6 @@ export type CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput = {
   deleteMany?: Prisma.CouncilDaySessionScalarWhereInput | Prisma.CouncilDaySessionScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type CouncilDaySessionCreateNestedOneWithoutCubEntriesInput = {
   create?: Prisma.XOR<Prisma.CouncilDaySessionCreateWithoutCubEntriesInput, Prisma.CouncilDaySessionUncheckedCreateWithoutCubEntriesInput>
   connectOrCreate?: Prisma.CouncilDaySessionCreateOrConnectWithoutCubEntriesInput

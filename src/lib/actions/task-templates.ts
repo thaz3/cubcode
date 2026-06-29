@@ -28,7 +28,7 @@ function revalidateTaskPaths() {
   revalidatePath("/dashboard/tasks");
   revalidatePath("/dashboard/tasks/library");
   revalidatePath("/dashboard/tasks/templates");
-  revalidatePath("/dashboard/tasks/review");
+  revalidatePath("/dashboard/tasks");
 }
 
 function parseTemplateFormData(

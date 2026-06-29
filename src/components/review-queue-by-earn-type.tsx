@@ -11,36 +11,10 @@ import {
   getTaskEarnType,
   type EarnType,
 } from "@/lib/earn-types";
+import type { ReviewQueueItem } from "@/lib/review-queue";
 import { cn } from "@/lib/utils";
 
-type ReviewTaskItem = {
-  kind: "task";
-  id: string;
-  title: string;
-  status: Parameters<typeof ReviewCard>[0]["task"]["status"];
-  proofType: Parameters<typeof ReviewCard>[0]["task"]["proofType"];
-  reflection: string | null;
-  submittedAt: Date | null;
-  cub: { id: string; displayName: string } | null;
-  focusActivityCardId: string | null;
-  trainingDeckId: string | null;
-  trainingDeckTitle: string | null;
-};
-
-type ReviewRoutineItem = {
-  kind: "routine";
-  log: Parameters<typeof ChallengeReviewCard>[0]["log"];
-};
-
-type ReviewGrowthPickItem = {
-  kind: "growth_pick";
-  completion: Parameters<typeof FocusDeckReviewCard>[0]["completion"];
-};
-
-export type ReviewQueueItem =
-  | ReviewTaskItem
-  | ReviewRoutineItem
-  | ReviewGrowthPickItem;
+export type { ReviewQueueItem } from "@/lib/review-queue";
 
 function getReviewItemEarnType(item: ReviewQueueItem): EarnType {
   if (item.kind === "routine") return "routine";

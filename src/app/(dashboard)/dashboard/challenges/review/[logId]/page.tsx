@@ -48,8 +48,8 @@ export default async function ReviewChallengeProgressPage({
       <PageHeader
         title={log.challenge.title}
         subtitle="Review routine check-in"
-        backHref="/dashboard/tasks/review"
-        backLabel="Review"
+        backHref="/dashboard/tasks#in-review"
+        backLabel="Assignments"
       />
 
       <div className="flex flex-wrap items-center gap-2">

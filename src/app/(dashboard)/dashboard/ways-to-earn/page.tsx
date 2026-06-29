@@ -1,16 +1,13 @@
-import { ParentAssignEarnPanel } from "@/components/parent-assign-earn-panel";
+import Link from "next/link";
 import { WaysToEarnSection } from "@/components/ways-to-earn-section";
+import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
-import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 export default async function ParentWaysToEarnPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
-
-  const family = await getFamilyForUser(session.user.id);
-  if (!family) redirect("/signup");
 
   return (
     <div className="space-y-8">
@@ -29,7 +26,9 @@ export default async function ParentWaysToEarnPage() {
           Start with an earn type, then complete the matching form.
         </p>
         <div className="mt-4">
-          <ParentAssignEarnPanel cubs={family.cubs} />
+          <Link href="/dashboard/tasks/assign">
+            <Button size="lg">Open assign work</Button>
+          </Link>
         </div>
       </section>
     </div>

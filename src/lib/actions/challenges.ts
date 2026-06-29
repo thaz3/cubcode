@@ -38,7 +38,7 @@ function revalidateChallengePaths(cubIds: string[]) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/tasks");
   revalidatePath("/dashboard/challenges");
-  revalidatePath("/dashboard/tasks/review");
+  revalidatePath("/dashboard/tasks");
   for (const cubId of uniqueCubIds) {
     revalidatePath(`/cub/${cubId}`);
     revalidatePath(`/cub/${cubId}/challenges`);

@@ -13,6 +13,7 @@ export type TaskScheduleInput = {
   claimedAt: Date | string | null;
   dueAt: Date | string | null;
   dueAtHasTime?: boolean;
+  submittedAt?: Date | string | null;
   status: TaskStatus;
   createdAt: Date | string;
 };

@@ -129,3 +129,10 @@ export function groupAssignmentRoutines(
     }))
     .sort((a, b) => a.title.localeCompare(b.title));
 }
+
+/** Unique routine definitions (same title/schedule/proof grouped across Cubs). */
+export function countGroupedAssignmentRoutines(
+  routines: AssignmentRoutine[],
+): number {
+  return groupAssignmentRoutines(routines).length;
+}

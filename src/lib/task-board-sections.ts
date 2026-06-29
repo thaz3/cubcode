@@ -7,6 +7,24 @@ export type TaskBoardSectionId =
   | "in-review"
   | "completed";
 
+/** Hash targets for the assignments board pill nav + dropdown sections. */
+export const TASK_BOARD_HASH_SECTIONS = [
+  "library",
+  "waiting-to-start",
+  "routines",
+  "active",
+  "in-review",
+  "completed",
+] as const;
+
+export type TaskBoardHashSection = (typeof TASK_BOARD_HASH_SECTIONS)[number];
+
+export function isTaskBoardHashSection(
+  value: string,
+): value is TaskBoardHashSection {
+  return (TASK_BOARD_HASH_SECTIONS as readonly string[]).includes(value);
+}
+
 export const TASK_BOARD_SECTIONS: Array<{
   id: TaskBoardSectionId;
   title: string;
@@ -15,14 +33,14 @@ export const TASK_BOARD_SECTIONS: Array<{
 }> = [
   {
     id: "assigned",
-    title: "Assigned",
-    description: "In your library waiting for a Cub, or assigned and waiting to start.",
+    title: "Waiting to start",
+    description: "Assigned to a Cub — they have not started yet.",
     statuses: ["CLAIMED"],
   },
   {
     id: "active",
-    title: "Active Tasks",
-    description: "Work in progress — not yet submitted for review.",
+    title: "In progress",
+    description: "Cubs are working on these now.",
     statuses: ["IN_PROGRESS", "SENT_BACK"],
   },
   {
@@ -64,14 +82,17 @@ export function partitionLibraryTasks(tasks: TaskWithCub[]) {
   return tasks.filter((task) => task.status === "AVAILABLE");
 }
 
-export function getTaskBoardSectionCounts(tasks: TaskWithCub[]) {
+export function getTaskBoardSectionCounts(
+  tasks: TaskWithCub[],
+  pendingReviewTotal?: number,
+) {
   const { assigned, active, inReview, completed } =
     partitionTasksByBoardSection(tasks);
 
   return {
     assigned: assigned.length,
     active: active.length,
-    "in-review": inReview.length,
+    "in-review": pendingReviewTotal ?? inReview.length,
     completed: completed.length,
   };
 }

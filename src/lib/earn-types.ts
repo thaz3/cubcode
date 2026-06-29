@@ -38,7 +38,7 @@ export const EARN_TYPE_META: Record<EarnType, EarnTypeMeta> = {
     cardAccentClass: "from-sky-950/50 to-cub-charcoal",
     ctaLabel: "View routines",
     cubCtaLabel: "View routines",
-    parentCtaHref: "/dashboard/tasks?kind=routine",
+    parentCtaHref: "/dashboard/tasks/assign?kind=routine",
     cubCtaHref: (cubId) => `/cub/${cubId}/challenges`,
   },
   task: {
@@ -59,7 +59,7 @@ export const EARN_TYPE_META: Record<EarnType, EarnTypeMeta> = {
     cardAccentClass: "from-cub-gold/20 to-cub-charcoal",
     ctaLabel: "Assign a task",
     cubCtaLabel: "View tasks",
-    parentCtaHref: "/dashboard/tasks?kind=task",
+    parentCtaHref: "/dashboard/tasks/assign?kind=task",
     cubCtaHref: (cubId) => `/cub/${cubId}/challenges#assignments`,
   },
   growth_pick: {
