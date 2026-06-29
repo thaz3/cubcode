@@ -1,11 +1,17 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 import { AuthError } from "next-auth";
 import { clearParentUnlockCookie } from "@/lib/parent-pin";
 import { signIn, signOut } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { loginSchema, signupSchema } from "@/lib/validations/auth";
+import { requireUserId } from "@/lib/session";
+import {
+  accountSettingsSchema,
+  loginSchema,
+  signupSchema,
+} from "@/lib/validations/auth";
 
 export type ActionState = {
   error?: string;
@@ -94,4 +100,56 @@ export async function loginAction(
 export async function logoutAction() {
   await clearParentUnlockCookie();
   await signOut({ redirectTo: "/" });
+}
+
+export async function updateAccountSettingsAction(
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const userId = await requireUserId();
+
+  const user = await db.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    return { error: "Account not found." };
+  }
+
+  const parsed = accountSettingsSchema.safeParse({
+    name: formData.get("name"),
+    currentPassword: formData.get("currentPassword") || undefined,
+    newPassword: formData.get("newPassword") || undefined,
+    confirmPassword: formData.get("confirmPassword") || undefined,
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
+  }
+
+  const wantsPasswordChange = Boolean(parsed.data.newPassword?.trim());
+
+  if (wantsPasswordChange) {
+    const currentPassword = parsed.data.currentPassword ?? "";
+    const valid = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!valid) {
+      return { error: "Current password is incorrect." };
+    }
+  }
+
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      name: parsed.data.name,
+      ...(wantsPasswordChange && parsed.data.newPassword
+        ? { passwordHash: await bcrypt.hash(parsed.data.newPassword, 12) }
+        : {}),
+    },
+  });
+
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/family/settings");
+
+  return {
+    success: wantsPasswordChange
+      ? "Account and password saved."
+      : "Account saved.",
+  };
 }

@@ -12,6 +12,26 @@ const credentialsSchema = z.object({
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
+  callbacks: {
+    ...authConfig.callbacks,
+    session: async ({ session, token }) => {
+      if (session.user && token.id) {
+        session.user.id = token.id as string;
+
+        const user = await db.user.findUnique({
+          where: { id: token.id as string },
+          select: { email: true, name: true },
+        });
+
+        if (user) {
+          session.user.email = user.email;
+          session.user.name = user.name;
+        }
+      }
+
+      return session;
+    },
+  },
   providers: [
     Credentials({
       credentials: {

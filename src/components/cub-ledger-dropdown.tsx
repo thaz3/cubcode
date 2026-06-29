@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+  FOCUS_TOKEN_REASON_LABELS,
   LEDGER_REASON_LABELS,
   TASK_HISTORY_LABEL,
   formatLedgerAmount,
@@ -100,7 +101,12 @@ function CubLedgerDropdownItem({
   const reasonLabel =
     entry.ledgerType === "phone" && entry.reason in PHONE_REASON_LABELS
       ? PHONE_REASON_LABELS[entry.reason as keyof typeof PHONE_REASON_LABELS]
-      : LEDGER_REASON_LABELS[entry.reason];
+      : entry.ledgerType === "focusToken" &&
+          entry.reason in FOCUS_TOKEN_REASON_LABELS
+        ? FOCUS_TOKEN_REASON_LABELS[
+            entry.reason as keyof typeof FOCUS_TOKEN_REASON_LABELS
+          ]
+        : LEDGER_REASON_LABELS[entry.reason];
   const createdAt = new Date(entry.createdAt);
   const href = getLedgerEntryHref(entry, cubId);
 

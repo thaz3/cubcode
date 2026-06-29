@@ -14,6 +14,10 @@ export const LEDGER_REASON_LABELS: Record<LedgerReason, string> = {
   COUNCIL_DAY: `${FAMILY_DAY_LABEL} bonus`,
 };
 
+export const FOCUS_TOKEN_REASON_LABELS: Partial<Record<LedgerReason, string>> = {
+  PARENT_ADJUSTMENT: "Offline token deal",
+};
+
 export function formatLedgerAmount(amount: number, unit: string): string {
   const prefix = amount > 0 ? "+" : "";
   return `${prefix}${amount} ${unit}`;

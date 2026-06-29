@@ -1,3 +1,4 @@
+import { OfflineTokenDealForm } from "@/components/offline-token-deal-form";
 import { CreateRewardStoreItemForm } from "@/components/create-reward-store-item-form";
 import { ParentRewardRequestsSection } from "@/components/parent-reward-requests-section";
 import { RewardStoreRedeemPanel } from "@/components/reward-store-redeem-panel";
@@ -44,10 +45,21 @@ export default async function RewardsPage() {
     <div className="space-y-6">
       <PageHeader
         title="Rewards"
-        subtitle="Approve Cub requests or redeem Focus Tokens yourself."
+        subtitle="Record offline token deals, approve Cub requests, or redeem from the store."
         backHref="/dashboard"
         backLabel="Home"
       />
+
+      <Card>
+        <h2 className="text-lg font-semibold">Offline token deal</h2>
+        <p className="mt-1 text-sm text-zinc-500">
+          Log agreements you made in person — chores for tokens, or tokens traded
+          for privileges like a later curfew.
+        </p>
+        <div className="mt-4">
+          <OfflineTokenDealForm cubs={tokenBalances} />
+        </div>
+      </Card>
 
       <ParentRewardRequestsSection requests={pendingRequests} />
 

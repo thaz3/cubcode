@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AccountSettingsForm } from "@/components/account-settings-form";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
@@ -27,6 +28,15 @@ export default async function FamilySettingsPage() {
     redirect("/signup");
   }
 
+  const account = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { email: true, name: true },
+  });
+
+  if (!account) {
+    redirect("/login");
+  }
+
   const hasPin = Boolean(family.parentPinHash);
 
   await ensureDefaultGuardianNudgeRules(family.id, session.user.id);
@@ -51,10 +61,29 @@ export default async function FamilySettingsPage() {
     <div className="space-y-6">
       <PageHeader
         title="Settings"
-        subtitle={`Protected by your parent PIN. Household rules and ${SMALL_REMINDERS_LABEL} live here.`}
+        subtitle="Your parent account, household rules, and reminders."
         backHref="/dashboard"
         backLabel="Home"
       />
+
+      <AccountSettingsForm
+        initialValues={{
+          email: account.email,
+          name: account.name ?? "",
+        }}
+      />
+
+      <CollapsibleSection
+        title="Integrations"
+        summary="Screen Time, Family Link, and device controls — not available yet"
+        defaultOpen={false}
+      >
+        <p className="text-sm text-zinc-400">
+          C.U.B. Code does not connect to Apple Screen Time, Google Family
+          Link, or other device managers in this MVP. Earned phone time is
+          tracked in the app for your household to honor together.
+        </p>
+      </CollapsibleSection>
 
       {!hasPin ? (
         <Card>

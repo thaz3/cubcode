@@ -8,7 +8,6 @@ export const DASHBOARD_CORE_NAV_ITEMS = [
 ] as const;
 
 export const DASHBOARD_EXTENDED_NAV_ITEMS = [
-  { href: "/dashboard/rewards", label: "Rewards" },
   { href: "/dashboard/week", label: "This week" },
 ] as const;
 
@@ -21,12 +20,21 @@ export const DASHBOARD_PRIMARY_NAV_ITEMS = [
 /** Mobile bottom bar — core links only; extended links live in More. */
 export const DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS = DASHBOARD_CORE_NAV_ITEMS;
 
-export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [
+export const DASHBOARD_MORE_ACCOUNT_NAV_ITEMS = [
+  { href: "/dashboard/rewards", label: "Rewards" },
+  { href: "/dashboard/family/settings", label: "Settings" },
+] as const;
+
+export const DASHBOARD_MORE_EXPLORE_NAV_ITEMS = [
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
   { href: "/dashboard/ways-to-earn", label: "Ways to Earn" },
   { href: "/dashboard/focus-deck", label: "Growth Picks" },
   { href: "/dashboard/tasks/templates", label: "Training Path" },
-  { href: "/dashboard/family/settings", label: "Settings" },
+] as const;
+
+export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [
+  ...DASHBOARD_MORE_ACCOUNT_NAV_ITEMS,
+  ...DASHBOARD_MORE_EXPLORE_NAV_ITEMS,
 ] as const;
 
 /** Mobile More sheet — extended + settings links. */
@@ -64,6 +72,12 @@ export function isDashboardNavActive(pathname: string, href: string): boolean {
 }
 
 export function isDashboardMoreNavActive(pathname: string): boolean {
+  return DASHBOARD_MORE_ONLY_NAV_ITEMS.some((item) =>
+    isDashboardNavActive(pathname, item.href),
+  );
+}
+
+export function isDashboardMobileMoreNavActive(pathname: string): boolean {
   return DASHBOARD_MOBILE_MORE_NAV_ITEMS.some((item) =>
     isDashboardNavActive(pathname, item.href),
   );

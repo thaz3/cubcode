@@ -42,6 +42,8 @@ export default async function DashboardLayout({
       <DashboardNav
         pendingReviewCount={pendingReviewCount}
         guardianNudgeCount={guardianNudgeCount}
+        userName={session.user.name}
+        userEmail={session.user.email}
       />
       <main className="mx-auto max-w-4xl px-4 py-6 pb-nav-safe lg:py-8">
         {children}
@@ -49,6 +51,8 @@ export default async function DashboardLayout({
       <MobileNav
         pendingReviewCount={pendingReviewCount}
         guardianNudgeCount={guardianNudgeCount}
+        userName={session.user.name}
+        userEmail={session.user.email}
       />
     </div>
   );

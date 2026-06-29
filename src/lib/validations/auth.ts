@@ -11,6 +11,49 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const accountSettingsSchema = z
+  .object({
+    name: z.string().trim().min(1, "Name is required").max(100),
+    currentPassword: z.string().optional(),
+    newPassword: z.string().optional(),
+    confirmPassword: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    const wantsPasswordChange = Boolean(
+      data.currentPassword?.trim() ||
+        data.newPassword?.trim() ||
+        data.confirmPassword?.trim(),
+    );
+
+    if (!wantsPasswordChange) {
+      return;
+    }
+
+    if (!data.currentPassword?.trim()) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Enter your current password to change it",
+        path: ["currentPassword"],
+      });
+    }
+
+    if (!data.newPassword?.trim() || data.newPassword.length < 8) {
+      ctx.addIssue({
+        code: "custom",
+        message: "New password must be at least 8 characters",
+        path: ["newPassword"],
+      });
+    }
+
+    if (data.newPassword !== data.confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "New passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
+
 export const familySettingsSchema = z.object({
   name: z.string().trim().max(100).optional(),
   dailyPhoneCapMinutes: z.coerce

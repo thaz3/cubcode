@@ -5,9 +5,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { logoutAction } from "@/lib/actions/auth";
 import {
-  DASHBOARD_MOBILE_MORE_NAV_ITEMS,
+  DASHBOARD_EXTENDED_NAV_ITEMS,
   DASHBOARD_MOBILE_PRIMARY_NAV_ITEMS,
-  isDashboardMoreNavActive,
+  DASHBOARD_MORE_ACCOUNT_NAV_ITEMS,
+  DASHBOARD_MORE_EXPLORE_NAV_ITEMS,
+  isDashboardMobileMoreNavActive,
   isDashboardNavActive,
 } from "@/lib/dashboard-nav-items";
 import { cn } from "@/lib/utils";
@@ -16,15 +18,21 @@ import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
 type MobileNavProps = {
   pendingReviewCount?: number;
   guardianNudgeCount?: number;
+  userName?: string | null;
+  userEmail?: string | null;
 };
 
 export function MobileNav({
   pendingReviewCount = 0,
   guardianNudgeCount = 0,
+  userName,
+  userEmail,
 }: MobileNavProps) {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
-  const moreActive = isDashboardMoreNavActive(pathname);
+  const moreActive = isDashboardMobileMoreNavActive(pathname);
+  const displayName = userName?.trim() || "Parent";
+  const email = userEmail?.trim() || "";
 
   useEffect(() => {
     setMoreOpen(false);
@@ -50,21 +58,43 @@ export function MobileNav({
           role="menu"
           aria-label="More navigation"
         >
-          {DASHBOARD_MOBILE_MORE_NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              role="menuitem"
-              className={cn(
-                "block rounded-lg px-4 py-3 text-sm font-medium transition hover:bg-zinc-800",
-                isDashboardNavActive(pathname, item.href)
-                  ? "text-cub-gold"
-                  : "text-zinc-200",
+          <Link
+            href="/dashboard/family/settings"
+            className="mx-1 mb-2 flex items-center gap-3 rounded-xl border border-cub-off-white/10 bg-cub-charcoal/80 px-3 py-3"
+          >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cub-gold-muted text-sm font-bold text-cub-gold-light">
+              {getInitials(displayName)}
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-semibold text-cub-off-white">
+                {displayName}
+              </span>
+              {email ? (
+                <span className="block truncate text-xs text-cub-muted">{email}</span>
+              ) : (
+                <span className="block text-xs text-cub-muted">Signed in</span>
               )}
-            >
-              {item.label}
-            </Link>
+            </span>
+          </Link>
+
+          {DASHBOARD_EXTENDED_NAV_ITEMS.map((item) => (
+            <MobileMoreLink key={item.href} item={item} pathname={pathname} />
           ))}
+
+          <p className="px-4 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-cub-muted">
+            Account
+          </p>
+          {DASHBOARD_MORE_ACCOUNT_NAV_ITEMS.map((item) => (
+            <MobileMoreLink key={item.href} item={item} pathname={pathname} />
+          ))}
+
+          <p className="px-4 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-cub-muted">
+            Explore
+          </p>
+          {DASHBOARD_MORE_EXPLORE_NAV_ITEMS.map((item) => (
+            <MobileMoreLink key={item.href} item={item} pathname={pathname} />
+          ))}
+
           <div className="my-1 border-t border-cub-off-white/10" />
           <form action={logoutAction}>
             <button
@@ -139,4 +169,34 @@ export function MobileNav({
       </nav>
     </>
   );
+}
+
+function MobileMoreLink({
+  item,
+  pathname,
+}: {
+  item: { href: string; label: string };
+  pathname: string;
+}) {
+  return (
+    <Link
+      href={item.href}
+      role="menuitem"
+      className={cn(
+        "block rounded-lg px-4 py-3 text-sm font-medium transition hover:bg-zinc-800",
+        isDashboardNavActive(pathname, item.href)
+          ? "text-cub-gold"
+          : "text-zinc-200",
+      )}
+    >
+      {item.label}
+    </Link>
+  );
+}
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "P";
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return `${parts[0]![0] ?? ""}${parts[1]![0] ?? ""}`.toUpperCase();
 }
