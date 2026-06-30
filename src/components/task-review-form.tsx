@@ -10,13 +10,16 @@ import {
   sendBackTaskAction,
 } from "@/lib/actions/tasks";
 import { cn } from "@/lib/utils";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type TaskReviewFormProps = {
   taskId: string;
 };
 
 export function TaskReviewForm({ taskId }: TaskReviewFormProps) {
+  const router = useRouter();
   const [approveState, approveAction, approvePending] = useActionState(
     approveTaskAction,
     {} as ActionState,
@@ -37,6 +40,43 @@ export function TaskReviewForm({ taskId }: TaskReviewFormProps) {
     approveState.error ||
     rejectState.error ||
     sendBackState.error;
+
+  const reviewed = Boolean(
+    approveState.success || rejectState.success || sendBackState.success,
+  );
+
+  useEffect(() => {
+    if (reviewed) {
+      router.refresh();
+    }
+  }, [reviewed, router]);
+
+  if (reviewed) {
+    return (
+      <div className="space-y-4">
+        <p
+          className={cn(
+            "text-sm",
+            message &&
+              (message.includes("approved") ||
+              message.includes("sent back") ||
+              message.includes("rejected") ||
+              message.includes("already reviewed"))
+              ? cubSuccessText
+              : cubErrorText,
+          )}
+        >
+          {message}
+        </p>
+        <Link
+          href="/dashboard/tasks#in-review"
+          className="inline-block text-sm font-medium text-cub-gold"
+        >
+          Back to assignments
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

@@ -8,12 +8,14 @@ import {
 import { CubThisWeekSummarySection } from "@/components/cub-this-week-summary-section";
 import { CubNextStepSection } from "@/components/cub-next-step-section";
 import { CubTodaysMissionsSection } from "@/components/cub-todays-missions-section";
+import { CubTrainingPathAssignmentsSection } from "@/components/cub-training-path-assignments-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { getCubNextAction } from "@/lib/cub-next-action";
 import { getWeekStart } from "@/lib/council-day";
 import { CUB_PAGE_EMOJI } from "@/lib/cub-kid-theme";
+import { getCubTrainingPathAssignments } from "@/lib/cub-training-board-summary";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
 import { getDenOverviewData } from "@/lib/den-overview-data";
 import {
@@ -53,6 +55,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     weekSummary,
     ledger,
     denOverview,
+    trainingPath,
   ] = await Promise.all([
     db.task.findMany({
       where: {
@@ -76,6 +79,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     getCubWeekEarnSummary(familyId, cub.id, weekStartsOn),
     sumLedgerAmounts(cub.id),
     getDenOverviewData(familyId, cub, weekStartsOn),
+    getCubTrainingPathAssignments(familyId, cub.id),
   ]);
 
   const weekAssigned = filterTasksForCubWeekView(assignedTasks, weekStartsOn);
@@ -117,6 +121,12 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
       />
 
       <CubTodaysMissionsSection missions={missions} variant="compact" />
+
+      <CubTrainingPathAssignmentsSection
+        cubId={cubId}
+        assignments={trainingPath.assignments}
+        summary={trainingPath.summary}
+      />
 
       <CubNextStepSection action={nextAction} />
 

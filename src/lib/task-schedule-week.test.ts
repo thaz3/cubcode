@@ -95,6 +95,16 @@ describe("Cub week view carryover", () => {
     assert.equal(filtered.length, 0);
   });
 
+  it("hides completed tasks from the current week", () => {
+    const completed = task({
+      dueAt: new Date("2025-06-27T20:00:00"),
+      status: "COMPLETED",
+    });
+
+    const filtered = filterTasksForCubWeekView([completed], currentWeek, now);
+    assert.equal(filtered.length, 0);
+  });
+
   it("hides non-overdue future-week tasks", () => {
     const nextWeek = task({ dueAt: new Date("2025-06-30T23:59:59") });
 

@@ -208,6 +208,7 @@ function revalidateTaskPaths(cubId?: string | null) {
     revalidatePath(`/dashboard/cubs/${cubId}/tasks/completed`);
     revalidatePath(`/dashboard/cubs/${cubId}/progress`);
     revalidatePath(`/cub/${cubId}`);
+    revalidatePath(`/cub/${cubId}/challenges`);
     revalidatePath(`/cub/${cubId}/tasks`);
     revalidatePath(cubProgressPath(cubId));
     revalidatePath(`/cub/${cubId}/rewards`);
@@ -579,6 +580,13 @@ export async function approveTaskAction(
   }
 
   if (task.status !== "SUBMITTED") {
+    if (
+      task.status === "COMPLETED" ||
+      task.status === "APPROVED" ||
+      task.status === "REJECTED"
+    ) {
+      return { success: "Task already reviewed." };
+    }
     return { error: "Only submitted tasks can be approved." };
   }
 
@@ -588,28 +596,63 @@ export async function approveTaskAction(
 
   assertTransition(task.status, "APPROVED");
 
-  const creditResult = await db.$transaction(async (tx) => {
-    await tx.task.update({
-      where: { id: task.id },
-      data: {
-        status: "APPROVED",
-        reviewNote,
-        reviewedAt: new Date(),
-        reviewedByUserId: userId,
-      },
+  const reviewedAt = new Date();
+
+  let creditResult:
+    | Awaited<ReturnType<typeof creditApprovedTaskRewards>>
+    | { alreadyProcessed: true; penalizedForLateSubmission: false };
+
+  try {
+    creditResult = await db.$transaction(async (tx) => {
+      const claimed = await tx.task.updateMany({
+        where: {
+          id: task.id,
+          familyId: family.id,
+          status: "SUBMITTED",
+        },
+        data: {
+          status: "APPROVED",
+          reviewNote,
+          reviewedAt,
+          reviewedByUserId: userId,
+        },
+      });
+
+      if (claimed.count === 0) {
+        const current = await tx.task.findFirst({
+          where: { id: task.id, familyId: family.id },
+          select: { status: true },
+        });
+        if (
+          current?.status === "COMPLETED" ||
+          current?.status === "APPROVED" ||
+          current?.status === "REJECTED"
+        ) {
+          return {
+            alreadyProcessed: true as const,
+            penalizedForLateSubmission: false,
+          };
+        }
+        throw new Error("Task is no longer awaiting review.");
+      }
+
+      const result = await creditApprovedTaskRewards(task, userId, tx);
+
+      await tx.task.update({
+        where: { id: task.id },
+        data: { status: "COMPLETED" },
+      });
+
+      await spawnNextRecurringTask(
+        { ...task, reviewedAt, status: "COMPLETED" },
+        tx,
+      );
+
+      return result;
     });
-
-    const result = await creditApprovedTaskRewards(task, userId, tx);
-
-    await tx.task.update({
-      where: { id: task.id },
-      data: { status: "COMPLETED" },
-    });
-
-    await spawnNextRecurringTask(task, tx);
-
-    return result;
-  });
+  } catch {
+    return { error: "This task is no longer awaiting review." };
+  }
 
   await syncGuardianNudgesAfterTaskChange(family.id, {
     taskId: task.id,
@@ -627,6 +670,10 @@ export async function approveTaskAction(
     trainingDeckId: task.trainingDeckId,
     status: "COMPLETED",
   });
+
+  if ("alreadyProcessed" in creditResult && creditResult.alreadyProcessed) {
+    return { success: "Task already approved." };
+  }
 
   if (creditResult.penalizedForLateSubmission) {
     return {

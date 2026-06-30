@@ -296,12 +296,22 @@ export async function taskRewardsAlreadyCredited(
   taskId: string,
   client: LedgerClient = db,
 ) {
-  const existing = await client.xpLedgerEntry.findFirst({
-    where: { sourceTaskId: taskId },
-    select: { id: true },
-  });
+  const [xp, tokens, phone] = await Promise.all([
+    client.xpLedgerEntry.findFirst({
+      where: { sourceTaskId: taskId },
+      select: { id: true },
+    }),
+    client.focusTokenLedgerEntry.findFirst({
+      where: { sourceTaskId: taskId },
+      select: { id: true },
+    }),
+    client.phoneTimeLedgerEntry.findFirst({
+      where: { sourceTaskId: taskId },
+      select: { id: true },
+    }),
+  ]);
 
-  return Boolean(existing);
+  return Boolean(xp || tokens || phone);
 }
 
 export async function creditApprovedTaskRewards(

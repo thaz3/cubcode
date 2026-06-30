@@ -17,6 +17,21 @@ export async function spawnNextRecurringTask(
     return;
   }
 
+  const activeSuccessor = await client.task.findFirst({
+    where: {
+      familyId: completedTask.familyId,
+      cubId: completedTask.cubId,
+      id: { not: completedTask.id },
+      title: completedTask.title,
+      templateId: completedTask.templateId,
+      status: { in: ["CLAIMED", "IN_PROGRESS", "SENT_BACK", "SUBMITTED"] },
+    },
+    select: { id: true },
+  });
+  if (activeSuccessor) {
+    return;
+  }
+
   const config = parseRecurrenceConfigValue(completedTask.recurrenceConfig);
   const anchor = completedTask.dueAt ?? completedTask.reviewedAt ?? new Date();
   const nextDue = advanceDueDate(anchor, completedTask.recurrence, config);

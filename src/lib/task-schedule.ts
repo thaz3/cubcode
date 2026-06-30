@@ -370,14 +370,18 @@ export function filterTasksForWeek<T extends TaskScheduleInput>(
 }
 
 /**
- * Cub-facing week view: current-week tasks plus actionable carryover.
- * Does not affect parent dashboards or Small Reminders.
+ * Cub-facing week view: active tasks for the current week plus actionable carryover.
+ * Completed, rejected, and unassigned tasks are never shown.
  */
 export function isTaskVisibleOnCubWeekView(
   task: TaskScheduleInput,
   weekStart: Date,
   now = new Date(),
 ): boolean {
+  if (!ACTIVE_SCHEDULE_STATUSES.includes(task.status)) {
+    return false;
+  }
+
   if (taskBelongsToWeek(task, weekStart)) {
     return true;
   }

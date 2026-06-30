@@ -1,6 +1,7 @@
 import { MissionHashScroll } from "@/components/mission-hash-scroll";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
 import { CubTasksQuestSection } from "@/components/cub-tasks-quest-section";
+import { CubTrainingPathAssignmentsSection } from "@/components/cub-training-path-assignments-section";
 import { CubKidHero, CubKidPanel } from "@/components/cub-kid";
 import { CubKidSectionHeader } from "@/components/cub-kid/cub-kid-section-header";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -10,6 +11,8 @@ import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { formatChallengeInterval } from "@/lib/challenge-intervals";
 import { getWeekStart } from "@/lib/council-day";
+import { getCubTrainingPathAssignments } from "@/lib/cub-training-board-summary";
+import { getTaskEarnType } from "@/lib/earn-types";
 import { CUB_PAGE_EMOJI, cubKidGameCard, cubKidSectionEyebrow, KID_EARN_CARD } from "@/lib/cub-kid-theme";
 import { getCubRoutinesView } from "@/lib/cub-routines";
 import {
@@ -23,6 +26,7 @@ import {
   filterTasksForCubWeekView,
   sortTasksByUrgency,
 } from "@/lib/task-schedule";
+import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -40,17 +44,22 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
   const { cub, familyId } = await requireCubForUser(cubId, session.user.id);
   const weekStartsOn = getWeekStart();
 
-  const [routinesView, tasks, completedGrowth, availableGrowth] =
+  const [routinesView, tasks, completedGrowth, availableGrowth, trainingPath] =
     await Promise.all([
       getCubRoutinesView(familyId, cub.id),
       db.task.findMany({
-        where: { familyId, cubId: cub.id },
+        where: {
+          familyId,
+          cubId: cub.id,
+          status: { in: ACTIVE_CUB_STATUSES },
+        },
         include: {
           focusBlocks: { select: { durationMinutes: true } },
         },
       }),
       getCompletedGrowthCategoriesThisWeek(cub.id),
       getAvailableGrowthCategoriesForCub(cub),
+      getCubTrainingPathAssignments(familyId, cub.id),
     ]);
 
   const { dueToday, upcoming } = routinesView;
@@ -62,11 +71,14 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
     weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
   };
 
-  const assignmentTasks = sortTasksByUrgency(
+  const weekTasks = sortTasksByUrgency(
     filterTasksForCubWeekView(tasks, weekStartsOn),
   );
+  const assignmentTasks = weekTasks.filter(
+    (task) => getTaskEarnType(task) !== "training_path",
+  );
 
-  const activeFocusTasks = assignmentTasks
+  const activeFocusTasks = weekTasks
     .filter(
       (task) =>
         task.status === "IN_PROGRESS" && task.focusSessionStartedAt !== null,
@@ -78,14 +90,16 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
     }));
 
   const hasRoutines = dueToday.length > 0 || upcoming.length > 0;
-  const isEmpty = !hasRoutines && assignmentTasks.length === 0;
+  const hasTrainingPath =
+    trainingPath.assignments.length > 0 || trainingPath.summary.activeMilestone != null;
+  const isEmpty = !hasRoutines && assignmentTasks.length === 0 && !hasTrainingPath;
 
   return (
     <div id="assignments" className="scroll-mt-24 space-y-5">
       <MissionHashScroll />
       <CubKidHero
         title="Quest Board"
-        subtitle="Routines and one-time tasks — your daily adventure log!"
+        subtitle="Routines, Training Path quests, and one-time tasks — your daily adventure log!"
         emoji={CUB_PAGE_EMOJI.assignments}
         backHref={`/cub/${cubId}`}
         backLabel="Today"
@@ -157,6 +171,13 @@ export default async function CubAssignmentsPage({ params }: CubRoutinesPageProp
 
             <CubUpcomingRoutinesSection cubId={cubId} routines={upcoming} />
           </section>
+
+          <CubTrainingPathAssignmentsSection
+            cubId={cubId}
+            assignments={trainingPath.assignments}
+            summary={trainingPath.summary}
+            variant="quest-board"
+          />
 
           <CubTasksQuestSection
             cubId={cubId}

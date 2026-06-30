@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -35,10 +36,19 @@ export function ReviewCard({
   earnType = "task",
   trainingLevelTitle,
 }: ReviewCardProps) {
+  const router = useRouter();
   const [state, approveAction, pending] = useActionState(
     approveTaskAction,
     {} as ActionState,
   );
+
+  const approved = Boolean(state.success);
+
+  useEffect(() => {
+    if (state.success) {
+      router.refresh();
+    }
+  }, [state.success, router]);
 
   const reflectionSnippet = task.reflection
     ? task.reflection.length > 120
@@ -84,32 +94,34 @@ export function ReviewCard({
         ) : null}
       </div>
 
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <form action={approveAction} className="flex-1">
-          <input type="hidden" name="taskId" value={task.id} />
-          <Button
-            type="submit"
-            variant="constructive"
-            fullWidth
-            size="lg"
-            disabled={pending}
-          >
-            {pending ? "Approving…" : "Approve"}
-          </Button>
-        </form>
-        <Link
-          href={`/dashboard/tasks/review/${task.id}`}
-          className="flex-1"
-        >
-          <Button variant="neutral" fullWidth size="lg">
-            Full review
-          </Button>
-        </Link>
-      </div>
-
-      {state.success ? (
+      {approved ? (
         <p className={`text-sm ${cubSuccessText}`}>{state.success}</p>
-      ) : state.error ? (
+      ) : (
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <form action={approveAction} className="flex-1">
+            <input type="hidden" name="taskId" value={task.id} />
+            <Button
+              type="submit"
+              variant="constructive"
+              fullWidth
+              size="lg"
+              disabled={pending}
+            >
+              {pending ? "Approving…" : "Approve"}
+            </Button>
+          </form>
+          <Link
+            href={`/dashboard/tasks/review/${task.id}`}
+            className="flex-1"
+          >
+            <Button variant="neutral" fullWidth size="lg">
+              Full review
+            </Button>
+          </Link>
+        </div>
+      )}
+
+      {state.error ? (
         <p className={`text-sm ${cubErrorText}`}>{state.error}</p>
       ) : null}
     </Card>

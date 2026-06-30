@@ -3,7 +3,10 @@ import type { TrainingDeckBoardStatus } from "@/lib/training-board-progress";
 import {
   buildLatestTasksByCardId,
   countApprovedCardsForDeck,
+  getTrainingCardStatusFromTask,
   getTrainingDeckBoardStatus,
+  TRAINING_CARD_STATUS_LABELS,
+  type TrainingCardBoardStatus,
 } from "@/lib/training-board-progress";
 import {
   ensureTrainingBoardSeeded,
@@ -64,6 +67,91 @@ function buildCubTrainingBoardSummary(
     totalCards,
     activeMilestone,
   };
+}
+
+export type CubTrainingPathAssignment = {
+  taskId: string;
+  title: string;
+  deckTitle: string;
+  deckSlug: string;
+  milestoneNumber: number;
+  boardStatus: TrainingCardBoardStatus;
+  statusLabel: string;
+};
+
+const TRAINING_ASSIGNMENT_STATUS_PRIORITY: Record<TrainingCardBoardStatus, number> = {
+  NEEDS_WORK: 0,
+  ASSIGNED: 1,
+  SUBMITTED: 2,
+  NOT_STARTED: 3,
+  APPROVED: 4,
+};
+
+export async function getCubTrainingPathAssignments(
+  familyId: string,
+  cubId: string,
+): Promise<{
+  assignments: CubTrainingPathAssignment[];
+  summary: CubTrainingBoardSummary;
+}> {
+  await ensureTrainingBoardSeeded(familyId);
+
+  const [summary, tasks, decks] = await Promise.all([
+    getCubTrainingBoardSummary(familyId, cubId),
+    db.task.findMany({
+      where: {
+        familyId,
+        cubId,
+        focusActivityCardId: { not: null },
+        trainingDeckId: { not: null },
+        status: { in: ["CLAIMED", "IN_PROGRESS", "SUBMITTED", "SENT_BACK"] },
+      },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        focusActivityCardId: true,
+        trainingDeckId: true,
+        updatedAt: true,
+      },
+      orderBy: { updatedAt: "desc" },
+    }),
+    getTrainingDecksForFamily(familyId),
+  ]);
+
+  const tasksByCardId = buildLatestTasksByCardId(tasks);
+  const taskMeta = new Map(tasks.map((task) => [task.id, task]));
+  const deckById = new Map(decks.map((deck) => [deck.id, deck]));
+
+  const assignments: CubTrainingPathAssignment[] = [];
+
+  for (const task of tasksByCardId.values()) {
+    const meta = taskMeta.get(task.id);
+    if (!meta?.trainingDeckId) continue;
+
+    const deck = deckById.get(meta.trainingDeckId);
+    if (!deck) continue;
+
+    const boardStatus = getTrainingCardStatusFromTask(task);
+
+    assignments.push({
+      taskId: task.id,
+      title: meta.title,
+      deckTitle: deck.title,
+      deckSlug: deck.slug,
+      milestoneNumber: deck.milestoneNumber,
+      boardStatus,
+      statusLabel: TRAINING_CARD_STATUS_LABELS[boardStatus],
+    });
+  }
+
+  assignments.sort(
+    (a, b) =>
+      TRAINING_ASSIGNMENT_STATUS_PRIORITY[a.boardStatus] -
+      TRAINING_ASSIGNMENT_STATUS_PRIORITY[b.boardStatus],
+  );
+
+  return { assignments, summary };
 }
 
 export async function getCubTrainingBoardSummary(

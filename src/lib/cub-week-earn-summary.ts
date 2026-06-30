@@ -179,10 +179,10 @@ export async function getCubActiveMissions(
   );
 
   for (const task of activeWeekTasks) {
-    // CLAIMED = parent assigned but kid hasn't opened instructions yet — Next Step handles that.
-    if (task.status === "CLAIMED") continue;
-
     const earnType = getTaskEarnType(task);
+    // CLAIMED tasks and training path lessons surface on dedicated Today sections.
+    if (task.status === "CLAIMED" || earnType === "training_path") continue;
+
     missions.push({
       id: `task-${task.id}`,
       sourceId: task.id,
