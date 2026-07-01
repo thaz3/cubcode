@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 import { assertTransition, isTaskEditable } from "@/lib/task-transitions";
-import { cubRewardFields } from "@/lib/cub-task-fields";
+import { cubRewardFields, parseTaskRewardFieldsFromForm } from "@/lib/cub-task-fields";
 import {
   getTaskChecklistItems,
   parseChecklistFromForm,
@@ -196,6 +196,11 @@ export async function createAndAssignCustomTaskAction(
       return { error: "Cub not found in your family." };
     }
 
+    const rewards = parseTaskRewardFieldsFromForm(formData, cubRewardFields(cub));
+    if ("error" in rewards) {
+      return { error: rewards.error };
+    }
+
     await db.task.create({
       data: {
         familyId: family.id,
@@ -204,7 +209,7 @@ export async function createAndAssignCustomTaskAction(
         claimedAt: new Date(),
         isUrgent: parseIsUrgentFromFormData(formData),
         ...taskDefinition,
-        ...cubRewardFields(cub),
+        ...rewards,
         dueAt,
         dueAtHasTime: schedule.dueAtHasTime,
         recurrence: schedule.recurrence,
@@ -319,6 +324,10 @@ export async function assignTaskAction(
 
   const dueFields = getDueFieldsFromFormData(formData);
   const schedule = resolveRecurrenceScheduleFromForm(formData);
+  const rewards = parseTaskRewardFieldsFromForm(formData, cubRewardFields(cub));
+  if ("error" in rewards) {
+    return { error: rewards.error };
+  }
 
   await db.task.update({
     where: { id: task.id },
@@ -331,7 +340,7 @@ export async function assignTaskAction(
       dueAtHasTime: schedule.dueAtHasTime,
       recurrence: schedule.recurrence,
       recurrenceConfig: schedule.recurrenceConfig ?? undefined,
-      ...cubRewardFields(cub),
+      ...rewards,
     },
   });
 
@@ -963,6 +972,53 @@ export async function updateTaskAction(
   revalidatePath(`/dashboard/tasks/${taskId}`);
   revalidatePath(`/dashboard/tasks/${taskId}/edit`);
   return { success: "Task updated." };
+}
+
+const REWARD_EDITABLE_STATUSES = new Set([
+  "AVAILABLE",
+  "CLAIMED",
+  "IN_PROGRESS",
+  "SENT_BACK",
+  "SUBMITTED",
+]);
+
+export async function updateTaskRewardsAction(
+  taskId: string,
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const userId = await requireUserId();
+  const family = await requireFamilyForUser(userId);
+
+  const task = await getFamilyTask(taskId, family.id);
+  if (!task) {
+    return { error: "Task not found." };
+  }
+
+  if (!REWARD_EDITABLE_STATUSES.has(task.status)) {
+    return {
+      error: "Rewards cannot be changed after this task has been approved.",
+    };
+  }
+
+  const rewards = parseTaskRewardFieldsFromForm(formData);
+  if ("error" in rewards) {
+    return { error: rewards.error };
+  }
+
+  await db.task.update({
+    where: { id: task.id },
+    data: rewards,
+  });
+
+  revalidateTaskPaths(task.cubId);
+  revalidatePath(`/dashboard/tasks/${taskId}`);
+  revalidatePath(`/dashboard/tasks/${taskId}/edit`);
+  if (task.cubId) {
+    revalidatePath(`/dashboard/cubs/${task.cubId}/tasks`);
+  }
+
+  return { success: "Rewards updated." };
 }
 
 /** @deprecated Use updateTaskAction */

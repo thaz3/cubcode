@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AssignTaskToCubPanel } from "@/components/assign-task-to-cub-panel";
 import { CubColorBadge } from "@/components/cub-color-dot";
+import { TaskRewardsEditForm } from "@/components/task-rewards-edit-form";
 import { RequestSessionTimer } from "@/components/request-session-timer";
 import { ParentFocusSessionControls } from "@/components/parent-focus-session-controls";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -157,7 +158,8 @@ export default async function CubTasksPage({
                 {cub.displayName}&apos;s settings
               </h2>
               <p className="mt-1 text-sm text-cub-muted">
-                Default rewards for new tasks and household limits for this Cub.
+                Default rewards for newly assigned tasks. Customize per task when
+                assigning or from the task list below.
               </p>
               <p className="mt-2 text-sm text-cub-off-white/90">
                 Age band: {formatAgeBand(cub.ageBand)}
@@ -173,7 +175,7 @@ export default async function CubTasksPage({
                 label="Phone"
                 value={`${cub.phoneMinutesEarned} min`}
               />
-              <CubSettingsStat label="XP" value={String(cub.xpEarned)} />
+              <CubSettingsStat label="XP earned" value={String(cub.xpEarned)} />
               <CubSettingsStat
                 label="Tokens"
                 value={String(cub.focusTokensEarned)}
@@ -192,14 +194,13 @@ export default async function CubTasksPage({
             </div>
           </div>
 
-          <Link
-            href={`/dashboard/cubs/${cub.id}/edit`}
-            className="shrink-0 sm:pt-1"
-          >
-            <Button variant="reward" fullWidth className="sm:w-auto">
-              Edit Cub settings
-            </Button>
-          </Link>
+          <div className="flex shrink-0 flex-col gap-2 sm:pt-1">
+            <Link href={`/dashboard/cubs/${cub.id}/edit`}>
+              <Button variant="reward" fullWidth className="sm:w-auto">
+                Edit default rewards
+              </Button>
+            </Link>
+          </div>
         </div>
       </Card>
 
@@ -420,6 +421,21 @@ export default async function CubTasksPage({
                     Waiting for parent review.
                   </p>
                 ) : null}
+
+                {canEditTaskRewards(task.status) ? (
+                  <div className="mt-3">
+                    <TaskRewardsEditForm
+                      taskId={task.id}
+                      initialValues={{
+                        focusMinutesEarned: task.focusMinutesEarned,
+                        phoneMinutesEarned: task.phoneMinutesEarned,
+                        xpEarned: task.xpEarned,
+                        focusTokensEarned: task.focusTokensEarned,
+                      }}
+                      compact
+                    />
+                  </div>
+                ) : null}
               </Card>
               );
             })}
@@ -493,4 +509,8 @@ function formatSupervision(level: SupervisionLevel): string {
     INDEPENDENT: "Independent check-ins",
   };
   return labels[level];
+}
+
+function canEditTaskRewards(status: string): boolean {
+  return ["CLAIMED", "IN_PROGRESS", "SENT_BACK", "SUBMITTED"].includes(status);
 }

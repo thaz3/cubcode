@@ -1,6 +1,7 @@
 import { OfflineTokenDealForm } from "@/components/offline-token-deal-form";
 import { CreateRewardStoreItemForm } from "@/components/create-reward-store-item-form";
 import { ParentRewardRequestsSection } from "@/components/parent-reward-requests-section";
+import { RewardStoreManageSection } from "@/components/reward-store-manage-section";
 import { RewardStoreRedeemPanel } from "@/components/reward-store-redeem-panel";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
@@ -62,6 +63,17 @@ export default async function RewardsPage() {
       </Card>
 
       <ParentRewardRequestsSection requests={pendingRequests} />
+
+      <Card>
+        <h2 className="text-lg font-semibold">Your reward store</h2>
+        <p className="mt-1 text-sm text-zinc-500">
+          Edit titles, token costs, and what each reward grants. Deactivate items
+          to hide them from Cubs without deleting past redemptions.
+        </p>
+        <div className="mt-4">
+          <RewardStoreManageSection items={items} />
+        </div>
+      </Card>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>

@@ -10,6 +10,7 @@ import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import type { ParentAssignKind } from "@/components/parent-assign-earn-panel";
 import type { Cub, GrowthCategory } from "@/generated/prisma/client";
 import { parseParentAssignKind } from "@/lib/earn-types";
+import { cubRewardFields } from "@/lib/cub-task-fields";
 
 type AssignTaskToCubPanelProps = {
   cubId: string;
@@ -29,6 +30,8 @@ export function AssignTaskToCubPanel({
   defaultKind = "task",
 }: AssignTaskToCubPanelProps) {
   const hasLibraryTasks = libraryTasks.length > 0;
+  const cub = cubs.find((item) => item.id === cubId);
+  const defaultRewards = cub ? cubRewardFields(cub) : undefined;
 
   return (
     <div className="space-y-3">
@@ -55,9 +58,16 @@ export function AssignTaskToCubPanel({
               Pick a saved one-time task, set a schedule if needed, and assign it to{" "}
               {cubName}.
             </p>
-            {libraryTasks.map((task) => (
-              <CubLibraryAssignCard key={task.id} task={task} cubId={cubId} />
-            ))}
+            {defaultRewards
+              ? libraryTasks.map((task) => (
+                  <CubLibraryAssignCard
+                    key={task.id}
+                    task={task}
+                    cubId={cubId}
+                    defaultRewards={defaultRewards}
+                  />
+                ))
+              : null}
             <p className="text-xs text-zinc-500">
               <Link
                 href="/dashboard/tasks#library"

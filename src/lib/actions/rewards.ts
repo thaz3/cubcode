@@ -142,13 +142,7 @@ export async function createRewardStoreItemAction(
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
 
-  const parsed = rewardItemSchema.safeParse({
-    title: formData.get("title"),
-    description: formData.get("description") || undefined,
-    costFocusTokens: formData.get("costFocusTokens"),
-    grantType: formData.get("grantType") || "NONE",
-    minutesGranted: formData.get("minutesGranted") || undefined,
-  });
+  const parsed = parseRewardItemFormData(formData);
 
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
@@ -157,17 +151,107 @@ export async function createRewardStoreItemAction(
   await db.rewardStoreItem.create({
     data: {
       familyId: family.id,
-      title: parsed.data.title,
-      description: parsed.data.description,
-      costFocusTokens: parsed.data.costFocusTokens,
-      grantType: parsed.data.grantType,
-      minutesGranted:
-        parsed.data.grantType === "NONE" ? null : parsed.data.minutesGranted ?? null,
+      ...rewardItemUpdateData(parsed.data),
     },
   });
 
   revalidatePath("/dashboard/rewards");
   return { success: "Reward added to the store." };
+}
+
+function parseRewardItemFormData(formData: FormData) {
+  return rewardItemSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description") || undefined,
+    costFocusTokens: formData.get("costFocusTokens"),
+    grantType: formData.get("grantType") || "NONE",
+    minutesGranted: formData.get("minutesGranted") || undefined,
+  });
+}
+
+function rewardItemUpdateData(
+  data: z.infer<typeof rewardItemSchema>,
+): Pick<
+  RewardStoreItem,
+  "title" | "description" | "costFocusTokens" | "grantType" | "minutesGranted"
+> {
+  return {
+    title: data.title,
+    description: data.description ?? null,
+    costFocusTokens: data.costFocusTokens,
+    grantType: data.grantType,
+    minutesGranted:
+      data.grantType === "NONE" || data.grantType === "FOCUS_AREA_SWAP"
+        ? null
+        : data.minutesGranted ?? null,
+  };
+}
+
+function revalidateRewardStorePaths() {
+  revalidatePath("/dashboard/rewards");
+  revalidatePath("/dashboard");
+}
+
+export async function updateRewardStoreItemAction(
+  itemId: string,
+  _prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const userId = await requireUserId();
+  const family = await requireFamilyForUser(userId);
+
+  const item = await db.rewardStoreItem.findFirst({
+    where: { id: itemId, familyId: family.id },
+  });
+
+  if (!item) {
+    return { error: "Reward not found." };
+  }
+
+  const parsed = parseRewardItemFormData(formData);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
+  }
+
+  await db.rewardStoreItem.update({
+    where: { id: item.id },
+    data: rewardItemUpdateData(parsed.data),
+  });
+
+  revalidateRewardStorePaths();
+  for (const cub of family.cubs) {
+    revalidateRewardPaths(cub.id);
+  }
+
+  return { success: `"${parsed.data.title}" updated.` };
+}
+
+export async function setRewardStoreItemActiveAction(
+  itemId: string,
+  formData: FormData,
+): Promise<void> {
+  const userId = await requireUserId();
+  const family = await requireFamilyForUser(userId);
+
+  const item = await db.rewardStoreItem.findFirst({
+    where: { id: itemId, familyId: family.id },
+  });
+
+  if (!item) {
+    return;
+  }
+
+  const isActive = formData.get("isActive") === "true";
+
+  await db.rewardStoreItem.update({
+    where: { id: item.id },
+    data: { isActive },
+  });
+
+  revalidateRewardStorePaths();
+  for (const cub of family.cubs) {
+    revalidateRewardPaths(cub.id);
+  }
 }
 
 export async function requestRewardRedemptionAction(

@@ -15,6 +15,7 @@ import {
   parseParentAssignKind,
   type EarnType,
 } from "@/lib/earn-types";
+import { cubRewardFields } from "@/lib/cub-task-fields";
 import { NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
 import { touchDebug, logFormSubmit } from "@/lib/touch-debug";
 import { cn } from "@/lib/utils";
@@ -48,6 +49,10 @@ export function ParentAssignEarnPanel({
   const cubName = defaultCubId
     ? cubs.find((c) => c.id === defaultCubId)?.displayName
     : undefined;
+  const defaultCub = defaultCubId
+    ? cubs.find((c) => c.id === defaultCubId)
+    : undefined;
+  const defaultRewards = defaultCub ? cubRewardFields(defaultCub) : undefined;
   const useNativeControls = useTouchNativeControls();
 
   function selectKind(next: ParentAssignKind) {
@@ -150,6 +155,7 @@ export function ParentAssignEarnPanel({
             <CreateOneOffTaskForm
               cubs={cubs}
               defaultCubId={defaultCubId}
+              defaultRewards={defaultRewards}
               compact={compact}
             />
           )

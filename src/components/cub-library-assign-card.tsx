@@ -11,6 +11,8 @@ import type { ActionState } from "@/lib/actions/auth";
 import { assignTaskAction } from "@/lib/actions/tasks";
 import { formatProofType } from "@/lib/task-labels";
 import { formatTaskCategory } from "@/lib/task-categories";
+import { TaskRewardFields } from "@/components/task-reward-fields";
+import type { TaskRewardValues } from "@/lib/cub-task-fields";
 import type { GrowthCategory, TaskCategory, TaskProofType } from "@/generated/prisma/client";
 
 export type LibraryTaskOption = {
@@ -26,9 +28,14 @@ export type LibraryTaskOption = {
 type CubLibraryAssignCardProps = {
   task: LibraryTaskOption;
   cubId: string;
+  defaultRewards: TaskRewardValues;
 };
 
-export function CubLibraryAssignCard({ task, cubId }: CubLibraryAssignCardProps) {
+export function CubLibraryAssignCard({
+  task,
+  cubId,
+  defaultRewards,
+}: CubLibraryAssignCardProps) {
   const { state, formAction, isPending, onDueDateChange } = useDueDateFormAction(
     assignTaskAction,
     {} as ActionState,
@@ -64,6 +71,13 @@ export function CubLibraryAssignCard({ task, cubId }: CubLibraryAssignCardProps)
             <TaskRecurrenceField />
             <TaskUrgentField id={`library-urgent-${task.id}`} />
           </div>
+        </CollapsibleSection>
+
+        <CollapsibleSection
+          title="Rewards on approval"
+          summary={`${defaultRewards.focusMinutesEarned} focus min · ${defaultRewards.phoneMinutesEarned} phone min · ${defaultRewards.xpEarned} XP`}
+        >
+          <TaskRewardFields initialValues={defaultRewards} />
         </CollapsibleSection>
 
         <FormSubmitFooter
