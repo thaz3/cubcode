@@ -7,12 +7,14 @@ type RoutineCubAssignmentFieldsProps = {
   cubs: Array<{ id: string; displayName: string }>;
   defaultSelectedCubIds?: string[];
   groupMemberIds?: string[];
+  variant?: "routine" | "task";
 };
 
 export function RoutineCubAssignmentFields({
   cubs,
   defaultSelectedCubIds = [],
   groupMemberIds = [],
+  variant = "routine",
 }: RoutineCubAssignmentFieldsProps) {
   const selected = new Set(defaultSelectedCubIds);
 
@@ -21,8 +23,9 @@ export function RoutineCubAssignmentFields({
       <div>
         <legend className="text-sm font-medium text-cub-off-white">Assign to</legend>
         <p className="mt-1 text-xs text-cub-muted">
-          Select every Cub who should get this routine. You can add or remove kids
-          when editing.
+          {variant === "task"
+            ? "Select every Cub who should get this task. You can assign to more kids later from the library."
+            : "Select every Cub who should get this routine. You can add or remove kids when editing."}
         </p>
       </div>
 

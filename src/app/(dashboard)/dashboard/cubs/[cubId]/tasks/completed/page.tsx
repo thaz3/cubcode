@@ -9,7 +9,6 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
-import { formatTaskCategory } from "@/lib/task-categories";
 import { formatTaskRecurrence } from "@/lib/task-recurrence";
 import { PARENT_CUB_COMPLETED_STATUSES } from "@/lib/task-transitions";
 import { notFound, redirect } from "next/navigation";
@@ -79,11 +78,7 @@ export default async function CubCompletedTasksPage({
                     </p>
                   ) : null}
                   <p className="mt-1 text-sm text-zinc-500">
-                    {formatTaskCategory(task.category, {
-                      subcategory: task.subcategory,
-                      growthCategory: task.growthCategory,
-                    })}{" "}
-                    · {formatProofType(task.proofType)} · {formatTaskRewards(task)}
+                    {formatProofType(task.proofType)} · {formatTaskRewards(task)}
                     {formatTaskRecurrence(task.recurrence)
                       ? ` · ${formatTaskRecurrence(task.recurrence)}`
                       : ""}

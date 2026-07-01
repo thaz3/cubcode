@@ -76,9 +76,54 @@ export function selectableCubProofTypes(): readonly MvpCubProofType[] {
 
 export function checklistItemsToText(items: string[] | null | undefined): string {
   if (!items?.length) {
-    return DEFAULT_CHECKLIST_ITEMS.join("\n");
+    return "";
   }
   return items.join("\n");
+}
+
+function checklistItemsMatch(
+  items: readonly string[],
+  expected: readonly string[],
+): boolean {
+  return (
+    items.length === expected.length &&
+    items.every((item, index) => item === expected[index])
+  );
+}
+
+/** Generic starter checklist copied from the parent form without customization. */
+export function isDefaultChecklistItems(items: readonly string[]): boolean {
+  return checklistItemsMatch(items, DEFAULT_CHECKLIST_ITEMS);
+}
+
+export function normalizeChecklistItemsForStorage(
+  items: string[] | null | undefined,
+): string[] | undefined {
+  if (!items?.length) {
+    return undefined;
+  }
+  if (isDefaultChecklistItems(items)) {
+    return undefined;
+  }
+  return items;
+}
+
+export function getCubVisibleChecklistItems(items: readonly string[]): string[] {
+  if (isDefaultChecklistItems(items)) {
+    return [];
+  }
+  return [...items];
+}
+
+/** Proof UI Cubs should use (drops checklist style when no real checklist was configured). */
+export function resolveCubProofSubmissionType(
+  proofType: TaskProofType,
+  checklistItems: readonly string[],
+): TaskProofType {
+  if (proofType === "CHECKLIST" && getCubVisibleChecklistItems(checklistItems).length === 0) {
+    return "PARENT_APPROVAL";
+  }
+  return proofType;
 }
 
 export function formatTaskRewards(
@@ -116,4 +161,47 @@ export function defaultProofPrompt(proofType: CubProofType): string {
     default:
       return "";
   }
+}
+
+/** Parent-form placeholder text that should not be saved or shown to Cubs. */
+export function isParentHelperProofPrompt(
+  proofType: TaskProofType,
+  proofPrompt: string | null | undefined,
+): boolean {
+  if (proofType !== "PARENT_APPROVAL") {
+    return false;
+  }
+  const trimmed = proofPrompt?.trim();
+  if (!trimmed) {
+    return false;
+  }
+  return trimmed === defaultProofPrompt("PARENT_APPROVAL");
+}
+
+export function normalizeProofPromptForStorage(
+  proofType: TaskProofType,
+  proofPrompt: string | null | undefined,
+): string | null {
+  const trimmed = proofPrompt?.trim();
+  if (!trimmed) {
+    return null;
+  }
+  if (isParentHelperProofPrompt(proofType, trimmed)) {
+    return null;
+  }
+  if (
+    proofType === "CHECKLIST" &&
+    trimmed === defaultProofPrompt("CHECKLIST")
+  ) {
+    return null;
+  }
+  return trimmed;
+}
+
+/** Proof prompt text Cubs should see (excludes unfilled parent placeholders). */
+export function getCubVisibleProofPrompt(
+  proofType: TaskProofType,
+  proofPrompt: string | null | undefined,
+): string | null {
+  return normalizeProofPromptForStorage(proofType, proofPrompt);
 }

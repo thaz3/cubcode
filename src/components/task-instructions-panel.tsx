@@ -1,5 +1,9 @@
 import { ChecklistItemContent } from "@/components/checklist-item-content";
-import { formatProofType } from "@/lib/task-labels";
+import {
+  formatProofType,
+  getCubVisibleChecklistItems,
+  getCubVisibleProofPrompt,
+} from "@/lib/task-labels";
 import { getTaskChecklistItems } from "@/lib/tasks";
 import type { Task, TaskProofType } from "@/generated/prisma/client";
 
@@ -11,23 +15,15 @@ type TaskInstructionsPanelProps = {
 };
 
 export function TaskInstructionsPanel({ task }: TaskInstructionsPanelProps) {
-  const checklistItems = getTaskChecklistItems(task);
+  const checklistItems = getCubVisibleChecklistItems(getTaskChecklistItems(task));
+  const visiblePrompt = getCubVisibleProofPrompt(task.proofType, task.proofPrompt);
   const hasContent =
     Boolean(task.description?.trim()) ||
-    Boolean(task.proofPrompt?.trim()) ||
+    Boolean(visiblePrompt) ||
     (task.proofType === "CHECKLIST" && checklistItems.length > 0);
 
   if (!hasContent) {
-    return (
-      <div className="rounded-xl border border-cub-green/30 bg-cub-green-muted px-4 py-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-cub-green-light">
-          Instructions
-        </p>
-        <p className="mt-2 text-sm text-zinc-400">
-          No extra instructions — do the task, then submit when you&apos;re done.
-        </p>
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -40,13 +36,13 @@ export function TaskInstructionsPanel({ task }: TaskInstructionsPanelProps) {
         <p className="whitespace-pre-wrap text-sm text-zinc-200">{task.description}</p>
       ) : null}
 
-      {task.proofPrompt ? (
+      {visiblePrompt ? (
         <div>
           <p className="text-xs font-medium text-zinc-500">
             {proofInstructionLabel(task.proofType)}
           </p>
           <p className="mt-1 whitespace-pre-wrap text-sm text-zinc-300">
-            {task.proofPrompt}
+            {visiblePrompt}
           </p>
         </div>
       ) : null}

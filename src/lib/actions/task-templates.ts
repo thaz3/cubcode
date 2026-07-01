@@ -18,6 +18,10 @@ import { resolveRecurrenceScheduleFromForm } from "@/lib/task-recurrence";
 import type { TaskRecurrence } from "@/generated/prisma/client";
 import type { TaskRecurrenceConfig } from "@/lib/task-recurrence-config";
 import { syncGuardianNudgesForFamily } from "@/lib/guardian-nudges/sync";
+import {
+  normalizeChecklistItemsForStorage,
+  normalizeProofPromptForStorage,
+} from "@/lib/task-labels";
 import type { ActionState } from "@/lib/actions/auth";
 import type { z } from "zod";
 
@@ -74,8 +78,12 @@ function templateSettingsData(parsed: ParsedTemplate, formData: FormData) {
         ? null
         : parsed.growthCategory ?? null,
     proofType: parsed.proofType,
-    proofPrompt: parsed.proofPrompt || null,
-    proofChecklistItems: parsed.proofChecklistItems ?? undefined,
+    proofPrompt: normalizeProofPromptForStorage(
+      parsed.proofType,
+      parsed.proofPrompt,
+    ),
+    proofChecklistItems:
+      normalizeChecklistItemsForStorage(parsed.proofChecklistItems) ?? undefined,
     recurrence: schedule.recurrence,
     recurrenceConfig: schedule.recurrenceConfig ?? undefined,
   };
@@ -218,7 +226,11 @@ export async function createTaskFromTemplateAction(
     revalidatePath(`/dashboard/cubs/${cubId}/tasks/completed`);
   }
 
-  return { success: cubId ? "Task assigned to Cub." : "Task saved to library." };
+  return {
+    success: cub
+      ? `"${template.title}" was assigned to ${cub.displayName}. It is now on their task board.`
+      : `"${template.title}" was saved to the task library.`,
+  };
 }
 
 export async function assignTemplateToCubAction(

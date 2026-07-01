@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { growthCategorySchema } from "@/lib/unified-growth-areas";
 
 export const signupSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -130,7 +131,7 @@ export const cubSchema = z.object({
     .max(1440),
   supervisionLevel: z.enum(["DIRECT", "NEARBY", "INDEPENDENT"]),
   requiredGrowthCategories: z
-    .array(z.enum(["CHARACTER", "WELLNESS", "CREATIVITY", "RESPONSIBILITY", "COMMUNITY"]))
+    .array(growthCategorySchema)
     .min(1, "Pick at least one growth area"),
 });
 

@@ -27,6 +27,7 @@ export type ActiveMission = {
   title: string;
   href: string;
   statusLabel?: string;
+  isMarkedUrgent?: boolean;
 };
 
 /** @deprecated Use ActiveMission */
@@ -150,6 +151,7 @@ export async function getCubActiveMissions(
         dueAtHasTime: true,
         claimedAt: true,
         createdAt: true,
+        isUrgent: true,
       },
     }),
     getCubRoutinesDueToday(familyId, cubId),
@@ -190,6 +192,7 @@ export async function getCubActiveMissions(
       title: task.title,
       href: getCubMissionHref(cubId, { earnType, sourceId: task.id }),
       statusLabel: formatMissionStatus(task.status),
+      isMarkedUrgent: task.isUrgent,
     });
   }
 

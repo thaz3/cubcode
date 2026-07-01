@@ -62,7 +62,7 @@ export const AGE_BAND_DEFAULTS: Record<AgeBand, AgeBandDefaults> = {
     focusBlockMinutes: 30,
     proofStyle: "SHORT_REFLECTION",
     proofStyleLabel: PROOF_STYLE_LABELS.SHORT_REFLECTION,
-    suggestedDailyPhoneCapMinutes: 60,
+    suggestedDailyPhoneCapMinutes: 120,
     suggestedWeekendBankCapMinutes: 120,
     suggestedExchangeFocusMinutes: 30,
     suggestedExchangePhoneMinutes: 15,

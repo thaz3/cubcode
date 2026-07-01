@@ -19,13 +19,7 @@ import { getCategorySuggestions } from "@/lib/task-categories";
 import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 
-const growthCategorySchema = z.enum([
-  "CHARACTER",
-  "WELLNESS",
-  "CREATIVITY",
-  "RESPONSIBILITY",
-  "COMMUNITY",
-]);
+import { growthCategorySchema } from "@/lib/unified-growth-areas";
 
 function revalidateCubGrowthPaths(cubId: string, taskId?: string) {
   revalidatePath(`/cub/${cubId}`);

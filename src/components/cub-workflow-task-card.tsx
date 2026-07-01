@@ -9,8 +9,9 @@ import { TaskSubmitForm } from "@/components/task-workflow-forms";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
-import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
-import { formatTaskCategory, GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
+import { TaskUrgentBadge } from "@/components/task-urgent-badge";
+import { formatTaskRewards } from "@/lib/task-labels";
+import { GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
 import { toIsoString } from "@/lib/coerce-date";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { cubStatusMessage } from "@/lib/cub-next-action";
@@ -38,6 +39,7 @@ type CubWorkflowTask = Pick<
   | "reviewNote"
   | "focusActivityCardId"
   | "trainingDeckId"
+  | "isUrgent"
 > & {
   dueAt: Date | string | null;
   claimedAt: Date | string | null;
@@ -91,6 +93,7 @@ export function CubWorkflowTaskCard({
           <div className="flex flex-wrap items-center gap-2">
             <EarnTypeBadge earnType={earnType} />
             <h2 className="text-lg font-semibold text-zinc-50">{task.title}</h2>
+            {task.isUrgent && !instructionsVisible ? <TaskUrgentBadge /> : null}
             <StatusBadge status={task.status} />
             <TaskScheduleBadge task={task} />
           </div>
@@ -119,13 +122,9 @@ export function CubWorkflowTaskCard({
 
         {instructionsVisible ? <TaskInstructionsPanel task={task} /> : null}
 
-        <p className="text-sm text-zinc-500">
-          {formatTaskCategory(task.category, {
-            subcategory: task.subcategory,
-            growthCategory: task.growthCategory,
-          })}{" "}
-          · {isFocusBlock ? "Reflection + proof link" : formatProofType(task.proofType)}
-        </p>
+        {isFocusBlock ? (
+          <p className="text-sm text-zinc-500">Reflection + proof link</p>
+        ) : null}
         <p className="text-sm text-cub-gold/90">
           Earn on approval: {formatTaskRewards(task)}
           {isFocusBlock && focusGrowth

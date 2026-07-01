@@ -34,12 +34,30 @@ import {
   syncGuardianNudgesForFamily,
 } from "@/lib/guardian-nudges/sync";
 import { cubProgressPath } from "@/lib/cub-progress-paths";
+import {
+  getCubVisibleChecklistItems,
+  normalizeChecklistItemsForStorage,
+  normalizeProofPromptForStorage,
+  resolveCubProofSubmissionType,
+} from "@/lib/task-labels";
 import { revalidateTrainingBoardAfterTaskReview } from "@/lib/actions/training-board";
 import type { ActionState } from "@/lib/actions/auth";
 import { debugServerAction } from "@/lib/form-debug-server";
 import type { z } from "zod";
 
 type ParsedCustomTask = z.infer<typeof availableTaskSchema>;
+
+function parseCubIdsFromForm(formData: FormData): string[] {
+  const selected = formData
+    .getAll("cubIds")
+    .map((value) => String(value).trim())
+    .filter(Boolean);
+  if (selected.length > 0) {
+    return [...new Set(selected)];
+  }
+  const legacy = formData.get("cubId")?.toString().trim();
+  return legacy ? [legacy] : [];
+}
 
 function parseCustomTaskFormData(
   formData: FormData,
@@ -83,8 +101,12 @@ function customTaskDefinitionData(parsed: ParsedCustomTask) {
         ? null
         : parsed.growthCategory ?? null,
     proofType: parsed.proofType,
-    proofPrompt: parsed.proofPrompt || null,
-    proofChecklistItems: parsed.proofChecklistItems ?? undefined,
+    proofPrompt: normalizeProofPromptForStorage(
+      parsed.proofType,
+      parsed.proofPrompt,
+    ),
+    proofChecklistItems:
+      normalizeChecklistItemsForStorage(parsed.proofChecklistItems) ?? undefined,
     ...categoryRewardFields(parsed.category, {
       subcategory: parsed.subcategory,
       growthCategory: parsed.growthCategory ?? null,
@@ -137,26 +159,19 @@ export async function createAndAssignCustomTaskAction(
 ): Promise<ActionState> {
   debugServerAction("createAndAssignCustomTaskAction", "start", {
     title: formData.get("title")?.toString(),
+    cubIds: formData.getAll("cubIds").map(String),
     cubId: formData.get("cubId")?.toString(),
   });
 
   const userId = await requireUserId();
   const family = await requireFamilyForUser(userId);
 
-  const cubId = formData.get("cubId")?.toString();
-  if (!cubId) {
+  const cubIds = parseCubIdsFromForm(formData);
+  if (cubIds.length === 0) {
     debugServerAction("createAndAssignCustomTaskAction", "error", {
-      error: "Cub not found.",
+      error: "Pick at least one Cub.",
     });
-    return { error: "Cub not found." };
-  }
-
-  const cub = family.cubs.find((c) => c.id === cubId);
-  if (!cub) {
-    debugServerAction("createAndAssignCustomTaskAction", "error", {
-      error: "Cub not found.",
-    });
-    return { error: "Cub not found." };
+    return { error: "Pick at least one Cub." };
   }
 
   const parsed = parseCustomTaskFormData(formData);
@@ -170,31 +185,56 @@ export async function createAndAssignCustomTaskAction(
   const dueFields = getDueFieldsFromFormData(formData);
   const schedule = resolveRecurrenceScheduleFromForm(formData);
   const dueAt = dueFields?.dueAt ?? schedule.dueAt ?? parsed.data.dueDate ?? null;
+  const taskDefinition = customTaskDefinitionData(parsed.data);
 
-  await db.task.create({
-    data: {
-      familyId: family.id,
-      status: "CLAIMED",
-      cubId: cub.id,
-      claimedAt: new Date(),
-      isUrgent: parseIsUrgentFromFormData(formData),
-      ...customTaskDefinitionData(parsed.data),
-      ...cubRewardFields(cub),
-      dueAt,
-      dueAtHasTime: schedule.dueAtHasTime,
-      recurrence: schedule.recurrence,
-      recurrenceConfig: schedule.recurrenceConfig ?? undefined,
-    },
-  });
+  for (const cubId of cubIds) {
+    const cub = family.cubs.find((c) => c.id === cubId);
+    if (!cub) {
+      debugServerAction("createAndAssignCustomTaskAction", "error", {
+        error: "Cub not found.",
+      });
+      return { error: "Cub not found in your family." };
+    }
+
+    await db.task.create({
+      data: {
+        familyId: family.id,
+        status: "CLAIMED",
+        cubId: cub.id,
+        claimedAt: new Date(),
+        isUrgent: parseIsUrgentFromFormData(formData),
+        ...taskDefinition,
+        ...cubRewardFields(cub),
+        dueAt,
+        dueAtHasTime: schedule.dueAtHasTime,
+        recurrence: schedule.recurrence,
+        recurrenceConfig: schedule.recurrenceConfig ?? undefined,
+      },
+    });
+  }
 
   await syncGuardianNudgesAfterTaskChange(family.id);
 
-  revalidateTaskPaths(cub.id);
+  for (const cubId of cubIds) {
+    revalidateTaskPaths(cubId);
+  }
+
+  const cubNames = cubIds
+    .map((id) => family.cubs.find((c) => c.id === id)?.displayName)
+    .filter(Boolean)
+    .join(", ");
+
   debugServerAction("createAndAssignCustomTaskAction", "success", {
     title: parsed.data.title,
-    cubId: cub.id,
+    cubIds,
   });
-  return { success: `Task created and assigned to ${cub.displayName}.` };
+
+  return {
+    success:
+      cubIds.length === 1
+        ? `"${parsed.data.title}" was created and assigned to ${cubNames}. It is now on their task board.`
+        : `"${parsed.data.title}" was created and assigned to ${cubNames}. It is now on their task boards.`,
+  };
 }
 
 function revalidateTaskPaths(cubId?: string | null) {
@@ -298,7 +338,9 @@ export async function assignTaskAction(
   await syncGuardianNudgesAfterTaskChange(family.id, { taskId: task.id });
 
   revalidateTaskPaths(parsed.data.cubId);
-  return { success: "Task assigned." };
+  return {
+    success: `"${task.title}" was assigned to ${cub.displayName}. It is now on their task board.`,
+  };
 }
 
 /** @deprecated Use assignTaskAction */
@@ -495,10 +537,11 @@ export async function submitTaskAction(
     };
   }
 
-  const checklistItems = getTaskChecklistItems(task);
+  const storedChecklistItems = getTaskChecklistItems(task);
+  const checklistItems = getCubVisibleChecklistItems(storedChecklistItems);
   const checklistData = parseChecklistFromForm(formData, checklistItems);
   const proofError = validateSubmissionProof(
-    task.proofType,
+    resolveCubProofSubmissionType(task.proofType, storedChecklistItems),
     {
       reflection: parsed.data.reflection,
       proofLink: parsed.data.proofLink,
@@ -902,8 +945,13 @@ export async function updateTaskAction(
           ? task.growthCategory
           : parsed.data.growthCategory ?? null,
       proofType: parsed.data.proofType,
-      proofPrompt: parsed.data.proofPrompt || null,
-      proofChecklistItems: parsed.data.proofChecklistItems ?? undefined,
+      proofPrompt: normalizeProofPromptForStorage(
+        parsed.data.proofType,
+        parsed.data.proofPrompt,
+      ),
+      proofChecklistItems:
+        normalizeChecklistItemsForStorage(parsed.data.proofChecklistItems) ??
+        undefined,
       ...rewardParsed.data,
       ...(dueFields !== null
         ? { dueAt: dueFields.dueAt, dueAtHasTime: dueFields.dueAtHasTime }

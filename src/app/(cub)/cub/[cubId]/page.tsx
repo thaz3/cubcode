@@ -4,6 +4,7 @@ import { DenOverviewDashboard } from "@/components/den-overview/den-overview-das
 import {
   CubKidHero,
   CubKidStatBar,
+  CubAccumulatedRewardsPanel,
 } from "@/components/cub-kid";
 import { CubThisWeekSummarySection } from "@/components/cub-this-week-summary-section";
 import { CubNextStepSection } from "@/components/cub-next-step-section";
@@ -22,7 +23,7 @@ import {
   getCubActiveMissions,
   getCubWeekEarnSummary,
 } from "@/lib/cub-week-earn-summary";
-import { sumLedgerAmounts } from "@/lib/rewards";
+import { getCubRewardSummary } from "@/lib/rewards";
 import { getFamilyForUser } from "@/lib/session";
 import { filterTasksForCubWeekView } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
@@ -53,7 +54,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
     growthSummary,
     missions,
     weekSummary,
-    ledger,
+    rewardSummary,
     denOverview,
     trainingPath,
   ] = await Promise.all([
@@ -72,12 +73,13 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         dueAt: true,
         dueAtHasTime: true,
         createdAt: true,
+        isUrgent: true,
       },
     }),
     getCubGrowthAreaSummary(cub, weekStartsOn),
     getCubActiveMissions(familyId, cub.id, weekStartsOn),
     getCubWeekEarnSummary(familyId, cub.id, weekStartsOn),
-    sumLedgerAmounts(cub.id),
+    getCubRewardSummary(cub),
     getDenOverviewData(familyId, cub, weekStartsOn),
     getCubTrainingPathAssignments(familyId, cub.id),
   ]);
@@ -116,9 +118,11 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
               : "Tap a mission card to get started."
             : "Nothing due today. Nice work, Cub!"
         }
-        rightValue={ledger.totalXp}
-        rightLabel="Total XP"
       />
+
+      <CubNextStepSection action={nextAction} />
+
+      <CubAccumulatedRewardsPanel summary={rewardSummary} cubId={cubId} />
 
       <CubTodaysMissionsSection missions={missions} variant="compact" />
 
@@ -127,8 +131,6 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
         assignments={trainingPath.assignments}
         summary={trainingPath.summary}
       />
-
-      <CubNextStepSection action={nextAction} />
 
       <section id="den" className="scroll-mt-24">
         <DenOverviewDashboard

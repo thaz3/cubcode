@@ -9,9 +9,13 @@ import { OverduePenaltyNotice } from "@/components/overdue-penalty-notice";
 import type { ActionState } from "@/lib/actions/auth";
 import { logFocusBlockAction, submitTaskAction } from "@/lib/actions/tasks";
 import { getTaskChecklistItems } from "@/lib/tasks";
-import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
 import {
-  formatTaskCategory,
+  formatProofType,
+  formatTaskRewards,
+  getCubVisibleChecklistItems,
+  resolveCubProofSubmissionType,
+} from "@/lib/task-labels";
+import {
   getCategorySuggestions,
   GROWTH_CATEGORY_LABELS,
 } from "@/lib/task-categories";
@@ -54,6 +58,12 @@ export function TaskSubmitForm({
     growthCategory: task.growthCategory,
   }).logInstructions;
   const overdue = isPastDueAt(task, new Date());
+  const isCubView = audience === "cub";
+  const storedChecklistItems = getTaskChecklistItems(task);
+  const cubProofType = isCubView
+    ? resolveCubProofSubmissionType(task.proofType, storedChecklistItems)
+    : task.proofType;
+  const showProofTypeLabel = !isCubView;
 
   return (
     <form
@@ -68,30 +78,44 @@ export function TaskSubmitForm({
       {overdue ? <OverduePenaltyNotice /> : null}
       {!compact ? (
         <>
-          <p className="text-sm text-zinc-500">
-            {formatTaskCategory(task.category, {
-              subcategory: task.subcategory,
-              growthCategory: task.growthCategory,
-            })}{" "}
-            · {formatProofType(task.proofType)}
-          </p>
-          <p className="rounded-lg bg-amber-50/60 p-2 text-sm text-zinc-600 dark:bg-amber-950/30 dark:text-zinc-400">
-            {logHint}
-          </p>
-          <p className="text-sm text-zinc-500">
-            On approval: {formatTaskRewards(task)}
-          </p>
-          <p className="text-sm text-zinc-500">
-            {audience === "cub"
-              ? "Your parent approves work before you earn rewards."
-              : "Parent approval is required to earn XP, Focus Tokens, focus minutes, and phone time."}
-          </p>
+          {showProofTypeLabel ? (
+            <p className="text-sm text-zinc-500">
+              {formatProofType(isCubView ? cubProofType : task.proofType)}
+            </p>
+          ) : null}
+          {!isCubView ? (
+            <p className="rounded-lg bg-amber-50/60 p-2 text-sm text-zinc-600 dark:bg-amber-950/30 dark:text-zinc-400">
+              {logHint}
+            </p>
+          ) : null}
+          {!isCubView ? (
+            <p className="text-sm text-zinc-500">
+              On approval: {formatTaskRewards(task)}
+            </p>
+          ) : null}
+          {!isCubView || cubProofType !== "PARENT_APPROVAL" ? (
+            <p className="text-sm text-zinc-500">
+              {isCubView
+                ? "Your parent approves work before you earn rewards."
+                : "Parent approval is required to earn XP, Focus Tokens, focus minutes, and phone time."}
+            </p>
+          ) : null}
         </>
-      ) : (
+      ) : !isCubView ? (
         <p className="text-xs text-zinc-500">{logHint}</p>
-      )}
+      ) : null}
 
-      <ProofFields task={task} audience={audience} compact={compact} />
+      <ProofFields
+        task={task}
+        audience={audience}
+        compact={compact}
+        proofType={isCubView ? cubProofType : task.proofType}
+        checklistItems={
+          isCubView
+            ? getCubVisibleChecklistItems(storedChecklistItems)
+            : storedChecklistItems
+        }
+      />
 
       {state.error ? <p className="text-sm text-red-600">{state.error}</p> : null}
       {state.success ? (
@@ -115,13 +139,15 @@ function ProofFields({
   task,
   audience = "parent",
   compact = false,
+  proofType = task.proofType,
+  checklistItems = getTaskChecklistItems(task),
 }: {
   task: TaskSubmitFormProps["task"];
   audience?: "parent" | "cub";
   compact?: boolean;
+  proofType?: Task["proofType"];
+  checklistItems?: string[];
 }) {
-  const checklistItems = getTaskChecklistItems(task);
-
   if (task.proofPrompt && audience !== "cub") {
     return (
       <div className={compact ? "space-y-2" : "space-y-4"}>
@@ -144,7 +170,7 @@ function ProofFields({
           </p>
         </div>
         <ProofInput
-          proofType={task.proofType}
+          proofType={proofType}
           category={task.category}
           checklistItems={checklistItems}
           audience={audience}
@@ -154,7 +180,11 @@ function ProofFields({
   }
 
   return (
-    <ProofInput proofType={task.proofType} checklistItems={checklistItems} audience={audience} />
+    <ProofInput
+      proofType={proofType}
+      checklistItems={checklistItems}
+      audience={audience}
+    />
   );
 }
 
@@ -217,7 +247,7 @@ function ProofInput({
           id="reflection"
           name="reflection"
           rows={3}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+          className="w-full rounded-xl border border-zinc-700 bg-cub-ebony px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none ring-cub-gold focus:ring-2"
           placeholder={
             audience === "cub"
               ? "Anything you want your parent to know (optional)…"
@@ -315,7 +345,7 @@ function ProofInput({
             id="reflection"
             name="reflection"
             rows={2}
-            className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-cub-ebony"
+            className="w-full rounded-xl border border-zinc-700 bg-cub-ebony px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none ring-cub-gold focus:ring-2"
             placeholder={
               audience === "cub"
                 ? "Anything else your parent should know (optional)…"

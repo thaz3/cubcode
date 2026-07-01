@@ -3,7 +3,8 @@ import { StatCard } from "@/components/ui/stat-card";
 import type { CubRewardSummary } from "@/lib/rewards";
 import { formatMinutes } from "@/lib/ledger-labels";
 import type { CubWeekStats } from "@/lib/council-day";
-import { cubSectionTitle } from "@/lib/cub-theme";
+import { cubKidSectionTitle, cubKidTextMuted } from "@/lib/cub-kid-theme";
+import { cn } from "@/lib/utils";
 
 type CubTodayEarnedSectionProps = {
   cubId: string;
@@ -35,13 +36,13 @@ export function CubTodayEarnedSection({
     <section className="space-y-3">
       <div className="flex items-end justify-between gap-3">
         <div>
-          <h2 className={cubSectionTitle}>So far this week</h2>
-          <p className="text-sm text-cub-gold-light/80">{weekLabel}</p>
+          <h2 className={cn("text-lg", cubKidSectionTitle)}>So far this week</h2>
+          <p className={cn("text-sm", cubKidTextMuted)}>{weekLabel}</p>
         </div>
         {showProgressLink ? (
           <Link
             href={`/cub/${cubId}/rewards`}
-            className="shrink-0 text-sm font-medium text-cub-gold hover:text-cub-gold-light"
+            className="shrink-0 text-sm font-black text-kid-purple hover:text-kid-pink"
           >
             All rewards →
           </Link>

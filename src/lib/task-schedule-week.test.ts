@@ -105,10 +105,21 @@ describe("Cub week view carryover", () => {
     assert.equal(filtered.length, 0);
   });
 
-  it("hides non-overdue future-week tasks", () => {
+  it("shows assigned future-week tasks while still open", () => {
     const nextWeek = task({ dueAt: new Date("2025-06-30T23:59:59") });
 
     const filtered = filterTasksForCubWeekView([nextWeek], currentWeek, now);
-    assert.equal(filtered.length, 0);
+    assert.equal(filtered.length, 1);
+  });
+
+  it("shows assigned tasks from prior weeks while still open", () => {
+    const stale = task({
+      dueAt: null,
+      claimedAt: new Date("2025-06-18T12:00:00"),
+      status: "CLAIMED",
+    });
+
+    const filtered = filterTasksForCubWeekView([stale], currentWeek, now);
+    assert.equal(filtered.length, 1);
   });
 });

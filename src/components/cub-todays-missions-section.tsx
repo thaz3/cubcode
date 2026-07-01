@@ -23,6 +23,9 @@ type CubTodaysMissionsSectionProps = {
 };
 
 function isUrgentMission(mission: ActiveMission): boolean {
+  if (mission.isMarkedUrgent) {
+    return true;
+  }
   const status = mission.statusLabel?.toLowerCase() ?? "";
   return (
     status.includes("due today") ||
@@ -75,8 +78,14 @@ function ActiveMissionButton({
             {index + 1}
           </span>
           {urgent ? (
-            <span className={cn(cubKidBadge, "px-1 py-0.5 text-[8px]")}>
-              Go!
+            <span
+              className={cn(
+                cubKidBadge,
+                "px-1 py-0.5 text-[8px]",
+                mission.isMarkedUrgent && "bg-cub-red text-cub-off-white",
+              )}
+            >
+              {mission.isMarkedUrgent ? "Urgent" : "Go!"}
             </span>
           ) : (
             <span className="text-sm leading-none" aria-hidden>

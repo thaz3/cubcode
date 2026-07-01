@@ -222,8 +222,8 @@ export async function createChallengeAction(
   return {
     success:
       cubIds.length === 1
-        ? `Routine “${title}” created for ${cubNames}.`
-        : `Routine “${title}” created for ${cubNames}.`,
+        ? `Routine "${title}" was created for ${cubNames}. It will appear on their routines board.`
+        : `Routine "${title}" was created for ${cubNames}. It will appear on their routines boards.`,
   };
 }
 

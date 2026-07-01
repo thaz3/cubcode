@@ -5,13 +5,15 @@ import {
   AGE_BAND_OPTIONS,
   formatAgeBand,
 } from "@/lib/age-band-defaults";
-import { ALL_GROWTH_CATEGORIES, GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
+import { ALL_GROWTH_CATEGORIES, GROWTH_CATEGORY_LABELS, GROWTH_CATEGORY_TAGLINES } from "@/lib/task-categories";
 import { getCubProfileSuggestionsFromAgeBand } from "@/lib/template-suggestions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
+import { useTouchNativeControls } from "@/components/use-prefers-hover";
+import { NATIVE_SELECT_CLASS } from "@/lib/mobile-form-styles";
 import { useActionState, useMemo, useState } from "react";
 import type { ActionState } from "@/lib/actions/auth";
 
@@ -93,6 +95,7 @@ export function CubForm({
     initialValues?.requiredGrowthCategories ?? [...ALL_GROWTH_CATEGORIES],
   );
   const [settingsMessage, setSettingsMessage] = useState<string | null>(null);
+  const useNativeControls = useTouchNativeControls();
 
   function toggleGrowthArea(category: GrowthCategory) {
     setRequiredGrowth((current) => {
@@ -131,8 +134,6 @@ export function CubForm({
         />
       </div>
 
-      <input type="hidden" name="ageBand" value={ageBand} />
-      <input type="hidden" name="supervisionLevel" value={supervisionLevel} />
       {requiredGrowth.map((category) => (
         <input
           key={category}
@@ -153,12 +154,29 @@ export function CubForm({
 
         <div>
           <p className="mb-2 text-sm font-medium">Age band</p>
-          <RadioChoiceList
-            name="ageBandChoice"
-            value={ageBand}
-            onChange={setAgeBand}
-            options={AGE_BAND_OPTIONS}
-          />
+          {useNativeControls ? (
+            <select
+              id="ageBand"
+              name="ageBand"
+              value={ageBand}
+              onChange={(event) => setAgeBand(event.target.value as AgeBand)}
+              className={NATIVE_SELECT_CLASS}
+              required
+            >
+              {AGE_BAND_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <RadioChoiceList
+              name="ageBand"
+              value={ageBand}
+              onChange={setAgeBand}
+              options={AGE_BAND_OPTIONS}
+            />
+          )}
         </div>
 
         <div className="border-t border-amber-200/80 pt-4 dark:border-amber-900">
@@ -266,21 +284,40 @@ export function CubForm({
 
         <div>
           <p className="mb-2 text-sm font-medium">Supervision level</p>
-          <RadioChoiceList
-            name="supervisionLevelChoice"
-            value={supervisionLevel}
-            onChange={setSupervisionLevel}
-            options={SUPERVISION_OPTIONS}
-          />
+          {useNativeControls ? (
+            <select
+              id="supervisionLevel"
+              name="supervisionLevel"
+              value={supervisionLevel}
+              onChange={(event) =>
+                setSupervisionLevel(event.target.value as SupervisionLevel)
+              }
+              className={NATIVE_SELECT_CLASS}
+              required
+            >
+              {SUPERVISION_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <RadioChoiceList
+              name="supervisionLevel"
+              value={supervisionLevel}
+              onChange={setSupervisionLevel}
+              options={SUPERVISION_OPTIONS}
+            />
+          )}
         </div>
 
         <div>
-          <p className="mb-2 text-sm font-medium">Required growth areas</p>
+          <p className="mb-2 text-sm font-medium">Required Cub Codes</p>
           <p className="mb-3 text-sm text-zinc-500">
-            Your Cub must complete a focus session in each selected area every
-            week to earn full rewards. Prevents focusing on only one area.
+            Your Cub must complete a focus session in each selected Cub Code every
+            week to earn full rewards. This keeps growth balanced across all seven areas.
           </p>
-          <div className="grid gap-2">
+          <div className="grid gap-2 sm:grid-cols-2">
             {ALL_GROWTH_CATEGORIES.map((category) => {
               const selected = requiredGrowth.includes(category);
               return (
@@ -295,7 +332,12 @@ export function CubForm({
                     className="mt-0.5 size-4 shrink-0 accent-amber-600"
                   />
                   <span className="text-sm leading-snug">
-                    {GROWTH_CATEGORY_LABELS[category]}
+                    <span className="block font-medium text-zinc-900 dark:text-zinc-100">
+                      {GROWTH_CATEGORY_LABELS[category]}
+                    </span>
+                    <span className="mt-0.5 block text-xs text-zinc-500">
+                      {GROWTH_CATEGORY_TAGLINES[category]}
+                    </span>
                   </span>
                 </label>
               );

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { MAX_CHECKLIST_ITEMS } from "@/lib/task-labels";
+import { growthCategorySchema } from "@/lib/unified-growth-areas";
 import {
   mvpProofTypeSchema,
   taskProofConfigSchema,
@@ -50,9 +51,7 @@ export const challengeSchema = z
   })
   .extend(challengeRewardFieldsSchema.shape)
   .extend({
-    growthCategory: z
-      .enum(["CHARACTER", "WELLNESS", "CREATIVITY", "RESPONSIBILITY", "COMMUNITY"])
-      .optional(),
+    growthCategory: growthCategorySchema,
   });
 
 export function validateChallengeDefinition(

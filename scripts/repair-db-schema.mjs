@@ -18,10 +18,13 @@ const growthMapSql = `
     WHEN 'CONTROL' THEN 'RESPONSIBILITY'
     WHEN 'USE' THEN 'CREATIVITY'
     WHEN 'BUILD' THEN 'CREATIVITY'
+    WHEN 'WELLNESS' THEN 'BODY'
+    WHEN 'MIND' THEN 'MIND'
+    WHEN 'BODY' THEN 'BODY'
     WHEN 'CHARACTER' THEN 'CHARACTER'
-    WHEN 'WELLNESS' THEN 'WELLNESS'
     WHEN 'CREATIVITY' THEN 'CREATIVITY'
     WHEN 'RESPONSIBILITY' THEN 'RESPONSIBILITY'
+    WHEN 'FAMILY' THEN 'FAMILY'
     WHEN 'COMMUNITY' THEN 'COMMUNITY'
     ELSE NULL
   END
@@ -71,25 +74,28 @@ async function columnExists(client, tableName, columnName) {
 
 async function migrateGrowthCategory(client) {
   const values = await getGrowthCategoryValues(client);
-  const needsMigration = values.some((value) =>
-    ["CONTROL", "USE", "BUILD"].includes(value),
-  );
+  const isSevenCodeEnum =
+    values.includes("MIND") &&
+    values.includes("BODY") &&
+    values.includes("FAMILY");
 
-  if (!needsMigration) {
-    console.log("✓ GrowthCategory already uses the unified 5-area enum.");
+  if (isSevenCodeEnum) {
+    console.log("✓ GrowthCategory already uses the unified 7-code enum.");
     return;
   }
 
-  console.log("→ Migrating GrowthCategory (CONTROL/USE/BUILD → new areas)…");
+  console.log("→ Migrating GrowthCategory to seven Cub Codes…");
 
   await client.query("BEGIN");
   try {
     await client.query(`
       CREATE TYPE "GrowthCategory_new" AS ENUM (
+        'MIND',
+        'BODY',
         'CHARACTER',
-        'WELLNESS',
         'CREATIVITY',
         'RESPONSIBILITY',
+        'FAMILY',
         'COMMUNITY'
       )
     `);
@@ -115,14 +121,16 @@ async function migrateGrowthCategory(client) {
       await client.query(`
         ALTER TABLE "Cub"
         ALTER COLUMN "requiredGrowthCategories"
-        SET DEFAULT '["CHARACTER","WELLNESS","CREATIVITY","RESPONSIBILITY","COMMUNITY"]'::jsonb
+        SET DEFAULT '["MIND","BODY","CHARACTER","RESPONSIBILITY","CREATIVITY","FAMILY","COMMUNITY"]'::jsonb
       `);
       await client.query(`
         UPDATE "Cub"
-        SET "requiredGrowthCategories" = '["CHARACTER","WELLNESS","CREATIVITY","RESPONSIBILITY","COMMUNITY"]'::jsonb
+        SET "requiredGrowthCategories" = '["MIND","BODY","CHARACTER","RESPONSIBILITY","CREATIVITY","FAMILY","COMMUNITY"]'::jsonb
         WHERE "requiredGrowthCategories"::text LIKE '%CONTROL%'
            OR "requiredGrowthCategories"::text LIKE '%USE%'
            OR "requiredGrowthCategories"::text LIKE '%BUILD%'
+           OR "requiredGrowthCategories"::text LIKE '%WELLNESS%'
+           OR jsonb_array_length("requiredGrowthCategories") < 7
       `);
     }
 

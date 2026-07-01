@@ -131,12 +131,6 @@ export function GuardianNudgesSection({
         defaultOpen={unseenCount > 0}
         className="border-cub-red-alert/35 border-l-4 border-l-cub-red-alert cub-card-red bg-cub-charcoal shadow-md shadow-cub-red/10"
       >
-        <div className="mb-3 flex justify-end">
-          <Link href="/dashboard/family/settings" className={cn("text-xs font-medium", cubLink)}>
-            Settings →
-          </Link>
-        </div>
-
         {hiddenByQuietHours && hasNudges ? (
           <p className="mb-3 rounded-lg border border-cub-off-white/10 bg-cub-ebony px-3 py-2 text-sm text-cub-muted">
             {nudges.length} reminder{nudges.length === 1 ? "" : "s"} hidden during

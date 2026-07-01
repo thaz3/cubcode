@@ -42,6 +42,7 @@ export function RadioChoiceList<T extends string>({
         return (
           <label
             key={option.value}
+            onClick={() => onChange(option.value)}
             className={cn(
               "cursor-pointer touch-manipulation border transition select-none",
               compact

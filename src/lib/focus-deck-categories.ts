@@ -1,29 +1,30 @@
 import type { FocusDeckCategory } from "@/generated/prisma/client";
+import { ALL_GROWTH_AREAS } from "@/lib/unified-growth-areas";
+import { growthCategoryShortLabel } from "@/lib/task-categories";
 
-export const ALL_FOCUS_DECK_CATEGORIES: FocusDeckCategory[] = [
-  "CHARACTER",
-  "WELLNESS",
-  "CREATIVITY",
-  "RESPONSIBILITY",
-  "COMMUNITY",
-];
+export const ALL_FOCUS_DECK_CATEGORIES = [
+  ...ALL_GROWTH_AREAS,
+] as FocusDeckCategory[];
 
-export const FOCUS_DECK_CATEGORY_LABELS: Record<FocusDeckCategory, string> = {
-  CHARACTER: "Character",
-  WELLNESS: "Wellness",
-  CREATIVITY: "Creativity",
-  RESPONSIBILITY: "Responsibility",
-  COMMUNITY: "Community",
-};
+export const FOCUS_DECK_CATEGORY_LABELS: Record<FocusDeckCategory, string> =
+  Object.fromEntries(
+    ALL_FOCUS_DECK_CATEGORIES.map((category) => [
+      category,
+      growthCategoryShortLabel(category),
+    ]),
+  ) as Record<FocusDeckCategory, string>;
 
 export type FocusDeckCategoryPoints = Partial<Record<FocusDeckCategory, number>>;
 
 const CATEGORY_KEY_MAP: Record<string, FocusDeckCategory> = {
+  mind: "MIND",
+  body: "BODY",
   character: "CHARACTER",
-  wellness: "WELLNESS",
   creativity: "CREATIVITY",
   responsibility: "RESPONSIBILITY",
+  family: "FAMILY",
   community: "COMMUNITY",
+  wellness: "BODY",
 };
 
 export function parseFocusDeckCategoryPoints(

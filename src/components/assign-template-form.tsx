@@ -2,6 +2,7 @@
 
 import { TaskDueDateField, useDueDateFormAction } from "@/components/task-due-date-field";
 import { TaskRecurrenceField } from "@/components/task-recurrence-field";
+import { ActionSuccessDialog } from "@/components/ui/action-success-dialog";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { Button } from "@/components/ui/button";
 import { RadioChoiceList } from "@/components/ui/radio-choice-list";
@@ -36,6 +37,10 @@ export function AssignTemplateForm({
 
   return (
     <form action={formAction} className="space-y-3">
+      <ActionSuccessDialog
+        message={state.success}
+        title="Task assigned"
+      />
       <input type="hidden" name="templateId" value={templateId} />
       <input type="hidden" name="cubId" value={cubId} />
       <RadioChoiceList
@@ -60,11 +65,6 @@ export function AssignTemplateForm({
       </CollapsibleSection>
       {state.error ? (
         <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>
-      ) : null}
-      {state.success ? (
-        <p className="text-sm text-green-700 dark:text-green-400">
-          {state.success}
-        </p>
       ) : null}
       <Button type="submit" disabled={isPending || !cubId} size="lg" fullWidth>
         {isPending ? "Assigning..." : submitLabel}

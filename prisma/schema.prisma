@@ -56,10 +56,12 @@ enum TaskCategory {
 }
 
 enum GrowthCategory {
+  MIND
+  BODY
   CHARACTER
-  WELLNESS
-  CREATIVITY
   RESPONSIBILITY
+  CREATIVITY
+  FAMILY
   COMMUNITY
 }
 
@@ -75,10 +77,12 @@ enum LedgerReason {
 }
 
 enum FocusDeckCategory {
+  MIND
+  BODY
   CHARACTER
-  WELLNESS
-  CREATIVITY
   RESPONSIBILITY
+  CREATIVITY
+  FAMILY
   COMMUNITY
 }
 
@@ -218,7 +222,7 @@ model PasswordResetToken {
 model Family {
   id                    String   @id @default(cuid())
   name                  String?
-  dailyPhoneCapMinutes  Int      @default(60)
+  dailyPhoneCapMinutes  Int      @default(120)
   weekendBankCapMinutes Int      @default(120)
   exchangeFocusMinutes  Int      @default(30)
   exchangePhoneMinutes  Int      @default(15)
@@ -257,7 +261,7 @@ model Cub {
   dailyPhoneCapMinutes  Int               @default(45)
   weekendBankCapMinutes Int               @default(90)
   supervisionLevel      SupervisionLevel  @default(NEARBY)
-  requiredGrowthCategories Json          @default("[\"CHARACTER\",\"WELLNESS\",\"CREATIVITY\",\"RESPONSIBILITY\",\"COMMUNITY\"]")
+  requiredGrowthCategories Json          @default("[\"MIND\",\"BODY\",\"CHARACTER\",\"RESPONSIBILITY\",\"CREATIVITY\",\"FAMILY\",\"COMMUNITY\"]")
   focusAreaSwapCredits   Int           @default(0)
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt

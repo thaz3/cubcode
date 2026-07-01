@@ -1,14 +1,7 @@
 import { z } from "zod";
+import { growthCategorySchema } from "@/lib/unified-growth-areas";
 
 export const PARENT_BONUS_XP_OPTIONS = [5, 10, 15, 20, 25, 30] as const;
-
-const growthCategorySchema = z.enum([
-  "CHARACTER",
-  "WELLNESS",
-  "CREATIVITY",
-  "RESPONSIBILITY",
-  "COMMUNITY",
-]);
 
 export const awardParentBonusXpSchema = z.object({
   cubId: z.string().min(1, "Cub is required."),

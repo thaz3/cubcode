@@ -18,6 +18,15 @@ type TaskDueDateFieldProps = {
   onDueDateChange?: (value: string) => void;
 };
 
+const QUICK_DUE_BASE_CLASS =
+  "min-h-11 touch-manipulation rounded-xl border px-3 py-2 text-sm font-medium";
+const QUICK_DUE_INACTIVE_CLASS =
+  "border-zinc-200 text-zinc-700 active:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:active:bg-zinc-900";
+const QUICK_DUE_ACTIVE_CLASS =
+  "border-amber-200 bg-amber-50 text-amber-900 active:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200";
+
+type QuickDuePreset = "2h" | "4h" | "tonight";
+
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function parseInitialDue(defaultValue: string) {
@@ -102,6 +111,9 @@ export function TaskDueDateField({
   const [viewMonth, setViewMonth] = useState(
     () => initial.date ?? new Date(),
   );
+  const [activeQuickDue, setActiveQuickDue] = useState<QuickDuePreset | null>(
+    null,
+  );
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const useNativeControls = useTouchNativeControls();
 
@@ -146,7 +158,15 @@ export function TaskDueDateField({
   function selectDate(date: Date) {
     const normalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     setSelectedDate(normalized);
+    setActiveQuickDue(null);
     setViewMonth(new Date(normalized.getFullYear(), normalized.getMonth(), 1));
+  }
+
+  function quickDueButtonClass(preset: QuickDuePreset): string {
+    return cn(
+      QUICK_DUE_BASE_CLASS,
+      activeQuickDue === preset ? QUICK_DUE_ACTIVE_CLASS : QUICK_DUE_INACTIVE_CLASS,
+    );
   }
 
   return (
@@ -161,15 +181,23 @@ export function TaskDueDateField({
         <div className="mt-2 flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => applyDueValue(dueInHoursFromNow(2))}
-            className="min-h-11 touch-manipulation rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 active:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+            onClick={() => {
+              setActiveQuickDue("2h");
+              applyDueValue(dueInHoursFromNow(2));
+            }}
+            className={quickDueButtonClass("2h")}
+            aria-pressed={activeQuickDue === "2h"}
           >
             Due in 2 hours
           </button>
           <button
             type="button"
-            onClick={() => applyDueValue(dueInHoursFromNow(4))}
-            className="min-h-11 touch-manipulation rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 active:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+            onClick={() => {
+              setActiveQuickDue("4h");
+              applyDueValue(dueInHoursFromNow(4));
+            }}
+            className={quickDueButtonClass("4h")}
+            aria-pressed={activeQuickDue === "4h"}
           >
             Due in 4 hours
           </button>
@@ -181,9 +209,11 @@ export function TaskDueDateField({
               if (tonight.getTime() <= Date.now()) {
                 tonight.setDate(tonight.getDate() + 1);
               }
+              setActiveQuickDue("tonight");
               applyDueValue(buildDueFormValue(tonight, "20:00"));
             }}
-            className="min-h-11 touch-manipulation rounded-xl border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 active:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:active:bg-zinc-900"
+            className={quickDueButtonClass("tonight")}
+            aria-pressed={activeQuickDue === "tonight"}
           >
             Due tonight 8 PM
           </button>
@@ -199,8 +229,10 @@ export function TaskDueDateField({
               const value = event.target.value;
               if (!value) {
                 setSelectedDate(null);
+                setActiveQuickDue(null);
                 return;
               }
+              setActiveQuickDue(null);
               const [year, month, day] = value.split("-").map(Number);
               selectDate(new Date(year, month - 1, day));
             }}
@@ -294,7 +326,10 @@ export function TaskDueDateField({
           id={`${id}-time`}
           type="time"
           value={dueTime}
-          onChange={(event) => setDueTime(event.target.value)}
+          onChange={(event) => {
+            setActiveQuickDue(null);
+            setDueTime(event.target.value);
+          }}
           className={NATIVE_TIME_INPUT_CLASS}
         />
         <p className="mt-1 text-xs text-zinc-500">
@@ -325,6 +360,7 @@ export function TaskDueDateField({
             onClick={() => {
               setSelectedDate(null);
               setDueTime("");
+              setActiveQuickDue(null);
             }}
             className="min-h-11 touch-manipulation px-2 text-amber-700 active:underline dark:text-cub-gold-light"
           >

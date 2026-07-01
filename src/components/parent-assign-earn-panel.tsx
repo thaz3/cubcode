@@ -142,11 +142,17 @@ export function ParentAssignEarnPanel({
         className="rounded-xl border border-cub-off-white/10 bg-cub-ebony/40 p-4"
       >
         {kind === "task" ? (
-          <CreateOneOffTaskForm
-            cubId={defaultCubId}
-            cubName={cubName}
-            compact={compact}
-          />
+          cubs.length === 0 ? (
+            <p className="text-sm text-cub-muted">
+              Add a Cub profile before creating a task.
+            </p>
+          ) : (
+            <CreateOneOffTaskForm
+              cubs={cubs}
+              defaultCubId={defaultCubId}
+              compact={compact}
+            />
+          )
         ) : null}
 
         {kind === "routine" ? (

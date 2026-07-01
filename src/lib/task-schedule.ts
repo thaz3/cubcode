@@ -16,6 +16,7 @@ export type TaskScheduleInput = {
   submittedAt?: Date | string | null;
   status: TaskStatus;
   createdAt: Date | string;
+  isUrgent?: boolean;
 };
 
 function normalizeTaskScheduleInput(task: TaskScheduleInput) {
@@ -254,6 +255,12 @@ export function isTaskUrgent(
 }
 
 export function compareTaskUrgency(a: TaskScheduleInput, b: TaskScheduleInput): number {
+  const urgentA = a.isUrgent ? 1 : 0;
+  const urgentB = b.isUrgent ? 1 : 0;
+  if (urgentA !== urgentB) {
+    return urgentB - urgentA;
+  }
+
   const normA = normalizeTaskScheduleInput(a);
   const normB = normalizeTaskScheduleInput(b);
 
@@ -370,14 +377,22 @@ export function filterTasksForWeek<T extends TaskScheduleInput>(
 }
 
 /**
- * Cub-facing week view: active tasks for the current week plus actionable carryover.
- * Completed, rejected, and unassigned tasks are never shown.
+ * Cub-facing week view: every open assignment the parent sees in the active queue,
+ * plus submitted tasks awaiting review (including carryover from prior weeks).
  */
 export function isTaskVisibleOnCubWeekView(
   task: TaskScheduleInput,
   weekStart: Date,
   now = new Date(),
 ): boolean {
+  if (
+    task.status === "CLAIMED" ||
+    task.status === "IN_PROGRESS" ||
+    task.status === "SENT_BACK"
+  ) {
+    return true;
+  }
+
   if (!ACTIVE_SCHEDULE_STATUSES.includes(task.status)) {
     return false;
   }

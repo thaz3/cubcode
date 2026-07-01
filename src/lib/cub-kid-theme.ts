@@ -92,26 +92,32 @@ export const cubKidMenuItemInactive =
 
 /* ── Growth area kid colors ── */
 export const KID_GROWTH_COLORS: Record<GrowthCategory, string> = {
+  MIND: "#7b5cff",
+  BODY: "#32b8ff",
   CHARACTER: "#7dff72",
-  WELLNESS: "#32b8ff",
-  CREATIVITY: "#ff5fd2",
   RESPONSIBILITY: "#ff9f43",
+  CREATIVITY: "#ff5fd2",
+  FAMILY: "#f2c14e",
   COMMUNITY: "#44f0d3",
 };
 
 export const KID_GROWTH_TEXT: Record<GrowthCategory, string> = {
+  MIND: "text-violet-600",
+  BODY: "text-sky-600",
   CHARACTER: "text-emerald-600",
-  WELLNESS: "text-sky-600",
-  CREATIVITY: "text-pink-600",
   RESPONSIBILITY: "text-orange-600",
+  CREATIVITY: "text-pink-600",
+  FAMILY: "text-amber-600",
   COMMUNITY: "text-teal-600",
 };
 
 export const KID_GROWTH_BG: Record<GrowthCategory, string> = {
+  MIND: "bg-violet-50 border-violet-200",
+  BODY: "bg-sky-50 border-sky-200",
   CHARACTER: "bg-emerald-50 border-emerald-200",
-  WELLNESS: "bg-sky-50 border-sky-200",
-  CREATIVITY: "bg-pink-50 border-pink-200",
   RESPONSIBILITY: "bg-orange-50 border-orange-200",
+  CREATIVITY: "bg-pink-50 border-pink-200",
+  FAMILY: "bg-amber-50 border-amber-200",
   COMMUNITY: "bg-teal-50 border-teal-200",
 };
 

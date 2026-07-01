@@ -13,6 +13,7 @@ type LedgerClient = Prisma.TransactionClient | typeof db;
 export type CubRewardSummary = {
   totalXp: number;
   totalFocusTokens: number;
+  totalPhoneMinutes: number;
   phoneMinutesToday: number;
   phoneMinutesFromTasksToday: number;
   phoneMinutesFromRedemptionsToday: number;
@@ -125,6 +126,7 @@ export async function getCubRewardSummary(cub: Cub): Promise<CubRewardSummary> {
   return {
     totalXp: balances.totalXp,
     totalFocusTokens: balances.totalFocusTokens,
+    totalPhoneMinutes: balances.totalPhoneMinutes,
     phoneMinutesToday,
     phoneMinutesFromTasksToday: phoneFromTasks,
     phoneMinutesFromRedemptionsToday: phoneFromRedemptions,

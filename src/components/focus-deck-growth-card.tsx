@@ -4,13 +4,16 @@ import {
   ALL_FOCUS_DECK_CATEGORIES,
   FOCUS_DECK_CATEGORY_LABELS,
 } from "@/lib/focus-deck-categories";
+import { KID_GROWTH_COLORS } from "@/lib/cub-kid-theme";
 import { cn } from "@/lib/utils";
 
 const AREA_COLORS = {
+  MIND: "text-violet-300",
+  BODY: "text-cub-off-white",
   CHARACTER: "text-cub-green-light",
-  WELLNESS: "text-cub-off-white",
-  CREATIVITY: "text-cub-gold-warm",
   RESPONSIBILITY: "text-cub-gold-light",
+  CREATIVITY: "text-cub-gold-warm",
+  FAMILY: "text-amber-200",
   COMMUNITY: "text-cub-green-bright",
 } as const;
 
@@ -35,7 +38,7 @@ export function FocusDeckGrowthCard({ summary, className }: FocusDeckGrowthCardP
         <p className="mt-1 text-sm text-cub-muted">
           {summary.weekLabel} · {summary.cardsCompleted} Growth Pick
           {summary.cardsCompleted === 1 ? "" : "s"} approved · {summary.totalPoints} area
-          points
+          points across seven Cub Codes
         </p>
       </div>
 
@@ -54,8 +57,11 @@ export function FocusDeckGrowthCard({ summary, className }: FocusDeckGrowthCardP
               </div>
               <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-cub-charcoal">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-cub-gold to-cub-gold-warm transition-all"
-                  style={{ width: `${width}%` }}
+                  className="h-full rounded-full transition-all"
+                  style={{
+                    width: `${width}%`,
+                    background: `linear-gradient(to right, ${KID_GROWTH_COLORS[area]}, ${KID_GROWTH_COLORS[area]}cc)`,
+                  }}
                 />
               </div>
             </li>

@@ -16,13 +16,13 @@ export function FocusDeckCategoryFields({
   return (
     <div className="space-y-3 rounded-lg border border-cub-charcoal bg-cub-ebony/40 p-4">
       <div>
-        <h4 className="text-sm font-medium text-cub-off-white">Growth area points</h4>
+        <h4 className="text-sm font-medium text-cub-off-white">Cub Code points</h4>
         <p className="mt-1 text-sm text-cub-muted">
-          Most Growth Picks touch 1–3 areas. Points add to the weekly Growth Chart after
+          Most Growth Picks touch 1–3 Cub Codes. Points add to the weekly Growth Chart after
           approval.
         </p>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {ALL_FOCUS_DECK_CATEGORIES.map((category) => (
           <div key={category}>
             <Label htmlFor={`categoryPoints-${category}`}>

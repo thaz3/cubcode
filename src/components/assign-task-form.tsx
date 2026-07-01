@@ -90,7 +90,12 @@ export function AssignTaskForm({
 
       <TaskUrgentField id={`assign-urgent-${taskId}`} />
 
-      <FormSubmitFooter error={state.error} success={state.success}>
+      <FormSubmitFooter
+        error={state.error}
+        success={state.success}
+        successAsDialog
+        successDialogTitle="Task assigned"
+      >
         <Button type="submit" disabled={isPending || !cubId} fullWidth size="lg">
           {isPending ? "Assigning..." : submitLabel}
         </Button>

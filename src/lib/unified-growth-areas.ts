@@ -1,25 +1,38 @@
 import type { FocusDeckCategory, GrowthCategory } from "@/generated/prisma/client";
+import { z } from "zod";
 
-/** Canonical five growth areas — shared by tasks, routines, and Growth Picks. */
+/** Canonical seven Cub Codes — shared by tasks, routines, and Growth Picks. */
 export const ALL_GROWTH_AREAS = [
+  "MIND",
+  "BODY",
   "CHARACTER",
-  "WELLNESS",
-  "CREATIVITY",
   "RESPONSIBILITY",
+  "CREATIVITY",
+  "FAMILY",
   "COMMUNITY",
 ] as const satisfies readonly GrowthCategory[];
 
 export type GrowthArea = (typeof ALL_GROWTH_AREAS)[number];
+
+export const GROWTH_CATEGORY_VALUES = [...ALL_GROWTH_AREAS] as [
+  GrowthArea,
+  ...GrowthArea[],
+];
+
+export const growthCategorySchema = z.enum(GROWTH_CATEGORY_VALUES);
 
 /** Maps pre-unification enum values still stored in JSON or external data. */
 const LEGACY_GROWTH_CATEGORY_MAP: Record<string, GrowthArea> = {
   CONTROL: "RESPONSIBILITY",
   USE: "CREATIVITY",
   BUILD: "CREATIVITY",
+  WELLNESS: "BODY",
+  MIND: "MIND",
+  BODY: "BODY",
   CHARACTER: "CHARACTER",
-  WELLNESS: "WELLNESS",
   CREATIVITY: "CREATIVITY",
   RESPONSIBILITY: "RESPONSIBILITY",
+  FAMILY: "FAMILY",
   COMMUNITY: "COMMUNITY",
 };
 
@@ -49,7 +62,10 @@ export function normalizeRequiredGrowthAreas(
     values.some(
       (value) =>
         typeof value === "string" &&
-        (value === "CONTROL" || value === "USE" || value === "BUILD"),
+        (value === "CONTROL" ||
+          value === "USE" ||
+          value === "BUILD" ||
+          value === "WELLNESS"),
     );
 
   if (isLegacyConfig || unique.length < ALL_GROWTH_AREAS.length) {
@@ -61,3 +77,13 @@ export function normalizeRequiredGrowthAreas(
 
 /** Task / routine completions count as 1 point toward the unified chart. */
 export const COMPLETION_POINT_VALUE = 1;
+
+/** Coverage ring fills completely after this many completions in one growth area. */
+export const GROWTH_RING_FULL_COMPLETIONS = 7;
+
+export function growthRingSweepPercent(completions: number): number {
+  if (completions <= 0) {
+    return 0;
+  }
+  return Math.min(100, (completions / GROWTH_RING_FULL_COMPLETIONS) * 100);
+}

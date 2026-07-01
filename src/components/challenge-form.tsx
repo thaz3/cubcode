@@ -134,7 +134,12 @@ export function ChallengeForm({
         />
       </div>
 
-      <FormSubmitFooter error={state.error} success={state.success}>
+      <FormSubmitFooter
+        error={state.error}
+        success={state.success}
+        successAsDialog
+        successDialogTitle="Routine created"
+      >
         <Button
           type="submit"
           fullWidth

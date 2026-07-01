@@ -28,11 +28,39 @@ export const TASK_CATEGORY_LABELS: Record<TaskCategory, string> = {
 export const ALL_GROWTH_CATEGORIES = ALL_GROWTH_AREAS;
 
 export const GROWTH_CATEGORY_LABELS: Record<GrowthCategory, string> = {
-  CHARACTER: "Character — values & relationships",
-  WELLNESS: "Wellness — body, rest & health",
-  CREATIVITY: "Creativity — making, learning & ideas",
-  RESPONSIBILITY: "Responsibility — habits & self-discipline",
-  COMMUNITY: "Community — family, neighbors & service",
+  MIND: "Mind Code — learning, reading, school, curiosity",
+  BODY: "Body Code — health, movement, sleep, hygiene",
+  CHARACTER: "Character Code — honesty, courage, respect, humility",
+  RESPONSIBILITY: "Duty Code — chores, routines, promises",
+  CREATIVITY: "Creativity Code — art, music, writing, dance",
+  FAMILY: "Family Code — history, elders, ancestors, sacrifice",
+  COMMUNITY: "Community Code — service, leadership, justice",
+};
+
+export const GROWTH_CATEGORY_TAGLINES: Record<GrowthCategory, string> = {
+  MIND: "Raising a child who can think for themselves.",
+  BODY: "Caring for the body is part of self-respect.",
+  CHARACTER: "Who are you when nobody is watching?",
+  RESPONSIBILITY: "Parenting becomes practice. Not lectures. Daily proof.",
+  CREATIVITY:
+    "Turning struggle into beauty, language, movement, style, and invention.",
+  FAMILY:
+    "Rooted in Black family tradition — not just self-improvement.",
+  COMMUNITY: "Connected to something bigger than themselves.",
+};
+
+export const GROWTH_CATEGORY_FOCUS: Record<GrowthCategory, string> = {
+  MIND: "Learning, reading, school, curiosity, critical thinking, problem-solving",
+  BODY: "Health, movement, sleep, hygiene, food, discipline, physical confidence",
+  CHARACTER: "Honesty, courage, respect, humility, kindness, emotional control",
+  RESPONSIBILITY:
+    "Chores, routines, promises, time management, accountability, taking care of belongings",
+  CREATIVITY:
+    "Art, music, writing, dance, building, imagination, storytelling, performance",
+  FAMILY:
+    "Learning family history, helping at home, listening to elders, honoring ancestors, understanding sacrifice",
+  COMMUNITY:
+    "Service, leadership, neighborhood pride, justice, contribution, knowing your role",
 };
 
 export const SCHOOL_SUBCATEGORY_LABELS = {
@@ -106,6 +134,16 @@ const FOCUS_BLOCK_BASE: CategorySuggestion = {
 const GROWTH_TWEAKS: Partial<
   Record<GrowthCategory, Partial<CategorySuggestion>>
 > = {
+  MIND: {
+    proofPrompt: "What did you learn or figure out? What question are you still curious about?",
+    xpEarned: 12,
+  },
+  BODY: {
+    proofPrompt: "Log minutes and describe how this supported your body, rest, or health.",
+    focusMinutesEarned: 20,
+    phoneMinutesEarned: 10,
+    xpEarned: 8,
+  },
   RESPONSIBILITY: {
     proofPrompt: "What did you focus on? How did you stay responsible and on track?",
     xpEarned: 10,
@@ -119,15 +157,14 @@ const GROWTH_TWEAKS: Partial<
     proofPrompt: "How did this work grow your character or relationships?",
     xpEarned: 10,
   },
-  WELLNESS: {
-    proofPrompt: "Log minutes and describe how this supported your body or rest.",
-    focusMinutesEarned: 20,
-    phoneMinutesEarned: 10,
-    xpEarned: 8,
+  FAMILY: {
+    proofType: "SHORT_REFLECTION",
+    proofPrompt: "What family story, tradition, or elder wisdom did this connect to?",
+    xpEarned: 12,
   },
   COMMUNITY: {
     proofType: "SHORT_REFLECTION",
-    proofPrompt: "How did this help your family, neighbors, or community?",
+    proofPrompt: "How did this help your neighbors or community?",
     xpEarned: 12,
   },
 };
@@ -583,4 +620,8 @@ export function growthCategoryOptions(): Array<{
 
 export function growthCategoryShortLabel(category: GrowthCategory): string {
   return GROWTH_CATEGORY_LABELS[category].split(" —")[0] ?? category;
+}
+
+export function growthCategoryDescription(category: GrowthCategory): string {
+  return `${GROWTH_CATEGORY_TAGLINES[category]} Focus: ${GROWTH_CATEGORY_FOCUS[category]}.`;
 }

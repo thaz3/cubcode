@@ -42,19 +42,28 @@ export function CubCard({
                 value={rewards.rank.current.name}
                 tone="green"
               />
-              <div className="grid grid-cols-3 gap-2">
-                <CubStat label="XP" value={String(rewards.totalXp)} tone="gold" />
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                <CubStat label={"XP\nearned"} value={String(rewards.totalXp)} tone="gold" />
                 <CubStat
-                  label="Phone today"
-                  value={formatMinutes(rewards.phoneMinutesAvailableToday)}
-                  tone="gold"
-                />
-                <CubStat
-                  label="Tokens"
+                  label="Focus Tokens"
                   value={String(rewards.totalFocusTokens)}
                   tone="gold"
                 />
+                <CubStat
+                  label="Phone earned"
+                  value={formatMinutes(rewards.totalPhoneMinutes)}
+                  tone="gold"
+                />
+                <CubStat
+                  label="Bonus phone"
+                  value={formatMinutes(rewards.weekendBankMinutes)}
+                  tone="gold"
+                />
               </div>
+              <p className="text-[11px] text-cub-muted">
+                {formatMinutes(rewards.phoneMinutesAvailableToday)} available today
+                · cap {formatMinutes(rewards.dailyPhoneCapMinutes)}
+              </p>
             </div>
           ) : null}
           <p className="mt-2 text-sm text-cub-muted">
@@ -103,7 +112,7 @@ function CubStat({
     >
       <p
         className={cn(
-          "text-[10px] font-bold uppercase tracking-wide",
+          "whitespace-pre-line text-[10px] font-bold uppercase tracking-wide leading-tight",
           tone === "gold" ? "text-cub-gold-light" : "text-cub-green-light",
         )}
       >

@@ -1,51 +1,46 @@
 "use client";
 
 import { TaskTemplateForm } from "@/components/task-template-form";
-import {
-  createAndAssignCustomTaskAction,
-  createCustomTaskAction,
-} from "@/lib/actions/tasks";
+import { createAndAssignCustomTaskAction } from "@/lib/actions/tasks";
 
 type CreateOneOffTaskFormProps = {
-  cubId?: string;
-  cubName?: string;
+  cubs: Array<{ id: string; displayName: string }>;
+  defaultCubId?: string;
   compact?: boolean;
 };
 
 export function CreateOneOffTaskForm({
-  cubId,
-  cubName,
+  cubs,
+  defaultCubId,
   compact = false,
 }: CreateOneOffTaskFormProps) {
-  const assignToCub = Boolean(cubId);
+  const defaultCubIds = defaultCubId ? [defaultCubId] : [];
+  const cubName = defaultCubId
+    ? cubs.find((c) => c.id === defaultCubId)?.displayName
+    : undefined;
 
   return (
     <div className={compact ? "space-y-3" : "space-y-4"}>
       {!compact ? (
         <div>
           <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-            {assignToCub
+            {defaultCubId
               ? `Create new task for ${cubName}`
               : "Create new task"}
           </p>
           <p className="mt-1 text-sm text-zinc-500">
-            {assignToCub
-              ? "Define the task here and assign it directly."
-              : "Save to your assignment library for later."}
+            Define the task, pick who it&apos;s for, and assign it to their board.
           </p>
         </div>
       ) : null}
       <TaskTemplateForm
-        action={
-          assignToCub ? createAndAssignCustomTaskAction : createCustomTaskAction
-        }
-        submitLabel={
-          assignToCub ? "Create and assign task" : "Create new task"
-        }
-        showDueDate={assignToCub}
-        showQuickDue={assignToCub}
-        showUrgent={assignToCub}
-        hiddenFields={assignToCub && cubId ? { cubId } : undefined}
+        action={createAndAssignCustomTaskAction}
+        submitLabel="Create and assign task"
+        showDueDate
+        showQuickDue
+        showUrgent
+        cubs={cubs}
+        defaultCubIds={defaultCubIds}
         compact={compact}
       />
     </div>

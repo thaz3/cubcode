@@ -89,7 +89,12 @@ export function ParentBonusXpForm({
         />
       </div>
 
-      <FormSubmitFooter error={state.error} success={state.success}>
+      <FormSubmitFooter
+        error={state.error}
+        success={state.success}
+        successAsDialog
+        successDialogTitle="Bonus awarded"
+      >
         <Button type="submit" variant="reward" disabled={isPending} fullWidth size="lg">
           {isPending ? "Awarding…" : "Award bonus XP"}
         </Button>

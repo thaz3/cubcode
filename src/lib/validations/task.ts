@@ -2,6 +2,7 @@ import { z } from "zod";
 import { isLegacyProofType } from "@/lib/task-labels";
 import { MAX_CHECKLIST_ITEMS } from "@/lib/task-labels";
 import { parseDueDateFormValue } from "@/lib/task-schedule";
+import { growthCategorySchema } from "@/lib/unified-growth-areas";
 
 const optionalDueDateField = z.preprocess(
   (value) => {
@@ -66,9 +67,7 @@ export const taskProofConfigSchema = z.object({
 export const taskCategoryConfigSchema = z.object({
   category: z.enum(["FOCUS_BLOCK", "SCHOOL", "CHORE", "ATTITUDE", "LEGACY_WEEKLY", "SUMMER_LITE"]),
   subcategory: z.string().trim().max(50).optional(),
-  growthCategory: z
-    .enum(["CHARACTER", "WELLNESS", "CREATIVITY", "RESPONSIBILITY", "COMMUNITY"])
-    .optional(),
+  growthCategory: growthCategorySchema.optional(),
 });
 
 export const taskTemplateSchema = z
@@ -118,6 +117,9 @@ export function validateCategoryConfig(
   if (data.category !== "FOCUS_BLOCK" && !data.subcategory) {
     return "Pick a type for this task category.";
   }
+  if (data.category !== "FOCUS_BLOCK" && !data.growthCategory) {
+    return "Pick a growth area for this assignment.";
+  }
   return null;
 }
 
@@ -166,9 +168,7 @@ export const claimTaskSchema = assignTaskSchema;
 
 export const startTaskSchema = z.object({
   taskId: z.string().min(1),
-  growthCategory: z
-    .enum(["CHARACTER", "WELLNESS", "CREATIVITY", "RESPONSIBILITY", "COMMUNITY"])
-    .optional(),
+  growthCategory: growthCategorySchema.optional(),
 });
 
 export const taskRewardFieldsSchema = z.object({

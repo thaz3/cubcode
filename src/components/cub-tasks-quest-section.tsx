@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   CubWorkflowTaskCard,
@@ -10,6 +9,7 @@ import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
 import { CubKidSectionHeader } from "@/components/cub-kid/cub-kid-section-header";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { TaskScheduleDisplay } from "@/components/task-schedule-display";
+import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cubKidGameCard } from "@/lib/cub-kid-theme";
 import type { Task } from "@/generated/prisma/client";
@@ -67,6 +67,14 @@ export function CubTasksQuestSection({
           title="No tasks yet"
           description="When your parent assigns a task, it will show up here."
         />
+      ) : tasks.length === 1 ? (
+        <CubWorkflowTaskCard
+          task={tasks[0]!}
+          cubId={cubId}
+          focusGrowth={
+            tasks[0]!.category === "FOCUS_BLOCK" ? focusGrowth : null
+          }
+        />
       ) : (
         <>
           <CubKidPanel variant="gold" contentClassName="space-y-3">
@@ -79,8 +87,8 @@ export function CubTasksQuestSection({
 
                 return (
                   <li key={task.id}>
-                    <Link
-                      href={`/cub/${cubId}/tasks/${task.id}`}
+                    <a
+                      href={`#mission-${task.id}`}
                       className={cn(
                         cubKidGameCard,
                         "block space-y-2 border-cub-gold/35 bg-gradient-to-br from-cub-gold/15 to-cub-charcoal p-4 transition",
@@ -88,9 +96,14 @@ export function CubTasksQuestSection({
                       )}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p className="font-bold text-cub-off-white">
-                          {task.title}
-                        </p>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="font-bold text-cub-off-white">
+                            {task.title}
+                          </p>
+                          {task.isUrgent && task.status === "CLAIMED" ? (
+                            <TaskUrgentBadge />
+                          ) : null}
+                        </div>
                         <StatusBadge status={task.status} />
                       </div>
                       <TaskScheduleDisplay
@@ -98,9 +111,9 @@ export function CubTasksQuestSection({
                         className="text-sm text-cub-muted"
                       />
                       <p className="text-xs font-bold uppercase text-cub-gold-light">
-                        {isSelected ? "Selected · scroll below" : "View task →"}
+                        {isSelected ? "Selected · scroll below" : "Tap to view →"}
                       </p>
-                    </Link>
+                    </a>
                   </li>
                 );
               })}

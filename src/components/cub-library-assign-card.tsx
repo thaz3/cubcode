@@ -66,7 +66,12 @@ export function CubLibraryAssignCard({ task, cubId }: CubLibraryAssignCardProps)
           </div>
         </CollapsibleSection>
 
-        <FormSubmitFooter error={state.error} success={state.success}>
+        <FormSubmitFooter
+          error={state.error}
+          success={state.success}
+          successAsDialog
+          successDialogTitle="Task assigned"
+        >
           <Button type="submit" disabled={isPending} fullWidth size="lg">
             {isPending ? "Assigning..." : "Assign from library"}
           </Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { ActionSuccessDialog } from "@/components/ui/action-success-dialog";
 import { cn } from "@/lib/utils";
 
 type FormSubmitFooterProps = {
@@ -8,6 +9,9 @@ type FormSubmitFooterProps = {
   error?: string | null;
   success?: string | null;
   className?: string;
+  /** Show success in a centered dialog instead of inline text. */
+  successAsDialog?: boolean;
+  successDialogTitle?: string;
 };
 
 /**
@@ -19,6 +23,8 @@ export function FormSubmitFooter({
   error,
   success,
   className,
+  successAsDialog = false,
+  successDialogTitle,
 }: FormSubmitFooterProps) {
   const statusRef = useRef<HTMLDivElement>(null);
 
@@ -30,6 +36,12 @@ export function FormSubmitFooter({
 
   return (
     <>
+      {successAsDialog ? (
+        <ActionSuccessDialog
+          message={success}
+          title={successDialogTitle ?? "Success"}
+        />
+      ) : null}
       <div className="form-submit-footer-spacer" aria-hidden />
       <div className={cn("form-submit-footer", className)}>
         <div ref={statusRef} className="mx-auto w-full max-w-4xl px-4">
@@ -38,7 +50,7 @@ export function FormSubmitFooter({
               {error}
             </p>
           ) : null}
-          {success ? (
+          {success && !successAsDialog ? (
             <p className="mb-3 text-sm text-emerald-400" role="status">
               {success}
             </p>

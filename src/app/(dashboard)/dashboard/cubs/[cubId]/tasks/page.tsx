@@ -13,9 +13,9 @@ import { PageHeader } from "@/components/ui/page-header";
 import { TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { auth } from "@/lib/auth";
 import type { SupervisionLevel } from "@/generated/prisma/client";
+import { formatAgeBand } from "@/lib/age-band-defaults";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
 import {
-  formatTaskCategory,
   growthCategoryShortLabel,
 } from "@/lib/task-categories";
 import { db } from "@/lib/db";
@@ -126,9 +126,18 @@ export default async function CubTasksPage({
         backHref="/dashboard/cubs"
         backLabel="Cubs"
         action={
-          <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
-            <Button size="lg">Assign New Work</Button>
-          </Link>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Link href={`/cub/${cub.id}/challenges`}>
+              <Button variant="constructive" size="lg" fullWidth className="sm:w-auto">
+                Cub view
+              </Button>
+            </Link>
+            <Link href={`/dashboard/cubs/${cub.id}/tasks#assign-task`}>
+              <Button size="lg" fullWidth className="sm:w-auto">
+                Assign New Work
+              </Button>
+            </Link>
+          </div>
         }
       />
       <CubColorBadge cubId={cub.id} displayName={cub.displayName} />
@@ -149,6 +158,9 @@ export default async function CubTasksPage({
               </h2>
               <p className="mt-1 text-sm text-cub-muted">
                 Default rewards for new tasks and household limits for this Cub.
+              </p>
+              <p className="mt-2 text-sm text-cub-off-white/90">
+                Age band: {formatAgeBand(cub.ageBand)}
               </p>
             </div>
 
@@ -342,11 +354,7 @@ export default async function CubTasksPage({
                       />
                     ) : null}
                     <p className="mt-1 text-xs text-zinc-500">
-                      {formatTaskCategory(task.category, {
-                        subcategory: task.subcategory,
-                        growthCategory: task.growthCategory,
-                      })}{" "}
-                      · {formatProofType(task.proofType)} · {formatTaskRewards(task)}
+                      {formatProofType(task.proofType)} · {formatTaskRewards(task)}
                       {formatTaskRecurrence(task.recurrence)
                         ? ` · ${formatTaskRecurrence(task.recurrence)}`
                         : ""}

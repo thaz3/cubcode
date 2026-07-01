@@ -20,11 +20,11 @@ import {
   type TaskCategoryValues,
 } from "@/components/task-category-fields";
 import type { ProofConfigValues } from "@/components/proof-config-fields";
+import { RoutineCubAssignmentFields } from "@/components/routine-cub-assignment-fields";
 import type { ActionState } from "@/lib/actions/auth";
 import { createTaskTemplateAction } from "@/lib/actions/task-templates";
-import type { CategorySuggestion } from "@/lib/task-categories";
-import type { TaskProofType, TaskRecurrence } from "@/generated/prisma/client";
-import { useEffect, useState } from "react";
+import type { TaskRecurrence } from "@/generated/prisma/client";
+import { useEffect } from "react";
 
 type TaskTemplateFormProps = {
   action: (
@@ -47,6 +47,8 @@ type TaskTemplateFormProps = {
   hiddenFields?: Record<string, string>;
   rewardFields?: React.ReactNode;
   compact?: boolean;
+  cubs?: Array<{ id: string; displayName: string }>;
+  defaultCubIds?: string[];
 };
 
 export function TaskTemplateForm({
@@ -63,29 +65,14 @@ export function TaskTemplateForm({
   hiddenFields,
   rewardFields,
   compact = false,
+  cubs,
+  defaultCubIds = [],
 }: TaskTemplateFormProps) {
   const { state, formAction, isPending, onDueDateChange } = useDueDateFormAction(
     action,
     {},
     { enabled: showDueDate, initialDueDate },
   );
-  const [proofKey, setProofKey] = useState(0);
-  const [proofDefaults, setProofDefaults] = useState<
-    Partial<ProofConfigValues>
-  >({
-    proofType: initialValues?.proofType,
-    proofPrompt: initialValues?.proofPrompt,
-    proofChecklistItems: initialValues?.proofChecklistItems,
-  });
-
-  function handleApplySuggested(suggestion: CategorySuggestion) {
-    setProofDefaults({
-      proofType: suggestion.proofType as TaskProofType,
-      proofPrompt: suggestion.proofPrompt,
-      proofChecklistItems: suggestion.proofChecklistItems,
-    });
-    setProofKey((key) => key + 1);
-  }
 
   useEffect(() => {
     logActionResult("task", state);
@@ -136,22 +123,29 @@ export function TaskTemplateForm({
         />
       </div>
 
+      {cubs ? (
+        cubs.length === 0 ? (
+          <p className="text-sm text-zinc-400">
+            Add a Cub profile before assigning a task.
+          </p>
+        ) : (
+          <RoutineCubAssignmentFields
+            cubs={cubs}
+            defaultSelectedCubIds={defaultCubIds}
+            variant="task"
+          />
+        )
+      ) : null}
+
       {compact ? (
         <>
-          <CollapsibleSection
-            title="Category & type"
-            summary="Chore, school, focus block, and more"
-            defaultOpen
-          >
-            <TaskCategoryFields
-              initialValues={{
-                category: initialValues?.category,
-                subcategory: initialValues?.subcategory,
-                growthCategory: initialValues?.growthCategory,
-              }}
-              onApplySuggested={handleApplySuggested}
-            />
-          </CollapsibleSection>
+          <TaskCategoryFields
+            initialValues={{
+              category: initialValues?.category,
+              subcategory: initialValues?.subcategory,
+              growthCategory: initialValues?.growthCategory,
+            }}
+          />
 
           <CollapsibleSection
             title="Proof style"
@@ -159,14 +153,10 @@ export function TaskTemplateForm({
             defaultOpen
           >
             <ProofConfigFields
-              key={proofKey}
               initialValues={{
-                proofType: proofDefaults.proofType ?? initialValues?.proofType,
-                proofPrompt:
-                  proofDefaults.proofPrompt ?? initialValues?.proofPrompt,
-                proofChecklistItems:
-                  proofDefaults.proofChecklistItems ??
-                  initialValues?.proofChecklistItems,
+                proofType: initialValues?.proofType,
+                proofPrompt: initialValues?.proofPrompt,
+                proofChecklistItems: initialValues?.proofChecklistItems,
               }}
             />
           </CollapsibleSection>
@@ -212,25 +202,19 @@ export function TaskTemplateForm({
               subcategory: initialValues?.subcategory,
               growthCategory: initialValues?.growthCategory,
             }}
-            onApplySuggested={handleApplySuggested}
           />
 
           <ProofConfigFields
-            key={proofKey}
             initialValues={{
-              proofType: proofDefaults.proofType ?? initialValues?.proofType,
-              proofPrompt:
-                proofDefaults.proofPrompt ?? initialValues?.proofPrompt,
-              proofChecklistItems:
-                proofDefaults.proofChecklistItems ??
-                initialValues?.proofChecklistItems,
+              proofType: initialValues?.proofType,
+              proofPrompt: initialValues?.proofPrompt,
+              proofChecklistItems: initialValues?.proofChecklistItems,
             }}
           />
 
           {rewardFields}
 
           <p className="text-sm text-zinc-500">
-            Category sets suggested rewards when the task is added to the board.
             Earned amounts come from each Cub&apos;s profile when assigned.
             Parent approval is always required.
           </p>
@@ -262,10 +246,15 @@ export function TaskTemplateForm({
 
       {compact ? rewardFields : null}
 
-      <FormSubmitFooter error={state.error} success={state.success}>
+      <FormSubmitFooter
+        error={state.error}
+        success={state.success}
+        successAsDialog
+        successDialogTitle="Task assigned"
+      >
         <Button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || (cubs != null && cubs.length === 0)}
           fullWidth={compact}
           size="lg"
           className="relative z-[1] min-h-12 touch-manipulation"

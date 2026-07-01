@@ -76,10 +76,12 @@ export type TaskCategory = (typeof TaskCategory)[keyof typeof TaskCategory]
 
 
 export const GrowthCategory = {
+  MIND: 'MIND',
+  BODY: 'BODY',
   CHARACTER: 'CHARACTER',
-  WELLNESS: 'WELLNESS',
-  CREATIVITY: 'CREATIVITY',
   RESPONSIBILITY: 'RESPONSIBILITY',
+  CREATIVITY: 'CREATIVITY',
+  FAMILY: 'FAMILY',
   COMMUNITY: 'COMMUNITY'
 } as const
 
@@ -101,10 +103,12 @@ export type LedgerReason = (typeof LedgerReason)[keyof typeof LedgerReason]
 
 
 export const FocusDeckCategory = {
+  MIND: 'MIND',
+  BODY: 'BODY',
   CHARACTER: 'CHARACTER',
-  WELLNESS: 'WELLNESS',
-  CREATIVITY: 'CREATIVITY',
   RESPONSIBILITY: 'RESPONSIBILITY',
+  CREATIVITY: 'CREATIVITY',
+  FAMILY: 'FAMILY',
   COMMUNITY: 'COMMUNITY'
 } as const
 

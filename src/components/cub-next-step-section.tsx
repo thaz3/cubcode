@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CubKidPanel } from "@/components/cub-kid/cub-kid-panel";
+import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { Button } from "@/components/ui/button";
 import type { CubNextAction } from "@/lib/cub-next-action";
 import { nextActionButtonVariant } from "@/lib/cub-theme";
@@ -15,6 +16,7 @@ function needsKidAttention(tone: CubNextAction["tone"]): boolean {
 
 export function CubNextStepSection({ action }: CubNextStepSectionProps) {
   const actionable = needsKidAttention(action.tone);
+  const markedUrgent = Boolean(action.isMarkedUrgent);
   const buttonVariant = nextActionButtonVariant(
     action.tone === "urgent" ? "urgent" : "normal",
     action.buttonLabel,
@@ -23,14 +25,25 @@ export function CubNextStepSection({ action }: CubNextStepSectionProps) {
   const body = (
     <>
       <div>
-        <p
-          className={cn(
-            "text-[10px] font-black uppercase tracking-[0.2em]",
-            actionable ? "text-kid-orange" : "text-kid-purple",
-          )}
-        >
-          {actionable ? "⚡ Let's Go!" : "🎯 Next step"}
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p
+            className={cn(
+              "text-[10px] font-black uppercase tracking-[0.2em]",
+              markedUrgent
+                ? "text-cub-red"
+                : actionable
+                  ? "text-kid-orange"
+                  : "text-kid-purple",
+            )}
+          >
+            {markedUrgent
+              ? "🚨 Urgent!"
+              : actionable
+                ? "⚡ Let's Go!"
+                : "🎯 Next step"}
+          </p>
+          {markedUrgent ? <TaskUrgentBadge /> : null}
+        </div>
         <h2
           className={cn(
             "mt-1 font-black text-kid-ink",
@@ -76,17 +89,26 @@ export function CubNextStepSection({ action }: CubNextStepSectionProps) {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-3xl border-[3px] border-kid-orange/60",
-        "bg-gradient-to-br from-kid-yellow/50 via-kid-orange/20 to-white",
-        "p-4 shadow-xl shadow-kid-orange/25 ring-2 ring-kid-yellow/40 sm:p-5",
+        "relative overflow-hidden rounded-3xl border-[3px] p-4 shadow-xl sm:p-5",
+        markedUrgent
+          ? "border-cub-red/70 bg-gradient-to-br from-cub-red/15 via-kid-orange/25 to-white shadow-cub-red/25 ring-2 ring-cub-red/35"
+          : "border-kid-orange/60 bg-gradient-to-br from-kid-yellow/50 via-kid-orange/20 to-white shadow-kid-orange/25 ring-2 ring-kid-yellow/40",
       )}
     >
       <div
-        className="pointer-events-none absolute -inset-1 animate-pulse rounded-3xl bg-kid-yellow/20 blur-sm"
+        className={cn(
+          "pointer-events-none absolute -inset-1 animate-pulse rounded-3xl blur-sm",
+          markedUrgent ? "bg-cub-red/15" : "bg-kid-yellow/20",
+        )}
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(circle_at_20%_0%,rgba(255,216,77,0.4),transparent_55%),radial-gradient(circle_at_80%_100%,rgba(255,159,67,0.25),transparent_50%)]"
+        className={cn(
+          "pointer-events-none absolute inset-0 opacity-70",
+          markedUrgent
+            ? "[background-image:radial-gradient(circle_at_20%_0%,rgba(239,68,68,0.25),transparent_55%),radial-gradient(circle_at_80%_100%,rgba(255,159,67,0.25),transparent_50%)]"
+            : "[background-image:radial-gradient(circle_at_20%_0%,rgba(255,216,77,0.4),transparent_55%),radial-gradient(circle_at_80%_100%,rgba(255,159,67,0.25),transparent_50%)]",
+        )}
         aria-hidden
       />
       <div className="relative space-y-4">{body}</div>

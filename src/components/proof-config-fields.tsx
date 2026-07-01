@@ -42,23 +42,21 @@ type ProofConfigFieldsProps = {
 
 export function ProofConfigFields({ initialValues }: ProofConfigFieldsProps) {
   const initialProofType = normalizeCubProofType(
-    initialValues?.proofType ?? "SHORT_REFLECTION",
+    initialValues?.proofType ?? "PARENT_APPROVAL",
   );
 
   const [proofType, setProofType] = useState<CubProofType>(initialProofType);
   const legacyProofType = isLegacyProofType(initialProofType)
     ? initialProofType
     : null;
-  const [proofPrompt, setProofPrompt] = useState(
-    initialValues?.proofPrompt ?? defaultProofPrompt(initialProofType),
-  );
+  const [proofPrompt, setProofPrompt] = useState(initialValues?.proofPrompt ?? "");
   const [checklistText, setChecklistText] = useState(
     checklistItemsToText(initialValues?.proofChecklistItems),
   );
 
   function handleProofTypeChange(next: MvpCubProofType) {
     setProofType(next);
-    setProofPrompt(defaultProofPrompt(next));
+    setProofPrompt("");
   }
 
   const parsedItems = parseChecklistLines(checklistText);

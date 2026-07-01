@@ -9,6 +9,20 @@ import {
   finalizeGrowthAreaSummary,
   mergeGrowthAreaItem,
 } from "@/lib/growth-area-aggregation";
+import {
+  GROWTH_RING_FULL_COMPLETIONS,
+  growthRingSweepPercent,
+} from "@/lib/unified-growth-areas";
+
+describe("growth ring progress", () => {
+  it("fills completely after seven completions", () => {
+    assert.equal(GROWTH_RING_FULL_COMPLETIONS, 7);
+    assert.ok(Math.abs(growthRingSweepPercent(1) - 100 / 7) < 0.001);
+    assert.equal(growthRingSweepPercent(7), 100);
+    assert.equal(growthRingSweepPercent(10), 100);
+    assert.equal(growthRingSweepPercent(0), 0);
+  });
+});
 
 describe("growth-area-summary", () => {
   it("counts coverage when required areas have points", () => {
@@ -19,7 +33,7 @@ describe("growth-area-summary", () => {
       title: "Focus session",
       completedAt: new Date(),
     });
-    mergeGrowthAreaItem(byArea, "WELLNESS", {
+    mergeGrowthAreaItem(byArea, "BODY", {
       type: "routine",
       id: "r1",
       title: "Brush teeth",
@@ -27,15 +41,17 @@ describe("growth-area-summary", () => {
     });
 
     const required: GrowthCategory[] = [
+      "MIND",
+      "BODY",
       "RESPONSIBILITY",
       "CREATIVITY",
       "CHARACTER",
-      "WELLNESS",
+      "FAMILY",
       "COMMUNITY",
     ];
     const coverage = computeCoverage(required, byArea);
     assert.equal(coverage.met, 2);
-    assert.equal(coverage.total, 5);
+    assert.equal(coverage.total, 7);
   });
 
   it("normalizes radar scale with at least 1", () => {

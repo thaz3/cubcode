@@ -61,11 +61,19 @@ export const DASHBOARD_MOBILE_MORE_NAV_ITEMS = [
   ...DASHBOARD_USER_MENU_NAV_ITEMS,
 ] as const;
 
+export function isDashboardAssignmentBoardNavActive(pathname: string): boolean {
+  if (pathname === "/dashboard/tasks") return true;
+  if (!pathname.startsWith("/dashboard/tasks/")) return false;
+  if (pathname.startsWith("/dashboard/tasks/assign")) return false;
+  if (pathname.startsWith("/dashboard/tasks/templates")) return false;
+  return true;
+}
+
 export function isDashboardNavActive(pathname: string, href: string): boolean {
   if (pathname === href) return true;
   if (href === "/dashboard") return false;
   if (href === "/dashboard/tasks") {
-    return isDashboardAssignmentsNavActive(pathname);
+    return isDashboardAssignmentBoardNavActive(pathname);
   }
   if (href === "/dashboard/tasks/assign") {
     return isDashboardAssignWorkNavActive(pathname);

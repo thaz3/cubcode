@@ -6,9 +6,22 @@ export type CubNextAction = {
   href: string;
   buttonLabel: string;
   tone: "focus" | "urgent" | "wait" | "calm";
+  /** Parent marked this assignment urgent (not the same as due-date urgency). */
+  isMarkedUrgent?: boolean;
 };
 
-type TaskSlice = Pick<Task, "id" | "title" | "status" | "focusSessionStartedAt">;
+type TaskSlice = Pick<
+  Task,
+  "id" | "title" | "status" | "focusSessionStartedAt" | "isUrgent"
+>;
+
+function pickTask(
+  tasks: TaskSlice[],
+  predicate: (task: TaskSlice) => boolean,
+): TaskSlice | undefined {
+  const matches = tasks.filter(predicate);
+  return matches.find((task) => task.isUrgent) ?? matches[0];
+}
 
 export function getCubNextAction(
   tasks: TaskSlice[],
@@ -16,20 +29,24 @@ export function getCubNextAction(
 ): CubNextAction {
   const assignmentsHref = `/cub/${cubId}/challenges#assignments`;
 
-  const inProgressFocus = tasks.find(
-    (t) => t.status === "IN_PROGRESS" && t.focusSessionStartedAt,
+  const inProgressFocus = pickTask(
+    tasks,
+    (t) => t.status === "IN_PROGRESS" && Boolean(t.focusSessionStartedAt),
   );
   if (inProgressFocus) {
     return {
       title: `Keep going: ${inProgressFocus.title}`,
-      description: "Your request timer is running. Submit when you're done.",
+      description: inProgressFocus.isUrgent
+        ? "Your parent marked this urgent. Your timer is running — submit when you're done."
+        : "Your request timer is running. Submit when you're done.",
       href: `/cub/${cubId}/tasks/${inProgressFocus.id}`,
       buttonLabel: "Continue task",
-      tone: "focus",
+      tone: inProgressFocus.isUrgent ? "urgent" : "focus",
+      isMarkedUrgent: inProgressFocus.isUrgent,
     };
   }
 
-  const sentBack = tasks.find((t) => t.status === "SENT_BACK");
+  const sentBack = pickTask(tasks, (t) => t.status === "SENT_BACK");
   if (sentBack) {
     return {
       title: `Try again: ${sentBack.title}`,
@@ -37,10 +54,12 @@ export function getCubNextAction(
       href: `/cub/${cubId}/tasks/${sentBack.id}`,
       buttonLabel: "Fix task",
       tone: "urgent",
+      isMarkedUrgent: sentBack.isUrgent,
     };
   }
 
-  const claimed = tasks.find(
+  const claimed = pickTask(
+    tasks,
     (t) => t.status === "CLAIMED" || t.status === "IN_PROGRESS",
   );
   if (claimed) {
@@ -50,11 +69,16 @@ export function getCubNextAction(
       title: claimed.title,
       description:
         claimed.status === "IN_PROGRESS"
-          ? "Finish your work and submit proof for parent review."
-          : "Tap View instructions when you're ready — your parent will know you opened them.",
+          ? claimed.isUrgent
+            ? "Your parent marked this urgent. Finish your work and submit proof for review."
+            : "Finish your work and submit proof for parent review."
+          : claimed.isUrgent
+            ? "Your parent marked this urgent. Tap View instructions when you're ready."
+            : "Tap View instructions when you're ready — your parent will know you opened them.",
       href: `/cub/${cubId}/tasks/${claimed.id}`,
       buttonLabel: label,
-      tone: "focus",
+      tone: claimed.isUrgent ? "urgent" : "focus",
+      isMarkedUrgent: claimed.isUrgent,
     };
   }
 

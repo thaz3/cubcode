@@ -14,33 +14,42 @@ import {
 import {
   ALL_GROWTH_CATEGORIES,
   GROWTH_CATEGORY_LABELS,
+  GROWTH_CATEGORY_TAGLINES,
+  GROWTH_CATEGORY_FOCUS,
   growthCategoryShortLabel,
 } from "@/lib/task-categories";
 import type { GrowthAreaSummary } from "@/lib/growth-area-summary";
+import { growthRingSweepPercent, GROWTH_RING_FULL_COMPLETIONS } from "@/lib/unified-growth-areas";
 import { cubProgressPath } from "@/lib/cub-progress-paths";
 import { cn } from "@/lib/utils";
 
 const AREA_COLORS: Record<GrowthCategory, string> = {
+  MIND: "text-violet-300",
+  BODY: "text-cub-off-white",
   CHARACTER: "text-cub-green-bright",
-  WELLNESS: "text-cub-off-white",
-  CREATIVITY: "text-cub-gold-warm",
   RESPONSIBILITY: "text-cub-gold-light",
+  CREATIVITY: "text-cub-gold-warm",
+  FAMILY: "text-amber-200",
   COMMUNITY: "text-cub-green-light",
 };
 
 const GROWTH_RING_COLORS: Record<GrowthCategory, string> = {
+  MIND: "#a78bfa",
+  BODY: "#f4f1ea",
   CHARACTER: "#6ee7b7",
-  WELLNESS: "#f4f1ea",
-  CREATIVITY: "#f2c14e",
   RESPONSIBILITY: "#d5a021",
+  CREATIVITY: "#f2c14e",
+  FAMILY: "#fbbf24",
   COMMUNITY: "#4ade80",
 };
 
 const GROWTH_FILL_COLORS: Record<GrowthCategory, string> = {
+  MIND: "rgba(167, 139, 250, 0.35)",
+  BODY: "rgba(244, 241, 234, 0.2)",
   CHARACTER: "rgba(110, 231, 183, 0.35)",
-  WELLNESS: "rgba(244, 241, 234, 0.2)",
-  CREATIVITY: "rgba(242, 193, 78, 0.35)",
   RESPONSIBILITY: "rgba(213, 160, 33, 0.35)",
+  CREATIVITY: "rgba(242, 193, 78, 0.35)",
+  FAMILY: "rgba(251, 191, 36, 0.35)",
   COMMUNITY: "rgba(74, 222, 128, 0.35)",
 };
 
@@ -102,8 +111,8 @@ export function GrowthAreasCard({
 
   const subcopy =
     audience === "cub"
-      ? "Tasks, routines, Focus Blocks, and Growth Picks — one chart for your whole week."
-      : "Evidence of work across all five growth areas, including Growth Picks.";
+      ? "Tasks, routines, Focus Blocks, and Growth Picks — one chart across all seven Cub Codes."
+      : "Evidence of work across all seven Cub Codes, including Growth Picks.";
 
   if (audience === "cub") {
     const activity = countAreasWithActivity(summary);
@@ -128,6 +137,8 @@ export function GrowthAreasCard({
         </div>
 
         <GrowthAreaDrillDown summary={summary} audience="cub" />
+
+        <GrowthCodeGuide audience="cub" />
       </CubKidPanel>
     );
   }
@@ -155,6 +166,8 @@ export function GrowthAreasCard({
       </div>
 
       <GrowthAreaDrillDown summary={summary} />
+
+      <GrowthCodeGuide />
     </Card>
   );
 }
@@ -188,10 +201,10 @@ function GrowthAreasMiniCard({
           <p className={cn("mt-0.5 text-xs", cubKidTextMuted)}>{summary.weekLabel}</p>
         </div>
 
-        <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
+        <ul className="grid grid-cols-4 gap-1.5 sm:grid-cols-7">
           {ALL_GROWTH_CATEGORIES.map((area) => {
-            const filled = summary.byArea[area].points > 0;
-            const count = summary.byArea[area].points;
+            const stats = summary.byArea[area];
+            const filled = stats.completions > 0;
             return (
               <li
                 key={area}
@@ -201,14 +214,14 @@ function GrowthAreasMiniCard({
                 )}
                 title={
                   filled
-                    ? `${growthCategoryShortLabel(area)}: ${count} point${count === 1 ? "" : "s"}`
+                    ? `${growthCategoryShortLabel(area)}: ${stats.points} point${stats.points === 1 ? "" : "s"}`
                     : `${growthCategoryShortLabel(area)}: no work yet`
                 }
               >
                 <CoverageRing
                   area={area}
                   filled={filled}
-                  points={count}
+                  completions={stats.completions}
                   label={growthCategoryShortLabel(area)}
                   size="sm"
                   audience="cub"
@@ -250,24 +263,24 @@ function GrowthAreasMiniCard({
         <p className="mt-0.5 text-sm text-cub-muted">{summary.weekLabel}</p>
       </div>
 
-      <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
+      <ul className="grid grid-cols-4 gap-1.5 sm:grid-cols-7">
         {ALL_GROWTH_CATEGORIES.map((area) => {
-          const filled = summary.byArea[area].points > 0;
-          const count = summary.byArea[area].points;
+          const stats = summary.byArea[area];
+          const filled = stats.completions > 0;
           return (
             <li
               key={area}
               className="flex flex-col items-center gap-1 rounded-lg border border-cub-charcoal bg-cub-ebony/60 px-1 py-2 text-center"
               title={
                 filled
-                  ? `${growthCategoryShortLabel(area)}: ${count} point${count === 1 ? "" : "s"}`
+                  ? `${growthCategoryShortLabel(area)}: ${stats.points} point${stats.points === 1 ? "" : "s"}`
                   : `${growthCategoryShortLabel(area)}: no work yet`
               }
             >
               <CoverageRing
                 area={area}
                 filled={filled}
-                points={count}
+                completions={stats.completions}
                 label={growthCategoryShortLabel(area)}
                 size="sm"
               />
@@ -317,7 +330,7 @@ function CoverageRings({
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-1">
         {ALL_GROWTH_CATEGORIES.map((area) => {
           const stats = summary.byArea[area];
-          const filled = stats.points > 0;
+          const filled = stats.completions > 0;
           return (
             <li
               key={area}
@@ -331,7 +344,7 @@ function CoverageRings({
               <CoverageRing
                 area={area}
                 filled={filled}
-                points={stats.points}
+                completions={stats.completions}
                 label={growthCategoryShortLabel(area)}
                 audience={audience}
               />
@@ -345,7 +358,9 @@ function CoverageRings({
                   {growthCategoryShortLabel(area)}
                 </p>
                 <p className={cn("text-xs", isCub ? cubKidTextMuted : "text-cub-muted")}>
-                  {filled ? `${stats.points} point${stats.points === 1 ? "" : "s"}` : "No activity yet"}
+                  {filled
+                    ? `${stats.points} point${stats.points === 1 ? "" : "s"}`
+                    : "No activity yet"}
                 </p>
               </div>
             </li>
@@ -359,14 +374,14 @@ function CoverageRings({
 function CoverageRing({
   area,
   filled,
-  points = 0,
+  completions = 0,
   label,
   size = "md",
   audience = "parent",
 }: {
   area: GrowthCategory;
   filled: boolean;
-  points?: number;
+  completions?: number;
   label: string;
   size?: "sm" | "md";
   audience?: "parent" | "cub";
@@ -375,13 +390,13 @@ function CoverageRing({
   const thickness = size === "sm" ? 4 : 5;
   const color =
     audience === "cub" ? KID_GROWTH_COLORS[area] : GROWTH_RING_COLORS[area];
-  const sweep = filled ? Math.min(100, Math.max(30, (points / 5) * 100)) : 18;
+  const sweep = growthRingSweepPercent(filled ? completions : 0);
 
   return (
     <div
       className="shrink-0 rounded-full"
       role="img"
-      aria-label={`${label}: ${filled ? "work shown" : "no work yet"}`}
+      aria-label={`${label}: ${filled ? `${completions} of ${GROWTH_RING_FULL_COMPLETIONS} completions` : "no work yet"}`}
       style={{
         width: dim,
         height: dim,
@@ -402,7 +417,7 @@ function GrowthRadar({
 }) {
   const isCub = audience === "cub";
   const chartSize = 220;
-  const pad = 52;
+  const pad = 58;
   const size = chartSize + pad * 2;
   const center = pad + chartSize / 2;
   const maxRadius = chartSize / 2 - 28;
@@ -461,7 +476,7 @@ function GrowthRadar({
           {ALL_GROWTH_CATEGORIES.map((area, index) => {
             const outer = pointFor(area, 1);
             const angle = angles[index]!;
-            const labelRadius = maxRadius + 22;
+            const labelRadius = maxRadius + 24;
             const lx = center + labelRadius * Math.cos(angle);
             const ly = center + labelRadius * Math.sin(angle);
             const anchor = radarLabelAnchor(angle);
@@ -481,7 +496,7 @@ function GrowthRadar({
                   textAnchor={anchor}
                   dominantBaseline="middle"
                   className={cn(
-                    "fill-current text-[10px] font-semibold",
+                    "fill-current text-[9px] font-semibold",
                     isCub ? KID_GROWTH_TEXT[area] : AREA_COLORS[area],
                   )}
                 >
@@ -589,6 +604,9 @@ function GrowthAreaDrillDown({
                   {stats.xpEarned > 0 ? ` · ${stats.xpEarned} XP` : ""}
                 </p>
               </div>
+              <p className={cn("mt-1 text-xs leading-relaxed", isCub ? cubKidTextMuted : "text-cub-muted")}>
+                {GROWTH_CATEGORY_TAGLINES[area]}
+              </p>
               <ul className="mt-2 space-y-1">
                 {stats.items.map((item) => (
                   <li
@@ -622,6 +640,51 @@ function GrowthAreaDrillDown({
             </li>
           );
         })}
+      </ul>
+    </div>
+  );
+}
+
+function GrowthCodeGuide({ audience = "parent" }: { audience?: "parent" | "cub" }) {
+  const isCub = audience === "cub";
+
+  return (
+    <div className="space-y-3">
+      <div>
+        <p
+          className={cn(
+            "text-xs font-bold uppercase tracking-wide",
+            isCub ? cubKidSectionEyebrow : "text-cub-gold-light",
+          )}
+        >
+          The Code
+        </p>
+        <p className={cn("mt-1 text-sm leading-relaxed", isCub ? cubKidTextMuted : "text-cub-muted")}>
+          Seven areas for raising children with strong minds, disciplined bodies,
+          creative spirits, good character, and responsibility to something bigger
+          than themselves.
+        </p>
+      </div>
+      <ul className="grid gap-2 sm:grid-cols-2">
+        {ALL_GROWTH_CATEGORIES.map((area) => (
+          <li
+            key={area}
+            className={cn(
+              "rounded-2xl border-2 px-3 py-2.5",
+              isCub ? KID_GROWTH_BG[area] : "border-cub-charcoal bg-cub-ebony/40",
+            )}
+          >
+            <p className={cn("text-sm font-bold", isCub ? KID_GROWTH_TEXT[area] : AREA_COLORS[area])}>
+              {growthCategoryShortLabel(area)}
+            </p>
+            <p className={cn("mt-0.5 text-xs leading-relaxed", isCub ? cubKidTextMuted : "text-cub-muted")}>
+              {GROWTH_CATEGORY_TAGLINES[area]}
+            </p>
+            <p className={cn("mt-1 text-[11px] leading-relaxed", isCub ? "text-kid-ink-soft" : "text-cub-off-white/70")}>
+              {GROWTH_CATEGORY_FOCUS[area]}
+            </p>
+          </li>
+        ))}
       </ul>
     </div>
   );
