@@ -4,14 +4,14 @@ import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   RewardStoreItemFormFields,
-  type RewardStoreItemFormValues,
 } from "@/components/reward-store-item-form-fields";
+import type { RewardStoreItemOption } from "@/components/reward-store-redeem-panel";
 import type { ActionState } from "@/lib/actions/auth";
 import { updateRewardStoreItemAction } from "@/lib/actions/rewards";
 import type { RewardGrantType } from "@/generated/prisma/client";
 
 type EditRewardStoreItemFormProps = {
-  item: RewardStoreItemFormValues & { id: string; description: string | null };
+  item: RewardStoreItemOption;
   onCancel?: () => void;
 };
 
