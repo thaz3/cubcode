@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ComplianceFooter } from "@/components/compliance-footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
@@ -48,6 +49,8 @@ export default async function HomePage() {
             </Button>
           </Link>
         </div>
+
+        <ComplianceFooter />
       </div>
     </main>
   );

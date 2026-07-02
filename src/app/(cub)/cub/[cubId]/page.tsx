@@ -1,5 +1,6 @@
 import { MissionHashScroll } from "@/components/mission-hash-scroll";
 import { ActiveFocusTimersBanner } from "@/components/active-focus-timers-banner";
+import { PrivateBetaBanner } from "@/components/private-beta-banner";
 import { DenOverviewDashboard } from "@/components/den-overview/den-overview-dashboard";
 import {
   CubKidHero,
@@ -98,6 +99,7 @@ export default async function CubTodayPage({ params }: CubTodayPageProps) {
   return (
     <div className="space-y-5">
       <MissionHashScroll />
+      <PrivateBetaBanner variant="kid" />
       <CubKidHero
         title={`Hey, ${cub.displayName}!`}
         subtitle="Welcome to Cub HQ — check your missions, see what's coming up, and keep your streak going!"

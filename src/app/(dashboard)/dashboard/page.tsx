@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ActionTile } from "@/components/ui/action-tile";
+import { HelpImproveBetaCard } from "@/components/help-improve-beta-card";
+import { PrivateBetaBanner } from "@/components/private-beta-banner";
 import {
   AssignWorkIcon,
   CalendarIcon,
@@ -211,7 +213,8 @@ export default async function DashboardPage() {
         title="Parent's Room"
         subtitle={`Today's Code · ${weekLabel}`}
       />
-      <p className="-mt-4 text-sm text-cub-muted">{greeting}</p>
+      <PrivateBetaBanner />
+      <p className="text-sm text-cub-muted">{greeting}</p>
 
       {family.cubs.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -360,6 +363,8 @@ export default async function DashboardPage() {
         focusDeckCards={focusDeckReminders}
         hiddenByQuietHours={quietHoursActive}
       />
+
+      <HelpImproveBetaCard />
 
       <section className="space-y-3">
         <div>

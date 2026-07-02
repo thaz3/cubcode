@@ -17,6 +17,7 @@ import {
   isDashboardNavActive,
   isDashboardUserMenuNavActive,
 } from "@/lib/dashboard-nav-items";
+import { BETA_FEEDBACK_LABEL, BETA_FEEDBACK_PATH } from "@/lib/beta-feedback";
 import { cn } from "@/lib/utils";
 import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
 
@@ -219,6 +220,10 @@ function UserMenu({
             {DASHBOARD_USER_MENU_NAV_ITEMS.map((item) => (
               <MoreMenuLink key={item.href} item={item} pathname={pathname} />
             ))}
+            <MoreMenuLink
+              item={{ href: BETA_FEEDBACK_PATH, label: BETA_FEEDBACK_LABEL }}
+              pathname={pathname}
+            />
           </MoreMenuSection>
         </div>
       ) : null}

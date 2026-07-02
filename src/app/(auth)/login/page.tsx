@@ -1,4 +1,5 @@
 import { AuthForm } from "@/components/auth-form";
+import { ComplianceFooter } from "@/components/compliance-footer";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 
@@ -17,6 +18,9 @@ export default function LoginPage() {
       <Card>
         <AuthForm mode="login" />
       </Card>
+      <div className="mt-8">
+        <ComplianceFooter />
+      </div>
     </main>
   );
 }

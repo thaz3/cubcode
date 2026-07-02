@@ -1,4 +1,5 @@
 import { AuthForm } from "@/components/auth-form";
+import { ComplianceFooter } from "@/components/compliance-footer";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 
@@ -13,10 +14,19 @@ export default function SignupPage() {
         <p className="text-sm text-zinc-400">
           Sign up to create your family and add Cub profiles.
         </p>
+        <p className="text-xs text-zinc-500">
+          Private beta — use demo child info only.{" "}
+          <Link href="/beta" className="font-medium text-cub-gold hover:text-cub-gold-light">
+            Read the beta notice
+          </Link>
+        </p>
       </div>
       <Card>
         <AuthForm mode="signup" />
       </Card>
+      <div className="mt-8">
+        <ComplianceFooter />
+      </div>
     </main>
   );
 }

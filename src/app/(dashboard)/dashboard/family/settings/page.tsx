@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AccountSettingsForm } from "@/components/account-settings-form";
+import { BetaFeedbackSection } from "@/components/beta-feedback-section";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
@@ -72,6 +73,8 @@ export default async function FamilySettingsPage() {
           name: account.name ?? "",
         }}
       />
+
+      <BetaFeedbackSection />
 
       <CollapsibleSection
         title="Integrations"

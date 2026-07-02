@@ -13,6 +13,7 @@ import {
   isDashboardMobileAccountNavActive,
   isDashboardNavActive,
 } from "@/lib/dashboard-nav-items";
+import { BETA_FEEDBACK_LABEL, BETA_FEEDBACK_PATH } from "@/lib/beta-feedback";
 import { cn } from "@/lib/utils";
 import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
 
@@ -199,6 +200,16 @@ function MobileUserSection({
             {item.label}
           </Link>
         ))}
+        <Link
+          href={BETA_FEEDBACK_PATH}
+          role="menuitem"
+          className={cn(
+            "block rounded-lg px-3 py-2.5 text-sm font-medium transition hover:bg-zinc-800",
+            pathname === BETA_FEEDBACK_PATH ? "text-cub-gold" : "text-zinc-200",
+          )}
+        >
+          {BETA_FEEDBACK_LABEL}
+        </Link>
       </div>
     </div>
   );

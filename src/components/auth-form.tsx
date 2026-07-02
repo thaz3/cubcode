@@ -87,6 +87,20 @@ export function AuthForm({ mode }: AuthFormProps) {
           </>
         )}
       </p>
+
+      {mode === "signup" ? (
+        <p className="text-center text-xs text-zinc-500">
+          By creating an account, you agree to our{" "}
+          <Link href="/terms" className="font-medium text-zinc-400 hover:text-cub-gold">
+            beta terms
+          </Link>{" "}
+          and{" "}
+          <Link href="/privacy" className="font-medium text-zinc-400 hover:text-cub-gold">
+            privacy summary
+          </Link>
+          .
+        </p>
+      ) : null}
     </form>
   );
 }
