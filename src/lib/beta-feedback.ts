@@ -17,7 +17,7 @@ export const HELP_IMPROVE_BETA_TITLE = "Help Improve The CUB Code";
  */
 export const BETA_FEEDBACK_FORM_URL =
   process.env.NEXT_PUBLIC_BETA_FEEDBACK_FORM_URL?.trim() ||
-  "https://forms.gle/placeholder-replace-with-your-form";
+  "https://docs.google.com/forms/d/e/1FAIpQLSfug4aLXqWSRjP8VC_NS9w1ThqoYQAEIM2YsnMjJ6oxA2_P7w/viewform";
 
 export const BETA_FEEDBACK_PRIVACY_NOTE =
   "Please do not include real child names, photos, school names, addresses, medical information, therapy details, or sensitive family information.";
