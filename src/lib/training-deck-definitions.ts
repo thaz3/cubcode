@@ -34,9 +34,8 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
   {
     slug: "start-your-code",
     milestoneNumber: 1,
-    title: "Start Your Code",
-    description:
-      "Learn how C.U.B. Code works — focus, proof, and parent approval.",
+    title: "Freedom for Who?",
+    description: "Slavery must end completely.",
     cards: [
       {
         key: "code-promise",
@@ -77,13 +76,26 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         proofType: "SHORT_REFLECTION",
         proofPrompt: "What did you do and what did you learn about the review process?",
       },
+      {
+        key: "freedom-for-all",
+        title: "Define freedom for everyone",
+        description: "Explore what full freedom means beyond partial change.",
+        instructions:
+          "Research how slavery ended in the United States. Write three sentences on who gained freedom and who was still left out.",
+        estimatedMinutes: 35,
+        locationType: "HOME",
+        difficulty: "EASY",
+        categoryPoints: { CHARACTER: 2, MIND: 2 },
+        proofType: "SHORT_REFLECTION",
+        proofPrompt: "Who was freed, and who still had to fight for more?",
+      },
     ],
   },
   {
     slug: "build-your-rhythm",
     milestoneNumber: 2,
-    title: "Build Your Rhythm",
-    description: "Build steady habits — sleep, study, and daily structure.",
+    title: "Reconstruction: Build Freedom",
+    description: "Rebuild communities, rights, and institutions after emancipation.",
     cards: [
       {
         key: "morning-rhythm",
@@ -129,8 +141,8 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
   {
     slug: "know-your-roots",
     milestoneNumber: 3,
-    title: "Know Your Roots",
-    description: "Black history awareness, family identity, and community pride.",
+    title: "Harlem Renaissance: Make Culture",
+    description: "Create art, music, and ideas that shape the world.",
     cards: [
       {
         key: "roots-figure",
@@ -176,9 +188,8 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
   {
     slug: "get-some-sun",
     milestoneNumber: 4,
-    title: "Get Some Sun",
-    description:
-      "Outdoor summer learning — parks, libraries, walks, and family history outside.",
+    title: "Civil Rights: Move the Nation",
+    description: "Organize, protest, and change laws through courage and strategy.",
     cards: [
       {
         key: "sun-community-service",
@@ -263,8 +274,8 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
   {
     slug: "city-explorer",
     milestoneNumber: 5,
-    title: "City Explorer",
-    description: "Black history in your city — landmarks, neighborhoods, and local stories.",
+    title: "Black Futures: Build the Code",
+    description: "Design technology, community, and the world you want to lead.",
     cards: [
       {
         key: "city-landmark",

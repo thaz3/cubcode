@@ -27,17 +27,16 @@ export default async function CubTrainingBoardPage({
   return (
     <div className="space-y-5">
       <CubKidHero
-        title="Training Path"
-        subtitle="Level up through Black history, identity, culture, and life lessons."
+        title="Liberation Lab"
+        subtitle="History is action, not memorization. Complete Black history missions, build digital artifacts, and earn XP through strategy, literacy, voice, and courage."
         emoji={CUB_PAGE_EMOJI.training}
         backHref={`/cub/${cubId}`}
         backLabel="Today"
       />
 
-      <CubKidTipCard title="Your quest map is below">
-        Tap <span className="font-semibold text-sky-400">Play</span> on your current level. When
-        your parent assigns a lesson, it shows up in{" "}
-        <span className="font-semibold text-cub-gold-light">Overview</span>.
+      <CubKidTipCard title="Your Liberation Lab map is below">
+        Tap <span className="font-semibold text-sky-400">Enter Lab</span> on your current
+        milestone. Complete each lesson to unlock the next lab.
       </CubKidTipCard>
 
       <CubTrainingPathAdventure

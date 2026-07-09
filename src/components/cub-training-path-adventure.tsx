@@ -146,6 +146,9 @@ function FeaturedLevelCard({
             <h3 className="text-lg font-black text-kid-ink group-hover:text-kid-purple">
               {milestone.title}
             </h3>
+            {milestone.description ? (
+              <p className="mt-1 text-sm text-kid-ink-muted">{milestone.description}</p>
+            ) : null}
             <div className="mt-1.5">
               <LessonStars
                 approved={milestone.approvedCount}
@@ -154,7 +157,7 @@ function FeaturedLevelCard({
               />
             </div>
             <p className="mt-1.5 text-xs text-kid-ink-muted">
-              {milestone.approvedCount}/{milestone.totalCards} lessons complete
+              {milestone.approvedCount}/{milestone.totalCards} labs complete
             </p>
             <div className="mt-2 h-2.5 overflow-hidden rounded-full border border-kid-purple/15 bg-kid-lavender/50">
               <div
@@ -174,7 +177,7 @@ function FeaturedLevelCard({
                     : "bg-kid-blue text-white shadow-kid-blue/30 group-hover:bg-kid-purple",
                 )}
               >
-                {isComplete ? "Replay" : "Play"} <span aria-hidden>▶</span>
+                {isComplete ? "Replay" : "Enter Lab"} <span aria-hidden>▶</span>
               </span>
             </div>
           </div>
@@ -203,7 +206,7 @@ function LockedLevelCard({
         <p className="truncate text-sm font-bold text-slate-400">{milestone.title}</p>
         <LessonStars approved={0} total={milestone.totalCards} locked size="sm" />
         <p className="mt-1 text-[10px] font-semibold text-slate-400">
-          🔮 Complete the previous level to unlock
+          Complete the previous milestone to unlock.
         </p>
       </div>
       <span className="shrink-0 text-base text-zinc-600" aria-hidden>
@@ -259,10 +262,10 @@ export function CubTrainingPathStatusBar({
   return (
     <CubKidStatBar
       leftIcon="⭐"
-      leftTitle={`${unlockedLevels} of ${totalLevels} levels unlocked`}
+      leftTitle={`${unlockedLevels} of ${totalLevels} milestones unlocked`}
       leftSubtitle="Keep going, future legend! ⭐"
       rightIcon="💎"
-      rightLabel="Your XP"
+      rightLabel="Lab XP"
       rightValue={cubXp}
     />
   );
@@ -278,7 +281,7 @@ export function CubTrainingPathAdventure({
   if (milestones.length === 0) {
     return (
       <p className="text-center text-sm font-medium text-kid-ink-muted">
-        Your Training Path is getting set up — check back soon!
+        Your Liberation Lab is getting set up — check back soon!
       </p>
     );
   }
@@ -300,8 +303,8 @@ export function CubTrainingPathAdventure({
       />
 
       <CubKidPanel
-        eyebrow="🗺️ Adventure Map"
-        subtitle="Beat each level to unlock the next — stars, badges, and XP await!"
+        eyebrow="🗺️ Liberation Map"
+        subtitle="Complete each milestone to unlock new history labs, badges, XP, and Focus Tokens."
         contentClassName="space-y-0"
       >
         <ol className="relative space-y-0">
@@ -337,13 +340,20 @@ export function CubTrainingPathAdventure({
               🏆
             </span>
             <div>
-              <p className="text-sm font-black text-kid-ink">Rewards for finishing</p>
+              <p className="text-sm font-black text-kid-ink">
+                Rewards for completing Liberation Lab
+              </p>
               <p className="mt-1 text-xs text-kid-ink-muted">
-                Complete the full path to earn bonus XP, C.U.B. badges, and bragging rights at
-                Family Day!
+                Finish each milestone to earn Lab XP, Focus Tokens, portfolio artifacts, C.U.B.
+                badges, and path champion rewards.
               </p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {["Bonus XP", "C.U.B. Badge", "Path Champion"].map((reward) => (
+                {[
+                  "Bonus XP",
+                  "Focus Tokens",
+                  "Liberation Badge",
+                  "Path Champion",
+                ].map((reward) => (
                   <span
                     key={reward}
                     className="rounded-full border-2 border-kid-orange/40 bg-white px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-orange-700"
