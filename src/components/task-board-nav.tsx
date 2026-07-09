@@ -127,7 +127,7 @@ export function TaskBoardNav({
         href="/dashboard/tasks/templates"
         className={cn(linkClass, linkInactive, "border-violet-800/60 bg-violet-950/30 text-violet-300 hover:border-violet-700")}
       >
-        Training Path →
+        Liberation Lab →
       </Link>
     </nav>
   );

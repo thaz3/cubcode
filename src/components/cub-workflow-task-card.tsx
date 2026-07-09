@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { EarnTypeBadge } from "@/components/earn-type-badge";
 import { RequestSessionTimer } from "@/components/request-session-timer";
 import { CancelFocusSessionForm } from "@/components/cancel-focus-session-form";
@@ -10,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { TaskUrgentBadge } from "@/components/task-urgent-badge";
+import { Button } from "@/components/ui/button";
 import { formatTaskRewards } from "@/lib/task-labels";
 import { GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
 import { toIsoString } from "@/lib/coerce-date";
@@ -57,12 +59,14 @@ type CubWorkflowTaskCardProps = {
   task: CubWorkflowTask;
   cubId: string;
   focusGrowth?: FocusGrowthContext | null;
+  liberationLabHref?: string | null;
 };
 
 export function CubWorkflowTaskCard({
   task,
   cubId,
   focusGrowth = null,
+  liberationLabHref = null,
 }: CubWorkflowTaskCardProps) {
   const focusMinutes = task.focusBlocks.reduce(
     (sum, block) => sum + block.durationMinutes,
@@ -102,6 +106,24 @@ export function CubWorkflowTaskCard({
             <p className="mt-2 text-sm text-zinc-300">{statusMsg}</p>
           ) : null}
         </div>
+
+        {liberationLabHref ? (
+          <div className="rounded-xl border border-violet-500/40 bg-gradient-to-br from-violet-950/60 via-zinc-900/80 to-indigo-950/50 px-4 py-4">
+            <p className="text-xs text-violet-200/90">
+              Complete the training steps, then return here to submit your reflection.
+            </p>
+            <Link href={liberationLabHref} className="mt-3 block">
+              <Button
+                type="button"
+                size="lg"
+                fullWidth
+                className="bg-gradient-to-r from-violet-600 to-indigo-600 font-bold uppercase tracking-wide text-white shadow-lg shadow-violet-900/40 hover:from-violet-500 hover:to-indigo-500"
+              >
+                Launch Liberation Lab
+              </Button>
+            </Link>
+          </div>
+        ) : null}
 
         {isRequestActive && focusStartedIso ? (
           <div className="rounded-xl border border-cub-green/30 bg-cub-green-muted px-4 py-3">

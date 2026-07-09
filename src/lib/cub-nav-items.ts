@@ -21,7 +21,7 @@ export const CUB_NAV_ITEMS: CubNavItem[] = [
     label: "Quests",
     children: [
       { type: "link", suffix: "/challenges", label: "Assignments" },
-      { type: "link", suffix: "/training", label: "Training Path" },
+      { type: "link", suffix: "/training", label: "Liberation Lab" },
       { type: "link", suffix: "/focus-deck", label: "Growth Picks" },
       { type: "link", suffix: "/ways-to-earn", label: "Ways to Earn" },
     ],

@@ -44,7 +44,7 @@ export function TrainingDeckMilestoneProgress({
     >
       <div>
         <p className="text-xs font-bold uppercase tracking-wide text-cub-gold-light">
-          Milestone {milestoneNumber}
+          Liberation Lab · Milestone {milestoneNumber}
         </p>
         <p className="mt-1 text-sm text-cub-muted">{subtitle}</p>
       </div>
@@ -65,7 +65,7 @@ export function TrainingDeckMilestoneProgress({
                 <CubColorBadge cubId={cub.cubId} displayName={cub.displayName} />
                 <div className="flex flex-wrap items-center gap-2 text-sm">
                   <span className="font-medium text-cub-gold">
-                    {cub.approvedCount}/{cub.totalCards} cards complete
+                    {cub.approvedCount}/{cub.totalCards} parts complete
                   </span>
                   <span className="text-cub-muted">
                     · {TRAINING_DECK_STATUS_LABELS[cub.status]}

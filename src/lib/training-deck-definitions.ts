@@ -5,12 +5,42 @@ import type {
 } from "@/generated/prisma/client";
 import type { FocusDeckCategoryPoints } from "@/lib/focus-deck-categories";
 
+export type TrainingPartStepType = "LEARN" | "REFLECT" | "BUILD";
+
+export type TrainingLabStepDefinition = {
+  type: "PBS" | "WORKSHEET" | "LAB";
+  title: string;
+  description: string;
+  url?: string;
+  fallbackUrl?: string;
+  teacherCode?: string;
+  buttonLabel: string;
+};
+
+export type TrainingPartStepDefinition = {
+  type: TrainingPartStepType;
+  title: string;
+  helperText: string;
+  buttonLabel: string;
+  href?: string;
+  stepKind?: TrainingLabStepDefinition["type"];
+  fallbackUrl?: string;
+  teacherCode?: string;
+  external?: boolean;
+};
+
 export type TrainingDeckCardDefinition = {
   key: string;
   title: string;
   description: string;
   instructions: string;
   estimatedMinutes: number;
+  estimatedMinutesLabel?: string;
+  codeRewardsLabel?: string;
+  metaRewardsLabel?: string;
+  partItems?: string[];
+  partSteps?: TrainingPartStepDefinition[];
+  labSteps?: TrainingLabStepDefinition[];
   locationType: FocusDeckLocationType;
   difficulty: FocusDeckDifficulty;
   categoryPoints: FocusDeckCategoryPoints;
@@ -30,6 +60,35 @@ export type TrainingDeckDefinition = {
   cards: TrainingDeckCardDefinition[];
 };
 
+export function getTrainingCardDisplayMeta(starterKey: string | null | undefined) {
+  if (!starterKey) return null;
+
+  for (const deck of TRAINING_DECK_DEFINITIONS) {
+    for (const card of deck.cards) {
+      if (`${deck.slug}:${card.key}` === starterKey) {
+        return {
+          codeRewardsLabel: card.codeRewardsLabel ?? null,
+          estimatedMinutesLabel: card.estimatedMinutesLabel ?? null,
+          metaRewardsLabel: card.metaRewardsLabel ?? null,
+          partItems: card.partItems ?? null,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+export function getTrainingPartDefinition(slug: string, partKey: string) {
+  const deck = TRAINING_DECK_DEFINITIONS.find((entry) => entry.slug === slug);
+  if (!deck) return null;
+
+  const card = deck.cards.find((entry) => entry.key === partKey);
+  if (!card) return null;
+
+  return { deck, card };
+}
+
 export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
   {
     slug: "start-your-code",
@@ -38,56 +97,127 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
     description: "Slavery must end completely.",
     cards: [
       {
-        key: "code-promise",
-        title: "Read the Code promise",
-        description: "Understand what earned freedom means in your home.",
+        key: "part-1-frederick-douglass",
+        title: "Part 1: Frederick Douglass and the Power of Literacy",
+        description:
+          "Learn how Frederick Douglass used reading, writing, and public voice as tools of freedom.",
         instructions:
-          "Read the C.U.B. Code promise with your parent. Write one sentence about what you will earn and what you will protect.",
-        estimatedMinutes: 15,
+          "Complete the PBS assignment, worksheet, and Liberation Lab for Part 1. Submit proof when your parent assigns this part.",
+        estimatedMinutes: 52,
+        estimatedMinutesLabel: "~45–60 min",
+        codeRewardsLabel: "Mind Code +2 · Voice Code +2 · Character Code +1",
+        metaRewardsLabel: "150 XP · 5 Focus Tokens",
+        partItems: [
+          "Assignment: Becoming Frederick Douglass (PBS)",
+          "Worksheet: Books Are Power Worksheet",
+          "Lab: Frederick Douglass’s Social Media Profile",
+        ],
+        labSteps: [
+          {
+            type: "PBS",
+            title: "Becoming Frederick Douglass",
+            description:
+              "Start with the source lesson. Watch, read, and look for how Douglass used literacy as a path to freedom.",
+            url: "https://ny.pbslearningmedia.org/student/code/gecko19003/",
+            fallbackUrl: "https://ny.pbslearningmedia.org/student/",
+            teacherCode: "gecko19003",
+            buttonLabel: "Open PBS Assignment ↗",
+          },
+          {
+            type: "WORKSHEET",
+            title: "Books Are Power Worksheet",
+            description:
+              "Reflect on your favorite book, your reading life, and pick a title from the Frederick Douglass reading list.",
+            buttonLabel: "Start Worksheet",
+          },
+          {
+            type: "LAB",
+            title: "Frederick Douglass’s Social Media Profile",
+            description:
+              "Build a profile that shows how Douglass controlled his image, words, and public message.",
+            buttonLabel: "Launch Profile Lab",
+          },
+        ],
         locationType: "HOME",
-        difficulty: "EASY",
-        categoryPoints: { CHARACTER: 2, RESPONSIBILITY: 1 },
+        difficulty: "MEDIUM",
+        categoryPoints: { MIND: 2, CREATIVITY: 2, CHARACTER: 1 },
         proofType: "SHORT_REFLECTION",
-        proofPrompt: "What does earned freedom mean to you?",
+        proofPrompt: "What did you learn about literacy as a tool of freedom?",
+        xpEarned: 150,
+        focusTokensEarned: 5,
       },
       {
-        key: "first-focus-block",
-        title: "Complete your first focus block",
-        description: "Practice staying in control for a short focus session.",
+        key: "part-2-harriet-tubman",
+        title: "Part 2: General Harriet Tubman",
+        description:
+          "Study Harriet Tubman as a strategist, navigator, protector, and field general of freedom.",
         instructions:
-          "Complete one parent-approved focus block. Stay off distractions until your parent says time is up.",
-        estimatedMinutes: 30,
+          "Complete both PBS assignments and the Liberation Lab for Part 2. Submit proof when your parent assigns this part.",
+        estimatedMinutes: 60,
+        estimatedMinutesLabel: "~60 min",
+        codeRewardsLabel: "Mind Code +2 · Body Code +1 · Character Code +2",
+        metaRewardsLabel: "200 XP · 6 Focus Tokens",
+        partItems: [
+          "Assignment: Black Abolitionists: The Declaration’s Influence (PBS)",
+          "Assignment: Harriet Tubman: Visions of Freedom (PBS)",
+          "Lab: The North Star Trail",
+        ],
         locationType: "HOME",
-        difficulty: "EASY",
-        categoryPoints: { BODY: 2, CHARACTER: 1 },
-        proofType: "PARENT_APPROVAL",
-        proofPrompt: "Parent confirms the focus block was completed.",
+        difficulty: "MEDIUM",
+        categoryPoints: { MIND: 2, BODY: 1, CHARACTER: 2 },
+        proofType: "SHORT_REFLECTION",
+        proofPrompt: "How did Harriet Tubman lead with strategy and courage?",
+        xpEarned: 200,
+        focusTokensEarned: 6,
       },
       {
-        key: "proof-practice",
-        title: "Practice submitting proof",
-        description: "Learn how assignments get reviewed and approved.",
+        key: "part-3-freedom-before-permission",
+        title: "Part 3: Freedom Before Permission",
+        description:
+          "Explore how freedom seekers, abolitionists, and record keepers protected stories, names, and family history.",
         instructions:
-          "Complete a small chore and submit a short reflection with parent help.",
-        estimatedMinutes: 20,
+          "Complete both PBS assignments, the worksheet, and the Liberation Lab for Part 3. Submit proof when your parent assigns this part.",
+        estimatedMinutes: 60,
+        estimatedMinutesLabel: "~60 min",
+        codeRewardsLabel: "Build Code +2 · Mind Code +2 · Character Code +1",
+        metaRewardsLabel: "175 XP · 5 Focus Tokens",
+        partItems: [
+          "Assignment: Let’s Get Free (PBS)",
+          "Assignment: The William Still Story (PBS)",
+          "Worksheet: Recording History Worksheet",
+          "Lab: The Underground Registry",
+        ],
         locationType: "HOME",
-        difficulty: "EASY",
-        categoryPoints: { RESPONSIBILITY: 2, CHARACTER: 1 },
+        difficulty: "MEDIUM",
+        categoryPoints: { CREATIVITY: 2, MIND: 2, CHARACTER: 1 },
         proofType: "SHORT_REFLECTION",
-        proofPrompt: "What did you do and what did you learn about the review process?",
+        proofPrompt: "What stories or names did you help preserve in this part?",
+        xpEarned: 175,
+        focusTokensEarned: 5,
       },
       {
-        key: "freedom-for-all",
-        title: "Define freedom for everyone",
-        description: "Explore what full freedom means beyond partial change.",
+        key: "part-4-america-has-a-problem",
+        title: "Part 4: America Has A Problem",
+        description:
+          "Examine how slavery shaped American law, war, citizenship, and the meaning of freedom.",
         instructions:
-          "Research how slavery ended in the United States. Write three sentences on who gained freedom and who was still left out.",
-        estimatedMinutes: 35,
+          "Complete both PBS assignments and the Liberation Lab for Part 4. Submit proof when your parent assigns this part.",
+        estimatedMinutes: 67,
+        estimatedMinutesLabel: "~60–75 min",
+        codeRewardsLabel: "Voice Code +3 · Mind Code +2 · Character Code +1",
+        metaRewardsLabel: "250 XP · 8 Focus Tokens",
+        partItems: [
+          "Assignment: Slavery and the US Constitution (PBS)",
+          "Assignment: Slavery and the Civil War (PBS)",
+          "Lab: “What to the Slave Is the Fourth of July?”",
+        ],
         locationType: "HOME",
-        difficulty: "EASY",
-        categoryPoints: { CHARACTER: 2, MIND: 2 },
+        difficulty: "CHALLENGING",
+        categoryPoints: { CREATIVITY: 3, MIND: 2, CHARACTER: 1 },
         proofType: "SHORT_REFLECTION",
-        proofPrompt: "Who was freed, and who still had to fight for more?",
+        proofPrompt: "How did slavery shape law, war, and citizenship in America?",
+        xpEarned: 250,
+        focusTokensEarned: 8,
       },
     ],
   },

@@ -14,6 +14,7 @@ import {
   growthCategoryOptionsForCub,
   parseRequiredGrowthCategories,
 } from "@/lib/focus-growth";
+import { getTrainingPartHref } from "@/lib/training-part-route";
 import { notFound, redirect } from "next/navigation";
 
 type CubTaskDetailPageProps = {
@@ -33,10 +34,18 @@ export default async function CubTaskDetailPage({
     where: { id: taskId, familyId, cubId: cub.id },
     include: {
       focusBlocks: { select: { durationMinutes: true } },
+      trainingDeck: { select: { slug: true } },
+      focusActivityCard: { select: { starterKey: true } },
     },
   });
 
   if (!task) notFound();
+
+  const liberationLabHref = getTrainingPartHref(
+    cubId,
+    task.trainingDeck?.slug,
+    task.focusActivityCard?.starterKey,
+  );
 
   let focusGrowth: FocusGrowthContext | null = null;
   if (task.category === "FOCUS_BLOCK") {
@@ -68,6 +77,7 @@ export default async function CubTaskDetailPage({
           task={task}
           cubId={cubId}
           focusGrowth={focusGrowth}
+          liberationLabHref={liberationLabHref}
         />
       </CubKidPanel>
     </div>

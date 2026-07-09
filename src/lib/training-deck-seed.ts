@@ -62,9 +62,21 @@ export async function ensureTrainingBoardSeeded(familyId: string) {
           categoryPoints: cardDef.categoryPoints,
           proofType: cardDef.proofType,
           proofPrompt: cardDef.proofPrompt,
+          xpEarned: cardDef.xpEarned ?? 12,
+          focusTokensEarned: cardDef.focusTokensEarned ?? 1,
         },
       });
     }
+
+    const activeStarterKeys = deckDef.cards.map((cardDef) => `${deckDef.slug}:${cardDef.key}`);
+    await db.focusActivityCard.updateMany({
+      where: {
+        trainingDeckId: deck.id,
+        starterKey: { notIn: activeStarterKeys },
+        status: "ACTIVE",
+      },
+      data: { status: "ARCHIVED" },
+    });
   }
 }
 

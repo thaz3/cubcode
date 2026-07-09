@@ -29,7 +29,7 @@ export const DASHBOARD_USER_MENU_NAV_ITEMS = [
 export const DASHBOARD_MORE_ACCOUNT_NAV_ITEMS = DASHBOARD_USER_MENU_NAV_ITEMS;
 
 export const DASHBOARD_ASSIGNMENTS_SUB_NAV_ITEMS = [
-  { href: "/dashboard/tasks/templates", label: "Training Path" },
+  { href: "/dashboard/tasks/templates", label: "Liberation Lab" },
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
 ] as const;
 

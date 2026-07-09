@@ -18,6 +18,7 @@ import {
   ensureTrainingBoardSeeded,
   getTrainingDecksForFamily,
 } from "@/lib/training-deck-seed";
+import { getTrainingCardDisplayMeta } from "@/lib/training-deck-definitions";
 
 type CubTrainingDeckDetailPageProps = {
   params: Promise<{ cubId: string; slug: string }>;
@@ -72,16 +73,16 @@ export default async function CubTrainingDeckDetailPage({
     <div className="space-y-5">
       <CubKidHero
         title={deck.title}
-        subtitle={deck.description ?? `Level ${deck.milestoneNumber} on your Training Path`}
+        subtitle={deck.description ?? `Milestone ${deck.milestoneNumber} in Liberation Lab`}
         emoji={CUB_PAGE_EMOJI.level}
         backHref={`/cub/${cub.id}/training`}
-        backLabel="Training Path"
+        backLabel="Liberation Lab"
       />
 
       <TrainingDeckMilestoneProgress
         milestoneNumber={deck.milestoneNumber}
         cubProgress={cubProgress}
-        subtitle="Your progress on this level"
+        subtitle="Your progress on this milestone"
       />
 
       {!deckUnlocked ? (
@@ -98,24 +99,30 @@ export default async function CubTrainingDeckDetailPage({
         </CubKidTipCard>
       ) : (
         <>
-          <CubKidTipCard title="How lessons work">
-            Cards are assigned by your parent. When one is ready, open it from{" "}
-            <span className="font-semibold text-cub-gold-light">Overview</span>.
+          <CubKidTipCard title="How this milestone works">
+            Each part includes source learning, a worksheet or reflection when needed, and a
+            hands-on Liberation Lab. Complete all 4 parts to finish the milestone and earn
+            your rewards.
           </CubKidTipCard>
 
           <CubKidPanel variant="violet" contentClassName="space-y-3">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-cub-gold-light">
-              📚 Lessons in this level
+              📋 Parts in this milestone
             </p>
             <ul className="space-y-3">
               {deck.cards.map((card) => {
                 const task = tasksByCardId.get(card.id) ?? null;
+                const displayMeta = getTrainingCardDisplayMeta(card.starterKey);
 
                 return (
                   <li key={card.id}>
                     <TrainingDeckCardRow
                       card={card}
                       readOnly
+                      codeRewardsLabel={displayMeta?.codeRewardsLabel}
+                      estimatedMinutesLabel={displayMeta?.estimatedMinutesLabel}
+                      metaRewardsLabel={displayMeta?.metaRewardsLabel}
+                      partItems={displayMeta?.partItems}
                       cubStates={[
                         {
                           cubId: cub.id,
