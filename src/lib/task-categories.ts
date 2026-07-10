@@ -49,6 +49,29 @@ export const GROWTH_CATEGORY_TAGLINES: Record<GrowthCategory, string> = {
   COMMUNITY: "Connected to something bigger than themselves.",
 };
 
+export const GROWTH_CATEGORY_TAGLINES_KID: Record<GrowthCategory, string> = {
+  MIND: "Train your brain to think for yourself.",
+  BODY: "Take care of your body — that's self-respect.",
+  CHARACTER: "Be the same good person when no one is watching.",
+  RESPONSIBILITY: "Show up every day. Actions beat lectures.",
+  CREATIVITY: "Turn hard stuff into art, music, words, and ideas.",
+  FAMILY: "Know where you come from and honor your people.",
+  COMMUNITY: "Help your neighborhood and stand up for what's right.",
+};
+
+export const GROWTH_CODE_INTRO_KID =
+  "Seven ways you grow stronger every week — in your mind, body, heart, and community.";
+
+export const GROWTH_CATEGORY_FOCUS_KID: Record<GrowthCategory, string> = {
+  MIND: "Reading, school, curiosity, asking questions, solving problems",
+  BODY: "Sleep, movement, healthy food, hygiene, staying active",
+  CHARACTER: "Honesty, courage, kindness, respect, keeping your cool",
+  RESPONSIBILITY: "Chores, routines, keeping promises, managing your time",
+  CREATIVITY: "Art, music, writing, building, imagining, telling stories",
+  FAMILY: "Family stories, helping at home, listening to elders, honoring ancestors",
+  COMMUNITY: "Helping others, leadership, fairness, giving back",
+};
+
 export const GROWTH_CATEGORY_FOCUS: Record<GrowthCategory, string> = {
   MIND: "Learning, reading, school, curiosity, critical thinking, problem-solving",
   BODY: "Health, movement, sleep, hygiene, food, discipline, physical confidence",

@@ -1,4 +1,3 @@
-import { SMALL_REMINDERS_LABEL } from "@/lib/small-reminders-labels";
 import { requireFamilyForUser, requireUserId } from "@/lib/session";
 
 export async function requireParentPinConfigured(): Promise<{
@@ -10,7 +9,7 @@ export async function requireParentPinConfigured(): Promise<{
   if (!family.parentPinHash) {
     return {
       ok: false,
-      error: `Set a parent PIN before changing household or ${SMALL_REMINDERS_LABEL} settings.`,
+      error: "Set a parent PIN before changing household settings.",
     };
   }
 

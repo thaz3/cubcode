@@ -24,7 +24,7 @@ export function TaskUrgentField({
           Mark as urgent
         </span>
         <span className="mt-0.5 block text-sm text-amber-200/70">
-          Urgent tasks stand out on your board and in Small Reminders.
+          Urgent tasks stand out on your assignment board.
         </span>
       </span>
     </label>

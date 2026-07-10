@@ -29,28 +29,31 @@ export const DASHBOARD_USER_MENU_NAV_ITEMS = [
 export const DASHBOARD_MORE_ACCOUNT_NAV_ITEMS = DASHBOARD_USER_MENU_NAV_ITEMS;
 
 export const DASHBOARD_ASSIGNMENTS_SUB_NAV_ITEMS = [
-  { href: "/dashboard/tasks/templates", label: "Liberation Lab" },
   { href: "/dashboard/family-day", label: FAMILY_DAY_LABEL },
 ] as const;
 
 export const DASHBOARD_ASSIGN_WORK_SUB_NAV_ITEMS = [
   { href: "/dashboard/focus-deck", label: "Growth Picks" },
+  { href: "/dashboard/ways-to-earn", label: "Ways to Earn" },
 ] as const;
 
-export const DASHBOARD_WAYS_TO_LEARN_NAV_ITEM = {
-  href: "/dashboard/ways-to-earn",
-  label: "Ways to Learn",
+export const DASHBOARD_LIBERATION_LAB_NAV_ITEM = {
+  href: "/dashboard/tasks/templates",
+  label: "Lib Lab",
 } as const;
 
-/** @deprecated Use DASHBOARD_WAYS_TO_LEARN_NAV_ITEM */
-export const DASHBOARD_MORE_EXPLORE_NAV_ITEMS = [DASHBOARD_WAYS_TO_LEARN_NAV_ITEM] as const;
+/** @deprecated Use DASHBOARD_LIBERATION_LAB_NAV_ITEM */
+export const DASHBOARD_WAYS_TO_LEARN_NAV_ITEM = DASHBOARD_LIBERATION_LAB_NAV_ITEM;
 
-export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [DASHBOARD_WAYS_TO_LEARN_NAV_ITEM] as const;
+/** @deprecated Use DASHBOARD_LIBERATION_LAB_NAV_ITEM */
+export const DASHBOARD_MORE_EXPLORE_NAV_ITEMS = [DASHBOARD_LIBERATION_LAB_NAV_ITEM] as const;
 
-/** Mobile bottom bar — core links + Ways to Learn. */
+export const DASHBOARD_MORE_ONLY_NAV_ITEMS = [DASHBOARD_LIBERATION_LAB_NAV_ITEM] as const;
+
+/** Mobile bottom bar — core links + Liberation Lab. */
 export const DASHBOARD_MOBILE_BOTTOM_NAV_ITEMS = [
   ...DASHBOARD_CORE_NAV_ITEMS,
-  DASHBOARD_WAYS_TO_LEARN_NAV_ITEM,
+  DASHBOARD_LIBERATION_LAB_NAV_ITEM,
 ] as const;
 
 /** Mobile Account sheet — overflow links (not on bottom bar). */
@@ -81,6 +84,9 @@ export function isDashboardNavActive(pathname: string, href: string): boolean {
   if (href === "/dashboard/focus-deck") {
     return pathname.startsWith("/dashboard/focus-deck");
   }
+  if (href === "/dashboard/tasks/templates") {
+    return pathname.startsWith("/dashboard/tasks/templates");
+  }
   if (href === "/dashboard/ways-to-earn") {
     return pathname.startsWith("/dashboard/ways-to-earn");
   }
@@ -106,6 +112,9 @@ export function isDashboardAssignmentsNavActive(pathname: string): boolean {
   if (pathname.startsWith("/dashboard/tasks/assign")) {
     return false;
   }
+  if (pathname.startsWith("/dashboard/tasks/templates")) {
+    return false;
+  }
   if (pathname.startsWith("/dashboard/focus-deck")) {
     return false;
   }
@@ -126,7 +135,7 @@ export function isDashboardUserMenuNavActive(pathname: string): boolean {
 }
 
 export function isDashboardMoreNavActive(pathname: string): boolean {
-  return isDashboardNavActive(pathname, DASHBOARD_WAYS_TO_LEARN_NAV_ITEM.href);
+  return isDashboardNavActive(pathname, DASHBOARD_LIBERATION_LAB_NAV_ITEM.href);
 }
 
 /** @deprecated Use isDashboardMoreNavActive */

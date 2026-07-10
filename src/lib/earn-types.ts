@@ -8,6 +8,14 @@ export const EARN_TYPES = [
 
 export type EarnType = (typeof EARN_TYPES)[number];
 
+/** Earn types shown on the parent Ways to Learn page (bonus lives on Assign work only). */
+export const PARENT_WAYS_TO_LEARN_EARN_TYPES: Array<Exclude<EarnType, "bonus">> =
+  EARN_TYPES.filter((type) => type !== "bonus") as Array<Exclude<EarnType, "bonus">>;
+
+/** Earn types for inline assign panels (cub task page, etc.) — bonus only on Assign work. */
+export const PARENT_INLINE_ASSIGN_EARN_TYPES: Array<Exclude<EarnType, "bonus">> =
+  PARENT_WAYS_TO_LEARN_EARN_TYPES;
+
 export type EarnTypeMeta = {
   id: EarnType;
   label: string;

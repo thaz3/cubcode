@@ -229,7 +229,7 @@ export async function createTaskFromTemplateAction(
   return {
     success: cub
       ? `"${template.title}" was assigned to ${cub.displayName}. It is now on their task board.`
-      : `"${template.title}" was saved to the task library.`,
+      : `"${template.title}" was saved to your task stash.`,
   };
 }
 

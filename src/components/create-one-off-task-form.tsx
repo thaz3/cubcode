@@ -53,7 +53,7 @@ export function CreateOneOffTaskForm({
       ) : null}
       <TaskTemplateForm
         action={createAndAssignCustomTaskAction}
-        submitLabel="Create and assign task"
+        submitLabel="Assign task"
         showDueDate
         showQuickDue
         showUrgent

@@ -34,6 +34,7 @@ type ParentAssignEarnPanelProps = {
   defaultCubId?: string;
   compact?: boolean;
   bonusGrowthOptions?: GrowthOption[];
+  earnTypes?: readonly EarnType[];
 };
 
 export function ParentAssignEarnPanel({
@@ -42,10 +43,12 @@ export function ParentAssignEarnPanel({
   defaultCubId,
   compact = false,
   bonusGrowthOptions = [],
+  earnTypes = EARN_TYPES,
 }: ParentAssignEarnPanelProps) {
-  const [kind, setKind] = useState<ParentAssignKind>(
-    parseParentAssignKind(defaultKind),
-  );
+  const [kind, setKind] = useState<ParentAssignKind>(() => {
+    const parsed = parseParentAssignKind(defaultKind);
+    return earnTypes.includes(parsed) ? parsed : (earnTypes[0] ?? "task");
+  });
   const cubName = defaultCubId
     ? cubs.find((c) => c.id === defaultCubId)?.displayName
     : undefined;
@@ -93,7 +96,7 @@ export function ParentAssignEarnPanel({
               }
               className={NATIVE_SELECT_CLASS}
             >
-              {EARN_TYPES.map((earnType) => {
+              {earnTypes.map((earnType) => {
                 const meta = getEarnTypeMeta(earnType);
                 return (
                   <option key={earnType} value={earnType}>
@@ -109,7 +112,7 @@ export function ParentAssignEarnPanel({
             aria-label="Choose earn type"
             className="grid gap-2 lg:grid-cols-3"
           >
-            {EARN_TYPES.map((earnType) => {
+            {earnTypes.map((earnType) => {
               const meta = getEarnTypeMeta(earnType);
               const selected = kind === earnType;
 

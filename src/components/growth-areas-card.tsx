@@ -15,7 +15,10 @@ import {
   ALL_GROWTH_CATEGORIES,
   GROWTH_CATEGORY_LABELS,
   GROWTH_CATEGORY_TAGLINES,
+  GROWTH_CATEGORY_TAGLINES_KID,
   GROWTH_CATEGORY_FOCUS,
+  GROWTH_CATEGORY_FOCUS_KID,
+  GROWTH_CODE_INTRO_KID,
   growthCategoryShortLabel,
 } from "@/lib/task-categories";
 import type { GrowthAreaSummary } from "@/lib/growth-area-summary";
@@ -605,7 +608,7 @@ function GrowthAreaDrillDown({
                 </p>
               </div>
               <p className={cn("mt-1 text-xs leading-relaxed", isCub ? cubKidTextMuted : "text-cub-muted")}>
-                {GROWTH_CATEGORY_TAGLINES[area]}
+                {isCub ? GROWTH_CATEGORY_TAGLINES_KID[area] : GROWTH_CATEGORY_TAGLINES[area]}
               </p>
               <ul className="mt-2 space-y-1">
                 {stats.items.map((item) => (
@@ -660,9 +663,9 @@ function GrowthCodeGuide({ audience = "parent" }: { audience?: "parent" | "cub" 
           The Code
         </p>
         <p className={cn("mt-1 text-sm leading-relaxed", isCub ? cubKidTextMuted : "text-cub-muted")}>
-          Seven areas for raising children with strong minds, disciplined bodies,
-          creative spirits, good character, and responsibility to something bigger
-          than themselves.
+          {isCub
+            ? GROWTH_CODE_INTRO_KID
+            : "Seven areas for raising children with strong minds, disciplined bodies, creative spirits, good character, and responsibility to something bigger than themselves."}
         </p>
       </div>
       <ul className="grid gap-2 sm:grid-cols-2">
@@ -678,10 +681,10 @@ function GrowthCodeGuide({ audience = "parent" }: { audience?: "parent" | "cub" 
               {growthCategoryShortLabel(area)}
             </p>
             <p className={cn("mt-0.5 text-xs leading-relaxed", isCub ? cubKidTextMuted : "text-cub-muted")}>
-              {GROWTH_CATEGORY_TAGLINES[area]}
+              {isCub ? GROWTH_CATEGORY_TAGLINES_KID[area] : GROWTH_CATEGORY_TAGLINES[area]}
             </p>
             <p className={cn("mt-1 text-[11px] leading-relaxed", isCub ? "text-kid-ink-soft" : "text-cub-off-white/70")}>
-              {GROWTH_CATEGORY_FOCUS[area]}
+              {isCub ? GROWTH_CATEGORY_FOCUS_KID[area] : GROWTH_CATEGORY_FOCUS[area]}
             </p>
           </li>
         ))}

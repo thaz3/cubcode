@@ -1,10 +1,6 @@
 import { DashboardNav } from "@/components/dashboard-nav";
 import { MobileNav } from "@/components/mobile-nav";
 import { auth } from "@/lib/auth";
-import {
-  countUnseenGuardianNudges,
-  syncGuardianNudgesForFamily,
-} from "@/lib/guardian-nudges/sync";
 import { countPendingReviews } from "@/lib/pending-review";
 import { requireParentUnlock } from "@/lib/require-parent-unlock";
 import { getFamilyForUser } from "@/lib/session";
@@ -25,15 +21,10 @@ export default async function DashboardLayout({
   }
 
   let pendingReviewCount = 0;
-  let guardianNudgeCount = 0;
   if (session.user.id) {
     const family = await getFamilyForUser(session.user.id);
     if (family) {
-      await syncGuardianNudgesForFamily(family.id);
-      [pendingReviewCount, guardianNudgeCount] = await Promise.all([
-        countPendingReviews(family.id).then((r) => r.total),
-        countUnseenGuardianNudges(family.id),
-      ]);
+      pendingReviewCount = await countPendingReviews(family.id).then((r) => r.total);
     }
   }
 
@@ -41,7 +32,6 @@ export default async function DashboardLayout({
     <div className="min-h-dvh cub-app-shell">
       <DashboardNav
         pendingReviewCount={pendingReviewCount}
-        guardianNudgeCount={guardianNudgeCount}
         userName={session.user.name}
         userEmail={session.user.email}
       />
@@ -50,7 +40,6 @@ export default async function DashboardLayout({
       </main>
       <MobileNav
         pendingReviewCount={pendingReviewCount}
-        guardianNudgeCount={guardianNudgeCount}
         userName={session.user.name}
         userEmail={session.user.email}
       />

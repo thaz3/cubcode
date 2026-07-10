@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import type { TaskBoardSectionId } from "@/lib/task-board-sections";
+import { TASK_STASH_LABEL } from "@/lib/task-board-sections";
 import { cn } from "@/lib/utils";
 
 type TaskBoardNavProps = {
@@ -18,7 +19,7 @@ const WORKFLOW_LINKS: Array<{
 }> = [
   {
     sectionId: "library",
-    label: "Library",
+    label: TASK_STASH_LABEL,
     count: (props) => props.libraryCount ?? 0,
   },
   {

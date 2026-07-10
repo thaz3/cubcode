@@ -285,6 +285,7 @@ export type FamilyWhereInput = {
   trainingDecks?: Prisma.TrainingDeckListRelationFilter
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestListRelationFilter
   calendarEvents?: Prisma.CalendarEventListRelationFilter
+  parentPinResetTokens?: Prisma.ParentPinResetTokenListRelationFilter
 }
 
 export type FamilyOrderByWithRelationInput = {
@@ -315,6 +316,7 @@ export type FamilyOrderByWithRelationInput = {
   trainingDecks?: Prisma.TrainingDeckOrderByRelationAggregateInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestOrderByRelationAggregateInput
   calendarEvents?: Prisma.CalendarEventOrderByRelationAggregateInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenOrderByRelationAggregateInput
 }
 
 export type FamilyWhereUniqueInput = Prisma.AtLeast<{
@@ -348,6 +350,7 @@ export type FamilyWhereUniqueInput = Prisma.AtLeast<{
   trainingDecks?: Prisma.TrainingDeckListRelationFilter
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestListRelationFilter
   calendarEvents?: Prisma.CalendarEventListRelationFilter
+  parentPinResetTokens?: Prisma.ParentPinResetTokenListRelationFilter
 }, "id" | "ownerId">
 
 export type FamilyOrderByWithAggregationInput = {
@@ -411,6 +414,7 @@ export type FamilyCreateInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateInput = {
@@ -440,6 +444,7 @@ export type FamilyUncheckedCreateInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUpdateInput = {
@@ -469,6 +474,7 @@ export type FamilyUpdateInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateInput = {
@@ -498,6 +504,7 @@ export type FamilyUncheckedUpdateInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateManyInput = {
@@ -639,6 +646,20 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type FamilyCreateNestedOneWithoutParentPinResetTokensInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutParentPinResetTokensInput, Prisma.FamilyUncheckedCreateWithoutParentPinResetTokensInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutParentPinResetTokensInput
+  connect?: Prisma.FamilyWhereUniqueInput
+}
+
+export type FamilyUpdateOneRequiredWithoutParentPinResetTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.FamilyCreateWithoutParentPinResetTokensInput, Prisma.FamilyUncheckedCreateWithoutParentPinResetTokensInput>
+  connectOrCreate?: Prisma.FamilyCreateOrConnectWithoutParentPinResetTokensInput
+  upsert?: Prisma.FamilyUpsertWithoutParentPinResetTokensInput
+  connect?: Prisma.FamilyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FamilyUpdateToOneWithWhereWithoutParentPinResetTokensInput, Prisma.FamilyUpdateWithoutParentPinResetTokensInput>, Prisma.FamilyUncheckedUpdateWithoutParentPinResetTokensInput>
 }
 
 export type FamilyCreateNestedOneWithoutCubsInput = {
@@ -891,6 +912,7 @@ export type FamilyCreateWithoutOwnerInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutOwnerInput = {
@@ -919,6 +941,7 @@ export type FamilyUncheckedCreateWithoutOwnerInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutOwnerInput = {
@@ -963,6 +986,7 @@ export type FamilyUpdateWithoutOwnerInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutOwnerInput = {
@@ -975,6 +999,139 @@ export type FamilyUncheckedUpdateWithoutOwnerInput = {
   parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUncheckedUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
+  trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyCreateWithoutParentPinResetTokensInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutFamilyInput
+  cubs?: Prisma.CubCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
+  trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyUncheckedCreateWithoutParentPinResetTokensInput = {
+  id?: string
+  name?: string | null
+  dailyPhoneCapMinutes?: number
+  weekendBankCapMinutes?: number
+  exchangeFocusMinutes?: number
+  exchangePhoneMinutes?: number
+  parentPinHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  cubs?: Prisma.CubUncheckedCreateNestedManyWithoutFamilyInput
+  taskTemplates?: Prisma.TaskTemplateUncheckedCreateNestedManyWithoutFamilyInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutFamilyInput
+  rewardStoreItems?: Prisma.RewardStoreItemUncheckedCreateNestedManyWithoutFamilyInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUncheckedCreateNestedOneWithoutFamilyInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUncheckedCreateNestedManyWithoutFamilyInput
+  guardianNudges?: Prisma.GuardianNudgeUncheckedCreateNestedManyWithoutFamilyInput
+  challenges?: Prisma.ChallengeUncheckedCreateNestedManyWithoutFamilyInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCards?: Prisma.FocusActivityCardUncheckedCreateNestedManyWithoutFamilyInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUncheckedCreateNestedManyWithoutFamilyInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
+  trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+}
+
+export type FamilyCreateOrConnectWithoutParentPinResetTokensInput = {
+  where: Prisma.FamilyWhereUniqueInput
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutParentPinResetTokensInput, Prisma.FamilyUncheckedCreateWithoutParentPinResetTokensInput>
+}
+
+export type FamilyUpsertWithoutParentPinResetTokensInput = {
+  update: Prisma.XOR<Prisma.FamilyUpdateWithoutParentPinResetTokensInput, Prisma.FamilyUncheckedUpdateWithoutParentPinResetTokensInput>
+  create: Prisma.XOR<Prisma.FamilyCreateWithoutParentPinResetTokensInput, Prisma.FamilyUncheckedCreateWithoutParentPinResetTokensInput>
+  where?: Prisma.FamilyWhereInput
+}
+
+export type FamilyUpdateToOneWithWhereWithoutParentPinResetTokensInput = {
+  where?: Prisma.FamilyWhereInput
+  data: Prisma.XOR<Prisma.FamilyUpdateWithoutParentPinResetTokensInput, Prisma.FamilyUncheckedUpdateWithoutParentPinResetTokensInput>
+}
+
+export type FamilyUpdateWithoutParentPinResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutFamilyNestedInput
+  cubs?: Prisma.CubUpdateManyWithoutFamilyNestedInput
+  taskTemplates?: Prisma.TaskTemplateUpdateManyWithoutFamilyNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutFamilyNestedInput
+  rewardStoreItems?: Prisma.RewardStoreItemUpdateManyWithoutFamilyNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutFamilyNestedInput
+  guardianNudgePreferences?: Prisma.GuardianNudgePreferencesUpdateOneWithoutFamilyNestedInput
+  guardianNudgeRules?: Prisma.GuardianNudgeRuleUpdateManyWithoutFamilyNestedInput
+  guardianNudges?: Prisma.GuardianNudgeUpdateManyWithoutFamilyNestedInput
+  challenges?: Prisma.ChallengeUpdateManyWithoutFamilyNestedInput
+  challengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutFamilyNestedInput
+  focusActivityCards?: Prisma.FocusActivityCardUpdateManyWithoutFamilyNestedInput
+  focusDeckStackItems?: Prisma.FocusDeckStackItemUpdateManyWithoutFamilyNestedInput
+  focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
+  trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
+  rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+}
+
+export type FamilyUncheckedUpdateWithoutParentPinResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dailyPhoneCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  weekendBankCapMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangeFocusMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  exchangePhoneMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  parentPinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   cubs?: Prisma.CubUncheckedUpdateManyWithoutFamilyNestedInput
   taskTemplates?: Prisma.TaskTemplateUncheckedUpdateManyWithoutFamilyNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutFamilyNestedInput
@@ -1019,6 +1176,7 @@ export type FamilyCreateWithoutCubsInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutCubsInput = {
@@ -1047,6 +1205,7 @@ export type FamilyUncheckedCreateWithoutCubsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutCubsInput = {
@@ -1091,6 +1250,7 @@ export type FamilyUpdateWithoutCubsInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutCubsInput = {
@@ -1119,6 +1279,7 @@ export type FamilyUncheckedUpdateWithoutCubsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutCalendarEventsInput = {
@@ -1147,6 +1308,7 @@ export type FamilyCreateWithoutCalendarEventsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutCalendarEventsInput = {
@@ -1175,6 +1337,7 @@ export type FamilyUncheckedCreateWithoutCalendarEventsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutCalendarEventsInput = {
@@ -1219,6 +1382,7 @@ export type FamilyUpdateWithoutCalendarEventsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutCalendarEventsInput = {
@@ -1247,6 +1411,7 @@ export type FamilyUncheckedUpdateWithoutCalendarEventsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutCouncilDaySessionsInput = {
@@ -1275,6 +1440,7 @@ export type FamilyCreateWithoutCouncilDaySessionsInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutCouncilDaySessionsInput = {
@@ -1303,6 +1469,7 @@ export type FamilyUncheckedCreateWithoutCouncilDaySessionsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutCouncilDaySessionsInput = {
@@ -1347,6 +1514,7 @@ export type FamilyUpdateWithoutCouncilDaySessionsInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutCouncilDaySessionsInput = {
@@ -1375,6 +1543,7 @@ export type FamilyUncheckedUpdateWithoutCouncilDaySessionsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutTaskTemplatesInput = {
@@ -1403,6 +1572,7 @@ export type FamilyCreateWithoutTaskTemplatesInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutTaskTemplatesInput = {
@@ -1431,6 +1601,7 @@ export type FamilyUncheckedCreateWithoutTaskTemplatesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutTaskTemplatesInput = {
@@ -1475,6 +1646,7 @@ export type FamilyUpdateWithoutTaskTemplatesInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutTaskTemplatesInput = {
@@ -1503,6 +1675,7 @@ export type FamilyUncheckedUpdateWithoutTaskTemplatesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutTasksInput = {
@@ -1531,6 +1704,7 @@ export type FamilyCreateWithoutTasksInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutTasksInput = {
@@ -1559,6 +1733,7 @@ export type FamilyUncheckedCreateWithoutTasksInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutTasksInput = {
@@ -1603,6 +1778,7 @@ export type FamilyUpdateWithoutTasksInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutTasksInput = {
@@ -1631,6 +1807,7 @@ export type FamilyUncheckedUpdateWithoutTasksInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutRewardStoreItemsInput = {
@@ -1659,6 +1836,7 @@ export type FamilyCreateWithoutRewardStoreItemsInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutRewardStoreItemsInput = {
@@ -1687,6 +1865,7 @@ export type FamilyUncheckedCreateWithoutRewardStoreItemsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutRewardStoreItemsInput = {
@@ -1731,6 +1910,7 @@ export type FamilyUpdateWithoutRewardStoreItemsInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutRewardStoreItemsInput = {
@@ -1759,6 +1939,7 @@ export type FamilyUncheckedUpdateWithoutRewardStoreItemsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutRewardRedemptionRequestsInput = {
@@ -1787,6 +1968,7 @@ export type FamilyCreateWithoutRewardRedemptionRequestsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutRewardRedemptionRequestsInput = {
@@ -1815,6 +1997,7 @@ export type FamilyUncheckedCreateWithoutRewardRedemptionRequestsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutRewardRedemptionRequestsInput = {
@@ -1859,6 +2042,7 @@ export type FamilyUpdateWithoutRewardRedemptionRequestsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutRewardRedemptionRequestsInput = {
@@ -1887,6 +2071,7 @@ export type FamilyUncheckedUpdateWithoutRewardRedemptionRequestsInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutGuardianNudgePreferencesInput = {
@@ -1915,6 +2100,7 @@ export type FamilyCreateWithoutGuardianNudgePreferencesInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput = {
@@ -1943,6 +2129,7 @@ export type FamilyUncheckedCreateWithoutGuardianNudgePreferencesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutGuardianNudgePreferencesInput = {
@@ -1987,6 +2174,7 @@ export type FamilyUpdateWithoutGuardianNudgePreferencesInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput = {
@@ -2015,6 +2203,7 @@ export type FamilyUncheckedUpdateWithoutGuardianNudgePreferencesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutGuardianNudgeRulesInput = {
@@ -2043,6 +2232,7 @@ export type FamilyCreateWithoutGuardianNudgeRulesInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutGuardianNudgeRulesInput = {
@@ -2071,6 +2261,7 @@ export type FamilyUncheckedCreateWithoutGuardianNudgeRulesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutGuardianNudgeRulesInput = {
@@ -2115,6 +2306,7 @@ export type FamilyUpdateWithoutGuardianNudgeRulesInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput = {
@@ -2143,6 +2335,7 @@ export type FamilyUncheckedUpdateWithoutGuardianNudgeRulesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutGuardianNudgesInput = {
@@ -2171,6 +2364,7 @@ export type FamilyCreateWithoutGuardianNudgesInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutGuardianNudgesInput = {
@@ -2199,6 +2393,7 @@ export type FamilyUncheckedCreateWithoutGuardianNudgesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutGuardianNudgesInput = {
@@ -2243,6 +2438,7 @@ export type FamilyUpdateWithoutGuardianNudgesInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutGuardianNudgesInput = {
@@ -2271,6 +2467,7 @@ export type FamilyUncheckedUpdateWithoutGuardianNudgesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutChallengesInput = {
@@ -2299,6 +2496,7 @@ export type FamilyCreateWithoutChallengesInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutChallengesInput = {
@@ -2327,6 +2525,7 @@ export type FamilyUncheckedCreateWithoutChallengesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutChallengesInput = {
@@ -2371,6 +2570,7 @@ export type FamilyUpdateWithoutChallengesInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutChallengesInput = {
@@ -2399,6 +2599,7 @@ export type FamilyUncheckedUpdateWithoutChallengesInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutChallengeProgressLogsInput = {
@@ -2427,6 +2628,7 @@ export type FamilyCreateWithoutChallengeProgressLogsInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutChallengeProgressLogsInput = {
@@ -2455,6 +2657,7 @@ export type FamilyUncheckedCreateWithoutChallengeProgressLogsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutChallengeProgressLogsInput = {
@@ -2499,6 +2702,7 @@ export type FamilyUpdateWithoutChallengeProgressLogsInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutChallengeProgressLogsInput = {
@@ -2527,6 +2731,7 @@ export type FamilyUncheckedUpdateWithoutChallengeProgressLogsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutTrainingDecksInput = {
@@ -2555,6 +2760,7 @@ export type FamilyCreateWithoutTrainingDecksInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutTrainingDecksInput = {
@@ -2583,6 +2789,7 @@ export type FamilyUncheckedCreateWithoutTrainingDecksInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutTrainingDecksInput = {
@@ -2627,6 +2834,7 @@ export type FamilyUpdateWithoutTrainingDecksInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutTrainingDecksInput = {
@@ -2655,6 +2863,7 @@ export type FamilyUncheckedUpdateWithoutTrainingDecksInput = {
   focusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutFocusActivityCardsInput = {
@@ -2683,6 +2892,7 @@ export type FamilyCreateWithoutFocusActivityCardsInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutFocusActivityCardsInput = {
@@ -2711,6 +2921,7 @@ export type FamilyUncheckedCreateWithoutFocusActivityCardsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutFocusActivityCardsInput = {
@@ -2755,6 +2966,7 @@ export type FamilyUpdateWithoutFocusActivityCardsInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutFocusActivityCardsInput = {
@@ -2783,6 +2995,7 @@ export type FamilyUncheckedUpdateWithoutFocusActivityCardsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutFocusDeckStackItemsInput = {
@@ -2811,6 +3024,7 @@ export type FamilyCreateWithoutFocusDeckStackItemsInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutFocusDeckStackItemsInput = {
@@ -2839,6 +3053,7 @@ export type FamilyUncheckedCreateWithoutFocusDeckStackItemsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutFocusDeckStackItemsInput = {
@@ -2883,6 +3098,7 @@ export type FamilyUpdateWithoutFocusDeckStackItemsInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutFocusDeckStackItemsInput = {
@@ -2911,6 +3127,7 @@ export type FamilyUncheckedUpdateWithoutFocusDeckStackItemsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyCreateWithoutFocusActivityCompletionsInput = {
@@ -2939,6 +3156,7 @@ export type FamilyCreateWithoutFocusActivityCompletionsInput = {
   trainingDecks?: Prisma.TrainingDeckCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyUncheckedCreateWithoutFocusActivityCompletionsInput = {
@@ -2967,6 +3185,7 @@ export type FamilyUncheckedCreateWithoutFocusActivityCompletionsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedCreateNestedManyWithoutFamilyInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutFamilyInput
   calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutFamilyInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutFamilyInput
 }
 
 export type FamilyCreateOrConnectWithoutFocusActivityCompletionsInput = {
@@ -3011,6 +3230,7 @@ export type FamilyUpdateWithoutFocusActivityCompletionsInput = {
   trainingDecks?: Prisma.TrainingDeckUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutFamilyNestedInput
 }
 
 export type FamilyUncheckedUpdateWithoutFocusActivityCompletionsInput = {
@@ -3039,6 +3259,7 @@ export type FamilyUncheckedUpdateWithoutFocusActivityCompletionsInput = {
   trainingDecks?: Prisma.TrainingDeckUncheckedUpdateManyWithoutFamilyNestedInput
   rewardRedemptionRequests?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutFamilyNestedInput
   calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutFamilyNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutFamilyNestedInput
 }
 
 
@@ -3062,6 +3283,7 @@ export type FamilyCountOutputType = {
   trainingDecks: number
   rewardRedemptionRequests: number
   calendarEvents: number
+  parentPinResetTokens: number
 }
 
 export type FamilyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3080,6 +3302,7 @@ export type FamilyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   trainingDecks?: boolean | FamilyCountOutputTypeCountTrainingDecksArgs
   rewardRedemptionRequests?: boolean | FamilyCountOutputTypeCountRewardRedemptionRequestsArgs
   calendarEvents?: boolean | FamilyCountOutputTypeCountCalendarEventsArgs
+  parentPinResetTokens?: boolean | FamilyCountOutputTypeCountParentPinResetTokensArgs
 }
 
 /**
@@ -3197,6 +3420,13 @@ export type FamilyCountOutputTypeCountCalendarEventsArgs<ExtArgs extends runtime
   where?: Prisma.CalendarEventWhereInput
 }
 
+/**
+ * FamilyCountOutputType without action
+ */
+export type FamilyCountOutputTypeCountParentPinResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ParentPinResetTokenWhereInput
+}
+
 
 export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3226,6 +3456,7 @@ export type FamilySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   trainingDecks?: boolean | Prisma.Family$trainingDecksArgs<ExtArgs>
   rewardRedemptionRequests?: boolean | Prisma.Family$rewardRedemptionRequestsArgs<ExtArgs>
   calendarEvents?: boolean | Prisma.Family$calendarEventsArgs<ExtArgs>
+  parentPinResetTokens?: boolean | Prisma.Family$parentPinResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.FamilyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["family"]>
 
@@ -3289,6 +3520,7 @@ export type FamilyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   trainingDecks?: boolean | Prisma.Family$trainingDecksArgs<ExtArgs>
   rewardRedemptionRequests?: boolean | Prisma.Family$rewardRedemptionRequestsArgs<ExtArgs>
   calendarEvents?: boolean | Prisma.Family$calendarEventsArgs<ExtArgs>
+  parentPinResetTokens?: boolean | Prisma.Family$parentPinResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.FamilyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FamilyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3318,6 +3550,7 @@ export type $FamilyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     trainingDecks: Prisma.$TrainingDeckPayload<ExtArgs>[]
     rewardRedemptionRequests: Prisma.$RewardRedemptionRequestPayload<ExtArgs>[]
     calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+    parentPinResetTokens: Prisma.$ParentPinResetTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3741,6 +3974,7 @@ export interface Prisma__FamilyClient<T, Null = never, ExtArgs extends runtime.T
   trainingDecks<T extends Prisma.Family$trainingDecksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$trainingDecksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainingDeckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rewardRedemptionRequests<T extends Prisma.Family$rewardRedemptionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$rewardRedemptionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardRedemptionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   calendarEvents<T extends Prisma.Family$calendarEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  parentPinResetTokens<T extends Prisma.Family$parentPinResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Family$parentPinResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ParentPinResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4557,6 +4791,30 @@ export type Family$calendarEventsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.CalendarEventScalarFieldEnum | Prisma.CalendarEventScalarFieldEnum[]
+}
+
+/**
+ * Family.parentPinResetTokens
+ */
+export type Family$parentPinResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ParentPinResetToken
+   */
+  select?: Prisma.ParentPinResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ParentPinResetToken
+   */
+  omit?: Prisma.ParentPinResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ParentPinResetTokenInclude<ExtArgs> | null
+  where?: Prisma.ParentPinResetTokenWhereInput
+  orderBy?: Prisma.ParentPinResetTokenOrderByWithRelationInput | Prisma.ParentPinResetTokenOrderByWithRelationInput[]
+  cursor?: Prisma.ParentPinResetTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ParentPinResetTokenScalarFieldEnum | Prisma.ParentPinResetTokenScalarFieldEnum[]
 }
 
 /**

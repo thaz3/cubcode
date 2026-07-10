@@ -24,7 +24,7 @@ export function RoutineCubAssignmentFields({
         <legend className="text-sm font-medium text-cub-off-white">Assign to</legend>
         <p className="mt-1 text-xs text-cub-muted">
           {variant === "task"
-            ? "Select every Cub who should get this task. You can assign to more kids later from the library."
+            ? "Select every Cub who should get this task. You can assign to more kids later from your task stash."
             : "Select every Cub who should get this routine. You can add or remove kids when editing."}
         </p>
       </div>

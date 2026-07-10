@@ -96,7 +96,8 @@ export function WaysToEarnSection({
           Ways to Earn
         </h2>
         <p className="mt-1 text-sm text-cub-muted">
-          Five clear paths to earn points in C.U.B. Code — pick what fits today.
+          {earnTypes.length} clear paths to earn points in C.U.B. Code — pick what fits
+          today.
         </p>
       </div>
 

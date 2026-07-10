@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AssignmentsRoutinesSection } from "@/components/assignments-routines-section";
 import { TaskBoardNav } from "@/components/task-board-nav";
 import { TaskBoardWorkflow } from "@/components/task-board-workflow";
 import { TaskTemplateCard } from "@/components/task-template-card";
@@ -66,12 +65,14 @@ export default async function TaskBoardPage() {
         title="Assignments"
         subtitle="Assign work across five earn types — routines, tasks, Growth Picks, Training Path, and bonuses."
         action={
-          <div className="flex flex-wrap gap-2">
-            <Link href="/dashboard/tasks/assign">
-              <Button size="lg">Assign work</Button>
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap">
+            <Link href="/dashboard/tasks/assign" className="w-full sm:w-auto">
+              <Button size="lg" fullWidth className="sm:w-auto">
+                Assign work
+              </Button>
             </Link>
-            <Link href="/dashboard/tasks/templates">
-              <Button variant="secondary" size="lg">
+            <Link href="/dashboard/tasks/templates" className="w-full sm:w-auto">
+              <Button variant="secondary" size="lg" fullWidth className="sm:w-auto">
                 Training Path
               </Button>
             </Link>
@@ -93,7 +94,7 @@ export default async function TaskBoardPage() {
         reviewQueueItems={reviewQueueItems}
         libraryTasks={readyToAssign}
         routinesCount={groupedRoutineCount}
-        routinesSection={<AssignmentsRoutinesSection routines={routines} />}
+        routines={routines}
       />
 
       {householdTemplates.length > 0 ? (

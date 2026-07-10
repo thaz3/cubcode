@@ -25,5 +25,6 @@ export const config = {
     "/signup",
     "/forgot-password",
     "/reset-password",
+    "/reset-parent-pin",
   ],
 };

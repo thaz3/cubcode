@@ -124,7 +124,7 @@ export function DouglassProfilePageView({
       <div className="px-4 py-5">
         <div className="flex items-start gap-4">
           <DouglassProfileAvatar
-            avatarStyle={draft.avatarStyle}
+            avatarPhotoId={draft.avatarPhotoId}
             displayName={displayName}
             size="md"
           />
@@ -196,9 +196,9 @@ export function DouglassProfilePageView({
               Profile strategy
             </p>
             <ul className="mt-2 space-y-2 text-sm text-kid-ink">
-              <li>Control the image</li>
-              <li>Use powerful words</li>
-              <li>Challenge the audience</li>
+              {draft.strategyPoints.map((point, index) => (
+                <li key={`${index}-${point}`}>{point}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -260,7 +260,7 @@ export function DouglassProfilePageView({
                   <article key={`feed-${post.postKey}`}>
                     <div className="flex items-center gap-3 px-4 py-3">
                       <DouglassProfileAvatar
-                        avatarStyle={draft.avatarStyle}
+                        avatarPhotoId={draft.avatarPhotoId}
                         displayName={displayName}
                         size="sm"
                       />

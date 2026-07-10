@@ -5,7 +5,6 @@ import { TaskRewardsEditForm } from "@/components/task-rewards-edit-form";
 import { RequestSessionTimer } from "@/components/request-session-timer";
 import { ParentFocusSessionControls } from "@/components/parent-focus-session-controls";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { ParentBonusXpForm } from "@/components/parent-bonus-xp-form";
 import { AssignmentManageActions } from "@/components/assignment-manage-actions";
 import { StartTaskForm } from "@/components/start-task-form";
 import { Button } from "@/components/ui/button";
@@ -16,9 +15,6 @@ import { auth } from "@/lib/auth";
 import type { SupervisionLevel } from "@/generated/prisma/client";
 import { formatAgeBand } from "@/lib/age-band-defaults";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
-import {
-  growthCategoryShortLabel,
-} from "@/lib/task-categories";
 import { db } from "@/lib/db";
 import {
   formatGrowthWeekProgress,
@@ -62,27 +58,12 @@ export default async function CubTasksPage({
   const cub = family.cubs.find((c) => c.id === cubId);
   if (!cub) notFound();
 
-  const [tasks, recentParentBonuses, libraryTasks, completedGrowth, availableGrowth] =
+  const [tasks, libraryTasks, completedGrowth, availableGrowth] =
     await Promise.all([
     db.task.findMany({
       where: { familyId: family.id, cubId: cub.id },
       include: {
         focusBlocks: { select: { durationMinutes: true } },
-      },
-    }),
-    db.xpLedgerEntry.findMany({
-      where: {
-        cubId: cub.id,
-        reason: "PARENT_ADJUSTMENT",
-      },
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      select: {
-        id: true,
-        amount: true,
-        note: true,
-        growthCategory: true,
-        createdAt: true,
       },
     }),
     db.task.findMany({
@@ -109,8 +90,6 @@ export default async function CubTasksPage({
     ),
     weekProgressLabel: formatGrowthWeekProgress(completedGrowth, requiredGrowth),
   };
-  const bonusGrowthOptions = growthCategoryOptionsForCub(cub);
-
   const activeTasks = sortTasksByUrgency(
     tasks.filter((task) => ACTIVE_CUB_STATUSES.includes(task.status)),
   );
@@ -297,7 +276,7 @@ export default async function CubTasksPage({
         {activeTasks.length === 0 ? (
           <Card>
             <p className="text-sm text-zinc-500">
-              Assign a task from your library below.
+              Assign a task from your task stash below.
             </p>
           </Card>
         ) : (
@@ -447,7 +426,7 @@ export default async function CubTasksPage({
         <h2 className="text-lg font-semibold">Assign work</h2>
         <p className="mt-1 text-sm text-zinc-500">
           Choose an earn type for {cub.displayName} — routine, task, Growth Pick,
-          Training Path, or bonus.
+          or Training Path.
         </p>
         <div className="mt-4">
           <AssignTaskToCubPanel
@@ -455,35 +434,9 @@ export default async function CubTasksPage({
             cubName={cub.displayName}
             libraryTasks={libraryTasks}
             cubs={family.cubs}
-            bonusGrowthOptions={bonusGrowthOptions}
             defaultKind={defaultAssignKind}
           />
         </div>
-      </Card>
-
-      <Card id="bonus" className="scroll-mt-36">
-        <h2 className="text-lg font-semibold">Bonus points</h2>
-        <p className="mt-1 text-sm text-zinc-500">
-          Award extra XP when {cub.displayName} shows effort, maturity, or something
-          worth celebrating.
-        </p>
-        {recentParentBonuses.length === 0 ? (
-          <p className="mt-2 text-sm text-zinc-500">No bonuses awarded yet.</p>
-        ) : (
-          <ul className="mt-3 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
-            {recentParentBonuses.map((bonus) => (
-              <li key={bonus.id}>
-                +{bonus.amount} XP
-                {bonus.growthCategory
-                  ? ` · ${growthCategoryShortLabel(bonus.growthCategory)}`
-                  : ""}{" "}
-                · {bonus.createdAt.toLocaleString()}
-                {bonus.note ? ` · ${bonus.note}` : ""}
-              </li>
-            ))}
-          </ul>
-        )}
-        <ParentBonusXpForm cubId={cub.id} growthOptions={bonusGrowthOptions} />
       </Card>
     </div>
   );

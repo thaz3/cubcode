@@ -24,3 +24,14 @@ export const verifyParentPinSchema = z.object({
 export const removeParentPinSchema = z.object({
   currentPin: pinField,
 });
+
+export const resetParentPinSchema = z
+  .object({
+    token: z.string().min(1, "Reset link is invalid or expired"),
+    newPin: pinField,
+    confirmPin: z.string().trim(),
+  })
+  .refine((data) => data.newPin === data.confirmPin, {
+    message: "PINs do not match",
+    path: ["confirmPin"],
+  });

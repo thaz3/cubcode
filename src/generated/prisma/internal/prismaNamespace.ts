@@ -387,6 +387,7 @@ export const ModelName = {
   User: 'User',
   PasswordResetToken: 'PasswordResetToken',
   Family: 'Family',
+  ParentPinResetToken: 'ParentPinResetToken',
   Cub: 'Cub',
   CalendarEvent: 'CalendarEvent',
   CouncilDaySession: 'CouncilDaySession',
@@ -425,7 +426,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "passwordResetToken" | "family" | "cub" | "calendarEvent" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemptionRequest" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog" | "trainingDeck" | "focusActivityCard" | "focusDeckStackItem" | "focusActivityCompletion"
+    modelProps: "user" | "passwordResetToken" | "family" | "parentPinResetToken" | "cub" | "calendarEvent" | "councilDaySession" | "councilDayCubEntry" | "taskTemplate" | "task" | "focusBlockLog" | "xpLedgerEntry" | "focusTokenLedgerEntry" | "phoneTimeLedgerEntry" | "weekendBankLedgerEntry" | "rewardStoreItem" | "rewardRedemptionRequest" | "rewardRedemption" | "guardianNudgePreferences" | "guardianNudgeRule" | "guardianNudge" | "challenge" | "challengeProgressLog" | "trainingDeck" | "focusActivityCard" | "focusDeckStackItem" | "focusActivityCompletion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -648,6 +649,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.FamilyCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.FamilyCountAggregateOutputType> | number
+        }
+      }
+    }
+    ParentPinResetToken: {
+      payload: Prisma.$ParentPinResetTokenPayload<ExtArgs>
+      fields: Prisma.ParentPinResetTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ParentPinResetTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ParentPinResetTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.ParentPinResetTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ParentPinResetTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>
+        }
+        findMany: {
+          args: Prisma.ParentPinResetTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>[]
+        }
+        create: {
+          args: Prisma.ParentPinResetTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>
+        }
+        createMany: {
+          args: Prisma.ParentPinResetTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ParentPinResetTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.ParentPinResetTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>
+        }
+        update: {
+          args: Prisma.ParentPinResetTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.ParentPinResetTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ParentPinResetTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ParentPinResetTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.ParentPinResetTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParentPinResetTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.ParentPinResetTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateParentPinResetToken>
+        }
+        groupBy: {
+          args: Prisma.ParentPinResetTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ParentPinResetTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ParentPinResetTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ParentPinResetTokenCountAggregateOutputType> | number
         }
       }
     }
@@ -2432,6 +2507,19 @@ export const FamilyScalarFieldEnum = {
 export type FamilyScalarFieldEnum = (typeof FamilyScalarFieldEnum)[keyof typeof FamilyScalarFieldEnum]
 
 
+export const ParentPinResetTokenScalarFieldEnum = {
+  id: 'id',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  familyId: 'familyId'
+} as const
+
+export type ParentPinResetTokenScalarFieldEnum = (typeof ParentPinResetTokenScalarFieldEnum)[keyof typeof ParentPinResetTokenScalarFieldEnum]
+
+
 export const CubScalarFieldEnum = {
   id: 'id',
   displayName: 'displayName',
@@ -3421,6 +3509,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   passwordResetToken?: Prisma.PasswordResetTokenOmit
   family?: Prisma.FamilyOmit
+  parentPinResetToken?: Prisma.ParentPinResetTokenOmit
   cub?: Prisma.CubOmit
   calendarEvent?: Prisma.CalendarEventOmit
   councilDaySession?: Prisma.CouncilDaySessionOmit

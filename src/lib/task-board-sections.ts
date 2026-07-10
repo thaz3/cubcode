@@ -19,6 +19,8 @@ export const TASK_BOARD_HASH_SECTIONS = [
 
 export type TaskBoardHashSection = (typeof TASK_BOARD_HASH_SECTIONS)[number];
 
+export const TASK_STASH_LABEL = "Task stash";
+
 export function isTaskBoardHashSection(
   value: string,
 ): value is TaskBoardHashSection {

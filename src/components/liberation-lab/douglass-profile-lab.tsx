@@ -33,6 +33,24 @@ export const AVATAR_STYLE_OPTIONS = [
 
 export type AvatarStyle = (typeof AVATAR_STYLE_OPTIONS)[number];
 
+const LEGACY_AVATAR_TO_PHOTO: Record<AvatarStyle, string> = {
+  "FD initials": "young-douglass",
+  "Stern portrait": "stern-portrait",
+  "North Star": "newspaper-editor",
+  "Printing press": "newspaper-editor",
+  "Freedom flame": "elder-statesman",
+};
+
+export type DouglassProfileLabDraft = {
+  profileDisplayName: string;
+  profileHandle: string;
+  profileBio: string;
+  avatarPhotoId: string;
+  profileMotto: string;
+  strategyPoints: string[];
+  posts: Record<DouglassProfilePostKey, DouglassProfilePostDraft>;
+};
+
 export const DOUGLASS_PROFILE_POSTS = [
   {
     postKey: "escape",
@@ -67,23 +85,23 @@ export type DouglassProfilePostDraft = {
   modernCaption: string;
 };
 
-export type DouglassProfileLabDraft = {
-  profileDisplayName: string;
-  profileHandle: string;
-  profileBio: string;
-  avatarStyle: AvatarStyle | "";
-  profileMotto: string;
-  posts: Record<DouglassProfilePostKey, DouglassProfilePostDraft>;
-};
-
 type ProfileTab = "profile" | "grid" | "about" | "strategy";
+
+export const DEFAULT_STRATEGY_POINTS = [
+  "Control the image",
+  "Use powerful words",
+  "Challenge the audience",
+] as const;
+
+export const STRATEGY_BULLETS = DEFAULT_STRATEGY_POINTS;
 
 export const DOUGLASS_PROFILE_DEFAULTS = {
   profileDisplayName: "Frederick Douglass",
   profileHandle: "frederickdouglass",
   profileBio: "Writer. Orator. Abolitionist. I own my image. I speak for freedom.",
-  avatarStyle: "FD initials" as AvatarStyle,
+  avatarPhotoId: "young-douglass",
   profileMotto: "",
+  strategyPoints: [...DEFAULT_STRATEGY_POINTS],
 };
 
 const SUGGESTED_HANDLES = [
@@ -114,67 +132,6 @@ const PROFILE_TABS: { id: ProfileTab; label: string }[] = [
   { id: "about", label: "About" },
   { id: "strategy", label: "Strategy" },
 ];
-
-const STRATEGY_BULLETS = [
-  "Control the image",
-  "Use powerful words",
-  "Challenge the audience",
-] as const;
-
-const AVATAR_STYLE_STYLES: Record<
-  AvatarStyle,
-  { gradient: string; content: (initials: string) => React.ReactNode }
-> = {
-  "FD initials": {
-    gradient: "from-amber-700 via-amber-800 to-slate-900",
-    content: (initials) => (
-      <span className="font-black text-amber-100">{initials || "FD"}</span>
-    ),
-  },
-  "Stern portrait": {
-    gradient: "from-slate-800 via-zinc-800 to-slate-950",
-    content: () => <span className="text-2xl" aria-hidden>🧔🏿</span>,
-  },
-  "North Star": {
-    gradient: "from-indigo-900 via-violet-900 to-slate-950",
-    content: () => (
-      <div className="text-center">
-        <span className="text-2xl text-amber-200" aria-hidden>
-          ★
-        </span>
-        <p className="mt-0.5 text-[8px] font-black uppercase tracking-wider text-violet-200">
-          North Star
-        </p>
-      </div>
-    ),
-  },
-  "Printing press": {
-    gradient: "from-stone-700 via-zinc-800 to-neutral-950",
-    content: () => (
-      <div className="text-center">
-        <span className="text-xl" aria-hidden>
-          🖨️
-        </span>
-        <p className="mt-0.5 text-[8px] font-black uppercase tracking-wider text-zinc-200">
-          Press
-        </p>
-      </div>
-    ),
-  },
-  "Freedom flame": {
-    gradient: "from-orange-700 via-red-800 to-amber-950",
-    content: () => (
-      <div className="text-center">
-        <span className="text-2xl" aria-hidden>
-          🔥
-        </span>
-        <p className="mt-0.5 text-[8px] font-black uppercase tracking-wider text-amber-100">
-          Freedom
-        </p>
-      </div>
-    ),
-  },
-};
 
 const STATUS_STYLES: Record<PostStatus, string> = {
   Empty: "bg-zinc-500/90 text-white",
@@ -209,6 +166,37 @@ function getDisplayInitials(displayName: string): string {
   return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
 }
 
+function normalizeStrategyPoints(raw: unknown): string[] {
+  if (!Array.isArray(raw)) {
+    return [...DEFAULT_STRATEGY_POINTS];
+  }
+
+  const points = raw
+    .map((point) => String(point).trim())
+    .filter(Boolean)
+    .slice(0, 3);
+
+  while (points.length < 3) {
+    points.push(DEFAULT_STRATEGY_POINTS[points.length] ?? "");
+  }
+
+  return points;
+}
+
+function resolveAvatarPhotoId(raw: Record<string, unknown>): string {
+  const avatarPhotoId = String(raw.avatarPhotoId ?? "");
+  if (getDouglassPhotoPreset(avatarPhotoId)) {
+    return avatarPhotoId;
+  }
+
+  const avatarStyle = String(raw.avatarStyle ?? "");
+  if (AVATAR_STYLE_OPTIONS.includes(avatarStyle as AvatarStyle)) {
+    return LEGACY_AVATAR_TO_PHOTO[avatarStyle as AvatarStyle];
+  }
+
+  return DOUGLASS_PROFILE_DEFAULTS.avatarPhotoId;
+}
+
 export function parseDouglassProfileDraft(raw: Record<string, unknown>): DouglassProfileLabDraft {
   const empty = createEmptyDraft();
 
@@ -220,11 +208,8 @@ export function parseDouglassProfileDraft(raw: Record<string, unknown>): Douglas
   );
   empty.profileBio = String(raw.profileBio ?? DOUGLASS_PROFILE_DEFAULTS.profileBio);
   empty.profileMotto = String(raw.profileMotto ?? "");
-
-  const avatarStyle = String(raw.avatarStyle ?? DOUGLASS_PROFILE_DEFAULTS.avatarStyle);
-  empty.avatarStyle = AVATAR_STYLE_OPTIONS.includes(avatarStyle as AvatarStyle)
-    ? (avatarStyle as AvatarStyle)
-    : DOUGLASS_PROFILE_DEFAULTS.avatarStyle;
+  empty.avatarPhotoId = resolveAvatarPhotoId(raw);
+  empty.strategyPoints = normalizeStrategyPoints(raw.strategyPoints);
 
   const postsRaw = raw.posts;
   if (postsRaw && typeof postsRaw === "object") {
@@ -390,30 +375,45 @@ function DouglassPhotoPicker({ postKey, selectedPhotoId, onSelect }: DouglassPho
 }
 
 export function DouglassProfileAvatar({
-  avatarStyle,
+  avatarPhotoId,
   displayName,
   size = "md",
 }: {
-  avatarStyle: AvatarStyle | "";
+  avatarPhotoId: string;
   displayName: string;
   size?: "sm" | "md";
 }) {
   const sizeClass = size === "sm" ? "h-10 w-10 text-sm" : "h-16 w-16 text-lg";
-  const style = avatarStyle && AVATAR_STYLE_OPTIONS.includes(avatarStyle)
-    ? AVATAR_STYLE_STYLES[avatarStyle]
-    : AVATAR_STYLE_STYLES["FD initials"];
+  const preset = getDouglassPhotoPreset(avatarPhotoId) ?? getDouglassPhotoPreset("young-douglass");
   const initials = getDisplayInitials(displayName);
+
+  if (preset?.imageUrl) {
+    return (
+      <div
+        className={cn(
+          "relative shrink-0 overflow-hidden rounded-full border-2 border-amber-300/50 shadow-md",
+          sizeClass,
+        )}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={preset.imageUrl}
+          alt={`${preset.title} portrait`}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    );
+  }
 
   return (
     <div
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-full border-2 border-amber-300/50 bg-gradient-to-br shadow-md",
-        style.gradient,
+        "flex shrink-0 items-center justify-center rounded-full border-2 border-amber-300/50 bg-gradient-to-br from-amber-700 via-amber-800 to-slate-900 shadow-md",
         sizeClass,
       )}
       aria-hidden
     >
-      {style.content(initials)}
+      <span className="font-black text-amber-100">{initials || "FD"}</span>
     </div>
   );
 }
@@ -427,7 +427,7 @@ function ProfileHeaderPreview({ draft }: { draft: DouglassProfileLabDraft }) {
     <div className="px-4 py-5">
       <div className="flex items-start gap-4">
         <DouglassProfileAvatar
-          avatarStyle={draft.avatarStyle}
+          avatarPhotoId={draft.avatarPhotoId}
           displayName={displayName}
         />
         <div className="min-w-0 flex-1">
@@ -555,16 +555,19 @@ function ProfileSetupPanel({
       </div>
 
       <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-        <Label className="text-kid-ink">Avatar style</Label>
+        <Label className="font-bold text-kid-ink">Choose your avatar</Label>
+        <p className="mt-1 text-xs text-kid-ink-muted">
+          Pick a Frederick Douglass portrait for your profile picture.
+        </p>
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {AVATAR_STYLE_OPTIONS.map((option) => {
-            const selected = draft.avatarStyle === option;
-            const style = AVATAR_STYLE_STYLES[option];
+          {DOUGLASS_PHOTO_PRESETS.map((preset) => {
+            const selected = draft.avatarPhotoId === preset.id;
+
             return (
               <button
-                key={option}
+                key={preset.id}
                 type="button"
-                onClick={() => onChange({ avatarStyle: option })}
+                onClick={() => onChange({ avatarPhotoId: preset.id })}
                 className={cn(
                   "touch-manipulation overflow-hidden rounded-2xl border-2 text-left transition",
                   selected
@@ -572,15 +575,11 @@ function ProfileSetupPanel({
                     : "border-zinc-200 hover:border-kid-purple/40",
                 )}
               >
-                <div
-                  className={cn(
-                    "flex h-20 items-center justify-center bg-gradient-to-br",
-                    style.gradient,
-                  )}
-                >
-                  <div className="scale-90">{style.content(getDisplayInitials(draft.profileDisplayName))}</div>
-                </div>
-                <p className="px-2 py-2 text-xs font-bold text-kid-ink">{option}</p>
+                <DouglassPresetPhotoVisual
+                  preset={preset}
+                  className="aspect-square w-full rounded-none border-0"
+                />
+                <p className="px-2 py-2 text-xs font-bold text-kid-ink">{preset.title}</p>
               </button>
             );
           })}
@@ -1000,20 +999,45 @@ export function DouglassProfileLab({ storageKey, profileViewHref }: DouglassProf
       ) : null}
 
       {activeTab === "strategy" ? (
-        <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-          <ul className="space-y-3">
-            {STRATEGY_BULLETS.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-3 text-sm text-kid-ink">
-                <span
-                  className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-kid-purple text-xs font-black text-white"
-                  aria-hidden
-                >
-                  ✓
-                </span>
-                {bullet}
-              </li>
-            ))}
-          </ul>
+        <div className="space-y-4">
+          <div className="rounded-2xl border-2 border-kid-purple/25 bg-white/90 px-4 py-3 shadow-sm">
+            <p className="text-sm font-black text-kid-ink">Your profile strategy</p>
+            <p className="mt-1 text-xs text-kid-ink-muted">
+              Write three ways you will use your profile — like Douglass used image, words, and
+              public presence.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
+            <ul className="space-y-4">
+              {draft.strategyPoints.map((bullet, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <span
+                    className="mt-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-kid-purple text-xs font-black text-white"
+                    aria-hidden
+                  >
+                    {index + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <Label htmlFor={`strategy-point-${index}`} className="font-bold text-kid-ink">
+                      Strategy point {index + 1}
+                    </Label>
+                    <Input
+                      id={`strategy-point-${index}`}
+                      value={bullet}
+                      onChange={(event) => {
+                        const nextPoints = [...draft.strategyPoints];
+                        nextPoints[index] = event.target.value;
+                        updateDraft({ strategyPoints: nextPoints });
+                      }}
+                      placeholder={DEFAULT_STRATEGY_POINTS[index]}
+                      className="mt-2 border-zinc-300 bg-white text-kid-ink"
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ) : null}
 
@@ -1095,7 +1119,7 @@ export function DouglassProfileLab({ storageKey, profileViewHref }: DouglassProf
                     >
                       <div className="flex items-center gap-3 border-b border-zinc-100 px-4 py-3">
                         <DouglassProfileAvatar
-                          avatarStyle={draft.avatarStyle}
+                          avatarPhotoId={draft.avatarPhotoId}
                           displayName={draft.profileDisplayName}
                           size="sm"
                         />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { WaysToEarnSection } from "@/components/ways-to-earn-section";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
+import { PARENT_WAYS_TO_LEARN_EARN_TYPES } from "@/lib/earn-types";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -13,12 +14,12 @@ export default async function ParentWaysToEarnPage() {
     <div className="space-y-8">
       <PageHeader
         title="Ways to Earn"
-        subtitle="Five earn types — assign work, set growth picks, and award bonuses."
+        subtitle="Four earn types — routines, tasks, Growth Picks, and Training Path."
         backHref="/dashboard/tasks"
         backLabel="Assignments"
       />
 
-      <WaysToEarnSection audience="parent" />
+      <WaysToEarnSection audience="parent" filter={PARENT_WAYS_TO_LEARN_EARN_TYPES} />
 
       <section className="rounded-xl border border-cub-off-white/10 bg-cub-charcoal/40 p-4 sm:p-6">
         <h2 className="text-lg font-semibold text-cub-off-white">Assign work</h2>

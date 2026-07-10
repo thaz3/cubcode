@@ -11,7 +11,7 @@ import {
   DASHBOARD_CORE_NAV_ITEMS,
   DASHBOARD_EXTENDED_NAV_ITEMS,
   DASHBOARD_USER_MENU_NAV_ITEMS,
-  DASHBOARD_WAYS_TO_LEARN_NAV_ITEM,
+  DASHBOARD_LIBERATION_LAB_NAV_ITEM,
   isDashboardAssignWorkNavActive,
   isDashboardAssignmentsNavActive,
   isDashboardNavActive,
@@ -23,14 +23,12 @@ import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
 
 type DashboardNavProps = {
   pendingReviewCount?: number;
-  guardianNudgeCount?: number;
   userName?: string | null;
   userEmail?: string | null;
 };
 
 export function DashboardNav({
   pendingReviewCount = 0,
-  guardianNudgeCount = 0,
   userName,
   userEmail,
 }: DashboardNavProps) {
@@ -99,7 +97,6 @@ export function DashboardNav({
                     key={item.href}
                     item={item}
                     pathname={pathname}
-                    guardianNudgeCount={guardianNudgeCount}
                   />
                 );
               })}
@@ -119,7 +116,7 @@ export function DashboardNav({
             <NavDivider />
 
             <NavLink
-              item={DASHBOARD_WAYS_TO_LEARN_NAV_ITEM}
+              item={DASHBOARD_LIBERATION_LAB_NAV_ITEM}
               pathname={pathname}
             />
           </div>
@@ -385,17 +382,11 @@ type NavItem = {
 function NavLink({
   item,
   pathname,
-  guardianNudgeCount = 0,
 }: {
   item: NavItem;
   pathname: string;
-  guardianNudgeCount?: number;
 }) {
   const active = isDashboardNavActive(pathname, item.href);
-  const badge =
-    item.href === "/dashboard" && guardianNudgeCount > 0
-      ? guardianNudgeCount
-      : null;
 
   return (
     <Link
@@ -406,18 +397,6 @@ function NavLink({
       )}
     >
       {item.label}
-      {badge != null ? (
-        <span
-          className={cn(
-            "ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold",
-            item.href === "/dashboard"
-              ? "bg-cub-red text-cub-off-white"
-              : "bg-cub-gold text-cub-ebony",
-          )}
-        >
-          {badge > 9 ? "9+" : badge}
-        </span>
-      ) : null}
     </Link>
   );
 }

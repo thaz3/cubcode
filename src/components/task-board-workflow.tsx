@@ -2,6 +2,9 @@
 
 import type { ReactNode } from "react";
 import { ActiveTaskList } from "@/components/active-task-list";
+import { AssignmentsRoutinesSection } from "@/components/assignments-routines-section";
+import { TASK_STASH_LABEL } from "@/lib/task-board-sections";
+import type { AssignmentRoutine } from "@/lib/assignment-routine-groups";
 import { AssignmentBoardReviewList } from "@/components/assignment-board-review-list";
 import { CompactLibraryTaskCard } from "@/components/compact-library-task-card";
 import {
@@ -21,7 +24,7 @@ type TaskBoardWorkflowProps = {
   reviewQueueItems: ReviewQueueItem[];
   libraryTasks?: TaskWithCub[];
   routinesCount?: number;
-  routinesSection?: ReactNode;
+  routines?: AssignmentRoutine[];
 };
 
 function TaskBoardDropdownSection({
@@ -63,7 +66,7 @@ export function TaskBoardWorkflow({
   reviewQueueItems,
   libraryTasks = [],
   routinesCount = 0,
-  routinesSection,
+  routines = [],
 }: TaskBoardWorkflowProps) {
   const { assigned, active, completed } = partitionTasksByBoardSection(tasks);
 
@@ -95,14 +98,14 @@ export function TaskBoardWorkflow({
 
       <TaskBoardDropdownSection
         sectionId="library"
-        title="Library"
+        title={TASK_STASH_LABEL}
         summary="One-time tasks saved — assign to a Cub when ready"
         count={libraryTasks.length}
       >
         {libraryTasks.length === 0 ? (
           <p className="text-sm text-zinc-500">
-            Nothing in the library. Create a task below, or save one without
-            assigning it yet.
+            Nothing in your task stash yet. Create a task below, or save one
+            without assigning it yet.
           </p>
         ) : (
           <ul className="grid gap-3 md:grid-cols-2">
@@ -124,15 +127,15 @@ export function TaskBoardWorkflow({
       >
         {assigned.length === 0 ? (
           <p className="text-sm text-zinc-500">
-            No tasks waiting to start. Assign from the library or create a new
-            task below.
+            No tasks waiting to start. Assign from your task stash or create a
+            new task below.
           </p>
         ) : (
           <ActiveTaskList items={groupActiveTasks(assigned)} layout="list" />
         )}
       </TaskBoardDropdownSection>
 
-      {routinesSection}
+      <AssignmentsRoutinesSection routines={routines} />
 
       <TaskBoardDropdownSection
         sectionId="active"

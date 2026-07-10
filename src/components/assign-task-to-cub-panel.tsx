@@ -8,8 +8,9 @@ import {
 } from "@/components/cub-library-assign-card";
 import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import type { ParentAssignKind } from "@/components/parent-assign-earn-panel";
-import type { Cub, GrowthCategory } from "@/generated/prisma/client";
-import { parseParentAssignKind } from "@/lib/earn-types";
+import type { Cub } from "@/generated/prisma/client";
+import { PARENT_INLINE_ASSIGN_EARN_TYPES } from "@/lib/earn-types";
+import { TASK_STASH_LABEL } from "@/lib/task-board-sections";
 import { cubRewardFields } from "@/lib/cub-task-fields";
 
 type AssignTaskToCubPanelProps = {
@@ -17,8 +18,8 @@ type AssignTaskToCubPanelProps = {
   cubName: string;
   libraryTasks: LibraryTaskOption[];
   cubs: Cub[];
-  bonusGrowthOptions?: Array<{ value: GrowthCategory; label: string }>;
   defaultKind?: ParentAssignKind;
+  earnTypes?: readonly ParentAssignKind[];
 };
 
 export function AssignTaskToCubPanel({
@@ -26,8 +27,8 @@ export function AssignTaskToCubPanel({
   cubName,
   libraryTasks,
   cubs,
-  bonusGrowthOptions = [],
   defaultKind = "task",
+  earnTypes = PARENT_INLINE_ASSIGN_EARN_TYPES,
 }: AssignTaskToCubPanelProps) {
   const hasLibraryTasks = libraryTasks.length > 0;
   const cub = cubs.find((item) => item.id === cubId);
@@ -40,11 +41,11 @@ export function AssignTaskToCubPanel({
         defaultCubId={cubId}
         defaultKind={defaultKind}
         compact
-        bonusGrowthOptions={bonusGrowthOptions}
+        earnTypes={earnTypes}
       />
 
       <CollapsibleSection
-        title="Task library"
+        title={TASK_STASH_LABEL}
         summary={
           hasLibraryTasks
             ? `${libraryTasks.length} saved task${libraryTasks.length === 1 ? "" : "s"} ready to assign`
@@ -73,13 +74,13 @@ export function AssignTaskToCubPanel({
                 href="/dashboard/tasks#library"
                 className="font-medium text-cub-gold hover:text-cub-gold-light"
               >
-                Manage library on Assignments →
+                Manage task stash on Assignments →
               </Link>
             </p>
           </div>
         ) : (
           <p className="text-sm text-zinc-500">
-            Save tasks to your household library on the{" "}
+            Save tasks to your household task stash on the{" "}
             <Link href="/dashboard/tasks/assign" className="text-cub-gold">
               Assignments board
             </Link>

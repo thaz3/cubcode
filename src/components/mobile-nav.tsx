@@ -19,14 +19,12 @@ import { cubNavActive, cubNavInactive } from "@/lib/cub-theme";
 
 type MobileNavProps = {
   pendingReviewCount?: number;
-  guardianNudgeCount?: number;
   userName?: string | null;
   userEmail?: string | null;
 };
 
 export function MobileNav({
   pendingReviewCount = 0,
-  guardianNudgeCount = 0,
   userName,
   userEmail,
 }: MobileNavProps) {
@@ -106,9 +104,7 @@ export function MobileNav({
             const badge =
               item.href === "/dashboard/tasks" && pendingReviewCount > 0
                 ? pendingReviewCount
-                : item.href === "/dashboard" && guardianNudgeCount > 0
-                  ? guardianNudgeCount
-                  : null;
+                : null;
 
             return (
               <Link
@@ -122,14 +118,7 @@ export function MobileNav({
                 <span className="relative text-center leading-tight">
                   {item.label}
                   {badge != null ? (
-                    <span
-                      className={cn(
-                        "absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white",
-                        item.href === "/dashboard"
-                          ? "bg-cub-red"
-                          : "bg-cub-gold text-cub-ebony",
-                      )}
-                    >
+                    <span className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-cub-gold px-1 text-[10px] font-bold text-cub-ebony">
                       {badge > 9 ? "9+" : badge}
                     </span>
                   ) : null}

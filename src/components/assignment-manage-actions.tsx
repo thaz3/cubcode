@@ -19,7 +19,7 @@ type AssignmentManageActionsProps = {
 function deleteConfirmMessage(status: TaskStatus): string {
   switch (status) {
     case "AVAILABLE":
-      return "Remove this task from your library? This cannot be undone.";
+      return "Remove this task from your task stash? This cannot be undone.";
     case "SUBMITTED":
       return "Delete this assignment and its submission? This cannot be undone.";
     case "APPROVED":

@@ -205,7 +205,7 @@ export function BooksArePowerWorksheet({ cubId, deckSlug }: BooksArePowerWorkshe
       </div>
 
       <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-        <Label htmlFor="favoriteBookTitle" className="text-kid-ink">
+        <Label htmlFor="favoriteBookTitle" className="font-bold text-kid-ink">
           What is the name of your favorite book?
         </Label>
         <Input
@@ -218,7 +218,7 @@ export function BooksArePowerWorksheet({ cubId, deckSlug }: BooksArePowerWorkshe
       </div>
 
       <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-        <Label htmlFor="favoriteBookAuthor" className="text-kid-ink">
+        <Label htmlFor="favoriteBookAuthor" className="font-bold text-kid-ink">
           Who is the author?
         </Label>
         <Input
@@ -231,7 +231,7 @@ export function BooksArePowerWorksheet({ cubId, deckSlug }: BooksArePowerWorkshe
       </div>
 
       <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-        <Label htmlFor="whyLikeFavoriteBook" className="text-kid-ink">
+        <Label htmlFor="whyLikeFavoriteBook" className="font-bold text-kid-ink">
           Why do you like this book?
         </Label>
         <textarea
@@ -245,7 +245,7 @@ export function BooksArePowerWorksheet({ cubId, deckSlug }: BooksArePowerWorkshe
       </div>
 
       <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-        <Label htmlFor="lastLibraryVisit" className="text-kid-ink">
+        <Label htmlFor="lastLibraryVisit" className="font-bold text-kid-ink">
           When was the last time you visited the library or bookstore near your home?
         </Label>
         <Input
@@ -261,7 +261,7 @@ export function BooksArePowerWorksheet({ cubId, deckSlug }: BooksArePowerWorkshe
         id="books-are-power-worksheet"
         className="rounded-2xl border-2 border-amber-400/35 bg-gradient-to-br from-amber-50 via-white to-kid-cream p-4 shadow-sm scroll-mt-24"
       >
-        <Label className="text-kid-ink">What book did you pick from the reading list?</Label>
+        <Label className="font-bold text-kid-ink">What book did you pick from the reading list?</Label>
 
         <div className="mt-4 space-y-4">
           <Link href={readingListHref} className="block">

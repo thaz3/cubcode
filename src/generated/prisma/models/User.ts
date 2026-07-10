@@ -198,6 +198,7 @@ export type UserWhereInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestListRelationFilter
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestListRelationFilter
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
+  parentPinResetTokens?: Prisma.ParentPinResetTokenListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -215,6 +216,7 @@ export type UserOrderByWithRelationInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestOrderByRelationAggregateInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestOrderByRelationAggregateInput
   passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -235,6 +237,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestListRelationFilter
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestListRelationFilter
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
+  parentPinResetTokens?: Prisma.ParentPinResetTokenListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -276,6 +279,7 @@ export type UserCreateInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -293,6 +297,7 @@ export type UserUncheckedCreateInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -310,6 +315,7 @@ export type UserUpdateInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -327,6 +333,7 @@ export type UserUncheckedUpdateInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -431,6 +438,20 @@ export type UserUpdateOneRequiredWithoutFamilyNestedInput = {
   upsert?: Prisma.UserUpsertWithoutFamilyInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFamilyInput, Prisma.UserUpdateWithoutFamilyInput>, Prisma.UserUncheckedUpdateWithoutFamilyInput>
+}
+
+export type UserCreateNestedOneWithoutParentPinResetTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutParentPinResetTokensInput, Prisma.UserUncheckedCreateWithoutParentPinResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutParentPinResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutParentPinResetTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutParentPinResetTokensInput, Prisma.UserUncheckedCreateWithoutParentPinResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutParentPinResetTokensInput
+  upsert?: Prisma.UserUpsertWithoutParentPinResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutParentPinResetTokensInput, Prisma.UserUpdateWithoutParentPinResetTokensInput>, Prisma.UserUncheckedUpdateWithoutParentPinResetTokensInput>
 }
 
 export type UserCreateNestedOneWithoutCouncilDaySessionsInput = {
@@ -543,6 +564,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -559,6 +581,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -591,6 +614,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -607,6 +631,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutFamilyInput = {
@@ -623,6 +648,7 @@ export type UserCreateWithoutFamilyInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFamilyInput = {
@@ -639,6 +665,7 @@ export type UserUncheckedCreateWithoutFamilyInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFamilyInput = {
@@ -671,6 +698,7 @@ export type UserUpdateWithoutFamilyInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFamilyInput = {
@@ -680,6 +708,91 @@ export type UserUncheckedUpdateWithoutFamilyInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reviewedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutReviewedByNestedInput
+  reviewedFocusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutReviewedByNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
+  requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutParentPinResetTokensInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family?: Prisma.FamilyCreateNestedOneWithoutOwnerInput
+  reviewedTasks?: Prisma.TaskCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogCreateNestedManyWithoutReviewedByInput
+  reviewedFocusActivityCompletions?: Prisma.FocusActivityCompletionCreateNestedManyWithoutReviewedByInput
+  councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
+  requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
+  reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutParentPinResetTokensInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  family?: Prisma.FamilyUncheckedCreateNestedOneWithoutOwnerInput
+  reviewedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedCreateNestedManyWithoutReviewedByInput
+  reviewedFocusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedCreateNestedManyWithoutReviewedByInput
+  councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
+  requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutParentPinResetTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutParentPinResetTokensInput, Prisma.UserUncheckedCreateWithoutParentPinResetTokensInput>
+}
+
+export type UserUpsertWithoutParentPinResetTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutParentPinResetTokensInput, Prisma.UserUncheckedUpdateWithoutParentPinResetTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutParentPinResetTokensInput, Prisma.UserUncheckedCreateWithoutParentPinResetTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutParentPinResetTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutParentPinResetTokensInput, Prisma.UserUncheckedUpdateWithoutParentPinResetTokensInput>
+}
+
+export type UserUpdateWithoutParentPinResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUpdateOneWithoutOwnerNestedInput
+  reviewedTasks?: Prisma.TaskUpdateManyWithoutReviewedByNestedInput
+  reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUpdateManyWithoutReviewedByNestedInput
+  reviewedFocusActivityCompletions?: Prisma.FocusActivityCompletionUpdateManyWithoutReviewedByNestedInput
+  councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
+  requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
+  reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutParentPinResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  family?: Prisma.FamilyUncheckedUpdateOneWithoutOwnerNestedInput
   reviewedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReviewedByNestedInput
   reviewedChallengeProgressLogs?: Prisma.ChallengeProgressLogUncheckedUpdateManyWithoutReviewedByNestedInput
   reviewedFocusActivityCompletions?: Prisma.FocusActivityCompletionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -703,6 +816,7 @@ export type UserCreateWithoutCouncilDaySessionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCouncilDaySessionsInput = {
@@ -719,6 +833,7 @@ export type UserUncheckedCreateWithoutCouncilDaySessionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCouncilDaySessionsInput = {
@@ -751,6 +866,7 @@ export type UserUpdateWithoutCouncilDaySessionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCouncilDaySessionsInput = {
@@ -767,6 +883,7 @@ export type UserUncheckedUpdateWithoutCouncilDaySessionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewedTasksInput = {
@@ -783,6 +900,7 @@ export type UserCreateWithoutReviewedTasksInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedTasksInput = {
@@ -799,6 +917,7 @@ export type UserUncheckedCreateWithoutReviewedTasksInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedTasksInput = {
@@ -831,6 +950,7 @@ export type UserUpdateWithoutReviewedTasksInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedTasksInput = {
@@ -847,6 +967,7 @@ export type UserUncheckedUpdateWithoutReviewedTasksInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRequestedRewardRedemptionsInput = {
@@ -863,6 +984,7 @@ export type UserCreateWithoutRequestedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRequestedRewardRedemptionsInput = {
@@ -879,6 +1001,7 @@ export type UserUncheckedCreateWithoutRequestedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRequestedRewardRedemptionsInput = {
@@ -900,6 +1023,7 @@ export type UserCreateWithoutReviewedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionCreateNestedManyWithoutConductedByInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedRewardRedemptionsInput = {
@@ -916,6 +1040,7 @@ export type UserUncheckedCreateWithoutReviewedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedCreateNestedManyWithoutConductedByInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedRewardRedemptionsInput = {
@@ -948,6 +1073,7 @@ export type UserUpdateWithoutRequestedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRequestedRewardRedemptionsInput = {
@@ -964,6 +1090,7 @@ export type UserUncheckedUpdateWithoutRequestedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReviewedRewardRedemptionsInput = {
@@ -991,6 +1118,7 @@ export type UserUpdateWithoutReviewedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUpdateManyWithoutConductedByNestedInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedRewardRedemptionsInput = {
@@ -1007,6 +1135,7 @@ export type UserUncheckedUpdateWithoutReviewedRewardRedemptionsInput = {
   councilDaySessions?: Prisma.CouncilDaySessionUncheckedUpdateManyWithoutConductedByNestedInput
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewedChallengeProgressLogsInput = {
@@ -1023,6 +1152,7 @@ export type UserCreateWithoutReviewedChallengeProgressLogsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedChallengeProgressLogsInput = {
@@ -1039,6 +1169,7 @@ export type UserUncheckedCreateWithoutReviewedChallengeProgressLogsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedChallengeProgressLogsInput = {
@@ -1071,6 +1202,7 @@ export type UserUpdateWithoutReviewedChallengeProgressLogsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedChallengeProgressLogsInput = {
@@ -1087,6 +1219,7 @@ export type UserUncheckedUpdateWithoutReviewedChallengeProgressLogsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewedFocusActivityCompletionsInput = {
@@ -1103,6 +1236,7 @@ export type UserCreateWithoutReviewedFocusActivityCompletionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedFocusActivityCompletionsInput = {
@@ -1119,6 +1253,7 @@ export type UserUncheckedCreateWithoutReviewedFocusActivityCompletionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutRequestedByInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedFocusActivityCompletionsInput = {
@@ -1151,6 +1286,7 @@ export type UserUpdateWithoutReviewedFocusActivityCompletionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedFocusActivityCompletionsInput = {
@@ -1167,6 +1303,7 @@ export type UserUncheckedUpdateWithoutReviewedFocusActivityCompletionsInput = {
   requestedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   reviewedRewardRedemptions?: Prisma.RewardRedemptionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  parentPinResetTokens?: Prisma.ParentPinResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1182,6 +1319,7 @@ export type UserCountOutputType = {
   requestedRewardRedemptions: number
   reviewedRewardRedemptions: number
   passwordResetTokens: number
+  parentPinResetTokens: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1192,6 +1330,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   requestedRewardRedemptions?: boolean | UserCountOutputTypeCountRequestedRewardRedemptionsArgs
   reviewedRewardRedemptions?: boolean | UserCountOutputTypeCountReviewedRewardRedemptionsArgs
   passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
+  parentPinResetTokens?: boolean | UserCountOutputTypeCountParentPinResetTokensArgs
 }
 
 /**
@@ -1253,6 +1392,13 @@ export type UserCountOutputTypeCountPasswordResetTokensArgs<ExtArgs extends runt
   where?: Prisma.PasswordResetTokenWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountParentPinResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ParentPinResetTokenWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1269,6 +1415,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   requestedRewardRedemptions?: boolean | Prisma.User$requestedRewardRedemptionsArgs<ExtArgs>
   reviewedRewardRedemptions?: boolean | Prisma.User$reviewedRewardRedemptionsArgs<ExtArgs>
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
+  parentPinResetTokens?: boolean | Prisma.User$parentPinResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1309,6 +1456,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   requestedRewardRedemptions?: boolean | Prisma.User$requestedRewardRedemptionsArgs<ExtArgs>
   reviewedRewardRedemptions?: boolean | Prisma.User$reviewedRewardRedemptionsArgs<ExtArgs>
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
+  parentPinResetTokens?: boolean | Prisma.User$parentPinResetTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1325,6 +1473,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     requestedRewardRedemptions: Prisma.$RewardRedemptionRequestPayload<ExtArgs>[]
     reviewedRewardRedemptions: Prisma.$RewardRedemptionRequestPayload<ExtArgs>[]
     passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
+    parentPinResetTokens: Prisma.$ParentPinResetTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1735,6 +1884,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   requestedRewardRedemptions<T extends Prisma.User$requestedRewardRedemptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$requestedRewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardRedemptionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewedRewardRedemptions<T extends Prisma.User$reviewedRewardRedemptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedRewardRedemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardRedemptionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  parentPinResetTokens<T extends Prisma.User$parentPinResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$parentPinResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ParentPinResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2347,6 +2497,30 @@ export type User$passwordResetTokensArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
+}
+
+/**
+ * User.parentPinResetTokens
+ */
+export type User$parentPinResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ParentPinResetToken
+   */
+  select?: Prisma.ParentPinResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ParentPinResetToken
+   */
+  omit?: Prisma.ParentPinResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ParentPinResetTokenInclude<ExtArgs> | null
+  where?: Prisma.ParentPinResetTokenWhereInput
+  orderBy?: Prisma.ParentPinResetTokenOrderByWithRelationInput | Prisma.ParentPinResetTokenOrderByWithRelationInput[]
+  cursor?: Prisma.ParentPinResetTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ParentPinResetTokenScalarFieldEnum | Prisma.ParentPinResetTokenScalarFieldEnum[]
 }
 
 /**

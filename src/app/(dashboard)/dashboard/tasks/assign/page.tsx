@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { parseParentAssignKind } from "@/lib/earn-types";
+import { growthCategoryOptionsForCub } from "@/lib/focus-growth";
 import { getFamilyForUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
@@ -20,6 +21,12 @@ export default async function AssignWorkPage({ searchParams }: AssignWorkPagePro
   const params = await searchParams;
   const defaultKind = parseParentAssignKind(params.kind);
   const defaultCubId = params.cubId;
+  const defaultCub = defaultCubId
+    ? family.cubs.find((cub) => cub.id === defaultCubId)
+    : undefined;
+  const bonusGrowthOptions = defaultCub
+    ? growthCategoryOptionsForCub(defaultCub)
+    : [];
 
   return (
     <div className="space-y-6">
@@ -36,6 +43,8 @@ export default async function AssignWorkPage({ searchParams }: AssignWorkPagePro
           cubs={family.cubs}
           defaultKind={defaultKind}
           defaultCubId={defaultCubId}
+          bonusGrowthOptions={bonusGrowthOptions}
+          compact
         />
       </Card>
     </div>

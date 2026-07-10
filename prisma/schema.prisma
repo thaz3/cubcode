@@ -203,6 +203,7 @@ model User {
   requestedRewardRedemptions RewardRedemptionRequest[] @relation("RequestedRewardRedemptions")
   reviewedRewardRedemptions RewardRedemptionRequest[] @relation("ReviewedRewardRedemptions")
   passwordResetTokens PasswordResetToken[]
+  parentPinResetTokens ParentPinResetToken[]
 }
 
 model PasswordResetToken {
@@ -248,6 +249,25 @@ model Family {
   trainingDecks TrainingDeck[]
   rewardRedemptionRequests RewardRedemptionRequest[]
   calendarEvents CalendarEvent[]
+  parentPinResetTokens ParentPinResetToken[]
+}
+
+model ParentPinResetToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  familyId String
+  family   Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([familyId])
+  @@index([expiresAt])
 }
 
 model Cub {

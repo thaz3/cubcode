@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -43,6 +44,14 @@ export function ParentPinUnlockForm({ returnTo }: ParentPinUnlockFormProps) {
       <Button type="submit" fullWidth size="lg" disabled={isPending}>
         {isPending ? "Checking…" : "Unlock parent area"}
       </Button>
+      <p className="text-center text-sm text-zinc-400">
+        <Link
+          href={`/parent/forgot-pin?returnTo=${encodeURIComponent(returnTo)}`}
+          className="font-medium text-cub-gold"
+        >
+          Forgot PIN?
+        </Link>
+      </p>
     </form>
   );
 }

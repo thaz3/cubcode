@@ -11,6 +11,7 @@ export class FamilyDeletionError extends Error {
 export type FamilyDeletionCounts = {
   user: number;
   passwordResetToken: number;
+  parentPinResetToken: number;
   family: number;
   cub: number;
   taskTemplate: number;
@@ -53,6 +54,7 @@ type DbClient = Pick<
   PrismaClient,
   | "user"
   | "passwordResetToken"
+  | "parentPinResetToken"
   | "family"
   | "cub"
   | "taskTemplate"
@@ -91,7 +93,7 @@ async function countFamilyRecords(
   client: DbClient,
   familyId: string,
   cubIds: string[],
-): Promise<Omit<FamilyDeletionCounts, "user" | "passwordResetToken">> {
+): Promise<Omit<FamilyDeletionCounts, "user" | "passwordResetToken" | "parentPinResetToken">> {
   const cubFilter = cubIds.length > 0 ? { cubId: { in: cubIds } } : { cubId: { in: [] as string[] } };
 
   const [
@@ -207,6 +209,10 @@ export async function previewFamilyDeletionByEmail(
     where: { userId: user.id },
   });
 
+  const parentPinResetToken = await client.parentPinResetToken.count({
+    where: { userId: user.id },
+  });
+
   const familyCounts = user.family
     ? await countFamilyRecords(
         client,
@@ -243,6 +249,7 @@ export async function previewFamilyDeletionByEmail(
   const counts: FamilyDeletionCounts = {
     user: 1,
     passwordResetToken,
+    parentPinResetToken,
     ...familyCounts,
   };
 

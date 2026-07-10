@@ -150,7 +150,7 @@ export async function createCustomTaskAction(
   debugServerAction("createCustomTaskAction", "success", {
     title: parsed.data.title,
   });
-  return { success: "Task added to the library." };
+  return { success: "Task saved to your task stash." };
 }
 
 export async function createAndAssignCustomTaskAction(

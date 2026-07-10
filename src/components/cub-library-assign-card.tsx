@@ -87,7 +87,7 @@ export function CubLibraryAssignCard({
           successDialogTitle="Task assigned"
         >
           <Button type="submit" disabled={isPending} fullWidth size="lg">
-            {isPending ? "Assigning..." : "Assign from library"}
+            {isPending ? "Assigning..." : "Assign from stash"}
           </Button>
         </FormSubmitFooter>
       </form>

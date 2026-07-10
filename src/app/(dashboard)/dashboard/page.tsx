@@ -19,7 +19,6 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { CubColorDot } from "@/components/cub-color-dot";
 import { ParentAwaitingReviewSection } from "@/components/parent-awaiting-review-section";
 import { ParentRewardRequestsSection } from "@/components/parent-reward-requests-section";
-import { GuardianNudgesSection } from "@/components/guardian-nudges-section";
 import { GrowthAreasCard } from "@/components/growth-areas-card";
 import { TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { auth } from "@/lib/auth";
@@ -32,17 +31,11 @@ import {
   getWeekStart,
 } from "@/lib/council-day";
 import { FAMILY_DAY_LABEL } from "@/lib/family-day-labels";
-import { SMALL_REMINDERS_LABEL } from "@/lib/small-reminders-labels";
 import { sortTasksByUrgency } from "@/lib/task-schedule";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getHouseholdWeeklyProgress } from "@/lib/weekly-progress";
 import { cubAccentClassNames } from "@/lib/cub-colors";
 import { cubSectionTitle } from "@/lib/cub-theme";
-import {
-  ensureGuardianNudgePreferences,
-  getActiveGuardianNudgesForFamily,
-} from "@/lib/guardian-nudges/sync";
-import { isWithinQuietHours } from "@/lib/guardian-nudges/quiet-hours";
 import { countPendingReviews, getPendingReviewItems } from "@/lib/pending-review";
 import { getPendingRewardRedemptionRequests } from "@/lib/pending-reward-redemptions";
 import { getCubGrowthAreaSummary } from "@/lib/growth-area-summary";
@@ -68,11 +61,7 @@ export default async function DashboardPage() {
     pendingReviews,
     pendingReviewItems,
     activeTasks,
-    focusInProgressTasks,
-    focusDeckInProgress,
     councilDaySession,
-    guardianNudgePrefs,
-    guardianNudges,
     pendingRewardRequests,
   ] = await Promise.all([
     countPendingReviews(family.id),
@@ -86,33 +75,6 @@ export default async function DashboardPage() {
       include: { cub: true },
       orderBy: [{ claimedAt: "desc" }],
     }),
-    db.task.findMany({
-      where: {
-        familyId: family.id,
-        status: "IN_PROGRESS",
-        focusSessionStartedAt: { not: null },
-      },
-      select: {
-        id: true,
-        title: true,
-        cubId: true,
-        cub: { select: { displayName: true } },
-      },
-      orderBy: { focusSessionStartedAt: "desc" },
-    }),
-    db.focusActivityCompletion.findMany({
-      where: {
-        familyId: family.id,
-        weekStartsOn,
-        status: "IN_PROGRESS",
-      },
-      select: {
-        id: true,
-        cub: { select: { id: true, displayName: true } },
-        card: { select: { title: true } },
-      },
-      orderBy: { startedAt: "desc" },
-    }),
     family.cubs.length > 0
       ? db.councilDaySession.findUnique({
           where: {
@@ -124,8 +86,6 @@ export default async function DashboardPage() {
           select: { conductedAt: true, id: true },
         })
       : Promise.resolve(null),
-    ensureGuardianNudgePreferences(family.id),
-    getActiveGuardianNudgesForFamily(family.id),
     getPendingRewardRedemptionRequests(family.id),
   ]);
 
@@ -174,38 +134,9 @@ export default async function DashboardPage() {
     })),
   );
 
-  const focusSessionReminders = focusInProgressTasks.map((task) => ({
-    id: task.id,
-    title: task.title,
-    cubId: task.cubId,
-    cubName: task.cub?.displayName ?? null,
-    href: task.cubId
-      ? `/dashboard/cubs/${task.cubId}/tasks`
-      : `/dashboard/tasks/${task.id}`,
-  }));
-
-  const focusDeckReminders = focusDeckInProgress.map((completion) => ({
-    id: completion.id,
-    title: completion.card.title,
-    cubName: completion.cub.displayName,
-    href: "/dashboard/focus-deck",
-  }));
-
   const greeting = session.user.name
     ? `Welcome back, ${session.user.name.split(" ")[0]}`
     : "Welcome back";
-  const quietHoursActive = isWithinQuietHours(guardianNudgePrefs);
-
-  const activeSmallRemindersCount =
-    guardianNudges.filter((nudge) => nudge.status === "ACTIVE").length +
-    focusSessionReminders.length +
-    focusDeckReminders.length;
-  const smallRemindersDetail =
-    activeSmallRemindersCount > 0
-      ? quietHoursActive
-        ? "Some hidden during quiet hours"
-        : "Worth a look below"
-      : "All caught up";
 
   return (
     <div className="space-y-6">
@@ -217,7 +148,7 @@ export default async function DashboardPage() {
       <p className="text-sm text-cub-muted">{greeting}</p>
 
       {family.cubs.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
           <StatCard
             label="Needs review"
             value={String(pendingReview)}
@@ -237,13 +168,6 @@ export default async function DashboardPage() {
             detail="Claimed or in progress"
             highlight="green"
             href="/dashboard/tasks#active"
-          />
-          <StatCard
-            label={SMALL_REMINDERS_LABEL}
-            value={String(activeSmallRemindersCount)}
-            detail={smallRemindersDetail}
-            highlight={activeSmallRemindersCount > 0 ? "red" : "gold"}
-            href="/dashboard#small-reminders"
           />
           <StatCard
             label="Focus this week"
@@ -356,13 +280,6 @@ export default async function DashboardPage() {
           </ul>
         </section>
       ) : null}
-
-      <GuardianNudgesSection
-        nudges={guardianNudges}
-        focusSessions={focusSessionReminders}
-        focusDeckCards={focusDeckReminders}
-        hiddenByQuietHours={quietHoursActive}
-      />
 
       <HelpImproveBetaCard />
 

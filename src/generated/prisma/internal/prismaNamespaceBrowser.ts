@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   PasswordResetToken: 'PasswordResetToken',
   Family: 'Family',
+  ParentPinResetToken: 'ParentPinResetToken',
   Cub: 'Cub',
   CalendarEvent: 'CalendarEvent',
   CouncilDaySession: 'CouncilDaySession',
@@ -133,6 +134,19 @@ export const FamilyScalarFieldEnum = {
 } as const
 
 export type FamilyScalarFieldEnum = (typeof FamilyScalarFieldEnum)[keyof typeof FamilyScalarFieldEnum]
+
+
+export const ParentPinResetTokenScalarFieldEnum = {
+  id: 'id',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  familyId: 'familyId'
+} as const
+
+export type ParentPinResetTokenScalarFieldEnum = (typeof ParentPinResetTokenScalarFieldEnum)[keyof typeof ParentPinResetTokenScalarFieldEnum]
 
 
 export const CubScalarFieldEnum = {

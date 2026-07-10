@@ -33,6 +33,11 @@ export type PasswordResetToken = Prisma.PasswordResetTokenModel
  */
 export type Family = Prisma.FamilyModel
 /**
+ * Model ParentPinResetToken
+ * 
+ */
+export type ParentPinResetToken = Prisma.ParentPinResetTokenModel
+/**
  * Model Cub
  * 
  */

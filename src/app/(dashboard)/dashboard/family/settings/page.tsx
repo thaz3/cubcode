@@ -6,14 +6,8 @@ import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { FamilySettingsForm } from "@/components/family-settings-form";
-import { GuardianNudgesSettingsForm } from "@/components/guardian-nudges-settings-form";
 import { ParentPinSettingsForm } from "@/components/parent-pin-settings-form";
 import { auth } from "@/lib/auth";
-import { SMALL_REMINDERS_LABEL } from "@/lib/small-reminders-labels";
-import {
-  ensureDefaultGuardianNudgeRules,
-  ensureGuardianNudgePreferences,
-} from "@/lib/guardian-nudges/sync";
 import { getFamilyForUser } from "@/lib/session";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -40,29 +34,11 @@ export default async function FamilySettingsPage() {
 
   const hasPin = Boolean(family.parentPinHash);
 
-  await ensureDefaultGuardianNudgeRules(family.id, session.user.id);
-  const [guardianPrefs, guardianRules] = await Promise.all([
-    ensureGuardianNudgePreferences(family.id),
-    db.guardianNudgeRule.findMany({
-      where: { familyId: family.id },
-      orderBy: { type: "asc" },
-    }),
-  ]);
-
-  const taskNudgeRules = guardianRules.filter((rule) => rule.type !== "DAILY_SUMMARY");
-  const enabledTaskNudges = taskNudgeRules.filter((rule) => rule.enabled).length;
-  const guardianNudgeSummary =
-    enabledTaskNudges === 0
-      ? "Reminders off"
-      : enabledTaskNudges === taskNudgeRules.length
-        ? "All reminders on"
-        : `${enabledTaskNudges} reminders on`;
-
   return (
     <div className="space-y-6">
       <PageHeader
         title="Settings"
-        subtitle="Your parent account, household rules, and reminders."
+        subtitle="Your parent account and household rules."
         backHref="/dashboard"
         backLabel="Home"
       />
@@ -91,8 +67,8 @@ export default async function FamilySettingsPage() {
       {!hasPin ? (
         <Card>
           <p className="text-sm text-zinc-400">
-            Set your parent PIN below first. Then you can edit caps, exchange
-            rates, {SMALL_REMINDERS_LABEL.toLowerCase()}, and quiet hours.
+            Set your parent PIN below first. Then you can edit caps and exchange
+            rates.
           </p>
           <Link href="/dashboard" className="mt-4 inline-block text-sm font-medium text-cub-gold">
             Back to Dashboard →
@@ -133,18 +109,6 @@ export default async function FamilySettingsPage() {
             }}
           />
 
-          <CollapsibleSection
-            title={SMALL_REMINDERS_LABEL}
-            summary={guardianNudgeSummary}
-            defaultOpen={false}
-          >
-            <div className="mt-2">
-              <GuardianNudgesSettingsForm
-                rules={guardianRules}
-                preferences={guardianPrefs}
-              />
-            </div>
-          </CollapsibleSection>
         </>
       )}
 
@@ -156,8 +120,8 @@ export default async function FamilySettingsPage() {
       >
         <p className="mb-4 text-sm text-zinc-500">
           {hasPin
-            ? `Your PIN unlocks the parent area from Cub view and protects changes to household rules and ${SMALL_REMINDERS_LABEL}.`
-            : `Set a PIN first. Household rules and ${SMALL_REMINDERS_LABEL} stay locked until you do.`}
+            ? "Your PIN unlocks the parent area from Cub view and protects changes to household rules."
+            : "Set a PIN first. Household rules stay locked until you do."}
         </p>
         <ParentPinSettingsForm hasPin={hasPin} embedded hideHeader />
       </CollapsibleSection>
