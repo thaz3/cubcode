@@ -8,101 +8,50 @@ import { Label } from "@/components/ui/label";
 import {
   DOUGLASS_PHOTO_PRESETS,
   getDouglassPhotoPreset,
-  isPhotoRecommendedForPost,
+  getProfileMottoForPhoto,
   type DouglassPhotoPreset,
 } from "@/lib/liberation-lab/douglass-photo-presets";
+import {
+  createEmptyDraft,
+  countReadyPosts,
+  DEFAULT_STRATEGY_POINTS,
+  DOUGLASS_PROFILE_DEFAULTS,
+  formatDouglassProfileHandle,
+  getCustomPostDraft,
+  getCustomPostStatus,
+  getQuoteCardsForDraft,
+  GRID_SLOT_LABELS,
+  isProfileSetupStarted,
+  MAX_SELECTED_QUOTES,
+  normalizeHandle,
+  parseDouglassProfileDraft,
+  selectAvatarPhoto,
+  toggleQuoteSelection,
+  type CustomPostDraft,
+  type CustomPostStatus,
+  type DouglassProfileLabDraft,
+} from "@/lib/liberation-lab/douglass-profile-model";
+import {
+  DOUGLASS_QUOTE_CARDS,
+  getDouglassQuoteCard,
+  getQuoteCardPhotoPreset,
+  type DouglassQuoteCard,
+} from "@/lib/liberation-lab/douglass-quote-cards";
 import { cn } from "@/lib/utils";
 
-export const IMAGE_STRATEGY_OPTIONS = [
-  "Stern portrait",
-  "Formal suit",
-  "Direct eye contact",
-  "Public speaker",
-  "Abolitionist newspaper style",
-] as const;
+export {
+  createEmptyDraft,
+  DEFAULT_STRATEGY_POINTS,
+  DOUGLASS_PROFILE_DEFAULTS,
+  formatDouglassProfileHandle,
+  getCustomPostDraft,
+  getCustomPostStatus,
+  parseDouglassProfileDraft,
+  type CustomPostDraft,
+  type DouglassProfileLabDraft,
+} from "@/lib/liberation-lab/douglass-profile-model";
 
-export type ImageStrategy = (typeof IMAGE_STRATEGY_OPTIONS)[number];
-
-export const AVATAR_STYLE_OPTIONS = [
-  "FD initials",
-  "Stern portrait",
-  "North Star",
-  "Printing press",
-  "Freedom flame",
-] as const;
-
-export type AvatarStyle = (typeof AVATAR_STYLE_OPTIONS)[number];
-
-const LEGACY_AVATAR_TO_PHOTO: Record<AvatarStyle, string> = {
-  "FD initials": "young-douglass",
-  "Stern portrait": "stern-portrait",
-  "North Star": "newspaper-editor",
-  "Printing press": "newspaper-editor",
-  "Freedom flame": "elder-statesman",
-};
-
-export type DouglassProfileLabDraft = {
-  profileDisplayName: string;
-  profileHandle: string;
-  profileBio: string;
-  avatarPhotoId: string;
-  profileMotto: string;
-  strategyPoints: string[];
-  posts: Record<DouglassProfilePostKey, DouglassProfilePostDraft>;
-};
-
-export const DOUGLASS_PROFILE_POSTS = [
-  {
-    postKey: "escape",
-    title: "The Escape",
-    requiredQuote:
-      "I prayed for freedom for twenty years, but received no answer until I prayed with my legs.",
-    prompt: "What does this quote show about action, courage, and freedom?",
-  },
-  {
-    postKey: "fourth-of-july",
-    title: "The Fourth of July Speech",
-    requiredQuote: "What, to the American slave, is your 4th of July?",
-    prompt: "Why would Douglass use this question as a public challenge to America?",
-  },
-  {
-    postKey: "call-to-arms",
-    title: "The Call to Arms",
-    requiredQuote:
-      "Remember that in a contest with oppression, the man who strikes the first blow is a man.",
-    prompt: "What message is Douglass sending about resistance and self-respect?",
-  },
-] as const;
-
-export type DouglassProfilePostKey = (typeof DOUGLASS_PROFILE_POSTS)[number]["postKey"];
-
-export type PostStatus = "Empty" | "Drafted" | "Ready";
-
-export type DouglassProfilePostDraft = {
-  selectedPhotoId: string;
-  selectedStrategy: ImageStrategy | "";
-  strategyExplanation: string;
-  modernCaption: string;
-};
-
-type ProfileTab = "profile" | "grid" | "about" | "strategy";
-
-export const DEFAULT_STRATEGY_POINTS = [
-  "Control the image",
-  "Use powerful words",
-  "Challenge the audience",
-] as const;
-
-export const STRATEGY_BULLETS = DEFAULT_STRATEGY_POINTS;
-
-export const DOUGLASS_PROFILE_DEFAULTS = {
-  profileDisplayName: "Frederick Douglass",
-  profileHandle: "frederickdouglass",
-  profileBio: "Writer. Orator. Abolitionist. I own my image. I speak for freedom.",
-  avatarPhotoId: "young-douglass",
-  profileMotto: "",
-  strategyPoints: [...DEFAULT_STRATEGY_POINTS],
-};
+type ProfileTab = "profile" | "quote-bank" | "grid" | "about" | "strategy";
 
 const SUGGESTED_HANDLES = [
   "freedomreader",
@@ -119,145 +68,30 @@ const SUGGESTED_BIOS = [
   "Reading gave me power. Speaking gave me purpose.",
 ] as const;
 
-const EMPTY_POST: DouglassProfilePostDraft = {
-  selectedPhotoId: "",
-  selectedStrategy: "",
-  strategyExplanation: "",
-  modernCaption: "",
-};
-
-const PROFILE_TABS: { id: ProfileTab; label: string }[] = [
-  { id: "profile", label: "Profile" },
-  { id: "grid", label: "Grid" },
-  { id: "about", label: "About" },
-  { id: "strategy", label: "Strategy" },
+const PROFILE_TABS: {
+  id: ProfileTab;
+  label: string;
+  hint: string;
+  icon: string;
+}[] = [
+  { id: "profile", label: "Profile", hint: "Name, handle, bio & photo", icon: "👤" },
+  { id: "quote-bank", label: "Quote Bank", hint: "Pick your 3 quotes", icon: "🃏" },
+  { id: "grid", label: "Grid", hint: "Build your 3 posts", icon: "▦" },
+  { id: "about", label: "About", hint: "Write the about section", icon: "📖" },
+  { id: "strategy", label: "Strategy", hint: "Plan your 3 profile moves", icon: "🎯" },
 ];
 
-const STATUS_STYLES: Record<PostStatus, string> = {
-  Empty: "bg-zinc-500/90 text-white",
+const STATUS_STYLES: Record<CustomPostStatus, string> = {
+  "Needs modern translation": "bg-zinc-500/90 text-white",
   Drafted: "bg-amber-500/90 text-amber-950",
   Ready: "bg-emerald-500/90 text-emerald-950",
 };
-
-function createEmptyDraft(): DouglassProfileLabDraft {
-  return {
-    ...DOUGLASS_PROFILE_DEFAULTS,
-    posts: {
-      escape: { ...EMPTY_POST },
-      "fourth-of-july": { ...EMPTY_POST },
-      "call-to-arms": { ...EMPTY_POST },
-    },
-  };
-}
-
-function normalizeHandle(value: string): string {
-  return value.trim().replace(/^@+/, "");
-}
-
-export function formatDouglassProfileHandle(handle: string): string {
-  const cleaned = normalizeHandle(handle);
-  return cleaned ? `@${cleaned}` : `@${DOUGLASS_PROFILE_DEFAULTS.profileHandle}`;
-}
 
 function getDisplayInitials(displayName: string): string {
   const parts = displayName.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "FD";
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
-}
-
-function normalizeStrategyPoints(raw: unknown): string[] {
-  if (!Array.isArray(raw)) {
-    return [...DEFAULT_STRATEGY_POINTS];
-  }
-
-  const points = raw
-    .map((point) => String(point).trim())
-    .filter(Boolean)
-    .slice(0, 3);
-
-  while (points.length < 3) {
-    points.push(DEFAULT_STRATEGY_POINTS[points.length] ?? "");
-  }
-
-  return points;
-}
-
-function resolveAvatarPhotoId(raw: Record<string, unknown>): string {
-  const avatarPhotoId = String(raw.avatarPhotoId ?? "");
-  if (getDouglassPhotoPreset(avatarPhotoId)) {
-    return avatarPhotoId;
-  }
-
-  const avatarStyle = String(raw.avatarStyle ?? "");
-  if (AVATAR_STYLE_OPTIONS.includes(avatarStyle as AvatarStyle)) {
-    return LEGACY_AVATAR_TO_PHOTO[avatarStyle as AvatarStyle];
-  }
-
-  return DOUGLASS_PROFILE_DEFAULTS.avatarPhotoId;
-}
-
-export function parseDouglassProfileDraft(raw: Record<string, unknown>): DouglassProfileLabDraft {
-  const empty = createEmptyDraft();
-
-  empty.profileDisplayName = String(
-    raw.profileDisplayName ?? DOUGLASS_PROFILE_DEFAULTS.profileDisplayName,
-  );
-  empty.profileHandle = normalizeHandle(
-    String(raw.profileHandle ?? DOUGLASS_PROFILE_DEFAULTS.profileHandle),
-  );
-  empty.profileBio = String(raw.profileBio ?? DOUGLASS_PROFILE_DEFAULTS.profileBio);
-  empty.profileMotto = String(raw.profileMotto ?? "");
-  empty.avatarPhotoId = resolveAvatarPhotoId(raw);
-  empty.strategyPoints = normalizeStrategyPoints(raw.strategyPoints);
-
-  const postsRaw = raw.posts;
-  if (postsRaw && typeof postsRaw === "object") {
-    for (const post of DOUGLASS_PROFILE_POSTS) {
-      const postRaw = (postsRaw as Record<string, unknown>)[post.postKey];
-      if (!postRaw || typeof postRaw !== "object") continue;
-
-      const entry = postRaw as Record<string, unknown>;
-      const strategy = String(entry.selectedStrategy ?? entry.imageStrategy ?? "");
-      const selectedPhotoId = String(entry.selectedPhotoId ?? "");
-
-      empty.posts[post.postKey] = {
-        selectedPhotoId: getDouglassPhotoPreset(selectedPhotoId) ? selectedPhotoId : "",
-        selectedStrategy: IMAGE_STRATEGY_OPTIONS.includes(strategy as ImageStrategy)
-          ? (strategy as ImageStrategy)
-          : "",
-        strategyExplanation: String(entry.strategyExplanation ?? entry.explanation ?? ""),
-        modernCaption: String(entry.modernCaption ?? ""),
-      };
-    }
-  }
-
-  return empty;
-}
-
-export function getPostStatus(post: DouglassProfilePostDraft): PostStatus {
-  const text = post.strategyExplanation.trim();
-  if (!text) return "Empty";
-  if (text.length < 40) return "Drafted";
-  return "Ready";
-}
-
-function countReadyPosts(draft: DouglassProfileLabDraft): number {
-  return DOUGLASS_PROFILE_POSTS.filter(
-    (post) => getPostStatus(draft.posts[post.postKey]) === "Ready",
-  ).length;
-}
-
-function hasDraftContent(post: DouglassProfilePostDraft): boolean {
-  return getPostStatus(post) !== "Empty";
-}
-
-function isProfileSetupStarted(draft: DouglassProfileLabDraft): boolean {
-  return (
-    draft.profileDisplayName.trim().length > 0 &&
-    normalizeHandle(draft.profileHandle).length > 0 &&
-    draft.profileBio.trim().length > 0
-  );
 }
 
 export function DouglassPresetPhotoVisual({
@@ -312,65 +146,19 @@ export function DouglassPresetPhotoVisual({
   );
 }
 
-type DouglassPhotoPickerProps = {
-  postKey: DouglassProfilePostKey;
-  selectedPhotoId: string;
-  onSelect: (photoId: string) => void;
-};
-
-function DouglassPhotoPicker({ postKey, selectedPhotoId, onSelect }: DouglassPhotoPickerProps) {
+function QuoteCardPhotoVisual({
+  card,
+  className,
+}: {
+  card: DouglassQuoteCard;
+  className?: string;
+}) {
   return (
-    <div className="rounded-2xl border-2 border-violet-200/80 bg-white/90 p-4">
-      <Label className="text-kid-ink">Choose a Douglass image</Label>
-      <p className="mt-1 text-xs text-kid-ink-muted">
-        Pick the portrait that matches the mood and message of this post.
-      </p>
-
-      <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {DOUGLASS_PHOTO_PRESETS.map((preset) => {
-          const selected = selectedPhotoId === preset.id;
-          const recommended = isPhotoRecommendedForPost(preset, postKey);
-
-          return (
-            <button
-              key={preset.id}
-              type="button"
-              onClick={() => onSelect(preset.id)}
-              className={cn(
-                "touch-manipulation overflow-hidden rounded-2xl border-2 bg-white text-left transition",
-                selected
-                  ? "border-kid-purple ring-2 ring-kid-purple/40 shadow-md"
-                  : "border-zinc-200 hover:border-kid-purple/40",
-              )}
-            >
-              <DouglassPresetPhotoVisual preset={preset} className="aspect-[4/5] w-full rounded-none border-0" />
-              <div className="space-y-2 p-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-sm font-black text-kid-ink">{preset.title}</p>
-                  {selected ? (
-                    <span className="rounded-full bg-kid-purple px-2 py-0.5 text-[10px] font-black uppercase text-white">
-                      Selected ✓
-                    </span>
-                  ) : null}
-                  {recommended ? (
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-black uppercase text-amber-900">
-                      Recommended
-                    </span>
-                  ) : null}
-                </div>
-                <p className="text-[10px] font-bold uppercase tracking-wide text-kid-ink-muted">
-                  {preset.era}
-                </p>
-                <span className="inline-block rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-bold text-violet-800">
-                  {preset.mood}
-                </span>
-                <p className="text-xs leading-relaxed text-kid-ink-muted">{preset.description}</p>
-              </div>
-            </button>
-          );
-        })}
-      </div>
-    </div>
+    <DouglassPresetPhotoVisual
+      preset={getQuoteCardPhotoPreset(card)}
+      emptyLabel="Portrait"
+      className={className}
+    />
   );
 }
 
@@ -418,32 +206,51 @@ export function DouglassProfileAvatar({
   );
 }
 
-function ProfileHeaderPreview({ draft }: { draft: DouglassProfileLabDraft }) {
+function ProfileHeaderPreview({
+  draft,
+  onEditAvatar,
+}: {
+  draft: DouglassProfileLabDraft;
+  onEditAvatar: () => void;
+}) {
   const displayName = draft.profileDisplayName.trim() || DOUGLASS_PROFILE_DEFAULTS.profileDisplayName;
   const handle = formatDouglassProfileHandle(draft.profileHandle);
   const bio = draft.profileBio.trim() || DOUGLASS_PROFILE_DEFAULTS.profileBio;
+  const profileMotto = getProfileMottoForPhoto(draft.avatarPhotoId);
 
   return (
     <div className="px-4 py-5">
       <div className="flex items-start gap-4">
-        <DouglassProfileAvatar
-          avatarPhotoId={draft.avatarPhotoId}
-          displayName={displayName}
-        />
+        <button
+          type="button"
+          onClick={onEditAvatar}
+          className="group relative shrink-0 touch-manipulation rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-violet-950"
+          aria-label="Change profile photo"
+        >
+          <DouglassProfileAvatar avatarPhotoId={draft.avatarPhotoId} displayName={displayName} />
+          <span
+            className="absolute -bottom-0.5 -right-0.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-violet-950 bg-amber-300 text-[11px] font-black text-violet-950 shadow-md"
+            aria-hidden
+          >
+            ✎
+          </span>
+        </button>
         <div className="min-w-0 flex-1">
           <p className="text-xl font-black text-white">{displayName}</p>
           <p className="text-sm font-semibold text-violet-200">{handle}</p>
           <p className="mt-2 text-sm leading-relaxed text-zinc-200">{bio}</p>
-          {draft.profileMotto.trim() ? (
-            <p className="mt-2 text-xs font-bold italic text-amber-200/90">
-              &ldquo;{draft.profileMotto.trim()}&rdquo;
-            </p>
-          ) : null}
+          <p className="mt-2 text-xs font-bold italic text-amber-200/90">
+            &ldquo;{profileMotto}&rdquo;
+          </p>
         </div>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {["160+ portraits", "3 featured posts", "Freedom voice"].map((chip) => (
+        {[
+          `${draft.selectedQuoteIds.length} of ${MAX_SELECTED_QUOTES} quotes`,
+          `${countReadyPosts(draft)} of ${MAX_SELECTED_QUOTES} posts ready`,
+          "Freedom voice",
+        ].map((chip) => (
           <span
             key={chip}
             className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold text-zinc-100"
@@ -454,33 +261,94 @@ function ProfileHeaderPreview({ draft }: { draft: DouglassProfileLabDraft }) {
       </div>
 
       <p className="mt-4 text-sm leading-relaxed text-violet-100/90">
-        Build a profile that shows how Douglass used image, words, and public presence to
-        control his own story.
+        Build a profile that shows how Douglass used image, words, and public presence to control
+        his own story.
       </p>
     </div>
   );
 }
 
-type ProfileSetupPanelProps = {
-  draft: DouglassProfileLabDraft;
-  onChange: (patch: Partial<DouglassProfileLabDraft>) => void;
-  onSaveSetup: () => void;
-  setupMessage: string | null;
-};
+function ProfileLabSectionNav({
+  activeTab,
+  onSelect,
+}: {
+  activeTab: ProfileTab;
+  onSelect: (tab: ProfileTab) => void;
+}) {
+  return (
+    <div className="rounded-2xl border-2 border-kid-purple/25 bg-white p-3 shadow-sm">
+      <p className="text-center text-xs font-black uppercase tracking-wide text-kid-purple">
+        Tap a section to edit
+      </p>
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+        {PROFILE_TABS.map((tab) => {
+          const selected = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              aria-pressed={selected}
+              onClick={() => onSelect(tab.id)}
+              className={cn(
+                "touch-manipulation rounded-2xl border-2 px-3 py-3 text-left transition",
+                selected
+                  ? "border-kid-purple bg-violet-50 ring-2 ring-kid-purple/25 shadow-sm"
+                  : "border-zinc-200 bg-white hover:border-kid-purple/40 hover:bg-violet-50/60 active:scale-[0.98]",
+              )}
+            >
+              <span className="text-lg" aria-hidden>
+                {tab.icon}
+              </span>
+              <p className="mt-1 text-sm font-black text-kid-ink">{tab.label}</p>
+              <p className="mt-0.5 text-[11px] leading-snug text-kid-ink-muted">{tab.hint}</p>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ActiveSectionHeader({ tab }: { tab: (typeof PROFILE_TABS)[number] }) {
+  return (
+    <div className="flex items-start gap-3 rounded-2xl border-2 border-kid-purple/20 bg-gradient-to-r from-violet-50 via-white to-amber-50 px-4 py-3 shadow-sm">
+      <span className="text-2xl" aria-hidden>
+        {tab.icon}
+      </span>
+      <div>
+        <p className="text-[10px] font-black uppercase tracking-wider text-kid-purple">
+          You&apos;re editing
+        </p>
+        <p className="text-base font-black text-kid-ink">{tab.label}</p>
+        <p className="text-xs text-kid-ink-muted">{tab.hint}</p>
+      </div>
+    </div>
+  );
+}
 
 function ProfileSetupPanel({
   draft,
   onChange,
   onSaveSetup,
+  onEditAvatar,
   setupMessage,
-}: ProfileSetupPanelProps) {
+}: {
+  draft: DouglassProfileLabDraft;
+  onChange: (patch: Partial<DouglassProfileLabDraft>) => void;
+  onSaveSetup: () => void;
+  onEditAvatar: () => void;
+  setupMessage: string | null;
+}) {
+  const displayName =
+    draft.profileDisplayName.trim() || DOUGLASS_PROFILE_DEFAULTS.profileDisplayName;
+  const selectedAvatar = getDouglassPhotoPreset(draft.avatarPhotoId);
+
   return (
     <div className="space-y-4">
       <div className="rounded-2xl border-2 border-kid-purple/25 bg-white/90 px-4 py-3 shadow-sm">
-        <p className="text-sm font-black text-kid-ink">Step 1: Set up the profile</p>
+        <p className="text-sm font-black text-kid-ink">Step 1: Profile identity</p>
         <p className="mt-1 text-xs text-kid-ink-muted">
-          Customize how Frederick Douglass appears on this mock profile. Step 2 is building
-          your 3 posts in the Grid tab.
+          Set display name, username, bio, portrait, and motto. Use About for the longer section.
         </p>
       </div>
 
@@ -529,9 +397,6 @@ function ProfileSetupPanel({
         <Label htmlFor="profileBio" className="text-kid-ink">
           Bio
         </Label>
-        <p className="mt-1 text-xs text-kid-ink-muted">
-          Write a short bio that shows who Douglass was and what he stood for.
-        </p>
         <textarea
           id="profileBio"
           value={draft.profileBio}
@@ -555,70 +420,35 @@ function ProfileSetupPanel({
       </div>
 
       <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-        <Label className="font-bold text-kid-ink">Choose your avatar</Label>
-        <p className="mt-1 text-xs text-kid-ink-muted">
-          Pick a Frederick Douglass portrait for your profile picture.
-        </p>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {DOUGLASS_PHOTO_PRESETS.map((preset) => {
-            const selected = draft.avatarPhotoId === preset.id;
-
-            return (
-              <button
-                key={preset.id}
-                type="button"
-                onClick={() => onChange({ avatarPhotoId: preset.id })}
-                className={cn(
-                  "touch-manipulation overflow-hidden rounded-2xl border-2 text-left transition",
-                  selected
-                    ? "border-kid-purple ring-2 ring-kid-purple/30"
-                    : "border-zinc-200 hover:border-kid-purple/40",
-                )}
-              >
-                <DouglassPresetPhotoVisual
-                  preset={preset}
-                  className="aspect-square w-full rounded-none border-0"
-                />
-                <p className="px-2 py-2 text-xs font-bold text-kid-ink">{preset.title}</p>
-              </button>
-            );
-          })}
+        <Label className="font-bold text-kid-ink">Profile photo & motto</Label>
+        <div className="mt-3 flex items-center gap-4">
+          <button
+            type="button"
+            onClick={onEditAvatar}
+            className="relative shrink-0 touch-manipulation rounded-full"
+            aria-label="Change profile photo"
+          >
+            <DouglassProfileAvatar avatarPhotoId={draft.avatarPhotoId} displayName={displayName} />
+          </button>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold text-kid-ink">{selectedAvatar?.title ?? "Choose portrait"}</p>
+            <Button type="button" variant="neutral" size="sm" className="mt-2 font-bold" onClick={onEditAvatar}>
+              Choose portrait
+            </Button>
+          </div>
         </div>
-      </div>
-
-      <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-        <Label htmlFor="profileMotto" className="text-kid-ink">
-          Profile motto{" "}
-          <span className="font-normal text-kid-ink-muted">(optional)</span>
-        </Label>
-        <p className="mt-1 text-xs text-kid-ink-muted">
-          What is the message of this profile?
-        </p>
-        <Input
-          id="profileMotto"
-          value={draft.profileMotto}
-          onChange={(event) => onChange({ profileMotto: event.target.value })}
-          placeholder="Freedom through words"
-          className="mt-2 border-zinc-300 bg-white text-kid-ink"
-        />
-        <div className="mt-3 flex flex-wrap gap-2">
-          {["Freedom through words", "I own my story", "Truth is power"].map((motto) => (
-            <button
-              key={motto}
-              type="button"
-              onClick={() => onChange({ profileMotto: motto })}
-              className="min-h-9 touch-manipulation rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-kid-ink-muted hover:border-kid-purple/40"
-            >
-              {motto}
-            </button>
-          ))}
-        </div>
+        {selectedAvatar ? (
+          <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-3">
+            <p className="text-sm font-bold italic text-kid-ink">
+              &ldquo;{selectedAvatar.profileMotto}&rdquo;
+            </p>
+          </div>
+        ) : null}
       </div>
 
       <Button type="button" variant="reward" fullWidth className="font-bold" onClick={onSaveSetup}>
         Save Profile Setup
       </Button>
-
       {setupMessage ? (
         <p
           className={cn(
@@ -633,17 +463,169 @@ function ProfileSetupPanel({
   );
 }
 
-type PostEditorModalProps = {
-  post: (typeof DOUGLASS_PROFILE_POSTS)[number];
-  draft: DouglassProfilePostDraft;
-  onSave: (patch: DouglassProfilePostDraft) => void;
-  onClose: () => void;
-};
+function QuoteBankPanel({
+  draft,
+  onToggleQuote,
+  bankMessage,
+}: {
+  draft: DouglassProfileLabDraft;
+  onToggleQuote: (quoteCardId: string) => void;
+  bankMessage: string | null;
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="rounded-2xl border-2 border-kid-purple/25 bg-white/90 px-4 py-3 shadow-sm">
+        <p className="text-sm font-black text-kid-ink">Step 2: Choose 3 quotes</p>
+        <p className="mt-1 text-xs text-kid-ink-muted">
+          {draft.selectedQuoteIds.length} of {MAX_SELECTED_QUOTES} quotes selected. Pick any 3 cards
+          from the bank below.
+        </p>
+      </div>
 
-function PostEditorModal({ post, draft, onSave, onClose }: PostEditorModalProps) {
+      {bankMessage ? (
+        <p className="text-sm font-semibold text-amber-800" role="alert">
+          {bankMessage}
+        </p>
+      ) : null}
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {DOUGLASS_QUOTE_CARDS.map((card) => {
+          const selected = draft.selectedQuoteIds.includes(card.id);
+          return (
+            <div
+              key={card.id}
+              className={cn(
+                "overflow-hidden rounded-2xl border-2 bg-white shadow-sm",
+                selected ? "border-kid-purple ring-2 ring-kid-purple/25" : "border-zinc-200",
+              )}
+            >
+              <QuoteCardPhotoVisual card={card} className="aspect-[4/3] w-full" />
+              <div className="space-y-2 p-4">
+                <p className="text-sm font-black text-kid-ink">{card.title}</p>
+                <p className="text-sm font-semibold italic leading-snug text-kid-ink">
+                  &ldquo;{card.quote}&rdquo;
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-bold text-violet-800">
+                    {card.theme}
+                  </span>
+                  <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-900">
+                    {card.mood}
+                  </span>
+                </div>
+                <p className="text-xs leading-relaxed text-kid-ink-muted">{card.context}</p>
+                <Button
+                  type="button"
+                  variant={selected ? "constructive" : "neutral"}
+                  fullWidth
+                  className="font-bold"
+                  onClick={() => onToggleQuote(card.id)}
+                >
+                  {selected ? "Selected" : "Choose this quote"}
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function AvatarPhotoPickerModal({
+  selectedPhotoId,
+  onSelect,
+  onClose,
+}: {
+  selectedPhotoId: string;
+  onSelect: (photoId: string) => void;
+  onClose: () => void;
+}) {
   const titleId = useId();
-  const [editorDraft, setEditorDraft] = useState<DouglassProfilePostDraft>(draft);
-  const selectedPreset = getDouglassPhotoPreset(editorDraft.selectedPhotoId);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center sm:p-4">
+      <button
+        type="button"
+        aria-label="Close portrait picker"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="relative flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-3xl border-2 border-kid-purple/30 bg-gradient-to-br from-violet-50 via-white to-kid-cream shadow-2xl sm:rounded-3xl"
+      >
+        <div className="flex items-start justify-between gap-3 border-b border-violet-200/80 px-4 py-4 sm:px-5">
+          <div>
+            <h3 id={titleId} className="text-lg font-black text-kid-ink">
+              Choose your avatar
+            </h3>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="min-h-11 min-w-11 shrink-0 rounded-full border border-zinc-300 bg-white text-lg font-bold text-kid-ink-muted"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+        <div className="overflow-y-auto px-4 py-4 sm:px-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {DOUGLASS_PHOTO_PRESETS.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => {
+                  onSelect(preset.id);
+                  onClose();
+                }}
+                className={cn(
+                  "touch-manipulation overflow-hidden rounded-2xl border-2 text-left transition",
+                  selectedPhotoId === preset.id
+                    ? "border-kid-purple ring-2 ring-kid-purple/30"
+                    : "border-zinc-200 hover:border-kid-purple/40",
+                )}
+              >
+                <DouglassPresetPhotoVisual preset={preset} className="aspect-square w-full rounded-none border-0" />
+                <p className="px-2 py-2 text-xs font-bold text-kid-ink">{preset.title}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PostEditorModal({
+  card,
+  draft,
+  onSave,
+  onClose,
+}: {
+  card: DouglassQuoteCard;
+  draft: CustomPostDraft;
+  onSave: (patch: CustomPostDraft) => void;
+  onClose: () => void;
+}) {
+  const titleId = useId();
+  const [editorDraft, setEditorDraft] = useState<CustomPostDraft>(draft);
 
   useEffect(() => {
     setEditorDraft(draft);
@@ -652,22 +634,15 @@ function PostEditorModal({ post, draft, onSave, onClose }: PostEditorModalProps)
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
     }
-
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [onClose]);
-
-  function handleSave() {
-    onSave(editorDraft);
-    onClose();
-  }
 
   return (
     <div className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center sm:p-4">
@@ -690,7 +665,7 @@ function PostEditorModal({ post, draft, onSave, onClose }: PostEditorModalProps)
                 Edit post
               </p>
               <h3 id={titleId} className="mt-1 text-lg font-black text-kid-ink">
-                {post.title}
+                {card.title}
               </h3>
             </div>
             <button
@@ -703,112 +678,99 @@ function PostEditorModal({ post, draft, onSave, onClose }: PostEditorModalProps)
             </button>
           </div>
 
+          <QuoteCardPhotoVisual card={card} className="mt-4 aspect-[4/3] w-full rounded-2xl" />
+
           <blockquote className="mt-4 rounded-xl border border-violet-200/80 bg-white/90 px-3 py-2.5">
             <p className="text-sm font-semibold italic leading-relaxed text-kid-ink">
-              &ldquo;{post.requiredQuote}&rdquo;
+              &ldquo;{card.quote}&rdquo;
             </p>
             <p className="mt-1 text-xs font-bold uppercase tracking-wide text-kid-ink-muted">
-              Required caption
+              Frederick Douglass quote
             </p>
           </blockquote>
 
-          <p className="mt-3 text-sm font-medium text-kid-ink">{post.prompt}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-bold text-violet-800">
+              {card.theme}
+            </span>
+            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-900">
+              {card.mood}
+            </span>
+          </div>
+          <p className="mt-2 text-xs leading-relaxed text-kid-ink-muted">{card.context}</p>
 
           <div className="mt-4">
-            <DouglassPhotoPicker
-              postKey={post.postKey}
-              selectedPhotoId={editorDraft.selectedPhotoId}
-              onSelect={(photoId) =>
-                setEditorDraft((current) => ({ ...current, selectedPhotoId: photoId }))
-              }
-            />
-          </div>
-
-          <div className="mt-4 overflow-hidden rounded-2xl border-2 border-kid-purple/20">
-            <DouglassPresetPhotoVisual
-              preset={selectedPreset}
-              emptyLabel="Choose image"
-              className="aspect-[4/3] w-full"
-            />
-            {selectedPreset ? (
-              <p className="bg-zinc-50 px-3 py-2 text-center text-xs font-semibold text-kid-ink-muted">
-                {selectedPreset.title} · {selectedPreset.mood}
-              </p>
-            ) : (
-              <p className="bg-zinc-50 px-3 py-2 text-center text-xs text-kid-ink-muted">
-                Pick a portrait above to preview it here.
-              </p>
-            )}
-          </div>
-
-          <div className="mt-4">
-            <Label className="text-kid-ink">Why this image works</Label>
-            <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {IMAGE_STRATEGY_OPTIONS.map((option) => {
-                const selected = editorDraft.selectedStrategy === option;
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() =>
-                      setEditorDraft((current) => ({ ...current, selectedStrategy: option }))
-                    }
-                    className={cn(
-                      "min-h-11 touch-manipulation rounded-xl border-2 px-3 py-2.5 text-left text-sm font-bold transition",
-                      selected
-                        ? "border-kid-purple bg-kid-purple text-white shadow-md"
-                        : "border-zinc-300 bg-white text-kid-ink hover:border-kid-purple/50",
-                    )}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <Label htmlFor="strategyExplanation" className="text-kid-ink">
-              Explain the strategy behind this post.
+            <Label htmlFor="modernTranslation" className="text-kid-ink">
+              Translate this quote into modern speak
             </Label>
             <textarea
-              id="strategyExplanation"
-              value={editorDraft.strategyExplanation}
+              id="modernTranslation"
+              value={editorDraft.modernTranslation}
+              onChange={(event) =>
+                setEditorDraft((current) => ({ ...current, modernTranslation: event.target.value }))
+              }
+              rows={3}
+              placeholder="Say what Douglass means in your own words..."
+              className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-base text-kid-ink outline-none ring-kid-purple/30 placeholder:text-zinc-400 focus:ring-2"
+            />
+          </div>
+
+          <div className="mt-4">
+            <Label htmlFor="socialCaption" className="text-kid-ink">
+              Write the caption for this post
+            </Label>
+            <textarea
+              id="socialCaption"
+              value={editorDraft.socialCaption}
+              onChange={(event) =>
+                setEditorDraft((current) => ({ ...current, socialCaption: event.target.value }))
+              }
+              rows={3}
+              placeholder="Make it sound like a powerful post people would understand today..."
+              className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-base text-kid-ink outline-none ring-kid-purple/30 placeholder:text-zinc-400 focus:ring-2"
+            />
+          </div>
+
+          <div className="mt-4">
+            <Label htmlFor="hashtags" className="text-kid-ink">
+              Add hashtags
+            </Label>
+            <Input
+              id="hashtags"
+              value={editorDraft.hashtags}
+              onChange={(event) =>
+                setEditorDraft((current) => ({ ...current, hashtags: event.target.value }))
+              }
+              placeholder="#Freedom #BooksArePower #SpeakTruth"
+              className="mt-2 border-zinc-300 bg-white text-kid-ink"
+            />
+          </div>
+
+          <div className="mt-4">
+            <Label htmlFor="whyThisPostBelongs" className="text-kid-ink">
+              Why does this post belong on Frederick Douglass&apos;s profile?
+            </Label>
+            <textarea
+              id="whyThisPostBelongs"
+              value={editorDraft.whyThisPostBelongs}
               onChange={(event) =>
                 setEditorDraft((current) => ({
                   ...current,
-                  strategyExplanation: event.target.value,
+                  whyThisPostBelongs: event.target.value,
                 }))
               }
-              rows={4}
-              placeholder="How does this image and caption help Douglass control his story?"
+              rows={3}
+              placeholder="Explain how this quote connects to Douglass, freedom, literacy, or resistance."
               className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-base text-kid-ink outline-none ring-kid-purple/30 placeholder:text-zinc-400 focus:ring-2"
             />
             <p className="mt-1 text-xs text-kid-ink-muted">
-              Write at least 40 characters to mark this post as Ready.
+              Write at least 40 characters here to mark this post Ready.
             </p>
-          </div>
-
-          <div className="mt-4">
-            <Label htmlFor="modernCaption" className="text-kid-ink">
-              Add a modern caption or hashtag.{" "}
-              <span className="font-normal text-kid-ink-muted">(optional)</span>
-            </Label>
-            <textarea
-              id="modernCaption"
-              value={editorDraft.modernCaption}
-              onChange={(event) =>
-                setEditorDraft((current) => ({ ...current, modernCaption: event.target.value }))
-              }
-              rows={2}
-              placeholder="#FreedomVoice #OwnYourStory"
-              className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-base text-kid-ink outline-none ring-kid-purple/30 placeholder:text-zinc-400 focus:ring-2"
-            />
           </div>
         </div>
 
         <div className="flex flex-col gap-2 border-t border-violet-200/80 bg-white/80 px-4 py-4 sm:flex-row">
-          <Button type="button" variant="reward" fullWidth className="font-bold" onClick={handleSave}>
+          <Button type="button" variant="reward" fullWidth className="font-bold" onClick={() => onSave(editorDraft)}>
             Save Post
           </Button>
           <Button type="button" variant="neutral" fullWidth onClick={onClose}>
@@ -820,24 +782,30 @@ function PostEditorModal({ post, draft, onSave, onClose }: PostEditorModalProps)
   );
 }
 
-type DouglassProfileLabProps = {
-  storageKey: string;
-  profileViewHref?: string;
-};
+function AssignmentBrief() {
+  return (
+    <div className="rounded-2xl border-2 border-kid-purple/30 bg-gradient-to-br from-violet-50 via-white to-amber-50 p-4 shadow-sm">
+      <p className="text-sm font-black text-kid-ink">Your assignment</p>
+      <p className="mt-2 text-sm leading-relaxed text-kid-ink">
+        Build a social media profile for Frederick Douglass.{" "}
+        <span className="font-bold">You are in charge of everything.</span> Graded for{" "}
+        <span className="font-bold">accuracy</span> and <span className="font-bold">creativity</span>.
+      </p>
+      <ol className="mt-3 list-decimal space-y-1.5 pl-4 text-xs leading-relaxed text-kid-ink-muted">
+        <li>Set up profile: display name, username, bio, portrait, motto</li>
+        <li>Pick 3 quotes from the Quote Bank</li>
+        <li>Customize each post: modern translation, caption, hashtags, and why it belongs</li>
+      </ol>
+    </div>
+  );
+}
 
 function ViewProfilePageCallout({ profileViewHref }: { profileViewHref: string }) {
   return (
     <div className="rounded-2xl border-2 border-kid-purple/30 bg-gradient-to-r from-violet-50 via-white to-amber-50 px-4 py-3 shadow-sm">
       <p className="text-sm font-black text-kid-ink">See your profile as a page</p>
-      <p className="mt-1 text-xs text-kid-ink-muted">
-        Save your work, then open your full profile page to preview how it looks to the public.
-      </p>
       <Link href={profileViewHref} className="mt-3 block">
-        <Button
-          type="button"
-          fullWidth
-          className="border-2 border-kid-purple bg-kid-purple font-bold text-white hover:bg-violet-700"
-        >
+        <Button type="button" fullWidth className="border-2 border-kid-purple bg-kid-purple font-bold text-white hover:bg-violet-700">
           View Profile Page →
         </Button>
       </Link>
@@ -845,12 +813,23 @@ function ViewProfilePageCallout({ profileViewHref }: { profileViewHref: string }
   );
 }
 
-export function DouglassProfileLab({ storageKey, profileViewHref }: DouglassProfileLabProps) {
+function formatHashtags(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  return trimmed
+    .split(/\s+/)
+    .map((tag) => (tag.startsWith("#") ? tag : `#${tag}`))
+    .join(" ");
+}
+
+export function DouglassProfileLab({ storageKey, profileViewHref }: { storageKey: string; profileViewHref?: string }) {
   const [draft, setDraft] = useState<DouglassProfileLabDraft>(createEmptyDraft);
   const [activeTab, setActiveTab] = useState<ProfileTab>("profile");
-  const [editingPostKey, setEditingPostKey] = useState<DouglassProfilePostKey | null>(null);
+  const [editingQuoteId, setEditingQuoteId] = useState<string | null>(null);
+  const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [setupMessage, setSetupMessage] = useState<string | null>(null);
+  const [bankMessage, setBankMessage] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -868,17 +847,12 @@ export function DouglassProfileLab({ storageKey, profileViewHref }: DouglassProf
 
   const readyCount = useMemo(() => countReadyPosts(draft), [draft]);
   const profileStarted = useMemo(() => isProfileSetupStarted(draft), [draft]);
-
-  const editingPost = useMemo(
-    () => DOUGLASS_PROFILE_POSTS.find((post) => post.postKey === editingPostKey) ?? null,
-    [editingPostKey],
+  const editingCard = useMemo(() => getDouglassQuoteCard(editingQuoteId), [editingQuoteId]);
+  const activeTabMeta = useMemo(
+    () => PROFILE_TABS.find((tab) => tab.id === activeTab) ?? PROFILE_TABS[0],
+    [activeTab],
   );
-
-  const draftedFeedPosts = useMemo(
-    () =>
-      DOUGLASS_PROFILE_POSTS.filter((post) => hasDraftContent(draft.posts[post.postKey])),
-    [draft],
-  );
+  const feedCards = useMemo(() => getQuoteCardsForDraft(draft), [draft]);
 
   const updateDraft = useCallback((patch: Partial<DouglassProfileLabDraft>) => {
     setDraft((current) => ({ ...current, ...patch }));
@@ -886,54 +860,24 @@ export function DouglassProfileLab({ storageKey, profileViewHref }: DouglassProf
     setSetupMessage(null);
   }, []);
 
-  const updatePost = useCallback(
-    (postKey: DouglassProfilePostKey, patch: DouglassProfilePostDraft) => {
-      setDraft((current) => ({
-        ...current,
-        posts: {
-          ...current.posts,
-          [postKey]: patch,
-        },
-      }));
-      setSaveMessage(null);
-      setSetupMessage(null);
-    },
-    [],
-  );
+  const updateCustomPost = useCallback((quoteCardId: string, patch: CustomPostDraft) => {
+    setDraft((current) => ({
+      ...current,
+      customPosts: { ...current.customPosts, [quoteCardId]: patch },
+    }));
+    setSaveMessage(null);
+    setSetupMessage(null);
+  }, []);
+
+  function handleToggleQuote(quoteCardId: string) {
+    const result = toggleQuoteSelection(draft, quoteCardId);
+    setDraft(result.draft);
+    setBankMessage(result.message);
+    setSaveMessage(null);
+  }
 
   function persistDraft(nextDraft: DouglassProfileLabDraft) {
     localStorage.setItem(storageKey, JSON.stringify(nextDraft));
-  }
-
-  function handleSaveProfileSetup() {
-    try {
-      persistDraft(draft);
-      setSetupMessage("Profile setup saved. Now build your posts.");
-      setSaveMessage(null);
-    } catch {
-      setSetupMessage("Could not save your profile setup. Try again.");
-    }
-  }
-
-  function handleSaveProfile() {
-    try {
-      persistDraft(draft);
-      setSaveMessage(
-        "Profile saved. Return to your assignment when you are ready to submit your reflection.",
-      );
-      setSetupMessage(null);
-    } catch {
-      setSaveMessage("Could not save your draft. Try again.");
-    }
-  }
-
-  function handleClear() {
-    localStorage.removeItem(storageKey);
-    setDraft(createEmptyDraft());
-    setEditingPostKey(null);
-    setActiveTab("profile");
-    setSaveMessage("Draft cleared.");
-    setSetupMessage(null);
   }
 
   if (!hydrated) {
@@ -942,264 +886,253 @@ export function DouglassProfileLab({ storageKey, profileViewHref }: DouglassProf
 
   return (
     <div className="space-y-5">
-      {profileViewHref ? (
-        <ViewProfilePageCallout profileViewHref={profileViewHref} />
-      ) : null}
+      <AssignmentBrief />
+      {profileViewHref ? <ViewProfilePageCallout profileViewHref={profileViewHref} /> : null}
 
       <div className="overflow-hidden rounded-2xl border-2 border-kid-purple/25 bg-gradient-to-br from-slate-900 via-violet-950 to-indigo-950 shadow-md">
-        <ProfileHeaderPreview draft={draft} />
-
-        <div className="grid grid-cols-4 border-t border-white/10">
-          {PROFILE_TABS.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={cn(
-                "min-h-11 touch-manipulation py-3 text-xs font-bold transition sm:text-sm",
-                activeTab === tab.id
-                  ? "border-t-2 border-amber-300 bg-white/10 text-white"
-                  : "text-zinc-400 hover:bg-white/5 hover:text-zinc-200",
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <ProfileHeaderPreview draft={draft} onEditAvatar={() => setAvatarPickerOpen(true)} />
       </div>
+
+      <ProfileLabSectionNav activeTab={activeTab} onSelect={setActiveTab} />
 
       <div className="rounded-2xl border-2 border-amber-300/40 bg-gradient-to-r from-amber-50 via-white to-violet-50 px-4 py-3 shadow-sm">
         <p className="text-sm font-black text-kid-ink">
-          Step 1: Set up the profile · Step 2: Build the posts
+          {draft.selectedQuoteIds.length} of {MAX_SELECTED_QUOTES} quotes selected · {readyCount} of{" "}
+          {MAX_SELECTED_QUOTES} posts ready
         </p>
         <p className="mt-1 text-xs text-kid-ink-muted">
           {profileStarted
-            ? "Profile identity ready — switch to Grid to build your 3 featured posts."
-            : "Start on the Profile tab to choose your name, handle, bio, and avatar."}
+            ? "Profile ready — pick quotes in Quote Bank, then build posts in Grid."
+            : "Start in Profile, then choose 3 quotes from the Quote Bank."}
         </p>
       </div>
+
+      <ActiveSectionHeader tab={activeTabMeta} />
 
       {activeTab === "profile" ? (
         <ProfileSetupPanel
           draft={draft}
           onChange={updateDraft}
-          onSaveSetup={handleSaveProfileSetup}
+          onSaveSetup={() => {
+            persistDraft(draft);
+            setSetupMessage("Profile setup saved. Now choose quotes in the Quote Bank.");
+          }}
+          onEditAvatar={() => setAvatarPickerOpen(true)}
           setupMessage={setupMessage}
         />
       ) : null}
 
+      {activeTab === "quote-bank" ? (
+        <QuoteBankPanel draft={draft} onToggleQuote={handleToggleQuote} bankMessage={bankMessage} />
+      ) : null}
+
       {activeTab === "about" ? (
         <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-          <p className="text-sm leading-relaxed text-kid-ink">
-            Frederick Douglass was one of the most photographed people of the 1800s. He rarely
-            smiled in portraits. He wore formal clothes, looked directly into the camera, and used
-            his image to challenge racist stereotypes.
-          </p>
+          <Label htmlFor="profileAbout" className="text-kid-ink">
+            About text
+          </Label>
+          <textarea
+            id="profileAbout"
+            value={draft.profileAbout}
+            onChange={(event) => updateDraft({ profileAbout: event.target.value })}
+            rows={6}
+            placeholder={DOUGLASS_PROFILE_DEFAULTS.profileAbout}
+            className="mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-base text-kid-ink outline-none ring-kid-purple/30 placeholder:text-zinc-400 focus:ring-2"
+          />
         </div>
       ) : null}
 
       {activeTab === "strategy" ? (
-        <div className="space-y-4">
-          <div className="rounded-2xl border-2 border-kid-purple/25 bg-white/90 px-4 py-3 shadow-sm">
-            <p className="text-sm font-black text-kid-ink">Your profile strategy</p>
-            <p className="mt-1 text-xs text-kid-ink-muted">
-              Write three ways you will use your profile — like Douglass used image, words, and
-              public presence.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
-            <ul className="space-y-4">
-              {draft.strategyPoints.map((bullet, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <span
-                    className="mt-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-kid-purple text-xs font-black text-white"
-                    aria-hidden
-                  >
-                    {index + 1}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <Label htmlFor={`strategy-point-${index}`} className="font-bold text-kid-ink">
-                      Strategy point {index + 1}
-                    </Label>
-                    <Input
-                      id={`strategy-point-${index}`}
-                      value={bullet}
-                      onChange={(event) => {
-                        const nextPoints = [...draft.strategyPoints];
-                        nextPoints[index] = event.target.value;
-                        updateDraft({ strategyPoints: nextPoints });
-                      }}
-                      placeholder={DEFAULT_STRATEGY_POINTS[index]}
-                      className="mt-2 border-zinc-300 bg-white text-kid-ink"
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="rounded-2xl border-2 border-kid-purple/20 bg-white/95 p-4 shadow-sm">
+          <ul className="space-y-4">
+            {draft.strategyPoints.map((bullet, index) => (
+              <li key={index}>
+                <Label htmlFor={`strategy-point-${index}`}>Strategy point {index + 1}</Label>
+                <Input
+                  id={`strategy-point-${index}`}
+                  value={bullet}
+                  onChange={(event) => {
+                    const nextPoints = [...draft.strategyPoints];
+                    nextPoints[index] = event.target.value;
+                    updateDraft({ strategyPoints: nextPoints });
+                  }}
+                  placeholder={DEFAULT_STRATEGY_POINTS[index]}
+                  className="mt-2 border-zinc-300 bg-white text-kid-ink"
+                />
+              </li>
+            ))}
+          </ul>
         </div>
       ) : null}
 
       {activeTab === "grid" ? (
         <>
-          <div className="rounded-2xl border-2 border-kid-purple/25 bg-white/90 px-4 py-3 shadow-sm">
-            <p className="text-sm font-black text-kid-ink">
-              Step 2: {readyCount} of {DOUGLASS_PROFILE_POSTS.length} posts ready
-            </p>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-kid-lavender/60">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-kid-purple to-emerald-500 transition-all"
-                style={{
-                  width: `${(readyCount / DOUGLASS_PROFILE_POSTS.length) * 100}%`,
-                }}
-              />
-            </div>
-            <p className="mt-2 text-xs text-kid-ink-muted">
-              Tap a post to open the editor. Finish all 3 to complete your profile grid.
-            </p>
-          </div>
-
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {DOUGLASS_PROFILE_POSTS.map((post) => {
-              const postDraft = draft.posts[post.postKey];
-              const status = getPostStatus(postDraft);
-              const selectedPreset = getDouglassPhotoPreset(postDraft.selectedPhotoId);
+            {GRID_SLOT_LABELS.map((slotLabel, index) => {
+              const quoteId = draft.selectedQuoteIds[index];
+              const card = quoteId ? getDouglassQuoteCard(quoteId) : null;
+              const postDraft = quoteId ? getCustomPostDraft(draft, quoteId) : null;
+              const status = postDraft ? getCustomPostStatus(postDraft) : null;
+
+              if (!card) {
+                return (
+                  <button
+                    key={slotLabel}
+                    type="button"
+                    onClick={() => setActiveTab("quote-bank")}
+                    className="flex min-h-48 touch-manipulation flex-col items-center justify-center rounded-2xl border-2 border-dashed border-kid-purple/40 bg-violet-50/50 p-6 text-center transition hover:border-kid-purple hover:bg-violet-50"
+                  >
+                    <span className="text-2xl font-black text-kid-purple">+</span>
+                    <p className="mt-2 text-sm font-black text-kid-ink">{slotLabel}</p>
+                    <p className="mt-1 text-xs text-kid-ink-muted">Choose a quote</p>
+                  </button>
+                );
+              }
 
               return (
                 <button
-                  key={post.postKey}
+                  key={slotLabel}
                   type="button"
-                  onClick={() => setEditingPostKey(post.postKey)}
-                  className="group touch-manipulation overflow-hidden rounded-2xl border-2 border-kid-purple/20 bg-white text-left shadow-sm transition hover:border-kid-purple/50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kid-purple/50"
+                  onClick={() => setEditingQuoteId(card.id)}
+                  className="touch-manipulation overflow-hidden rounded-2xl border-2 border-kid-purple/20 bg-white text-left shadow-sm transition hover:border-kid-purple/50"
                 >
                   <div className="relative">
-                    <DouglassPresetPhotoVisual
-                      preset={selectedPreset}
-                      emptyLabel="Choose image"
-                      className="aspect-square w-full"
-                    />
-                    <span
-                      className={cn(
-                        "absolute right-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-wide",
-                        STATUS_STYLES[status],
-                      )}
-                    >
-                      {status}
-                    </span>
-                    {selectedPreset ? (
-                      <span className="absolute bottom-2 left-2 max-w-[85%] rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
-                        {selectedPreset.title} · {selectedPreset.mood}
+                    <QuoteCardPhotoVisual card={card} className="aspect-square w-full" />
+                    {status ? (
+                      <span
+                        className={cn(
+                          "absolute right-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-wide",
+                          STATUS_STYLES[status],
+                        )}
+                      >
+                        {status}
                       </span>
                     ) : null}
                   </div>
                   <div className="p-3">
-                    <p className="text-sm font-black text-kid-ink group-hover:text-kid-purple">
-                      {post.title}
-                    </p>
-                    <p className="mt-1 text-xs text-kid-ink-muted">Tap to edit</p>
+                    <p className="text-sm font-black text-kid-ink">{slotLabel}</p>
+                    <p className="mt-1 text-xs font-bold text-kid-ink">{card.title}</p>
+                    <p className="mt-1 text-[11px] text-kid-ink-muted">{card.theme}</p>
                   </div>
                 </button>
               );
             })}
           </div>
 
-          {draftedFeedPosts.length > 0 ? (
+          {feedCards.length > 0 ? (
             <div className="space-y-3">
-              <h3 className="text-base font-black text-kid-ink">Profile Preview</h3>
-              <div className="space-y-4">
-                {draftedFeedPosts.map((post) => {
-                  const postDraft = draft.posts[post.postKey];
-                  const selectedPreset = getDouglassPhotoPreset(postDraft.selectedPhotoId);
-
-                  return (
-                    <article
-                      key={`feed-${post.postKey}`}
-                      className="overflow-hidden rounded-2xl border-2 border-kid-purple/20 bg-white shadow-sm"
-                    >
-                      <div className="flex items-center gap-3 border-b border-zinc-100 px-4 py-3">
-                        <DouglassProfileAvatar
-                          avatarPhotoId={draft.avatarPhotoId}
-                          displayName={draft.profileDisplayName}
-                          size="sm"
-                        />
-                        <div>
-                          <p className="text-sm font-black text-kid-ink">
-                            {draft.profileDisplayName.trim() || DOUGLASS_PROFILE_DEFAULTS.profileDisplayName}
-                          </p>
-                          <p className="text-xs font-semibold text-kid-ink-muted">
-                            {formatDouglassProfileHandle(draft.profileHandle)}
-                          </p>
-                        </div>
-                      </div>
-
-                      <DouglassPresetPhotoVisual
-                        preset={selectedPreset}
-                        emptyLabel="Choose image"
-                        className="aspect-[4/3] w-full"
+              <h3 className="text-base font-black text-kid-ink">Profile preview</h3>
+              {feedCards.map((card) => {
+                const postDraft = getCustomPostDraft(draft, card.id);
+                return (
+                  <article
+                    key={card.id}
+                    className="overflow-hidden rounded-2xl border-2 border-kid-purple/20 bg-white shadow-sm"
+                  >
+                    <div className="flex items-center gap-3 border-b border-zinc-100 px-4 py-3">
+                      <DouglassProfileAvatar
+                        avatarPhotoId={draft.avatarPhotoId}
+                        displayName={draft.profileDisplayName}
+                        size="sm"
                       />
-
-                      <div className="space-y-3 px-4 py-4">
-                        <div>
-                          <p className="text-sm font-black text-kid-ink">{post.title}</p>
-                          <p className="mt-1 text-sm leading-relaxed text-kid-ink">
-                            &ldquo;{post.requiredQuote}&rdquo;
-                          </p>
-                          {postDraft.modernCaption.trim() ? (
-                            <p className="mt-2 text-sm font-semibold text-violet-700">
-                              {postDraft.modernCaption.trim()}
-                            </p>
-                          ) : null}
-                        </div>
-
+                      <div>
+                        <p className="text-sm font-black text-kid-ink">{draft.profileDisplayName}</p>
+                        <p className="text-xs font-semibold text-kid-ink-muted">
+                          {formatDouglassProfileHandle(draft.profileHandle)}
+                        </p>
+                      </div>
+                    </div>
+                    <QuoteCardPhotoVisual card={card} className="aspect-[4/3] w-full" />
+                    <div className="space-y-3 px-4 py-4">
+                      <p className="text-sm italic text-kid-ink">&ldquo;{card.quote}&rdquo;</p>
+                      {postDraft.modernTranslation.trim() ? (
+                        <p className="text-sm leading-relaxed text-kid-ink">
+                          {postDraft.modernTranslation.trim()}
+                        </p>
+                      ) : null}
+                      {postDraft.socialCaption.trim() ? (
+                        <p className="text-sm font-semibold text-violet-700">
+                          {postDraft.socialCaption.trim()}
+                        </p>
+                      ) : null}
+                      {postDraft.hashtags.trim() ? (
+                        <p className="text-sm font-semibold text-violet-700">
+                          {formatHashtags(postDraft.hashtags)}
+                        </p>
+                      ) : null}
+                      {postDraft.whyThisPostBelongs.trim() ? (
                         <div className="rounded-xl border border-violet-200/80 bg-violet-50/60 px-3 py-2.5">
                           <p className="text-[10px] font-black uppercase tracking-wide text-violet-700">
                             Why this post matters
                           </p>
                           <p className="mt-1 text-sm leading-relaxed text-kid-ink">
-                            {postDraft.strategyExplanation.trim()}
+                            {postDraft.whyThisPostBelongs.trim()}
                           </p>
                         </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
+                      ) : null}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           ) : null}
         </>
       ) : null}
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <Button type="button" variant="reward" fullWidth className="font-bold" onClick={handleSaveProfile}>
+        <Button
+          type="button"
+          variant="reward"
+          fullWidth
+          className="font-bold"
+          onClick={() => {
+            persistDraft(draft);
+            setSaveMessage(
+              "Profile saved. Return to your assignment when you are ready to submit your reflection.",
+            );
+          }}
+        >
           Save Profile Draft
         </Button>
-        <Button type="button" variant="neutral" fullWidth onClick={handleClear}>
+        <Button
+          type="button"
+          variant="neutral"
+          fullWidth
+          onClick={() => {
+            localStorage.removeItem(storageKey);
+            setDraft(createEmptyDraft());
+            setEditingQuoteId(null);
+            setActiveTab("profile");
+            setSaveMessage("Draft cleared.");
+          }}
+        >
           Clear Draft
         </Button>
       </div>
 
-      {profileViewHref ? (
-        <ViewProfilePageCallout profileViewHref={profileViewHref} />
-      ) : null}
-
       {saveMessage ? (
-        <p
-          className={cn(
-            "text-sm",
-            saveMessage.includes("Could not") ? "text-red-600" : "text-emerald-700",
-          )}
-        >
+        <p className={cn("text-sm", saveMessage.includes("Could not") ? "text-red-600" : "text-emerald-700")}>
           {saveMessage}
         </p>
       ) : null}
 
-      {editingPost ? (
+      {editingCard ? (
         <PostEditorModal
-          post={editingPost}
-          draft={draft.posts[editingPost.postKey]}
-          onSave={(patch) => updatePost(editingPost.postKey, patch)}
-          onClose={() => setEditingPostKey(null)}
+          card={editingCard}
+          draft={getCustomPostDraft(draft, editingCard.id)}
+          onSave={(patch) => {
+            updateCustomPost(editingCard.id, patch);
+            setEditingQuoteId(null);
+          }}
+          onClose={() => setEditingQuoteId(null)}
+        />
+      ) : null}
+
+      {avatarPickerOpen ? (
+        <AvatarPhotoPickerModal
+          selectedPhotoId={draft.avatarPhotoId}
+          onSelect={(photoId) => updateDraft(selectAvatarPhoto(photoId))}
+          onClose={() => setAvatarPickerOpen(false)}
         />
       ) : null}
     </div>
