@@ -121,7 +121,7 @@ export default async function CubTrainingDeckDetailPage({
                       readOnly
                       codeRewardsLabel={displayMeta?.codeRewardsLabel}
                       estimatedMinutesLabel={displayMeta?.estimatedMinutesLabel}
-                      metaRewardsLabel={displayMeta?.metaRewardsLabel}
+                      metaRewardsLabel={null}
                       partItems={displayMeta?.partItems}
                       cubStates={[
                         {

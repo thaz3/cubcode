@@ -12,11 +12,11 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { TaskScheduleBadge, TaskScheduleDisplay } from "@/components/task-schedule-display";
 import { TaskUrgentBadge } from "@/components/task-urgent-badge";
 import { Button } from "@/components/ui/button";
-import { formatTaskRewards } from "@/lib/task-labels";
+import { formatTaskRewards, shouldHideCubTaskRewardAmounts } from "@/lib/task-labels";
 import { GROWTH_CATEGORY_LABELS } from "@/lib/task-categories";
 import { toIsoString } from "@/lib/coerce-date";
 import { cubAccentClassNames } from "@/lib/cub-colors";
-import { cubStatusMessage } from "@/lib/cub-next-action";
+import { cubStatusMessage, CUB_TELL_PARENT_AFTER_SUBMIT } from "@/lib/cub-next-action";
 import { getTaskEarnType } from "@/lib/earn-types";
 import type { GrowthCategory, Task, TaskStatus } from "@/generated/prisma/client";
 import { cn } from "@/lib/utils";
@@ -79,6 +79,7 @@ export function CubWorkflowTaskCard({
   const isFocusBlock = task.category === "FOCUS_BLOCK";
   const earnType = getTaskEarnType(task);
   const instructionsVisible = task.status === "IN_PROGRESS";
+  const hideRewardAmounts = shouldHideCubTaskRewardAmounts(earnType, task.status);
 
   const focusStartedIso = toIsoString(task.focusSessionStartedAt);
 
@@ -137,7 +138,7 @@ export function CubWorkflowTaskCard({
               label="Request timer"
             />
             <p className="mt-2 text-xs text-cub-green-light/80">
-              Your parent can see when you opened these instructions.
+              Your parent can see when you opened these instructions. {CUB_TELL_PARENT_AFTER_SUBMIT}
             </p>
           </div>
         ) : null}
@@ -147,12 +148,18 @@ export function CubWorkflowTaskCard({
         {isFocusBlock ? (
           <p className="text-sm text-zinc-500">Reflection + proof link</p>
         ) : null}
-        <p className="text-sm text-cub-gold/90">
-          Earn on approval: {formatTaskRewards(task)}
-          {isFocusBlock && focusGrowth
-            ? " (shared across weekly growth areas)"
-            : ""}
-        </p>
+        {hideRewardAmounts ? (
+          <p className="text-sm text-cub-gold/90">
+            Rewards unlock when your parent approves this lesson.
+          </p>
+        ) : (
+          <p className="text-sm text-cub-gold/90">
+            Earn on approval: {formatTaskRewards(task)}
+            {isFocusBlock && focusGrowth
+              ? " (shared across weekly growth areas)"
+              : ""}
+          </p>
+        )}
 
         {focusGrowth && isFocusBlock ? (
           <p className="text-xs text-zinc-500">{focusGrowth.weekProgressLabel}</p>
@@ -199,7 +206,7 @@ export function CubWorkflowTaskCard({
         ) ? (
           <p className="text-sm text-zinc-500">
             {task.status === "SUBMITTED"
-              ? "Your parent will review this soon."
+              ? "You submitted this! Tell your parent so they can review it in the app."
               : task.status === "COMPLETED" || task.status === "APPROVED"
                 ? "Great work — rewards are on the way!"
                 : "Talk with your parent about what to do next."}

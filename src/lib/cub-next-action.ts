@@ -1,5 +1,11 @@
 import type { Task, TaskStatus } from "@/generated/prisma/client";
 
+export const CUB_TELL_PARENT_AFTER_SUBMIT =
+  "Tell your parent when you've submitted so they can review it.";
+
+export const CUB_TELL_PARENT_TO_REVIEW =
+  "Tell your parent to review your work in the app.";
+
 export type CubNextAction = {
   title: string;
   description: string;
@@ -37,8 +43,8 @@ export function getCubNextAction(
     return {
       title: `Keep going: ${inProgressFocus.title}`,
       description: inProgressFocus.isUrgent
-        ? "Your parent marked this urgent. Your timer is running — submit when you're done."
-        : "Your request timer is running. Submit when you're done.",
+        ? `Your parent marked this urgent. Your timer is running — submit when you're done. ${CUB_TELL_PARENT_AFTER_SUBMIT}`
+        : `Your request timer is running. Submit when you're done. ${CUB_TELL_PARENT_AFTER_SUBMIT}`,
       href: `/cub/${cubId}/tasks/${inProgressFocus.id}`,
       buttonLabel: "Continue task",
       tone: inProgressFocus.isUrgent ? "urgent" : "focus",
@@ -70,8 +76,8 @@ export function getCubNextAction(
       description:
         claimed.status === "IN_PROGRESS"
           ? claimed.isUrgent
-            ? "Your parent marked this urgent. Finish your work and submit proof for review."
-            : "Finish your work and submit proof for parent review."
+            ? `Your parent marked this urgent. Finish your work and submit proof for review. ${CUB_TELL_PARENT_AFTER_SUBMIT}`
+            : `Finish your work and submit proof for parent review. ${CUB_TELL_PARENT_AFTER_SUBMIT}`
           : claimed.isUrgent
             ? "Your parent marked this urgent. Tap View instructions when you're ready."
             : "Tap View instructions when you're ready — your parent will know you opened them.",
@@ -86,7 +92,7 @@ export function getCubNextAction(
   if (waiting) {
     return {
       title: "Waiting for parent review",
-      description: `"${waiting.title}" was submitted. Your parent will review it soon.`,
+      description: `"${waiting.title}" was submitted. ${CUB_TELL_PARENT_TO_REVIEW}`,
       href: `/cub/${cubId}/tasks/${waiting.id}`,
       buttonLabel: "View tasks",
       tone: "wait",
@@ -117,9 +123,9 @@ export function cubStatusMessage(status: TaskStatus): string {
     case "CLAIMED":
       return "Ready — tap View instructions when you're ready to begin.";
     case "IN_PROGRESS":
-      return "Instructions open — submit when you're done.";
+      return `Instructions open — submit when you're done, then tell your parent.`;
     case "SUBMITTED":
-      return "Submitted — waiting for parent review.";
+      return `Submitted — ${CUB_TELL_PARENT_TO_REVIEW}`;
     case "SENT_BACK":
       return "Sent back — read the note and try again.";
     case "APPROVED":

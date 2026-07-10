@@ -50,6 +50,7 @@ export type TrainingDeckCardDefinition = {
   focusTokensEarned?: number;
   phoneMinutesEarned?: number;
   focusMinutesEarned?: number;
+  growthPickActivitiesEarned?: number;
 };
 
 export type TrainingDeckDefinition = {
@@ -89,6 +90,20 @@ export function getTrainingPartDefinition(slug: string, partKey: string) {
   return { deck, card };
 }
 
+export function getTrainingCardDefinitionByStarterKey(starterKey: string | null | undefined) {
+  if (!starterKey) return null;
+
+  for (const deck of TRAINING_DECK_DEFINITIONS) {
+    for (const card of deck.cards) {
+      if (`${deck.slug}:${card.key}` === starterKey) {
+        return { deck, card };
+      }
+    }
+  }
+
+  return null;
+}
+
 export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
   {
     slug: "start-your-code",
@@ -106,7 +121,7 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         estimatedMinutes: 52,
         estimatedMinutesLabel: "~45–60 min",
         codeRewardsLabel: "Mind Code +2 · Voice Code +2 · Character Code +1",
-        metaRewardsLabel: "150 XP · 5 Focus Tokens",
+        metaRewardsLabel: "200 XP · 8 Focus Tokens · 1 Growth Pick activity",
         partItems: [
           "Assignment: Becoming Frederick Douglass (PBS)",
           "Worksheet: Books Are Power Worksheet",
@@ -143,8 +158,11 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         categoryPoints: { MIND: 2, CREATIVITY: 2, CHARACTER: 1 },
         proofType: "SHORT_REFLECTION",
         proofPrompt: "What did you learn about literacy as a tool of freedom?",
-        xpEarned: 150,
-        focusTokensEarned: 5,
+        xpEarned: 200,
+        focusTokensEarned: 8,
+        phoneMinutesEarned: 20,
+        focusMinutesEarned: 45,
+        growthPickActivitiesEarned: 1,
       },
       {
         key: "part-2-harriet-tubman",
@@ -156,7 +174,7 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         estimatedMinutes: 60,
         estimatedMinutesLabel: "~60 min",
         codeRewardsLabel: "Mind Code +2 · Body Code +1 · Character Code +2",
-        metaRewardsLabel: "200 XP · 6 Focus Tokens",
+        metaRewardsLabel: "250 XP · 10 Focus Tokens · 1 Growth Pick activity",
         partItems: [
           "Assignment: Black Abolitionists: The Declaration’s Influence (PBS)",
           "Assignment: Harriet Tubman: Visions of Freedom (PBS)",
@@ -167,8 +185,11 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         categoryPoints: { MIND: 2, BODY: 1, CHARACTER: 2 },
         proofType: "SHORT_REFLECTION",
         proofPrompt: "How did Harriet Tubman lead with strategy and courage?",
-        xpEarned: 200,
-        focusTokensEarned: 6,
+        xpEarned: 250,
+        focusTokensEarned: 10,
+        phoneMinutesEarned: 22,
+        focusMinutesEarned: 50,
+        growthPickActivitiesEarned: 1,
       },
       {
         key: "part-3-freedom-before-permission",
@@ -180,7 +201,7 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         estimatedMinutes: 60,
         estimatedMinutesLabel: "~60 min",
         codeRewardsLabel: "Build Code +2 · Mind Code +2 · Character Code +1",
-        metaRewardsLabel: "175 XP · 5 Focus Tokens",
+        metaRewardsLabel: "225 XP · 8 Focus Tokens · 1 Growth Pick activity",
         partItems: [
           "Assignment: Let’s Get Free (PBS)",
           "Assignment: The William Still Story (PBS)",
@@ -192,8 +213,11 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         categoryPoints: { CREATIVITY: 2, MIND: 2, CHARACTER: 1 },
         proofType: "SHORT_REFLECTION",
         proofPrompt: "What stories or names did you help preserve in this part?",
-        xpEarned: 175,
-        focusTokensEarned: 5,
+        xpEarned: 225,
+        focusTokensEarned: 8,
+        phoneMinutesEarned: 20,
+        focusMinutesEarned: 45,
+        growthPickActivitiesEarned: 1,
       },
       {
         key: "part-4-america-has-a-problem",
@@ -205,7 +229,7 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         estimatedMinutes: 67,
         estimatedMinutesLabel: "~60–75 min",
         codeRewardsLabel: "Voice Code +3 · Mind Code +2 · Character Code +1",
-        metaRewardsLabel: "250 XP · 8 Focus Tokens",
+        metaRewardsLabel: "300 XP · 12 Focus Tokens · 1 Growth Pick activity",
         partItems: [
           "Assignment: Slavery and the US Constitution (PBS)",
           "Assignment: Slavery and the Civil War (PBS)",
@@ -216,8 +240,11 @@ export const TRAINING_DECK_DEFINITIONS: TrainingDeckDefinition[] = [
         categoryPoints: { CREATIVITY: 3, MIND: 2, CHARACTER: 1 },
         proofType: "SHORT_REFLECTION",
         proofPrompt: "How did slavery shape law, war, and citizenship in America?",
-        xpEarned: 250,
-        focusTokensEarned: 8,
+        xpEarned: 300,
+        focusTokensEarned: 12,
+        phoneMinutesEarned: 25,
+        focusMinutesEarned: 55,
+        growthPickActivitiesEarned: 1,
       },
     ],
   },

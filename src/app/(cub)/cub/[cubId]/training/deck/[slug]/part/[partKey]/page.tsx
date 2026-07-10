@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { DouglassProfileLab } from "@/components/liberation-lab/douglass-profile-lab";
 import { CubKidHero, CubKidPanel, CubKidTipCard } from "@/components/cub-kid";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { requireCubForUser } from "@/lib/cub-access";
 import { CUB_PAGE_EMOJI, cubKidSectionEyebrow, cubKidSectionTitle, cubKidTextMuted } from "@/lib/cub-kid-theme";
 import { db } from "@/lib/db";
+import { getDouglassProfileLabPath } from "@/lib/liberation-lab/douglass-profile-storage";
 import { ACTIVE_CUB_STATUSES } from "@/lib/task-transitions";
 import { getTrainingPartDefinition } from "@/lib/training-deck-definitions";
 import { ensureTrainingBoardSeeded } from "@/lib/training-deck-seed";
@@ -58,7 +58,9 @@ export default async function CubTrainingPartPage({ params }: CubTrainingPartPag
     : `/cub/${cubId}/training/deck/${slug}`;
 
   const isPart1Douglass = partKey === "part-1-frederick-douglass";
-  const profileLabStorageKey = `liblab:${cubId}:${slug}:${partKey}:douglass-profile`;
+  const profileLabHref = isPart1Douglass
+    ? getDouglassProfileLabPath(cubId, slug, partKey)
+    : null;
 
   return (
     <div className="space-y-5">
@@ -99,7 +101,9 @@ export default async function CubTrainingPartPage({ params }: CubTrainingPartPag
               step.href ??
               (step.stepKind === "WORKSHEET"
                 ? `/cub/${cubId}/training/deck/${slug}/part/${partKey}/worksheet`
-                : undefined);
+                : step.stepKind === "LAB" && profileLabHref
+                  ? profileLabHref
+                  : undefined);
 
             return (
               <li
@@ -150,17 +154,6 @@ export default async function CubTrainingPartPage({ params }: CubTrainingPartPag
                         {step.buttonLabel}
                       </Button>
                     </Link>
-                  ) : step.stepKind === "LAB" && isPart1Douglass ? (
-                    <a href="#douglass-profile-lab" className="block scroll-mt-24">
-                      <Button
-                        type="button"
-                        size="md"
-                        fullWidth
-                        className={cn("font-bold text-white", styles.button)}
-                      >
-                        {step.buttonLabel}
-                      </Button>
-                    </a>
                   ) : (
                     <Button
                       type="button"
@@ -195,14 +188,6 @@ export default async function CubTrainingPartPage({ params }: CubTrainingPartPag
           })}
         </ol>
       </CubKidPanel>
-
-      {isPart1Douglass ? (
-        <section id="douglass-profile-lab" className="scroll-mt-24">
-          <CubKidPanel variant="gold" contentClassName="space-y-4">
-            <DouglassProfileLab storageKey={profileLabStorageKey} />
-          </CubKidPanel>
-        </section>
-      ) : null}
 
       <CubKidPanel variant="violet" contentClassName="space-y-3">
         <h2 className={cn(cubKidSectionTitle, "text-lg")}>Return to assignment</h2>

@@ -128,16 +128,28 @@ export function resolveCubProofSubmissionType(
 
 export function formatTaskRewards(
   task: TaskRewardContext,
-  options?: { referenceTime?: Date },
+  options?: { referenceTime?: Date; growthPickActivitiesEarned?: number },
 ): string {
   const rewards = getEffectiveTaskRewards(task, options?.referenceTime);
   const base = `${rewards.focusMinutesEarned} focus min · ${rewards.phoneMinutesEarned} phone min · ${rewards.xpEarned} XP · ${rewards.focusTokensEarned} Focus Token${rewards.focusTokensEarned === 1 ? "" : "s"}`;
+  const growthPickSuffix =
+    options?.growthPickActivitiesEarned && options.growthPickActivitiesEarned > 0
+      ? ` · ${options.growthPickActivitiesEarned} Growth Pick activit${options.growthPickActivitiesEarned === 1 ? "y" : "ies"}`
+      : "";
 
   if (!rewards.penalizedForLateSubmission) {
-    return base;
+    return `${base}${growthPickSuffix}`;
   }
 
-  return `${base} (${OVERDUE_REWARD_PENALTY_LABEL})`;
+  return `${base}${growthPickSuffix} (${OVERDUE_REWARD_PENALTY_LABEL})`;
+}
+
+export function shouldHideCubTaskRewardAmounts(
+  earnType: "task" | "training_path",
+  status: string,
+): boolean {
+  if (earnType !== "training_path") return false;
+  return status !== "COMPLETED" && status !== "APPROVED";
 }
 
 export function normalizeCubProofType(proofType: TaskProofType): CubProofType {

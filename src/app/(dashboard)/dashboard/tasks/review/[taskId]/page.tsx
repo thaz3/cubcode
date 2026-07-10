@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { auth } from "@/lib/auth";
 import { getTaskChecklistItems } from "@/lib/tasks";
 import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
+import { getTrainingCardDefinitionByStarterKey } from "@/lib/training-deck-definitions";
 import { formatTaskCategory } from "@/lib/task-categories";
 import { db } from "@/lib/db";
 import { getFamilyForUser } from "@/lib/session";
@@ -32,10 +33,16 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
     include: {
       cub: true,
       focusBlocks: { orderBy: { startedAt: "desc" } },
+      focusActivityCard: { select: { starterKey: true } },
     },
   });
 
   if (!task) notFound();
+
+  const trainingMeta = getTrainingCardDefinitionByStarterKey(
+    task.focusActivityCard?.starterKey,
+  );
+  const growthPickCount = trainingMeta?.card.growthPickActivitiesEarned ?? 0;
 
   const checklistItems = getTaskChecklistItems(task);
   const checklist =
@@ -79,7 +86,8 @@ export default async function ReviewTaskPage({ params }: ReviewTaskPageProps) {
             · Proof: {formatProofType(task.proofType)}
           </p>
           <p className="text-sm text-cub-gold/90">
-            On approval: {formatTaskRewards(task)}
+            On approval:{" "}
+            {formatTaskRewards(task, { growthPickActivitiesEarned: growthPickCount })}
           </p>
           {submittedLate ? <OverduePenaltyNotice variant="info" /> : null}
 

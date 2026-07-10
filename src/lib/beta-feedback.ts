@@ -11,6 +11,9 @@ export const BETA_FEEDBACK_REPORT_GLITCH_LABEL = "Report a Glitch";
 export const BETA_TESTING_SECTION_TITLE = "Beta Testing";
 export const HELP_IMPROVE_BETA_TITLE = "Help Improve The CUB Code";
 
+/** Direct contact for beta feedback and product ideas. */
+export const BETA_FEEDBACK_EMAIL = "thecubcode@gmail.com";
+
 /**
  * Google Form URL for beta bug reports. Replace via env when your form is ready:
  * NEXT_PUBLIC_BETA_FEEDBACK_FORM_URL=https://docs.google.com/forms/d/e/.../viewform

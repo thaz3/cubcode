@@ -44,10 +44,10 @@ export async function ensureTrainingBoardSeeded(familyId: string) {
           categoryPoints: cardDef.categoryPoints,
           proofType: cardDef.proofType,
           proofPrompt: cardDef.proofPrompt,
-          xpEarned: cardDef.xpEarned ?? 12,
-          focusTokensEarned: cardDef.focusTokensEarned ?? 1,
-          phoneMinutesEarned: cardDef.phoneMinutesEarned ?? 12,
-          focusMinutesEarned: cardDef.focusMinutesEarned ?? 25,
+          xpEarned: cardDef.xpEarned ?? 18,
+          focusTokensEarned: cardDef.focusTokensEarned ?? 2,
+          phoneMinutesEarned: cardDef.phoneMinutesEarned ?? 18,
+          focusMinutesEarned: cardDef.focusMinutesEarned ?? 35,
         },
         update: {
           trainingDeckId: deck.id,
@@ -62,8 +62,10 @@ export async function ensureTrainingBoardSeeded(familyId: string) {
           categoryPoints: cardDef.categoryPoints,
           proofType: cardDef.proofType,
           proofPrompt: cardDef.proofPrompt,
-          xpEarned: cardDef.xpEarned ?? 12,
-          focusTokensEarned: cardDef.focusTokensEarned ?? 1,
+          xpEarned: cardDef.xpEarned ?? 18,
+          focusTokensEarned: cardDef.focusTokensEarned ?? 2,
+          phoneMinutesEarned: cardDef.phoneMinutesEarned ?? 18,
+          focusMinutesEarned: cardDef.focusMinutesEarned ?? 35,
         },
       });
     }

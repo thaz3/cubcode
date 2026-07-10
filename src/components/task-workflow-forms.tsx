@@ -10,6 +10,9 @@ import type { ActionState } from "@/lib/actions/auth";
 import { logFocusBlockAction, submitTaskAction } from "@/lib/actions/tasks";
 import { getTaskChecklistItems } from "@/lib/tasks";
 import {
+  CUB_TELL_PARENT_AFTER_SUBMIT,
+} from "@/lib/cub-next-action";
+import {
   formatProofType,
   formatTaskRewards,
   getCubVisibleChecklistItems,
@@ -96,9 +99,11 @@ export function TaskSubmitForm({
           {!isCubView || cubProofType !== "PARENT_APPROVAL" ? (
             <p className="text-sm text-zinc-500">
               {isCubView
-                ? "Your parent approves work before you earn rewards."
+                ? `Your parent approves work before you earn rewards. ${CUB_TELL_PARENT_AFTER_SUBMIT}`
                 : "Parent approval is required to earn XP, Focus Tokens, focus minutes, and phone time."}
             </p>
+          ) : isCubView ? (
+            <p className="text-sm text-zinc-500">{CUB_TELL_PARENT_AFTER_SUBMIT}</p>
           ) : null}
         </>
       ) : !isCubView ? (
@@ -119,7 +124,10 @@ export function TaskSubmitForm({
 
       {state.error ? <p className="text-sm text-red-600">{state.error}</p> : null}
       {state.success ? (
-        <p className="text-sm text-green-700">{state.success}</p>
+        <p className="text-sm text-green-700">
+          {state.success}
+          {isCubView ? ` ${CUB_TELL_PARENT_AFTER_SUBMIT}` : ""}
+        </p>
       ) : null}
 
       <Button

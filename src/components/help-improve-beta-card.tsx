@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import {
   BETA_FEEDBACK_FORM_URL,
   BETA_FEEDBACK_GIVE_LABEL,
+  BETA_FEEDBACK_EMAIL,
   BETA_FEEDBACK_PRIVACY_NOTE,
   BETA_FEEDBACK_REPORT_GLITCH_LABEL,
   HELP_IMPROVE_BETA_TITLE,
@@ -16,6 +17,16 @@ export function HelpImproveBetaCard() {
       </h2>
       <p className="mt-2 text-sm text-zinc-400">
         Your feedback helps us fix glitches and shape the app before launch.
+      </p>
+      <p className="mt-2 text-sm text-zinc-400">
+        Prefer email? Write us at{" "}
+        <a
+          href={`mailto:${BETA_FEEDBACK_EMAIL}`}
+          className="font-semibold text-cub-gold-light underline underline-offset-2 hover:text-cub-gold"
+        >
+          {BETA_FEEDBACK_EMAIL}
+        </a>
+        .
       </p>
       <p className="mt-3 rounded-lg border border-cub-gold/30 bg-cub-gold-muted/25 px-3 py-2 text-sm text-zinc-300">
         {BETA_FEEDBACK_PRIVACY_NOTE}

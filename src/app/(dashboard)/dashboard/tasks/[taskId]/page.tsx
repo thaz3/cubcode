@@ -23,6 +23,7 @@ export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
       cub: true,
       template: true,
       focusBlocks: { orderBy: { startedAt: "desc" } },
+      focusActivityCard: { select: { starterKey: true } },
     },
   });
 

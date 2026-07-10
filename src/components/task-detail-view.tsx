@@ -19,7 +19,11 @@ import {
 import { formatTaskCategory, getCategorySuggestions } from "@/lib/task-categories";
 import { cubLink, cubSectionLabel } from "@/lib/cub-theme";
 import { getTaskEarnType } from "@/lib/earn-types";
-import { formatProofType, formatTaskRewards } from "@/lib/task-labels";
+import {
+  formatProofType,
+  formatTaskRewards,
+} from "@/lib/task-labels";
+import { getTrainingCardDefinitionByStarterKey } from "@/lib/training-deck-definitions";
 import {
   getEffectiveTaskRewards,
   OVERDUE_REWARD_PENALTY_LABEL,
@@ -40,6 +44,7 @@ type TaskDetailViewProps = {
     cub: Cub | null;
     template: TaskTemplate | null;
     focusBlocks: FocusBlockRow[];
+    focusActivityCard?: { starterKey: string | null } | null;
   };
   familyCubs: Cub[];
   checklistItems: string[];
@@ -139,7 +144,12 @@ export function TaskDetailView({
           </p>
         ) : null}
 
-        {!isAvailable ? <TaskRewardChips task={task} /> : null}
+        {!isAvailable ? (
+          <TaskRewardChips
+            task={task}
+            trainingStarterKey={task.focusActivityCard?.starterKey}
+          />
+        ) : null}
       </Card>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
@@ -362,8 +372,16 @@ function MetaPill({ label, value }: { label: string; value: string }) {
   );
 }
 
-function TaskRewardChips({ task }: { task: TaskRewardContextFields }) {
+function TaskRewardChips({
+  task,
+  trainingStarterKey,
+}: {
+  task: TaskRewardContextFields;
+  trainingStarterKey?: string | null;
+}) {
   const rewards = getEffectiveTaskRewards(task);
+  const trainingMeta = getTrainingCardDefinitionByStarterKey(trainingStarterKey);
+  const growthPickCount = trainingMeta?.card.growthPickActivitiesEarned ?? 0;
 
   const chips = [
     { label: "Focus", value: `${rewards.focusMinutesEarned} min`, tone: "green" },
@@ -374,6 +392,15 @@ function TaskRewardChips({ task }: { task: TaskRewardContextFields }) {
       value: String(rewards.focusTokensEarned),
       tone: "gold",
     },
+    ...(growthPickCount > 0
+      ? [
+          {
+            label: "Growth Pick",
+            value: `${growthPickCount} activit${growthPickCount === 1 ? "y" : "ies"}`,
+            tone: "green" as const,
+          },
+        ]
+      : []),
   ] as const;
 
   return (
@@ -408,7 +435,8 @@ function TaskRewardChips({ task }: { task: TaskRewardContextFields }) {
       </div>
       {rewards.penalizedForLateSubmission ? (
         <p className="text-xs text-cub-gold-light/90">
-          {OVERDUE_REWARD_PENALTY_LABEL} — {formatTaskRewards(task)}
+          {OVERDUE_REWARD_PENALTY_LABEL} —{" "}
+          {formatTaskRewards(task, { growthPickActivitiesEarned: growthPickCount })}
         </p>
       ) : null}
     </div>
